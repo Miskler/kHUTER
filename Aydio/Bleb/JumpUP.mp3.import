@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/JumpUP.mp3-7567fff57e1da25721b52b2c8e74d2d3.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Bleb/JumpUP.mp3"
+dest_files=[ "res://.import/JumpUP.mp3-7567fff57e1da25721b52b2c8e74d2d3.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

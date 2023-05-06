@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/BeforeExplosion.mp3-9a3043d4fb0ad25fd63909b604cb8c0f.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Bleb/BeforeExplosion.mp3"
+dest_files=[ "res://.import/BeforeExplosion.mp3-9a3043d4fb0ad25fd63909b604cb8c0f.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

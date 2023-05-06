@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/problem.mp3-851d414e839f510fd0c9e16b19b7ce59.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Guider/Events/problem.mp3"
+dest_files=[ "res://.import/problem.mp3-851d414e839f510fd0c9e16b19b7ce59.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

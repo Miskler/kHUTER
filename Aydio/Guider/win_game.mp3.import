@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/win_game.mp3-8dbbd3274eadb747cda3c35ffcd9d51b.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Guider/win_game.mp3"
+dest_files=[ "res://.import/win_game.mp3-8dbbd3274eadb747cda3c35ffcd9d51b.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/water.mp3-7d830c882927d677383bc8a9a9e5dd15.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Guider/Events/water.mp3"
+dest_files=[ "res://.import/water.mp3-7d830c882927d677383bc8a9a9e5dd15.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

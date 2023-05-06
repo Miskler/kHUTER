@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Bleb_1.mp3-9f7933c925164c5442f1ab8bd7cf5f9a.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Guider/Events/Bleb_1.mp3"
+dest_files=[ "res://.import/Bleb_1.mp3-9f7933c925164c5442f1ab8bd7cf5f9a.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Repair.mp3-256fccf69126b061047dfcab5f8ce29e.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Tiles/Moss/Repair.mp3"
+dest_files=[ "res://.import/Repair.mp3-256fccf69126b061047dfcab5f8ce29e.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

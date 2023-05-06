@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Installation.mp3-c10ee06fdb0a89d0ff09be6c9e2399c4.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Tiles/Glass/Installation.mp3"
+dest_files=[ "res://.import/Installation.mp3-c10ee06fdb0a89d0ff09be6c9e2399c4.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

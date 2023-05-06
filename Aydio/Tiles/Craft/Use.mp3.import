@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Use.mp3-d2deb9f9910f282ff2e84499a20eed8c.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Tiles/Craft/Use.mp3"
+dest_files=[ "res://.import/Use.mp3-d2deb9f9910f282ff2e84499a20eed8c.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

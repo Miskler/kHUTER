@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Installation.mp3-faf8ee05ae25907e4d24b96461f985b7.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Tiles/Stone/Installation.mp3"
+dest_files=[ "res://.import/Installation.mp3-faf8ee05ae25907e4d24b96461f985b7.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

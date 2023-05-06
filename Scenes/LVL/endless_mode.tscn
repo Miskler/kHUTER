@@ -1,0 +1,569 @@
+[gd_scene load_steps=30 format=2]
+
+[ext_resource path="res://Scenes/TileMap.res" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/SignalCenter.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/SettingData.res" type="PackedScene" id=3]
+[ext_resource path="res://Texture/Other/Asteroids/2007210685.png" type="Texture" id=4]
+[ext_resource path="res://tile_b.tres" type="TileSet" id=5]
+[ext_resource path="res://Back.material" type="Material" id=6]
+[ext_resource path="res://Scenes/LVL/endless_mode.gd" type="Script" id=7]
+[ext_resource path="res://Aydio/ShipImpact.mp3" type="AudioStream" id=8]
+[ext_resource path="res://Resources/lilitaonerus.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://Aydio/Shipwreck.mp3" type="AudioStream" id=10]
+[ext_resource path="res://Texture/People/Guider/guider_2.png" type="Texture" id=11]
+[ext_resource path="res://Resources/20703.otf" type="DynamicFontData" id=12]
+[ext_resource path="res://Main.theme" type="Theme" id=13]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends ColorRect
+
+var textures = [
+	\"res://Texture/Other/Asteroids/226928707.png\",
+	\"res://Texture/Other/Asteroids/869462099.png\",
+	\"res://Texture/Other/Asteroids/1712160596.png\",
+	\"res://Texture/Other/Asteroids/2007210685.png\",
+	\"res://Texture/Other/Asteroids/4189135564.png\",
+	\"res://Texture/Other/Asteroids/3605264651.png\",
+]
+
+
+func _ready():
+	for i in $Node2D.get_children():
+		if i.name != \"*Sample\":
+			i.queue_free()
+	
+	visible = not G.game_settings[\"bad_graphics\"]
+	
+	if not G.game_settings[\"bad_graphics\"]:
+		$\"*Sample\".amount = int(round(30 / textures.size()))
+		for ship in textures:
+			var node = $\"*Sample\".duplicate()
+			
+			node.texture = load(ship)
+			node.visible = true
+			
+			$Node2D.add_child(node)
+
+
+func _process(_delta):
+	if get_node_or_null(\"../Player\") != null and visible:
+		self.material.set(\"shader_param/pos\", get_node(\"../Player\").global_position/2000.0)
+		rect_global_position = get_node(\"../Player\").global_position - rect_size/2
+"
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.2, 0.8, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends TileMap
+
+onready var root = get_node_or_null(\"../\")
+onready var tilemap = get_node_or_null(\"../TileMap\")
+
+export var work = true
+func _ready():
+	if not work: return
+	
+	var map = tilemap.unification(tilemap.pruning(root.size_world.x, root.size_world.y, tilemap.generate(root.size_world.x, root.size_world.y, {\"back\": true})), {})
+	
+	print(map)
+	
+	for x in map.keys():
+		for y in map[x].keys():
+			set_cell(x, y, tile_set.find_tile_by_name(map[x][y][\"tile_name\"]), false, false, false)
+	#data_node[0].set_cell(tile_pos.x, tile_pos.y, data_node[0].tile_set.find_tile_by_name(data_node[1][int(tile_pos.x)][int(tile_pos.y)][\"tile_name\"]), false, false, false, data_node[1][int(tile_pos.x)][int(tile_pos.y)][\"autotile_coord\"])
+"
+
+[sub_resource type="Animation" id=90]
+resource_name = "def"
+length = 7.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 7.2, 7.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AudioStreamPlayer:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6, 7.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AudioStreamPlayer2:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 2.1, 7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="AtlasTexture" id=85]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=86]
+atlas = ExtResource( 11 )
+region = Rect2( 40, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=87]
+atlas = ExtResource( 11 )
+region = Rect2( 80, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=88]
+atlas = ExtResource( 11 )
+region = Rect2( 120, 0, 40, 40 )
+
+[sub_resource type="SpriteFrames" id=91]
+animations = [ {
+"frames": [ SubResource( 85 ), SubResource( 86 ), SubResource( 87 ), SubResource( 88 ) ],
+"loop": true,
+"name": "default",
+"speed": 2.0
+} ]
+
+[sub_resource type="DynamicFont" id=101]
+size = 38
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=102]
+size = 60
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=103]
+size = 35
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=104]
+size = 40
+font_data = ExtResource( 12 )
+
+[sub_resource type="GDScript" id=105]
+script/source = "extends Button
+
+func _pressed():
+	G.get_node(\"Load Screen\").select(\"res://Scenes/Menu.scn\", false)
+"
+
+[sub_resource type="RectangleShape2D" id=98]
+extents = Vector2( 31.9564, 31.9622 )
+
+[sub_resource type="GDScript" id=100]
+script/source = "extends Node
+
+onready var signals = get_node(\"/root/rootGame/Node/SignalCenter\")
+
+
+
+var start = false
+
+
+
+func _ready():
+	start = false
+	signals.connect(\"damage\", self, \"damage\")
+
+
+func _input(_event):
+	if not trek_play:
+		if not start:
+			start = true
+			play_trek(\"res://Aydio/Guider/endless.mp3\")
+		else:
+			var tween = create_tween()
+			tween.tween_property($\"../../CanvasLayer/Control2/Control2\", \"modulate:a\", 0.5, 0.5)
+			tween = create_tween()
+			tween.tween_property($\"../../CanvasLayer/Control2/Control3\", \"modulate:a\", 0.5, 0.5)
+
+
+var trek_play = false
+signal trek_finished(trek)
+func play_trek(path):
+	trek_play = true
+	var tween = create_tween()
+	tween.tween_property($\"../../CanvasLayer/Control2/Control\", \"modulate:a\", 1.0, 0.5)
+	
+	yield(tween, \"finished\")
+	
+	$AudioStreamPlayer.stream = load(path)
+	$AudioStreamPlayer.play()
+	
+	yield($AudioStreamPlayer, \"finished\")
+	
+	tween = create_tween()
+	tween.tween_property($\"../../CanvasLayer/Control2/Control\", \"modulate:a\", 0.0, 0.5)
+	
+	yield(tween, \"finished\")
+	
+	trek_play = false
+	emit_signal(\"trek_finished\", path)
+
+
+func damage(node):
+	if node.is_in_group(\"droid\"):
+		dead_droids += 1
+
+
+var coin = 0.0
+var wave = 0.0
+var dead_droids = 0
+var time = 60.0
+func timeout():
+	if get_tree().network_peer != null and not get_tree().is_network_server(): return
+	
+	time -= 1.0
+	if time <= 0:
+		$\"../../..\".wave()
+		time = 60.0
+		wave += 1.0
+	coin = int((wave*10.0+(((60-time)/60.0)*10.0))+(dead_droids*5))
+	$\"../../CanvasLayer/Control2/Control2/Label\".text = \"Счет:\\n\"+str(coin)
+	$\"../../CanvasLayer/Control2/Control3/Label\".text = \"До волны:\\n\"+str(time)
+	
+	if get_tree().network_peer != null:
+		rpc(\"data_sing\", coin, wave, dead_droids, time)
+remote func data_sing(dcoin:float, dwave:float, ddead_droids:int, dtime:float):
+	coin = dcoin
+	wave = dwave
+	dead_droids = ddead_droids
+	time = dtime
+	$\"../../..\".id = dwave
+"
+
+[node name="endless_mode" type="Node2D"]
+script = ExtResource( 7 )
+
+[node name="SignalCenter" parent="." instance=ExtResource( 2 )]
+
+[node name="Cloud" type="ColorRect" parent="."]
+material = ExtResource( 6 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1766.0
+margin_top = -2107.0
+margin_right = -17.0
+margin_bottom = -959.0
+color = Color( 0.0745098, 0, 0.956863, 1 )
+script = SubResource( 1 )
+
+[node name="*Sample" type="CPUParticles2D" parent="Cloud"]
+visible = false
+position = Vector2( 929, 575 )
+lifetime = 20.0
+randomness = 1.0
+fixed_fps = 23
+local_coords = false
+draw_order = 1
+texture = ExtResource( 4 )
+emission_shape = 2
+emission_rect_extents = Vector2( 900, -450 )
+direction = Vector2( 0, 0 )
+gravity = Vector2( 0, 0 )
+angular_velocity = 4.0
+angular_velocity_random = 1.0
+tangential_accel = 10.0
+tangential_accel_random = 1.0
+angle = 720.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 1.0
+color_ramp = SubResource( 2 )
+
+[node name="Node2D" type="Node2D" parent="Cloud"]
+
+[node name="M" type="TileMap" parent="."]
+modulate = Color( 0.552941, 0.552941, 0.611765, 1 )
+light_mask = 1048575
+tile_set = ExtResource( 5 )
+format = 1
+script = SubResource( 3 )
+
+[node name="TileMap" parent="." instance=ExtResource( 1 )]
+collision_layer = 257
+collision_mask = 257
+tile_data = PoolIntArray( -2883584, 27, 0 )
+
+[node name="SettingData" parent="." instance=ExtResource( 3 )]
+map_settings = {
+"adding_to_statistics": true,
+"can_be_saved": true,
+"crafting": [ "remotedrill", "standart_bullet", "flask", "water", "breaker", "chest", "craft", "glass", "reinforced_chest", "wall", "sint" ],
+"creation_position": Vector2( 0, 0 ),
+"dehumidification_frequency": 16,
+"edit_save": false,
+"is_save": false,
+"number_of_clutches": 4,
+"revive": false,
+"specter": true,
+"taking_away_hunger": 16,
+"time_to_destruction": 60
+}
+transition_value = {
+"andesite": 16,
+"chest": 9,
+"copper": 9,
+"craft": 14,
+"details": 14,
+"door_bottom": 11,
+"door_center": 11,
+"door_up": 11,
+"glass": 7,
+"ground": 7,
+"iron": 14,
+"moss": 8,
+"reinforced_chest": 15,
+"stone": 14,
+"wall": 16,
+"water": 10
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+
+[node name="Guider" type="Node" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Guider"]
+layer = 2
+
+[node name="Control" type="Control" parent="Guider/CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Guider/CanvasLayer/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Guider/CanvasLayer/Control"]
+anims/def = SubResource( 90 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Guider/CanvasLayer/Control"]
+stream = ExtResource( 10 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="Guider/CanvasLayer/Control"]
+stream = ExtResource( 8 )
+
+[node name="Control2" type="Control" parent="Guider/CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="Guider/CanvasLayer/Control2"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -50.0
+margin_top = 10.0
+margin_right = 50.0
+margin_bottom = 110.0
+mouse_filter = 2
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="Guider/CanvasLayer/Control2/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.105882, 0.227451, 0.141176, 1 )
+
+[node name="ReferenceRect" type="ReferenceRect" parent="Guider/CanvasLayer/Control2/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+border_color = Color( 0.0588235, 0.12549, 0.0784314, 1 )
+editor_only = false
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Guider/CanvasLayer/Control2/Control"]
+position = Vector2( 50, 50 )
+scale = Vector2( 2.5, 2.5 )
+frames = SubResource( 91 )
+frame = 3
+playing = true
+
+[node name="Control2" type="Control" parent="Guider/CanvasLayer/Control2"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -50.0
+margin_top = 10.0
+margin_right = 50.0
+margin_bottom = 110.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Guider/CanvasLayer/Control2/Control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.105882, 0.227451, 0.141176, 1 )
+
+[node name="ReferenceRect" type="ReferenceRect" parent="Guider/CanvasLayer/Control2/Control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+border_color = Color( 0.0588235, 0.12549, 0.0784314, 1 )
+editor_only = false
+
+[node name="Label" type="Label" parent="Guider/CanvasLayer/Control2/Control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 101 )
+text = "Счёет:
+9999"
+align = 1
+valign = 1
+
+[node name="Control3" type="Control" parent="Guider/CanvasLayer/Control2"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -247.0
+margin_top = 10.0
+margin_right = -60.0
+margin_bottom = 110.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Guider/CanvasLayer/Control2/Control3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.105882, 0.227451, 0.141176, 1 )
+
+[node name="ReferenceRect" type="ReferenceRect" parent="Guider/CanvasLayer/Control2/Control3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+border_color = Color( 0.0588235, 0.12549, 0.0784314, 1 )
+editor_only = false
+
+[node name="Label" type="Label" parent="Guider/CanvasLayer/Control2/Control3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 101 )
+text = "До волны:
+9999"
+align = 1
+valign = 1
+
+[node name="Control3" type="Control" parent="Guider/CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="Guider/CanvasLayer/Control3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.784314 )
+
+[node name="Label" type="Label" parent="Guider/CanvasLayer/Control3"]
+anchor_right = 1.0
+margin_bottom = 116.0
+custom_fonts/font = SubResource( 102 )
+text = "Забег окончен!"
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="Guider/CanvasLayer/Control3"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -188.0
+margin_bottom = 158.0
+custom_fonts/font = SubResource( 103 )
+text = "Прожито волн: 10
+Очков: 10
+Разрушено дройдов: 10
+
+Рекорд волн: 10
+Рекорд очков: 10
+Рекорд разрушения дройдов: 10"
+align = 1
+valign = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Guider/CanvasLayer/Control3"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -110.0
+margin_bottom = -10.0
+rect_min_size = Vector2( 0, 100 )
+theme = ExtResource( 13 )
+alignment = 1
+
+[node name="Button" type="Button" parent="Guider/CanvasLayer/Control3/HBoxContainer"]
+margin_left = 178.0
+margin_right = 378.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 200, 0 )
+custom_fonts/font = SubResource( 104 )
+text = "Рестарт"
+
+[node name="Button2" type="Button" parent="Guider/CanvasLayer/Control3/HBoxContainer"]
+margin_left = 382.0
+margin_right = 582.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 200, 0 )
+custom_fonts/font = SubResource( 104 )
+text = "В меню"
+script = SubResource( 105 )
+
+[node name="Button3" type="Button" parent="Guider/CanvasLayer/Control3/HBoxContainer"]
+margin_left = 586.0
+margin_right = 845.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 200, 0 )
+custom_fonts/font = SubResource( 104 )
+text = " Наблюдать "
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Guider"]
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="Guider"]
+position = Vector2( -8671.56, -4706.05 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Guider/KinematicBody2D"]
+position = Vector2( -0.466797, 2.05518 )
+shape = SubResource( 98 )
+
+[node name="Timer" type="Timer" parent="Guider"]
+wait_time = 2.0
+
+[node name="Node" type="Node" parent="Guider"]
+
+[node name="Events" type="Node" parent="Guider/Node"]
+script = SubResource( 100 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Guider/Node/Events"]
+
+[node name="Timer" type="Timer" parent="Guider/Node/Events"]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="wave"]
+[connection signal="pressed" from="Guider/CanvasLayer/Control3/HBoxContainer/Button" to="." method="restart"]
+[connection signal="pressed" from="Guider/CanvasLayer/Control3/HBoxContainer/Button3" to="." method="spect"]
+[connection signal="finished" from="Guider/AudioStreamPlayer" to="Guider/Node" method="finished"]
+[connection signal="timeout" from="Guider/Timer" to="Guider" method="timeout"]
+[connection signal="timeout" from="Guider/Node/Events/Timer" to="Guider/Node/Events" method="timeout"]
+
+[editable path="TileMap"]
+[editable path="SettingData"]

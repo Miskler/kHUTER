@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Use.mp3-faeb4d2acec9590c546420d470774475.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Tiles/Chest/Use.mp3"
+dest_files=[ "res://.import/Use.mp3-faeb4d2acec9590c546420d470774475.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

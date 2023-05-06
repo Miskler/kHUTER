@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Standard.mp3-2238b5a49c7876c9f30df4f5a2d6c30b.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Music/Standard.mp3"
+dest_files=[ "res://.import/Standard.mp3-2238b5a49c7876c9f30df4f5a2d6c30b.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

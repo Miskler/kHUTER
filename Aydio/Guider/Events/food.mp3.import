@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/food.mp3-854fc304bf1147ac7c67e8bb54f9f745.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Guider/Events/food.mp3"
+dest_files=[ "res://.import/food.mp3-854fc304bf1147ac7c67e8bb54f9f745.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

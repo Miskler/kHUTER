@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Loading.mp3-b3a2c190203854d56954f231354e2cb2.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Music/Loading.mp3"
+dest_files=[ "res://.import/Loading.mp3-b3a2c190203854d56954f231354e2cb2.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

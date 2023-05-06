@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Shipwreck.mp3-5bf6647710e180d50b13a4068408fdd6.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Shipwreck.mp3"
+dest_files=[ "res://.import/Shipwreck.mp3-5bf6647710e180d50b13a4068408fdd6.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

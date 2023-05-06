@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Installation.mp3-804c375e59c77daa807c6890a1fce5d7.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Tiles/Moss/Installation.mp3"
+dest_files=[ "res://.import/Installation.mp3-804c375e59c77daa807c6890a1fce5d7.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

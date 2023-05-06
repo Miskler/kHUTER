@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Menu.ogg-4c8f749ce81c1a85f0878c7d4765f5a8.oggstr"
+
+[deps]
+
+source_file="res://Aydio/Music/Menu.ogg"
+dest_files=[ "res://.import/Menu.ogg-4c8f749ce81c1a85f0878c7d4765f5a8.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

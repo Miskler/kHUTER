@@ -1,0 +1,367 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Resources/Load.res" type="DynamicFont" id=1]
+[ext_resource path="res://Aydio/Music/Loading.mp3" type="AudioStream" id=2]
+[ext_resource path="res://Texture/sphere_main.png" type="Texture" id=3]
+[ext_resource path="res://Texture/sphere_back.png" type="Texture" id=4]
+[ext_resource path="res://Texture/godotta.jpg" type="Texture" id=5]
+[ext_resource path="res://Resources/20703.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://Texture/Other/UI/clipart1125141.png" type="Texture" id=7]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+export var path = \"\"
+
+
+func _ready():
+	GamesSignInClient.sign_in()
+	#Firebase.setSessionTimeoutDuration(120000)
+	
+	randomize()
+	OS.center_window()
+	#OS.window_fullscreen = true
+	
+	var dir = Directory.new()
+	if !dir.dir_exists(\"user://SaveGame\"):
+		dir.make_dir_recursive(\"user://SaveGame\")
+	
+	var mode = load_game()
+	
+	Engine.set_target_fps(G.game_settings[\"FPS\"])
+	
+	if mode and G.game_settings[\"boot_menu\"] == false:
+		animation_finished(-1)
+	else:
+		$Animation.play(\"def\")
+
+func load_game():
+	var v = G.game_settings[\"version\"]
+	
+	var file = File.new()
+	if not file.file_exists(G.ways[\"settings\"]):
+		G.game_settings[\"mobile\"] = OS.get_name() in [\"Android\", \"BlackBerry 10\", \"WinRT\", \"iOS\"]
+		
+		file.open(G.ways[\"settings\"], File.WRITE)
+		file.store_line(to_json(G.game_settings))
+		file.close()
+		return false
+	file.open(G.ways[\"settings\"], File.READ)
+	var data = parse_json(file.get_as_text())
+	if data is Dictionary and data.size() > 0:
+		for i in data.keys():
+			G.game_settings[i] = data[i]
+	G.game_settings[\"old_version\"] = G.game_settings[\"version\"]
+	G.game_settings[\"version\"] = v
+	file.close()
+	
+	return true
+
+
+func animation_finished(_anim_name):
+	if path == \"\" or path == null:
+		path = \"res://Scenes/Menu.scn\"
+	
+	G.get_node(\"Load Screen\").select(path)
+"
+
+[sub_resource type="Animation" id=2]
+resource_name = "def"
+length = 20.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect2:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Brend:visible_characters")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3, 2.7, 3.5, 4.2, 4.8, 7.2, 7.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 0, 6, 6, 12, 12, 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ColorRect3:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.3, 1, 1.7, 3.4, 7.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Brend:text")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.3, 2.7, 3.6, 7.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "Sphere", "Sphere", "Sphere
+Studio", "Sphere
+Studio" ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Audio:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.2, 7.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Control:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.3, 7.8, 8.4, 9.8, 10.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Control2:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.3, 13.6, 14 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Control3:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 10.3, 10.8, 13.3, 13.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+
+uniform float percentage;
+uniform float corner;
+
+
+float square_rounded(vec2 uv, float width, float radius){
+    uv = uv * 2.0 - 1.0;
+    
+    radius *= width; // make radius go from 0-1 instead of 0-width
+    vec2 abs_uv = abs(uv) - radius;
+    vec2 dist = vec2(max(abs_uv.xy, 0.0));
+    float square = step(width - radius, length(dist));
+    return square;
+}
+
+
+void fragment() {
+    vec4 main_tex = texture(TEXTURE, UV);
+    float avg = (main_tex.r + main_tex.g + main_tex.b) / 3.0;
+    main_tex.rgb = mix(main_tex.rgb, vec3(avg), step(percentage, UV.x));
+    main_tex.a *= 1.0 - square_rounded(UV, 1.0, corner);
+    COLOR = main_tex;
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+shader_param/percentage = 1.0
+shader_param/corner = 0.581
+
+[sub_resource type="DynamicFont" id=5]
+size = 60
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 40
+font_data = ExtResource( 6 )
+
+[node name="Load" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 1 )
+
+[node name="Back" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+anims/def = SubResource( 2 )
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+volume_db = 13.388
+
+[node name="SphereBack" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="HuterWorld" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -287.5
+margin_top = -281.5
+margin_right = 287.5
+margin_bottom = 281.5
+texture = ExtResource( 3 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Brend" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -316.5
+margin_top = -163.5
+margin_right = 316.5
+margin_bottom = 163.5
+custom_fonts/font = ExtResource( 1 )
+text = "Sphere"
+align = 1
+valign = 1
+percent_visible = 0.0
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0 )
+
+[node name="Control" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Godotta" type="TextureRect" parent="Control"]
+material = SubResource( 4 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -482.0
+margin_top = -175.0
+margin_right = -132.0
+margin_bottom = 175.0
+texture = ExtResource( 5 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Label3" type="Label" parent="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -112.0
+margin_top = -103.5
+margin_right = 478.0
+margin_bottom = 103.5
+custom_fonts/font = SubResource( 5 )
+text = "Godot Game Engine"
+align = 1
+valign = 1
+
+[node name="Control3" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label3" type="Label" parent="Control3"]
+anchor_left = 0.1
+anchor_top = 0.3
+anchor_right = 0.9
+anchor_bottom = 0.9
+custom_fonts/font = SubResource( 6 )
+text = "Мы рекомендуем играть с включенным звуком!"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="TextureRect" type="TextureRect" parent="Control3"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -240.0
+margin_right = 100.0
+margin_bottom = -40.0
+texture = ExtResource( 7 )
+expand = true
+
+[node name="Control2" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="Control2"]
+modulate = Color( 1, 0, 0, 1 )
+anchor_right = 1.0
+margin_bottom = 155.0
+custom_fonts/font = SubResource( 5 )
+text = "Внимание!"
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="Control2"]
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+custom_fonts/font = SubResource( 6 )
+text = "Эта игра сделана одним человеком. Если вы столкнулись с ошибками/недочетами вы всегда можете написать отзыв как можно улучшить игру!"
+align = 1
+valign = 1
+autowrap = true
+
+[connection signal="animation_finished" from="Animation" to="." method="animation_finished"]

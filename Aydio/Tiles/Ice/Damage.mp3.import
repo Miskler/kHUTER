@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Damage.mp3-993ec690790ae437fde34f933378405e.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Tiles/Ice/Damage.mp3"
+dest_files=[ "res://.import/Damage.mp3-993ec690790ae437fde34f933378405e.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

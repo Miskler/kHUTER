@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Items/Sing.res" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+func _init():
+	add_to_group(\"mysterious_structure\")
+"
+
+[node name="mysterious_structure" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="Sing" parent="." instance=ExtResource( 1 )]

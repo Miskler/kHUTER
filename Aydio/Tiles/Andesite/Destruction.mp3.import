@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Destruction.mp3-7bceebf2dd44640cc0a023afc05dace5.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Tiles/Andesite/Destruction.mp3"
+dest_files=[ "res://.import/Destruction.mp3-7bceebf2dd44640cc0a023afc05dace5.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

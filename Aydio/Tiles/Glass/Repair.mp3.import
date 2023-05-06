@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Repair.mp3-a69f6b2b632204b621b46d2c5a13f63a.mp3str"
+
+[deps]
+
+source_file="res://Aydio/Tiles/Glass/Repair.mp3"
+dest_files=[ "res://.import/Repair.mp3-a69f6b2b632204b621b46d2c5a13f63a.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

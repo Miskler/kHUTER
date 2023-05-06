@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node
+
+var npcs = {}
+
+signal npc_entered(npc)
+signal npc_exited(npc)
+
+signal damage(npc)
+
+func signal_event(type_signal:String, npc:Node):
+	if has_signal(type_signal):
+		emit_signal(type_signal, npc)
+		#printt(type_signal, npc)
+		return true
+	return false
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node
+
+onready var par = get_parent()
+
+func _ready():
+	par.connect(\"npc_entered\", self, \"npc_entered\")
+	par.connect(\"npc_exited\", self, \"npc_exited\")
+
+
+
+func npc_entered(npc):
+	par.npcs[npc] = OS.get_time()
+func npc_exited(npc):
+	par.npcs.erase(npc)
+"
+
+[node name="SignalCenter" type="Node"]
+script = SubResource( 1 )
+
+[node name="Funcs" type="Node" parent="."]
+script = SubResource( 2 )

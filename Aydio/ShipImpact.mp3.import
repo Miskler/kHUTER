@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/ShipImpact.mp3-d98d196bd7c3d0e8cdba1cbc21de040b.mp3str"
+
+[deps]
+
+source_file="res://Aydio/ShipImpact.mp3"
+dest_files=[ "res://.import/ShipImpact.mp3-d98d196bd7c3d0e8cdba1cbc21de040b.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
