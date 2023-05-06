@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/White.jpg-fa1f25febc6ccae35a11d669d0d72de0.stex"
+path="res://.import/Whitekkk.jpg-1ed66ccc99f177d3e0e4a971d8a6d19f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://texture/White.jpg"
-dest_files=[ "res://.import/White.jpg-fa1f25febc6ccae35a11d669d0d72de0.stex" ]
+source_file="res://texture/Whitekkk.jpg"
+dest_files=[ "res://.import/Whitekkk.jpg-1ed66ccc99f177d3e0e4a971d8a6d19f.stex" ]
 
 [params]
 
