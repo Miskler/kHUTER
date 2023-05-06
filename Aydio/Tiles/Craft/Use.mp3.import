@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/Use.mp3-d2deb9f9910f282ff2e84499a20eed8c.mp3str"
+path="res://.import/use.mp3-89dbe88d903991230a9d3895905facc9.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Tiles/Craft/Use.mp3"
-dest_files=[ "res://.import/Use.mp3-d2deb9f9910f282ff2e84499a20eed8c.mp3str" ]
+source_file="res://aydio/tiles/craft/use.mp3"
+dest_files=[ "res://.import/use.mp3-89dbe88d903991230a9d3895905facc9.mp3str" ]
 
 [params]
 

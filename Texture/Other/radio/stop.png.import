@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/stop.png-d8ea6b3d5ff5c61cf8ea263af98d4b75.stex"
+path="res://.import/stop.png-39910e01ebfd8cbef5db945555be2bf6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Texture/Other/radio/stop.png"
-dest_files=[ "res://.import/stop.png-d8ea6b3d5ff5c61cf8ea263af98d4b75.stex" ]
+source_file="res://texture/other/radio/stop.png"
+dest_files=[ "res://.import/stop.png-39910e01ebfd8cbef5db945555be2bf6.stex" ]
 
 [params]
 

@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/water.mp3-7d830c882927d677383bc8a9a9e5dd15.mp3str"
+path="res://.import/water.mp3-d120a1bd5d29adf528156fdb5573d2eb.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Guider/Events/water.mp3"
-dest_files=[ "res://.import/water.mp3-7d830c882927d677383bc8a9a9e5dd15.mp3str" ]
+source_file="res://aydio/guider/events/water.mp3"
+dest_files=[ "res://.import/water.mp3-d120a1bd5d29adf528156fdb5573d2eb.mp3str" ]
 
 [params]
 

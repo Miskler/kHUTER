@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/Repair.mp3-256fccf69126b061047dfcab5f8ce29e.mp3str"
+path="res://.import/repair.mp3-a6ae3b5e4cb94d18a22e152ac8b119d1.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Tiles/Moss/Repair.mp3"
-dest_files=[ "res://.import/Repair.mp3-256fccf69126b061047dfcab5f8ce29e.mp3str" ]
+source_file="res://aydio/tiles/moss/repair.mp3"
+dest_files=[ "res://.import/repair.mp3-a6ae3b5e4cb94d18a22e152ac8b119d1.mp3str" ]
 
 [params]
 

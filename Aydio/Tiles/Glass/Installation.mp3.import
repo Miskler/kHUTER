@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/Installation.mp3-c10ee06fdb0a89d0ff09be6c9e2399c4.mp3str"
+path="res://.import/installation.mp3-4dd0b73f8c9946e622d5d7d04c60a5e3.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Tiles/Glass/Installation.mp3"
-dest_files=[ "res://.import/Installation.mp3-c10ee06fdb0a89d0ff09be6c9e2399c4.mp3str" ]
+source_file="res://aydio/tiles/glass/installation.mp3"
+dest_files=[ "res://.import/installation.mp3-4dd0b73f8c9946e622d5d7d04c60a5e3.mp3str" ]
 
 [params]
 

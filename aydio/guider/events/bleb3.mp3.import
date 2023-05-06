@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/bleb3.mp3-811603ce5db6e908ff7064b17152882b.mp3str"
+
+[deps]
+
+source_file="res://aydio/guider/events/bleb3.mp3"
+dest_files=[ "res://.import/bleb3.mp3-811603ce5db6e908ff7064b17152882b.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

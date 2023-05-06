@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/notebook.png-e21f836ee958b71f536b8d4946487775.stex"
+path="res://.import/notebook.png-798924cfe63e62696b2e75e200003fe2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Texture/Other/notebook.png"
-dest_files=[ "res://.import/notebook.png-e21f836ee958b71f536b8d4946487775.stex" ]
+source_file="res://texture/other/notebook.png"
+dest_files=[ "res://.import/notebook.png-798924cfe63e62696b2e75e200003fe2.stex" ]
 
 [params]
 

@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/Installation.mp3-c4ae08ef838b826067327468cd140521.mp3str"
+path="res://.import/installation.mp3-f57a15802a40857444837a3ce8f19660.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Tiles/Andesite/Installation.mp3"
-dest_files=[ "res://.import/Installation.mp3-c4ae08ef838b826067327468cd140521.mp3str" ]
+source_file="res://aydio/tiles/andesite/installation.mp3"
+dest_files=[ "res://.import/installation.mp3-f57a15802a40857444837a3ce8f19660.mp3str" ]
 
 [params]
 

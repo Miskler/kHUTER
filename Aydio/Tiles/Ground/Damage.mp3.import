@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/Damage.mp3-13b1f0e7fc8923a2847944a3f06d0583.mp3str"
+path="res://.import/damage.mp3-3200c75ec76293cc8b7bf6102b4ad9c1.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Tiles/Ground/Damage.mp3"
-dest_files=[ "res://.import/Damage.mp3-13b1f0e7fc8923a2847944a3f06d0583.mp3str" ]
+source_file="res://aydio/tiles/ground/damage.mp3"
+dest_files=[ "res://.import/damage.mp3-3200c75ec76293cc8b7bf6102b4ad9c1.mp3str" ]
 
 [params]
 

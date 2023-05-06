@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/button.mp3-4896c34c669cb6fbece4339254919595.mp3str"
+path="res://.import/button.mp3-7a3c331830bc1743924059a88addc97d.mp3str"
 
 [deps]
 
-source_file="res://Aydio/button.mp3"
-dest_files=[ "res://.import/button.mp3-4896c34c669cb6fbece4339254919595.mp3str" ]
+source_file="res://aydio/button.mp3"
+dest_files=[ "res://.import/button.mp3-7a3c331830bc1743924059a88addc97d.mp3str" ]
 
 [params]
 

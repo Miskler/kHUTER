@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/guide21.mp3-b382be210f2eeb67fdc22d9e2080174b.mp3str"
+
+[deps]
+
+source_file="res://aydio/guider/one/guide21.mp3"
+dest_files=[ "res://.import/guide21.mp3-b382be210f2eeb67fdc22d9e2080174b.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

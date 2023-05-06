@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/reinforced_chest.png-e2aa5f14f67f3999a86fac65accc0ccc.stex"
+path="res://.import/reinforced_chest.png-b46693ebf0c81810783636d2cb425c6a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Texture/Tiles/reinforced_chest.png"
-dest_files=[ "res://.import/reinforced_chest.png-e2aa5f14f67f3999a86fac65accc0ccc.stex" ]
+source_file="res://texture/tiles/reinforced_chest.png"
+dest_files=[ "res://.import/reinforced_chest.png-b46693ebf0c81810783636d2cb425c6a.stex" ]
 
 [params]
 

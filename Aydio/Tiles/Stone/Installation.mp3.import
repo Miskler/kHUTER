@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/Installation.mp3-faf8ee05ae25907e4d24b96461f985b7.mp3str"
+path="res://.import/installation.mp3-823fe4d20714fb1d09418cc3f1ec9a31.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Tiles/Stone/Installation.mp3"
-dest_files=[ "res://.import/Installation.mp3-faf8ee05ae25907e4d24b96461f985b7.mp3str" ]
+source_file="res://aydio/tiles/stone/installation.mp3"
+dest_files=[ "res://.import/installation.mp3-823fe4d20714fb1d09418cc3f1ec9a31.mp3str" ]
 
 [params]
 

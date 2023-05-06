@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/Destruction.mp3-9a1d4fd992f29d4189f23da8b09e90e6.mp3str"
+path="res://.import/destruction.mp3-702cfd6b067bb0c6f82ad0c381930a3c.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Tiles/Ore/Destruction.mp3"
-dest_files=[ "res://.import/Destruction.mp3-9a1d4fd992f29d4189f23da8b09e90e6.mp3str" ]
+source_file="res://aydio/tiles/ore/destruction.mp3"
+dest_files=[ "res://.import/destruction.mp3-702cfd6b067bb0c6f82ad0c381930a3c.mp3str" ]
 
 [params]
 

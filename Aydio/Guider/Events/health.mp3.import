@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/health.mp3-f2a695ad5a92ea25d0e3a516e0ad77ed.mp3str"
+path="res://.import/health.mp3-fb47ec581b68bcdcb3f9b67801ea2b34.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Guider/Events/health.mp3"
-dest_files=[ "res://.import/health.mp3-f2a695ad5a92ea25d0e3a516e0ad77ed.mp3str" ]
+source_file="res://aydio/guider/events/health.mp3"
+dest_files=[ "res://.import/health.mp3-fb47ec581b68bcdcb3f9b67801ea2b34.mp3str" ]
 
 [params]
 

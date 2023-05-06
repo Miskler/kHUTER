@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/atlas_spawn.png-2e6cd870e0eb988588685b7cf16f6365.stex"
+path="res://.import/atlas_spawn.png-83d8005af2c78dd18d061d6748a23601.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Texture/Other/spawn/atlas_spawn.png"
-dest_files=[ "res://.import/atlas_spawn.png-2e6cd870e0eb988588685b7cf16f6365.stex" ]
+source_file="res://texture/other/spawn/atlas_spawn.png"
+dest_files=[ "res://.import/atlas_spawn.png-83d8005af2c78dd18d061d6748a23601.stex" ]
 
 [params]
 

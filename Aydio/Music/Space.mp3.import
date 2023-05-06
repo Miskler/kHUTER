@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/Space.mp3-4e0057ad8752e05feb7fb0959a70be06.mp3str"
+path="res://.import/space.mp3-3c1dd6d7cc95cd367a0fc5f348b51e3f.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Music/Space.mp3"
-dest_files=[ "res://.import/Space.mp3-4e0057ad8752e05feb7fb0959a70be06.mp3str" ]
+source_file="res://aydio/music/space.mp3"
+dest_files=[ "res://.import/space.mp3-3c1dd6d7cc95cd367a0fc5f348b51e3f.mp3str" ]
 
 [params]
 

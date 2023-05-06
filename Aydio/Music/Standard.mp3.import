@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/Standard.mp3-2238b5a49c7876c9f30df4f5a2d6c30b.mp3str"
+path="res://.import/standard.mp3-dd2adc6eb73744fab769f4433cfb43af.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Music/Standard.mp3"
-dest_files=[ "res://.import/Standard.mp3-2238b5a49c7876c9f30df4f5a2d6c30b.mp3str" ]
+source_file="res://aydio/music/standard.mp3"
+dest_files=[ "res://.import/standard.mp3-dd2adc6eb73744fab769f4433cfb43af.mp3str" ]
 
 [params]
 

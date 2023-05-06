@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/Installation.mp3-804c375e59c77daa807c6890a1fce5d7.mp3str"
+path="res://.import/installation.mp3-e84821e1d2045dfedc23d571f58ad837.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Tiles/Moss/Installation.mp3"
-dest_files=[ "res://.import/Installation.mp3-804c375e59c77daa807c6890a1fce5d7.mp3str" ]
+source_file="res://aydio/tiles/moss/installation.mp3"
+dest_files=[ "res://.import/installation.mp3-e84821e1d2045dfedc23d571f58ad837.mp3str" ]
 
 [params]
 

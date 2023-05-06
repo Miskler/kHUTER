@@ -51,10 +51,10 @@ Python="C:/Users/KAMA/AppData/Local/Programs/Python/Python310/python.exe"
 config/name="kHUTER"
 config/description="Небольшой проект...."
 run/main_scene="res://Scenes/Load.tscn"
-boot_splash/image="res://Texture/black.png"
+boot_splash/image="res://texture/black.png"
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
-config/icon="res://Texture/Other/logo.png"
+config/icon="res://texture/ui/logos/logo.png"
 config/macos_native_icon="res://Texture/Other/mac_os.icns"
 config/windows_native_icon="res://Texture/Other/big-ava.ico"
 
@@ -87,7 +87,7 @@ settings/visual_script/max_call_stack=2048
 
 [display]
 
-mouse_cursor/custom_image="res://Texture/Other/cursor.png"
+mouse_cursor/custom_image="res://texture/ui/cursor.png"
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
 

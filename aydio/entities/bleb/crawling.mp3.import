@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/crawling.mp3-349672b6a439f34957c0fbdf3b8e3ba3.mp3str"
+
+[deps]
+
+source_file="res://aydio/entities/bleb/crawling.mp3"
+dest_files=[ "res://.import/crawling.mp3-349672b6a439f34957c0fbdf3b8e3ba3.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

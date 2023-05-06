@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/3D_printer_n.png-7ab243f1b37672f22aa45b48c4b53ac7.stex"
+path="res://.import/3D_printer_n.png-ba20af7736e0b61d2a5e259a303849e4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Texture/Tiles/3D_printer_n.png"
-dest_files=[ "res://.import/3D_printer_n.png-7ab243f1b37672f22aa45b48c4b53ac7.stex" ]
+source_file="res://texture/tiles/3D_printer_n.png"
+dest_files=[ "res://.import/3D_printer_n.png-ba20af7736e0b61d2a5e259a303849e4.stex" ]
 
 [params]
 

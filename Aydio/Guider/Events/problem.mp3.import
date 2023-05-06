@@ -2,12 +2,12 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/problem.mp3-851d414e839f510fd0c9e16b19b7ce59.mp3str"
+path="res://.import/problem.mp3-556fe758df21a92422b716dc5b756c0b.mp3str"
 
 [deps]
 
-source_file="res://Aydio/Guider/Events/problem.mp3"
-dest_files=[ "res://.import/problem.mp3-851d414e839f510fd0c9e16b19b7ce59.mp3str" ]
+source_file="res://aydio/guider/events/problem.mp3"
+dest_files=[ "res://.import/problem.mp3-556fe758df21a92422b716dc5b756c0b.mp3str" ]
 
 [params]
 
