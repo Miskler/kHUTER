@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/overheating.mp3-7e7e4d575ab9ecfb4f7c296ef94bc979.mp3str"
+
+[deps]
+
+source_file="res://audio/guider/events/overheating.mp3"
+dest_files=[ "res://.import/overheating.mp3-7e7e4d575ab9ecfb4f7c296ef94bc979.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

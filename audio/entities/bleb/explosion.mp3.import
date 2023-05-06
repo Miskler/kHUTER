@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/explosion.mp3-81f9de66d7bc33e838b4536b512134d8.mp3str"
+
+[deps]
+
+source_file="res://audio/entities/bleb/explosion.mp3"
+dest_files=[ "res://.import/explosion.mp3-81f9de66d7bc33e838b4536b512134d8.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

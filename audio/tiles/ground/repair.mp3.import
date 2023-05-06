@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/repair.mp3-96c9447bd296f499bcb7a52a1815c8bf.mp3str"
+
+[deps]
+
+source_file="res://audio/tiles/ground/repair.mp3"
+dest_files=[ "res://.import/repair.mp3-96c9447bd296f499bcb7a52a1815c8bf.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

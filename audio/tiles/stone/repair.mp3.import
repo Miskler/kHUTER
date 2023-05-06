@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/repair.mp3-f1fdbd9c978ff79ccba45890ba93981f.mp3str"
+
+[deps]
+
+source_file="res://audio/tiles/stone/repair.mp3"
+dest_files=[ "res://.import/repair.mp3-f1fdbd9c978ff79ccba45890ba93981f.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

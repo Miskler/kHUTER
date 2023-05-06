@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/water.mp3-a5ae24b8d0ea135d70050d8c34d1d4af.mp3str"
+
+[deps]
+
+source_file="res://audio/guider/events/water.mp3"
+dest_files=[ "res://.import/water.mp3-a5ae24b8d0ea135d70050d8c34d1d4af.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/bleb2.mp3-7311aef582fac18b7387977805a06f66.mp3str"
+
+[deps]
+
+source_file="res://audio/guider/events/bleb2.mp3"
+dest_files=[ "res://.import/bleb2.mp3-7311aef582fac18b7387977805a06f66.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/endless.mp3-9b5a23ae0105073b7888187a38c1f796.mp3str"
+
+[deps]
+
+source_file="res://audio/guider/endless.mp3"
+dest_files=[ "res://.import/endless.mp3-9b5a23ae0105073b7888187a38c1f796.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

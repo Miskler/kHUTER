@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/installation.mp3-8109b714f0ab7f3aba501e2a8a8d83ed.mp3str"
+
+[deps]
+
+source_file="res://audio/tiles/andesite/installation.mp3"
+dest_files=[ "res://.import/installation.mp3-8109b714f0ab7f3aba501e2a8a8d83ed.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

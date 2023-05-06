@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/installation.mp3-41d43a61bf66e5b1dd24aa447158276f.mp3str"
+
+[deps]
+
+source_file="res://audio/tiles/chest/installation.mp3"
+dest_files=[ "res://.import/installation.mp3-41d43a61bf66e5b1dd24aa447158276f.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

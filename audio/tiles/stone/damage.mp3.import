@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/damage.mp3-652211f4f2931700a4ead8f4cb573dba.mp3str"
+
+[deps]
+
+source_file="res://audio/tiles/stone/damage.mp3"
+dest_files=[ "res://.import/damage.mp3-652211f4f2931700a4ead8f4cb573dba.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

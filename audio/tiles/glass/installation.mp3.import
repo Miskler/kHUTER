@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/installation.mp3-962cc0e929332cf06e1b27d0fe259c7a.mp3str"
+
+[deps]
+
+source_file="res://audio/tiles/glass/installation.mp3"
+dest_files=[ "res://.import/installation.mp3-962cc0e929332cf06e1b27d0fe259c7a.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
