@@ -55,8 +55,8 @@ boot_splash/image="res://textures/black.png"
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://textures/ui/logos/logo.png"
-config/macos_native_icon="res://Texture/Other/mac_os.icns"
-config/windows_native_icon="res://Texture/Other/big-ava.ico"
+config/macos_native_icon="res://textures/other/mac_os.icns"
+config/windows_native_icon="res://textures/other/big-ava.ico"
 
 [audio]
 
