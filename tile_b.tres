@@ -1,10 +1,10 @@
 [gd_resource type="TileSet" load_steps=6 format=2]
 
-[ext_resource path="res://texture/tiles/wall.png" type="Texture" id=1]
-[ext_resource path="res://texture/tiles/glass.png" type="Texture" id=2]
-[ext_resource path="res://texture/tiles/andesite.png" type="Texture" id=3]
-[ext_resource path="res://texture/tiles/stone.png" type="Texture" id=4]
-[ext_resource path="res://texture/tiles/ground.png" type="Texture" id=5]
+[ext_resource path="res://textures/tiles/wall.png" type="Texture" id=1]
+[ext_resource path="res://textures/tiles/glass.png" type="Texture" id=2]
+[ext_resource path="res://textures/tiles/andesite.png" type="Texture" id=3]
+[ext_resource path="res://textures/tiles/stone.png" type="Texture" id=4]
+[ext_resource path="res://textures/tiles/ground.png" type="Texture" id=5]
 
 [resource]
 0/name = "wall"
