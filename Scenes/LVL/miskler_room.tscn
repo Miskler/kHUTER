@@ -1,4 +1,4 @@
-[gd_scene load_steps=147 format=2]
+[gd_scene load_steps=148 format=2]
 
 [ext_resource path="res://tile_b.tres" type="TileSet" id=1]
 [ext_resource path="res://textures/other/asteroids/five.png" type="Texture" id=2]
@@ -13,10 +13,10 @@
 [ext_resource path="res://textures/people/mob/idle.png" type="Texture" id=11]
 [ext_resource path="res://textures/people/mob/jump_start.png" type="Texture" id=12]
 [ext_resource path="res://textures/people/phase_firefly/phase_firefly.png" type="Texture" id=13]
-[ext_resource path="res://textures/ui/items/Power Bulb.png" type="Texture" id=14]
-[ext_resource path="res://textures/ui/items/explosive crystal.png" type="Texture" id=15]
-[ext_resource path="res://textures/ui/items/distancedrill.png" type="Texture" id=16]
-[ext_resource path="res://textures/ui/items/Firefly Flask.png" type="Texture" id=17]
+[ext_resource path="res://textures/ui/items/created/power_flask.png" type="Texture" id=14]
+[ext_resource path="res://textures/ui/items/loot/explosive_crystal.png" type="Texture" id=15]
+[ext_resource path="res://textures/ui/items/created/remotedrill.png" type="Texture" id=16]
+[ext_resource path="res://textures/ui/items/created/firefly_flask.png" type="Texture" id=17]
 [ext_resource path="res://textures/people/droid/shield_prep.png" type="Texture" id=18]
 [ext_resource path="res://textures/people/droid/static_idle.png" type="Texture" id=19]
 [ext_resource path="res://textures/people/droid/walk.png" type="Texture" id=20]
@@ -31,23 +31,24 @@
 [ext_resource path="res://textures/people/player/run.png" type="Texture" id=29]
 [ext_resource path="res://textures/other/notebook.png" type="Texture" id=30]
 [ext_resource path="res://textures/other/poster_pioner.png" type="Texture" id=31]
-[ext_resource path="res://textures/ui/items/andesite_mini.png" type="Texture" id=32]
-[ext_resource path="res://textures/ui/items/copper_item.png" type="Texture" id=33]
-[ext_resource path="res://textures/ui/items/coping.png" type="Texture" id=34]
-[ext_resource path="res://textures/ui/items/ground_item.png" type="Texture" id=35]
-[ext_resource path="res://textures/ui/items/chest_item.png" type="Texture" id=36]
+[ext_resource path="res://textures/ui/items/mini_blocks/andesite_mini.png" type="Texture" id=32]
+[ext_resource path="res://textures/ui/items/mini_blocks/copper_item.png" type="Texture" id=33]
+[ext_resource path="res://textures/ui/items/loot/coping.png" type="Texture" id=34]
+[ext_resource path="res://textures/ui/items/mini_blocks/ground_item.png" type="Texture" id=35]
+[ext_resource path="res://textures/ui/items/mini_blocks/chest_item.png" type="Texture" id=36]
 [ext_resource path="res://textures/ui/logos/logo.png" type="Texture" id=37]
-[ext_resource path="res://textures/ui/items/glass.png" type="Texture" id=38]
-[ext_resource path="res://textures/ui/items/moss.png" type="Texture" id=39]
-[ext_resource path="res://textures/ui/items/old_chest_item.png" type="Texture" id=40]
-[ext_resource path="res://textures/ui/items/iron.png" type="Texture" id=41]
-[ext_resource path="res://textures/ui/items/iron_item.png" type="Texture" id=42]
-[ext_resource path="res://textures/ui/items/stone.png" type="Texture" id=43]
-[ext_resource path="res://textures/ui/items/wall.png" type="Texture" id=44]
-[ext_resource path="res://textures/ui/items/details.png" type="Texture" id=45]
-[ext_resource path="res://textures/ui/items/water.png" type="Texture" id=46]
-[ext_resource path="res://textures/ui/items/ice_item.png" type="Texture" id=47]
-[ext_resource path="res://textures/ui/items/craft.png" type="Texture" id=48]
+[ext_resource path="res://textures/ui/items/mini_blocks/glass.png" type="Texture" id=38]
+[ext_resource path="res://textures/ui/items/loot/moss.png" type="Texture" id=39]
+[ext_resource path="res://textures/ui/items/mini_blocks/old_chest_item.png" type="Texture" id=40]
+[ext_resource path="res://textures/ui/items/loot/iron.png" type="Texture" id=41]
+[ext_resource path="res://textures/ui/items/mini_blocks/iron_item.png" type="Texture" id=42]
+[ext_resource path="res://textures/ui/items/mini_blocks/stone.png" type="Texture" id=43]
+[ext_resource path="res://textures/ui/items/mini_blocks/wall.png" type="Texture" id=44]
+[ext_resource path="res://textures/ui/items/loot/details.png" type="Texture" id=45]
+[ext_resource path="res://textures/ui/items/created/water.png" type="Texture" id=46]
+[ext_resource path="res://textures/ui/items/loot/ice_item.png" type="Texture" id=47]
+[ext_resource path="res://textures/ui/items/mini_blocks/craft.png" type="Texture" id=48]
+[ext_resource path="res://Scenes/Items/background_music.tscn" type="PackedScene" id=49]
 
 [sub_resource type="GDScript" id=4]
 script/source = "extends Node2D
@@ -62,12 +63,13 @@ func _ready():
 script/source = "extends ColorRect
 
 var textures = [
-	\"res://Texture/Other/Asteroids/226928707.png\",
-	\"res://Texture/Other/Asteroids/869462099.png\",
-	\"res://Texture/Other/Asteroids/1712160596.png\",
-	\"res://Texture/Other/Asteroids/2007210685.png\",
-	\"res://Texture/Other/Asteroids/4189135564.png\",
-	\"res://Texture/Other/Asteroids/3605264651.png\",
+	\"res://textures/other/asteroids/one.png\",
+	\"res://textures/other/asteroids/two.png\",
+	\"res://textures/other/asteroids/three.png\",
+	\"res://textures/other/asteroids/four.png\",
+	\"res://textures/other/asteroids/five.png\",
+	\"res://textures/other/asteroids/six.png\",
+	\"res://textures/other/asteroids/seven.png\"
 ]
 
 
@@ -744,6 +746,7 @@ position = Vector2( -446, -2 )
 scale = Vector2( 1.633, 1.55 )
 frames = SubResource( 25 )
 animation = "fall"
+frame = 3
 playing = true
 
 [node name="Anim2" type="AnimatedSprite" parent="Node2D"]
@@ -767,6 +770,7 @@ position = Vector2( -266, 81 )
 scale = Vector2( 1.633, 1.55 )
 frames = SubResource( 25 )
 animation = "idle"
+frame = 3
 playing = true
 
 [node name="Label" type="Label" parent="Node2D"]
@@ -843,7 +847,7 @@ position = Vector2( -1220, 82 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 78 )
 animation = "walk"
-frame = 3
+frame = 4
 playing = true
 
 [node name="anim2" type="AnimatedSprite" parent="Node2D"]
@@ -858,7 +862,7 @@ position = Vector2( -1388, 81 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 77 )
 animation = "attack"
-frame = 12
+frame = 1
 playing = true
 
 [node name="Anim5" type="AnimatedSprite" parent="Node2D"]
@@ -866,7 +870,7 @@ position = Vector2( -1595, 47 )
 scale = Vector2( 2.25, 2.025 )
 frames = SubResource( 98 )
 animation = "idle"
-frame = 2
+frame = 1
 playing = true
 
 [node name="Anim6" type="AnimatedSprite" parent="Node2D"]
@@ -874,7 +878,7 @@ position = Vector2( -1686, 47 )
 scale = Vector2( 2.25, 2.025 )
 frames = SubResource( 96 )
 animation = "run"
-frame = 3
+frame = 2
 playing = true
 
 [node name="Anim7" type="AnimatedSprite" parent="Node2D"]
@@ -882,7 +886,6 @@ position = Vector2( -1781, 47 )
 scale = Vector2( 2.25, 2.025 )
 frames = SubResource( 96 )
 animation = "fall"
-frame = 1
 playing = true
 
 [node name="Anim8" type="AnimatedSprite" parent="Node2D"]
@@ -890,6 +893,7 @@ position = Vector2( -1876, 48 )
 scale = Vector2( 2.25, 2.025 )
 frames = SubResource( 99 )
 animation = "jump"
+frame = 1
 playing = true
 
 [node name="Anim9" type="AnimatedSprite" parent="Node2D"]
@@ -1017,6 +1021,8 @@ transition_value = {
 
 [node name="droid" parent="." instance=ExtResource( 4 )]
 position = Vector2( -2063, 69 )
+
+[node name="AudioStreamPlayer" parent="." instance=ExtResource( 49 )]
 
 [editable path="TileMap"]
 [editable path="SettingData"]

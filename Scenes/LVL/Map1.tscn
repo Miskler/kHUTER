@@ -1,4 +1,4 @@
-[gd_scene load_steps=163 format=2]
+[gd_scene load_steps=162 format=2]
 
 [ext_resource path="res://Scenes/TileMap.res" type="PackedScene" id=1]
 [ext_resource path="res://scripts/items/setting_data.gd" type="Script" id=2]
@@ -53,9 +53,9 @@
 [ext_resource path="res://textures/other/repair_bot/station/ok/ok1.png" type="Texture" id=51]
 [ext_resource path="res://textures/other/repair_bot/station/ok/ok3.png" type="Texture" id=52]
 [ext_resource path="res://textures/other/repair_bot/station/ok/ok2.png" type="Texture" id=53]
+[ext_resource path="res://Scenes/Items/background_music.tscn" type="PackedScene" id=54]
 [ext_resource path="res://textures/other/cryocapsule/bottom.png" type="Texture" id=55]
 [ext_resource path="res://textures/other/cryocapsule/top.png" type="Texture" id=56]
-[ext_resource path="res://audios/music/standard.mp3" type="AudioStream" id=58]
 [ext_resource path="res://textures/people/guider/guider2.png" type="Texture" id=60]
 [ext_resource path="res://textures/people/guider/guider1.png" type="Texture" id=62]
 [ext_resource path="res://textures/other/notebook_n.png" type="Texture" id=69]
@@ -199,12 +199,13 @@ func _process(_delta):
 script/source = "extends ColorRect
 
 var textures = [
-	\"res://Texture/Other/Asteroids/226928707.png\",
-	\"res://Texture/Other/Asteroids/869462099.png\",
-	\"res://Texture/Other/Asteroids/1712160596.png\",
-	\"res://Texture/Other/Asteroids/2007210685.png\",
-	\"res://Texture/Other/Asteroids/4189135564.png\",
-	\"res://Texture/Other/Asteroids/3605264651.png\",
+	\"res://textures/other/asteroids/one.png\",
+	\"res://textures/other/asteroids/two.png\",
+	\"res://textures/other/asteroids/three.png\",
+	\"res://textures/other/asteroids/four.png\",
+	\"res://textures/other/asteroids/five.png\",
+	\"res://textures/other/asteroids/six.png\",
+	\"res://textures/other/asteroids/seven.png\"
 ]
 
 
@@ -2983,35 +2984,6 @@ font_data = SubResource( 78 )
 size = 32
 font_data = SubResource( 78 )
 
-[sub_resource type="GDScript" id=77]
-script/source = "extends AudioStreamPlayer
-
-var music = [
-	\"Pixel.mp3\",
-	\"Space.mp3\",
-	\"Melomania.mp3\",
-	\"Standard.mp3\",
-]
-
-#var last = null
-
-func _ready():
-	randomize()
-	rand_aydio()
-
-func rand_aydio():
-	#var mus = music.duplicate(true)
-	#for i in range(music.size()):
-	#	if last == music[i]:
-	#		mus = mus.erase(i)
-	
-	#last = mus[int(round(rand_range(-0.4, float(mus.size())-0.6)))]
-	
-	stream = load(\"res://Aydio/Music/\"+music[int(round(rand_range(-0.4, float(music.size())-0.6)))])
-	play()
-
-"
-
 [sub_resource type="GDScript" id=61]
 script/source = "extends Node
 
@@ -4057,6 +4029,7 @@ rotation = 0.0036599
 scale = Vector2( 0.115135, 0.123498 )
 frames = SubResource( 17 )
 animation = "error"
+frame = 2
 speed_scale = 0.3
 playing = true
 
@@ -4066,7 +4039,6 @@ rotation = -0.0768155
 scale = Vector2( 0.126976, 0.135253 )
 frames = SubResource( 17 )
 animation = "error"
-frame = 2
 speed_scale = 0.3
 playing = true
 
@@ -4076,6 +4048,7 @@ rotation = 0.114526
 scale = Vector2( 0.151132, 0.161913 )
 frames = SubResource( 17 )
 animation = "error"
+frame = 2
 speed_scale = 0.4
 playing = true
 
@@ -4131,7 +4104,7 @@ rotation = 0.0036599
 scale = Vector2( 0.115135, 0.123498 )
 frames = SubResource( 17 )
 animation = "pass"
-frame = 1
+frame = 3
 speed_scale = 0.3
 playing = true
 
@@ -4141,7 +4114,7 @@ rotation = -0.0768155
 scale = Vector2( 0.126976, 0.135253 )
 frames = SubResource( 17 )
 animation = "pass"
-frame = 1
+frame = 3
 speed_scale = 0.3
 playing = true
 
@@ -4226,7 +4199,7 @@ position = Vector2( 30.2206, 93.8387 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 75 )
 animation = "def"
-frame = 4
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D5"]
@@ -4675,17 +4648,14 @@ margin_bottom = -589.0
 custom_fonts/font = SubResource( 43 )
 text = "Криокапсулы"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 58 )
-volume_db = -10.0
-script = SubResource( 77 )
+[node name="AudioStreamPlayer" parent="." instance=ExtResource( 54 )]
 
 [node name="AtlasSpawn" type="AnimatedSprite" parent="."]
 position = Vector2( -9704.05, -4675.48 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 75 )
 animation = "def"
-frame = 4
+frame = 2
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -4757,7 +4727,7 @@ editor_only = false
 position = Vector2( 50, 50 )
 scale = Vector2( 2.5, 2.5 )
 frames = SubResource( 89 )
-frame = 3
+frame = 1
 playing = true
 
 [node name="Bot" type="Node2D" parent="Guider"]
@@ -4829,7 +4799,6 @@ __meta__ = {
 }
 
 [connection signal="timeout" from="Area2D/Timer" to="Area2D" method="timeout"]
-[connection signal="finished" from="AudioStreamPlayer" to="AudioStreamPlayer" method="rand_aydio"]
 [connection signal="finished" from="Guider/AudioStreamPlayer" to="Guider/Node" method="finished"]
 [connection signal="tyt" from="Guider/KinematicBody2D" to="Guider/Node" method="use_chest"]
 [connection signal="timeout" from="Guider/Timer" to="Guider" method="timeout"]

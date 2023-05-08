@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Scenes/TileMap.res" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/SignalCenter.tscn" type="PackedScene" id=2]
@@ -13,17 +13,19 @@
 [ext_resource path="res://textures/people/guider/guider2.png" type="Texture" id=11]
 [ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=12]
 [ext_resource path="res://resources/themes/main.theme" type="Theme" id=13]
+[ext_resource path="res://Scenes/Items/background_music.tscn" type="PackedScene" id=14]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends ColorRect
 
 var textures = [
-	\"res://Texture/Other/Asteroids/226928707.png\",
-	\"res://Texture/Other/Asteroids/869462099.png\",
-	\"res://Texture/Other/Asteroids/1712160596.png\",
-	\"res://Texture/Other/Asteroids/2007210685.png\",
-	\"res://Texture/Other/Asteroids/4189135564.png\",
-	\"res://Texture/Other/Asteroids/3605264651.png\",
+	\"res://textures/other/asteroids/one.png\",
+	\"res://textures/other/asteroids/two.png\",
+	\"res://textures/other/asteroids/three.png\",
+	\"res://textures/other/asteroids/four.png\",
+	\"res://textures/other/asteroids/five.png\",
+	\"res://textures/other/asteroids/six.png\",
+	\"res://textures/other/asteroids/seven.png\"
 ]
 
 
@@ -399,7 +401,6 @@ editor_only = false
 position = Vector2( 50, 50 )
 scale = Vector2( 2.5, 2.5 )
 frames = SubResource( 91 )
-frame = 3
 playing = true
 
 [node name="Control2" type="Control" parent="Guider/CanvasLayer/Control2"]
@@ -557,6 +558,8 @@ script = SubResource( 100 )
 
 [node name="Timer" type="Timer" parent="Guider/Node/Events"]
 autostart = true
+
+[node name="AudioStreamPlayer" parent="." instance=ExtResource( 14 )]
 
 [connection signal="timeout" from="Timer" to="." method="wave"]
 [connection signal="pressed" from="Guider/CanvasLayer/Control3/HBoxContainer/Button" to="." method="restart"]

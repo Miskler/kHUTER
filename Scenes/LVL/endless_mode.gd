@@ -289,8 +289,8 @@ func restart(rem:bool = false):
 	
 	$Guider/CanvasLayer/Control3.hide()
 	
+	$M._ready()
 	yield(get_tree().create_timer(0.1),"timeout")
-	
 	_ready()
 
 
