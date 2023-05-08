@@ -1,0 +1,399 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://textures/ui/android/pixel_circle.png" type="Texture" id=1]
+[ext_resource path="res://textures/ui/android/plus.png" type="Texture" id=2]
+[ext_resource path="res://textures/ui/android/minus.png" type="Texture" id=3]
+[ext_resource path="res://textures/ui/android/сhat_icon.png" type="Texture" id=4]
+[ext_resource path="res://textures/ui/android/gear_button.png" type="Texture" id=5]
+[ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://resources/themes/main.theme" type="Theme" id=7]
+
+[sub_resource type="StyleBoxFlat" id=154]
+bg_color = Color( 0, 0.615686, 0.0392157, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.0392157, 0.368627, 0, 1 )
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 2
+anti_aliasing_size = 0.549
+
+[sub_resource type="StyleBoxFlat" id=155]
+bg_color = Color( 0, 0.717647, 0.0117647, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.0392157, 0.368627, 0, 1 )
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 2
+anti_aliasing_size = 0.549
+
+[sub_resource type="StyleBoxFlat" id=156]
+bg_color = Color( 0, 0.772549, 0.0117647, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.0392157, 0.368627, 0, 1 )
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 2
+anti_aliasing_size = 0.549
+
+[sub_resource type="StyleBoxFlat" id=157]
+bg_color = Color( 0, 0.501961, 0.0352941, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.0392157, 0.368627, 0, 1 )
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 2
+anti_aliasing_size = 0.549
+
+[sub_resource type="Theme" id=158]
+Button/styles/disabled = SubResource( 154 )
+Button/styles/hover = SubResource( 155 )
+Button/styles/normal = SubResource( 156 )
+Button/styles/pressed = SubResource( 157 )
+
+[sub_resource type="GDScript" id=6]
+script/source = "extends Control
+
+remote func chat_event(line, nam = null):
+	if nam == null: line = nam + \": \" + line
+	$ItemList.add_item(line)
+
+func _input(event):
+	if Input.is_action_just_pressed(\"enter\"):
+		$ItemList.visible = not $ItemList.visible
+
+
+func _ready():
+	$Close.visible = G.game_settings[\"mobile\"]
+	$Shoot.visible = G.game_settings[\"mobile\"]
+	$Plus.visible = G.game_settings[\"mobile\"]
+	$Minus.visible = G.game_settings[\"mobile\"]
+
+
+func show_menu():
+	$\"../menu\".show()
+	hide()
+
+
+func reset_chat():
+	$ItemList.visible = $Chat.pressed
+
+
+func plus():
+	if get_node(\"../..\").zoom.x > 0.5:
+		get_node(\"../..\").zoom -= Vector2(0.3, 0.3)
+func minus():
+	if get_node(\"../..\").zoom.x < 10:
+		get_node(\"../..\").zoom += Vector2(0.3, 0.3)
+"
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 6 )
+
+[sub_resource type="GDScript" id=160]
+script/source = "extends TextureRect
+
+var press = false
+
+
+var vec = Vector2.ZERO
+var rot = 0
+
+
+
+func down():
+	press = true
+func up():
+	press = false
+	$Rot/Rect.rect_position.x = -$Rot/Rect.rect_pivot_offset.x
+	vec = Vector2.ZERO
+
+
+func _input(event):
+	yield(get_tree(), \"idle_frame\")
+	if press and (event is InputEventScreenDrag or event is InputEventScreenTouch):
+		var f = clamp(abs($Rot.global_position.distance_to(event.position)), 0, 1000) - $Rot/Rect.rect_pivot_offset.x
+		
+		if f < 300:
+			$Rot/Rect.rect_position.x = clamp(abs($Rot.global_position.distance_to(event.position)), 0, 70) - $Rot/Rect.rect_pivot_offset.x
+			
+			$Rot.look_at(event.position)
+			$Rot/Rect.set_rotation(0 - $Rot.rotation)
+			rot = $Rot.rotation
+			
+			vec = event.position - $Rot.global_position
+			
+			vec = Vector2(clamp(vec.x, -75, 75), clamp(vec.y, -75, 75))
+"
+
+[sub_resource type="RectangleShape2D" id=159]
+extents = Vector2( 140, 140 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Control
+
+onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
+
+func _input(_event):
+	if Input.is_action_just_pressed(\"esc\") and $\".\".visible == true:
+		$\"../main\".show()
+		$\".\".hide()
+	elif Input.is_action_just_pressed(\"esc\"):
+		$\"../main\".hide()
+		$\".\".show()
+		if SD.map_settings[\"revive\"] == true:
+			$Control/ScrollContainer/VBoxContainer/Button.show()
+		else:
+			$Control/ScrollContainer/VBoxContainer/Button.hide()
+
+func closed():
+	$\"../main\".show()
+	$\".\".hide()
+
+func exit():
+	G.get_node(\"Load Screen\").select(\"res://Scenes/Menu.scn\", false)
+
+func revive_player():
+	get_node(\"/root/rootGame\").revive_player(G.my_id())
+	get_node(\"/root/rootGame\").rpc(\"revive_player\", G.my_id())
+"
+
+[sub_resource type="DynamicFont" id=1]
+size = 30
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 30
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 71
+font_data = ExtResource( 6 )
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="main" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 158 )
+script = SubResource( 6 )
+
+[node name="ItemList" type="ItemList" parent="main"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -171.0
+margin_right = 278.0
+custom_fonts/font = SubResource( 5 )
+
+[node name="Chat" type="Button" parent="main"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = -258.0
+margin_right = 90.0
+margin_bottom = -178.0
+focus_mode = 0
+toggle_mode = true
+pressed = true
+enabled_focus_mode = 0
+icon = ExtResource( 4 )
+expand_icon = true
+
+[node name="Close" type="Button" parent="main"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -100.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 90, 0 )
+focus_mode = 0
+enabled_focus_mode = 0
+icon = ExtResource( 5 )
+icon_align = 1
+expand_icon = true
+
+[node name="Plus" type="Button" parent="main"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 100.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 90, 0 )
+focus_mode = 0
+enabled_focus_mode = 0
+icon = ExtResource( 2 )
+icon_align = 1
+expand_icon = true
+
+[node name="Minus" type="Button" parent="main"]
+margin_left = 10.0
+margin_top = 110.0
+margin_right = 100.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 90, 0 )
+focus_mode = 0
+enabled_focus_mode = 0
+icon = ExtResource( 3 )
+icon_align = 1
+expand_icon = true
+
+[node name="Shoot" type="TextureRect" parent="main"]
+self_modulate = Color( 0.101961, 0.682353, 0, 0.635294 )
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -224.0
+margin_top = -187.0
+margin_right = -54.0
+margin_bottom = -20.0
+texture = ExtResource( 1 )
+expand = true
+script = SubResource( 160 )
+
+[node name="Rot" type="Node2D" parent="main/Shoot"]
+position = Vector2( 85, 83.5 )
+
+[node name="Rect" type="TextureRect" parent="main/Shoot/Rot"]
+modulate = Color( 0.219608, 1, 0, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 20, 20 )
+texture = ExtResource( 1 )
+expand = true
+
+[node name="Touch" type="TouchScreenButton" parent="main/Shoot"]
+position = Vector2( -55, -60 )
+shape = SubResource( 159 )
+
+[node name="menu" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 7 )
+script = SubResource( 3 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.52549 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -115.0
+margin_top = -129.0
+margin_right = 116.0
+margin_bottom = 87.0
+
+[node name="ColorRect" type="ColorRect" parent="menu/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.105882, 0.227451, 0.141176, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="menu/Control"]
+margin_left = 4.0
+margin_top = 87.0
+margin_right = 229.0
+margin_bottom = 255.0
+rect_min_size = Vector2( 225, 114 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menu/Control/ScrollContainer"]
+margin_right = 225.0
+margin_bottom = 122.0
+rect_min_size = Vector2( 225, 114 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Button3" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
+margin_right = 225.0
+margin_bottom = 38.0
+focus_mode = 0
+custom_fonts/font = SubResource( 1 )
+enabled_focus_mode = 0
+text = "Продолжить"
+
+[node name="Button" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
+margin_top = 42.0
+margin_right = 225.0
+margin_bottom = 80.0
+focus_mode = 0
+custom_fonts/font = SubResource( 1 )
+enabled_focus_mode = 0
+text = "Возродиться"
+
+[node name="Button2" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
+margin_top = 84.0
+margin_right = 225.0
+margin_bottom = 122.0
+focus_mode = 0
+custom_fonts/font = SubResource( 2 )
+enabled_focus_mode = 0
+text = "В меню"
+
+[node name="Label" type="Label" parent="menu/Control"]
+anchor_right = 1.0
+margin_right = 99.0
+margin_bottom = 124.0
+rect_scale = Vector2( 0.7, 0.7 )
+custom_fonts/font = SubResource( 4 )
+text = "Меню"
+align = 1
+valign = 1
+
+[connection signal="pressed" from="main/Chat" to="main" method="reset_chat"]
+[connection signal="pressed" from="main/Close" to="main" method="show_menu"]
+[connection signal="pressed" from="main/Plus" to="main" method="plus"]
+[connection signal="pressed" from="main/Minus" to="main" method="minus"]
+[connection signal="pressed" from="main/Shoot/Touch" to="main/Shoot" method="down"]
+[connection signal="released" from="main/Shoot/Touch" to="main/Shoot" method="up"]
+[connection signal="pressed" from="menu/Control/ScrollContainer/VBoxContainer/Button3" to="menu" method="closed"]
+[connection signal="pressed" from="menu/Control/ScrollContainer/VBoxContainer/Button" to="menu" method="revive_player"]
+[connection signal="pressed" from="menu/Control/ScrollContainer/VBoxContainer/Button2" to="menu" method="exit"]

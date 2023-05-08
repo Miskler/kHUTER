@@ -3,10 +3,10 @@
 [ext_resource path="res://tile_b.tres" type="TileSet" id=1]
 [ext_resource path="res://textures/other/asteroids/five.png" type="Texture" id=2]
 [ext_resource path="res://resources/shaders/background_sphere.material" type="Material" id=3]
-[ext_resource path="res://Scenes/NPS/droid.res" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/TileMap.res" type="PackedScene" id=5]
-[ext_resource path="res://Scenes/SignalCenter.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/SettingData.res" type="PackedScene" id=7]
+[ext_resource path="res://scenes/entities/basic/droid.res" type="PackedScene" id=4]
+[ext_resource path="res://scene/TileMap.res" type="PackedScene" id=5]
+[ext_resource path="res://scenes/modules/signal_center.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/modules/SettingData.res" type="PackedScene" id=7]
 [ext_resource path="res://resources/fonts/standart/small.otf" type="DynamicFontData" id=8]
 [ext_resource path="res://textures/people/mob/fall.png" type="Texture" id=9]
 [ext_resource path="res://textures/people/mob/walk.png" type="Texture" id=10]
@@ -48,7 +48,7 @@
 [ext_resource path="res://textures/ui/items/created/water.png" type="Texture" id=46]
 [ext_resource path="res://textures/ui/items/loot/ice_item.png" type="Texture" id=47]
 [ext_resource path="res://textures/ui/items/mini_blocks/craft.png" type="Texture" id=48]
-[ext_resource path="res://Scenes/Items/background_music.tscn" type="PackedScene" id=49]
+[ext_resource path="res://scenes/modules/background_music.tscn" type="PackedScene" id=49]
 
 [sub_resource type="GDScript" id=4]
 script/source = "extends Node2D
@@ -746,7 +746,6 @@ position = Vector2( -446, -2 )
 scale = Vector2( 1.633, 1.55 )
 frames = SubResource( 25 )
 animation = "fall"
-frame = 3
 playing = true
 
 [node name="Anim2" type="AnimatedSprite" parent="Node2D"]
@@ -770,7 +769,6 @@ position = Vector2( -266, 81 )
 scale = Vector2( 1.633, 1.55 )
 frames = SubResource( 25 )
 animation = "idle"
-frame = 3
 playing = true
 
 [node name="Label" type="Label" parent="Node2D"]
@@ -824,6 +822,7 @@ texture = ExtResource( 15 )
 position = Vector2( -867, 32 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 29 )
+frame = 1
 playing = true
 flip_h = true
 
@@ -847,7 +846,7 @@ position = Vector2( -1220, 82 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 78 )
 animation = "walk"
-frame = 4
+frame = 3
 playing = true
 
 [node name="anim2" type="AnimatedSprite" parent="Node2D"]
@@ -862,7 +861,7 @@ position = Vector2( -1388, 81 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 77 )
 animation = "attack"
-frame = 1
+frame = 6
 playing = true
 
 [node name="Anim5" type="AnimatedSprite" parent="Node2D"]
@@ -870,7 +869,7 @@ position = Vector2( -1595, 47 )
 scale = Vector2( 2.25, 2.025 )
 frames = SubResource( 98 )
 animation = "idle"
-frame = 1
+frame = 2
 playing = true
 
 [node name="Anim6" type="AnimatedSprite" parent="Node2D"]
@@ -878,7 +877,7 @@ position = Vector2( -1686, 47 )
 scale = Vector2( 2.25, 2.025 )
 frames = SubResource( 96 )
 animation = "run"
-frame = 2
+frame = 3
 playing = true
 
 [node name="Anim7" type="AnimatedSprite" parent="Node2D"]
@@ -886,6 +885,7 @@ position = Vector2( -1781, 47 )
 scale = Vector2( 2.25, 2.025 )
 frames = SubResource( 96 )
 animation = "fall"
+frame = 1
 playing = true
 
 [node name="Anim8" type="AnimatedSprite" parent="Node2D"]
@@ -893,7 +893,6 @@ position = Vector2( -1876, 48 )
 scale = Vector2( 2.25, 2.025 )
 frames = SubResource( 99 )
 animation = "jump"
-frame = 1
 playing = true
 
 [node name="Anim9" type="AnimatedSprite" parent="Node2D"]

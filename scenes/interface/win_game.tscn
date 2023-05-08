@@ -1,0 +1,160 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://audios/guider/win_game.mp3" type="AudioStream" id=1]
+[ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://resources/themes/main.theme" type="Theme" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 30
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=6]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=7]
+font_data = ExtResource( 2 )
+
+[sub_resource type="GDScript" id=8]
+script/source = "extends Button
+
+func _pressed():
+	G.get_node(\"Load Screen\").select(\"res://Scenes/Menu.scn\", false)
+"
+
+[node name="win" type="CanvasLayer"]
+layer = 5
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.341176 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -264.5
+margin_top = -187.5
+margin_right = 264.5
+margin_bottom = 187.5
+color = Color( 0.105882, 0.227451, 0.141176, 1 )
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="ColorRect2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+border_color = Color( 0.109804, 0.196078, 0.113725, 1 )
+editor_only = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ColorRect2"]
+anchor_right = 1.0
+margin_bottom = 38.0
+custom_fonts/font = SubResource( 1 )
+text = "На этом пока все!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ColorRect2"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = -304.0
+margin_right = -6.0
+margin_bottom = -62.0
+custom_fonts/mono_font = SubResource( 2 )
+custom_fonts/bold_italics_font = SubResource( 3 )
+custom_fonts/italics_font = SubResource( 4 )
+custom_fonts/bold_font = SubResource( 5 )
+custom_fonts/normal_font = SubResource( 6 )
+text = "Привет!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReferenceRect" type="ReferenceRect" parent="ColorRect2/RichTextLabel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1.0
+mouse_filter = 2
+border_color = Color( 0.2, 0.133333, 0.0745098, 1 )
+editor_only = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="ColorRect2"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -67.5
+margin_top = -55.0
+margin_right = 68.5
+margin_bottom = -10.0
+mouse_default_cursor_shape = 2
+theme = ExtResource( 3 )
+custom_fonts/font = SubResource( 7 )
+text = "Обратно в меню"
+script = SubResource( 8 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )

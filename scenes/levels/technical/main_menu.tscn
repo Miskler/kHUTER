@@ -1,0 +1,2360 @@
+[gd_scene load_steps=93 format=2]
+
+[ext_resource path="res://resources/fonts/standart/small.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://textures/ui/logos/youtube.png" type="Texture" id=2]
+[ext_resource path="res://textures/ui/logos/discord.png" type="Texture" id=3]
+[ext_resource path="res://textures/ui/logos/boosty.png" type="Texture" id=4]
+[ext_resource path="res://textures/ui/android/inventory.png" type="Texture" id=5]
+[ext_resource path="res://textures/ui/logos/telegram.png" type="Texture" id=6]
+[ext_resource path="res://textures/ui/items/created/breaker.png" type="Texture" id=7]
+[ext_resource path="res://audios/music/menu.ogg" type="AudioStream" id=8]
+[ext_resource path="res://audios/button.mp3" type="AudioStream" id=9]
+[ext_resource path="res://resources/fonts/writer_duo/writer_duos_bold_italic.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=11]
+[ext_resource path="res://resources/fonts/writer_duo/writer_duos_bold.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://resources/fonts/writer_duo/writer_duov.ttf" type="DynamicFontData" id=13]
+[ext_resource path="res://resources/fonts/writer_duo/writer_duos_italic.ttf" type="DynamicFontData" id=14]
+[ext_resource path="res://resources/themes/main.theme" type="Theme" id=15]
+[ext_resource path="res://scripts/interface/main_menu/catalog_save_button.gd" type="Script" id=16]
+[ext_resource path="res://scripts/interface/main_menu/remove_save_button.gd" type="Script" id=17]
+[ext_resource path="res://scripts/interface/main_menu/close_is.gd" type="Script" id=18]
+[ext_resource path="res://scripts/interface/string_setting_menu.gd" type="Script" id=19]
+[ext_resource path="res://scripts/interface/main_menu/play_save_button.gd" type="Script" id=20]
+[ext_resource path="res://scripts/interface/int_setting_menu.gd" type="Script" id=21]
+
+[sub_resource type="GDScript" id=26]
+script/source = "extends Control
+
+func _ready():
+	AchievementsClient.unlock(\"CgkIv-Ln87AIEAIQAQ\") #Начало работы
+	
+	$Details/Version.text = \"Версия игры: \" + G.game_settings[\"version\"]
+	#$Animations.play_backwards(\"BlackScreen\")
+	
+# warning-ignore:return_value_discarded
+	get_node(\"HTTPRequest\").connect(\"request_completed\", self, \"complite_load_data\")
+	request(\"all\")
+
+func request(dat = \"all\"):
+	var HTTP = get_node(\"HTTPRequest\")
+	
+	var error = HTTP.request(\"http://\"+G.ways[\"server\"]+\":\"+str(G.game_settings[\"port\"])+\"/\"+dat)
+	if error != OK:
+		push_warning(\"В HTTP-запросе произошла ошибка. (http://\"+G.ways[\"server\"]+\":\"+str(G.game_settings[\"port\"])+\"/)\")
+	else:
+		print(\"Запрос \\\"\"+str(dat)+\"\\\" отправлен корректно, ожидание ответа сервера... (http://\"+G.ways[\"server\"]+\":\"+str(G.game_settings[\"port\"])+\"/)\")
+func complite_load_data(_result, _response_code, _headers, body):
+	var response = parse_json(body.get_string_from_utf8())
+	
+	if response == null:
+		push_warning(\"Сервер прислал битый ответ!\")
+		return
+	
+	var dat = response[\"data\"]
+	match response[\"request\"]:
+		\"all\":
+			$\"Interfaces/Changes\".reload(dat[0], \"news\")
+			
+			$\"Interfaces/Maps\".reload(dat[1])
+			
+			$\"Interfaces/Multiplayer\".data_servers_online = dat[2]
+			$\"Interfaces/Multiplayer\".delete_items()
+			$\"Interfaces/Multiplayer\".add_items(dat[2], true)
+			
+			if dat.size() >= 4 and str(dat[3]) != str(G.game_settings[\"version\"]):
+				$Interfaces/Notification.window_title = \"Обновитесь!\"
+				$Interfaces/Notification.dialog_text = \"Текущая версия: \"+G.game_settings[\"version\"]+\"\\nРекомендуемая сервером версия: \"+dat[3]
+				$Interfaces/Notification.popup_centered()
+			elif str(G.game_settings[\"version\"]) != str(G.game_settings[\"old_version\"]):
+				$Interfaces/Notification.window_title = \"Спасибо что остаётесь с нами!\"
+				$Interfaces/Notification.dialog_text = \"Текущая версия: \"+G.game_settings[\"version\"]+\"\\nПредидущая: \"+G.game_settings[\"old_version\"]
+				$Interfaces/Notification.popup_centered()
+				
+				$Interfaces/Settings.set_data(\"old_version\", str(G.game_settings[\"version\"]))
+		\"servers\":
+			$\"Interfaces/Multiplayer\".data_servers_online = dat[0]
+			$\"Interfaces/Multiplayer\".delete_items()
+			$\"Interfaces/Multiplayer\".add_items(dat[0], true)
+		\"maps\":
+			$\"Interfaces/Maps\".reload(dat[0])
+		\"news\":
+			$\"Interfaces/Changes\".reload(dat[0], \"news\")
+		\"GET_map\":
+			download(dat[0], dat[1], dat[2])
+		\"GET_map_error\":
+			$\"Interfaces/Pass\".hide()
+			
+			$Interfaces/Notification.popup_centered()
+			$Interfaces/Notification.dialog_text = \"Карта на сервере не найдена!\"
+
+func download(name_map, param, map):
+	$\"Interfaces/Pass\".hide()
+	
+	var dirSAV = Directory.new()
+	var path = \"user://SaveGame/Worlds/\" + str(name_map)
+	if !dirSAV.dir_exists(path):
+		dirSAV.make_dir_recursive(path)
+	
+	var file = File.new()
+	file.open(path + \"/map.huter\", File.WRITE)
+	file.store_line(map)
+	file.close()
+	
+	file = File.new()
+	file.open(path + \"/data.json\", File.WRITE)
+	file.store_line(to_json(param))
+	file.close()
+	
+	$\"Animations\".play(\"MapsToSaves\")
+	$\"Interfaces/Saves\".list_reload()
+"
+
+[sub_resource type="Shader" id=4]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform int iterations = 17;
+uniform float formuparam = 0.6;
+
+uniform int volsteps = 1;
+uniform float stepsize = 0.4;
+
+uniform float zoom = 0.1;
+uniform float tile = 0.46;
+uniform float speed = 0.002;
+
+uniform float brightness = 0.001;
+uniform float darkmatter = 0.003;
+uniform float distfading = 0.650;
+uniform float saturation = 0.450;
+
+uniform vec2 iResolution = vec2(19, 1);
+uniform vec2 iMouse = vec2(0,0);
+
+float SCurve (float value) {
+
+    if (value < 0.5)
+    {
+        return value * value * value * value * value * 10.0; 
+    }
+    
+    value -= 1.0;
+    
+    return value * value * value * value * value * 10.0 + 1.0;
+}
+
+void fragment()
+{
+	//get coords and direction
+	vec2 uv=FRAGCOORD.xy/iResolution.xy-0.5;
+	uv.y*=iResolution.y/iResolution.x;
+	vec3 dir=vec3(uv*zoom,1.0);
+	float time=TIME*speed+.25;
+
+	//mouse rotation
+	float a1=0.5+iMouse.x/iResolution.x*2.;
+	float a2=0.8+iMouse.y/iResolution.y*2.;
+	mat2 rot1=mat2(vec2(cos(a1),sin(a1)),vec2(-sin(a1),cos(a1)));
+	mat2 rot2=mat2(vec2(cos(a2),sin(a2)),vec2(-sin(a2),cos(a2)));
+	dir.xy*=rot1;
+	dir.xz*=rot2;
+	vec3 from=vec3(1.0,0.5,0.5);
+	from-=vec3(0.0,time,0.0);
+	from.xz*=rot1;
+	from.xy*=rot2;
+	
+	//volumetric rendering
+	float s=0.1,fade=1.;
+	vec3 v=vec3(0.);
+	for (int r=0; r<volsteps; r++) {
+		vec3 p=from+s*dir*0.5;
+		p = abs(vec3(tile)-mod(p,vec3(tile*2.))); // tiling fold
+		float pa,a=pa=0.;
+		for (int i=0; i<iterations; i++) { 
+			p=abs(p)/dot(p,p)-formuparam; // the magic formula
+			a+=abs(length(p)-pa); // absolute sum of average change
+			pa=length(p);
+		}
+		float dm=max(0.,darkmatter-a*a*.001); //dark matter
+		a = pow(a, 2.3); // add contrast
+		if (r>6) fade*=1.-dm; // dark matter, don't render near
+		//v+=vec3(dm,dm*.5,0.);
+		v+=fade;
+		v+=vec3(s,s*s,s*s*s*s)*a*brightness*fade; // coloring based on distance
+		fade*=distfading; // distance fading
+		s+=stepsize;
+	}
+    
+	v=mix(vec3(length(v)),v,saturation); //color adjust
+    
+    vec4 C = vec4(v*.01,1.);
+    
+     	C.r = pow(C.r, 0.35); 
+ 	 	C.g = pow(C.g, 0.36); 
+ 	 	C.b = pow(C.b, 0.38); 
+ 	
+    vec4 L = C;   	
+    
+    COLOR.r = mix(L.r, SCurve(C.r), 0.7); 
+    COLOR.g = mix(L.g, SCurve(C.g), 1.0); 
+    COLOR.b = mix(L.b, SCurve(C.b), 0.2);     	
+	
+}"
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 4 )
+shader_param/iterations = 17
+shader_param/formuparam = 0.6
+shader_param/volsteps = 1
+shader_param/stepsize = 0.4
+shader_param/zoom = 0.1
+shader_param/tile = 0.46
+shader_param/speed = 0.002
+shader_param/brightness = 0.001
+shader_param/darkmatter = 0.003
+shader_param/distfading = 0.65
+shader_param/saturation = 0.45
+shader_param/iResolution = Vector2( 19, 1 )
+shader_param/iMouse = Vector2( 0, 0 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 70
+font_data = ExtResource( 11 )
+
+[sub_resource type="Theme" id=7]
+default_font = SubResource( 6 )
+
+[sub_resource type="GDScript" id=79]
+script/source = "extends Button
+
+func _pressed():
+	$\"../../../../AnimationsMenedger\".visible_p = \"Maps\"
+"
+
+[sub_resource type="GDScript" id=66]
+script/source = "extends Button
+
+func _pressed():
+	$\"../../../../AnimationsMenedger\".visible_p = \"InNet\"
+"
+
+[sub_resource type="GDScript" id=53]
+script/source = "extends Button
+
+func _pressed():
+	$\"../../../../AnimationsMenedger\".visible_p = \"Game\"
+"
+
+[sub_resource type="GDScript" id=78]
+script/source = "extends Button
+
+func _pressed():
+	Firebase.logEvent(\"CRASH\", {\"real?\": true})
+"
+
+[sub_resource type="GDScript" id=80]
+script/source = "extends Button
+
+func _pressed():
+	$\"../../../../AnimationsMenedger\".visible_p = \"Multiplayer\"
+"
+
+[sub_resource type="GDScript" id=81]
+script/source = "extends Button
+
+func _pressed():
+	$\"../../../../AnimationsMenedger\".visible_p = \"Saves\"
+"
+
+[sub_resource type="GDScript" id=82]
+script/source = "extends Button
+
+func _pressed():
+	$\"../../../../AnimationsMenedger\".visible_p = \"Changes\"
+"
+
+[sub_resource type="GDScript" id=83]
+script/source = "extends Button
+
+func _pressed():
+	$\"../../../../AnimationsMenedger\".visible_p = \"Settings\"
+"
+
+[sub_resource type="GDScript" id=84]
+script/source = "extends Button
+
+func _pressed():
+	get_tree().quit()
+"
+
+[sub_resource type="GDScript" id=29]
+script/source = "extends Control
+
+var translation_dictionary = {
+	\"boot_menu\": \"Показывать меню загрузки\",
+	\"bad_graphics\": \"Использовать плохую графику\",
+	\"FPS\": \"ККС (ФПС/FPS)\",
+	\"port\": \"Порт сервера\",
+	\"player_name\": \"Имя игрока\",
+	\"render_bonus\": \"Дальность отрисовки\",
+	\"mobile\": \"Мобильная версия\",
+	\"mobile_use_all\": \"Андроид использование\",
+	\"auto_save\": \"Период автосохранения\",
+	\"auto_on\": \"Автосохранение\",
+}
+
+var descriptions_dictionary = {
+	\"boot_menu\": \"Показывать меню загрузки. Нет, ты от этого ничего не потеряешь т.к. игра очень быстро обрабатывает что ей нужно. Просто ты не увидешь топовый логотип который наш художник так усердно рисовал в моём подвале :)\",
+	\"bad_graphics\": \"Плохая графика... Оно тебе надо? Игра не сильно и много жрёт, да и многие карты чихать хотели какую настройку ты выставил.\",
+	\"FPS\": \"Количество Кадрос в Секунду - ККС(xD). Ограничение сколько раз в секунду будет обновляться картинка в игре (если выставить 10000 вы просто будете прожигать электричество).\",
+	\"port\": \"Я крайне не рекомендую менять этот порт. В игре он стандартизирован и если его поменять, то у вас могут начаться проблемы с подключением к серверам :)\",
+	\"player_name\": \"Имя пользователя используется при создании сохранения, а так же в мультиплеерной игре. В названии ника нет ограничений. Хоть на японском пишите, но просто оставайтесь людьми!\",
+	\"render_bonus\": \"На сколько далеко за пределами экрана будет отрисовываться мир. Чем больше значение тем больше нагрузка на видеокарту и процессор!\",
+	\"mobile\": \"Мобильная версия включает в себя дополнительные кнопки на экране которые заменят вам клавиатуру, если к вашему устройству она не подключена.\",
+	\"mobile_use_all\": \"Если этот параметр включен, то в мобильном интерфейсе будет показана кнопка \\\"Использовать\\\" которая (как не трудно догадаться) использует все объекты рядом с которыми вы находитесь.\\n\\nНе работает с блоками!\",
+	\"auto_save\": \"Период автосохранений (в минутах).\",
+	\"auto_on\": \"Влючает и выключает функцию автосохранения.\",
+}
+
+var ignore = [
+	\"version\",
+	\"old_version\",
+	\"statistics\",
+	\"prolog\"
+]
+
+func _ready():
+	add_buttons()
+	dat()
+
+func add_buttons():
+	del_buttons()
+	for i in G.game_settings.keys():
+		if not i in ignore:
+			if G.game_settings[i] is int or G.game_settings[i] is float:
+				var item = $\"List/Buttons/*SampleInt\".duplicate()
+				
+				item.name = i
+				item.prefix = translation_dictionary[i] + \" - \"
+				
+				item.value = G.game_settings[i]
+				
+				item.show()
+				$\"List/Buttons\".add_child(item)
+			elif G.game_settings[i] is bool:
+				var item = $\"List/Buttons/*SampleBool\".duplicate()
+				
+				item.name = i
+				if translation_dictionary.has(i):
+					item.text = translation_dictionary[i]
+				else:
+					item.text = i
+				
+				item.pressed = G.game_settings[i]
+				
+				item.show()
+				$\"List/Buttons\".add_child(item)
+			elif G.game_settings[i] is String:
+				var item = $\"List/Buttons/*SampleString\".duplicate()
+				
+				item.name = i
+				item.placeholder_text = translation_dictionary[i]
+				
+				item.text = G.game_settings[i]
+				
+				item.show()
+				$\"List/Buttons\".add_child(item)
+			else:
+				push_error(\"Система настроек: Неизвестный тип данных - \\\"\" + str(i) + \"\\\": \" + str(G.game_settings[i]))
+func del_buttons():
+	for i in $List/Buttons.get_children():
+		if not i.name.begins_with(\"*Sample\"):
+			i.queue_free()
+
+func set_data(title, new_param):
+	G.game_settings[title] = new_param
+	
+	dat()
+	
+	var file = File.new()
+	file.open(G.ways[\"settings\"], File.WRITE)
+	file.store_line(to_json(G.game_settings))
+	file.close()
+
+func dat():
+	Engine.set_target_fps(G.game_settings[\"FPS\"])
+	$\"../../Details/kHUTER/VersionUI\".text = {true: \"Mobile\", false: \"Desktop\"}[G.game_settings[\"mobile\"]]
+	
+	$\"../Saves/Buttons/InFileSystem\".disabled = G.game_settings[\"mobile\"]
+	$\"../Saves/List/Box/*Sample/Catalog\".disabled = G.game_settings[\"mobile\"]
+	$\"../../Backgrounds/Spheres\".visible = not G.game_settings[\"bad_graphics\"]
+	
+	$\"../Saves\".list_reload()
+
+func set_description(title):
+	if descriptions_dictionary.has(title):
+		$Description.text = descriptions_dictionary[title]
+	else:
+		$Description.text = \"У этого параметра нет описания\"
+
+"
+
+[sub_resource type="GDScript" id=30]
+script/source = "extends CheckBox
+
+func _pressed():
+	$\"../../..\".set_data(name, pressed)
+
+func mouse_entered():
+	$\"../../..\".set_description(name)
+"
+
+[sub_resource type="DynamicFont" id=13]
+size = 35
+font_data = ExtResource( 11 )
+
+[sub_resource type="Theme" id=14]
+default_font = SubResource( 13 )
+
+[sub_resource type="DynamicFont" id=67]
+size = 50
+font_data = ExtResource( 1 )
+
+[sub_resource type="GDScript" id=28]
+script/source = "extends Control
+
+func _ready():
+	list_reload()
+
+func add_element():
+	var dir = Directory.new()
+	if dir.open(\"user://SaveGame/Worlds\") == OK:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		
+		while file_name != \"\":
+			var file = File.new()
+			if file_name != \".\" and dir.current_is_dir() and file.file_exists(\"user://SaveGame/Worlds/\" + file_name + \"/map.huter\"):
+				var item = get_node(\"List/Box/*Sample\").duplicate()
+				
+				item.name = file_name
+				item.name_map = file_name
+				item.get_node(\"Title\").text = file_name
+				
+				var image = Image.new()
+				var err = image.load(\"user://SaveGame/Worlds/\" + file_name + \"/screenshot.png\")
+				if err == OK:
+					item.get_node(\"Icon\").texture = ImageTexture.new()
+					item.get_node(\"Icon\").texture.create_from_image(image, 0)
+				else:
+					item.get_node(\"Icon\").texture = load(\"res://Tecture/Modeli/no_texture.png\")
+				
+				if file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ) == OK:
+					file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ)
+					var data = str2var(file.get_as_text())
+					file.close()
+					item.get_node(\"Description\").text = \"Версия игры \" + data[0] + \",\\nДата создания \" + str(data[2][\"day\"])+\".\"+str(data[2][\"month\"])+\".\"+str(data[2][\"year\"]) + \",\\nАвтор \" + data[1]
+				else:
+					item.get_node(\"Description\").text = \"Данные отцуцтвуют!\"
+				
+				item.show()
+				get_node(\"List/Box\").add_child(item)
+				item.get_node(\"Play\").catalog_name = file_name
+				item.get_node(\"Play\").node = self
+				item.get_node(\"Catalog\").catalog_name = file_name
+				item.get_node(\"Catalog\").node = self
+				item.get_node(\"Remove\").catalog_name = file_name
+				item.get_node(\"Remove\").node = self
+			file_name = dir.get_next()
+func del_all_element():
+	for i in $\"List/Box\".get_children():
+		if i.name != \"*Sample\":
+			i.queue_free()
+func list_reload():
+	del_all_element()
+	add_element()
+
+
+func dir_load_game(name_save):
+	G.get_node(\"Load Screen\").select(\"user://SaveGame/Worlds/\" + name_save + \"/map.huter\", true)
+func dir_open(name_save):
+	return OS.shell_open(str(OS.get_user_data_dir()) + \"/SaveGame/Worlds/\" + name_save)
+func dir_del_game(name_save):
+	$\"../Notification\".window_title = name_save
+	$\"../Notification\".dialog_text = \"Вы точно хотите удалить \\\"\" + name_save + \"\\\"?\"
+	$\"../Notification\".popup_centered()
+# warning-ignore:return_value_discarded
+	$\"../Notification\".connect(\"confirmed\", self, \"dir_del_accept\")
+func dir_del_accept():
+	$\"../Notification\".disconnect(\"confirmed\", self, \"dir_del_accept\")
+	var path = str(OS.get_user_data_dir()) + \"/SaveGame/Worlds/\" + str($\"../Notification\".window_title)
+	G.remove_recursive(path)
+	list_reload()
+
+
+func load_scene():
+	$\"../Conductor\".popup_centered()
+# warning-ignore:return_value_discarded
+	$\"../Conductor\".connect(\"file_selected\", self, \"file_selected\")
+# warning-ignore:return_value_discarded
+	$\"../Conductor\".connect(\"hide\", self, \"hid\")
+func hid(): 
+	$\"../Conductor\".disconnect(\"file_selected\", self, \"file_selected\")
+	$\"../Conductor\".disconnect(\"hide\", self, \"hid\")
+func file_selected(path):
+	G.get_node(\"Load Screen\").select(path, true)
+"
+
+[sub_resource type="GDScript" id=86]
+script/source = "extends Button
+
+func _pressed():
+	$\"../..\".list_reload()
+"
+
+[sub_resource type="GDScript" id=85]
+script/source = "extends Button
+
+func _pressed():
+	$\"../..\".load_scene()
+"
+
+[sub_resource type="GDScript" id=52]
+script/source = "extends Control
+
+export var name_map = \"\"
+"
+
+[sub_resource type="DynamicFont" id=21]
+size = 30
+font_data = ExtResource( 11 )
+
+[sub_resource type="Theme" id=22]
+default_font = SubResource( 21 )
+
+[sub_resource type="GDScript" id=31]
+script/source = "extends Control
+
+var data_servers = []
+var data_servers_online = []
+
+
+func _ready():
+# warning-ignore:return_value_discarded
+	get_tree().connect(\"connection_failed\", self, \"failed\")
+# warning-ignore:return_value_discarded
+	get_tree().connect(\"connected_to_server\", self, \"go\")
+	
+# warning-ignore:return_value_discarded
+	$Buttons/Reload.connect(\"pressed\", self, \"reload\")
+# warning-ignore:return_value_discarded
+	$Buttons/MyServers.connect(\"pressed\", self, \"reload\")
+# warning-ignore:return_value_discarded
+	$Buttons/Connect.connect(\"pressed\", self, \"show_menu_connect\")
+# warning-ignore:return_value_discarded
+	$Buttons/Add.connect(\"pressed\", self, \"show_menu_add\")
+# warning-ignore:return_value_discarded
+	$Add/AddMenu/AddServer.connect(\"pressed\", self, \"add\")
+	
+	load_local_data()
+	reload()
+
+
+func reload():
+	delete_items()
+	save_local_data()
+	if $Buttons/MyServers.pressed == false:
+		get_node(\"/root/Menu\").request(\"servers\")
+	else:
+		load_local_data()
+		add_items(data_servers)
+
+
+func go():
+	G.get_node(\"Load Screen\").select(\"res://Scenes/rootGame.tscn\")
+
+func failed():
+	get_tree().network_peer = null
+	$Pass.hide()
+	
+	$\"../Notification\".window_title = \"Ошибка подключения!\"
+	$\"../Notification\".dialog_text = \"Не возможно подключится по\\nуказаному адресу!\"
+	
+	$\"../Notification\".popup_centered()
+
+
+func add():
+	var name_server = $Add/AddMenu/NameServer.text
+	var ip = $Add/AddMenu/IpServer.text
+	var port = $Add/AddMenu/PortServer.value
+	
+	$Add.hide()
+	
+	var dat = {
+		\"ip\": ip,
+		\"port\": port,
+		\"name\": name_server
+	}
+	
+	data_servers.append(dat)
+	reload()
+
+func show_menu_connect():
+	$Connect.show()
+	$Connect/AddMenu/IpServer.text = \"\"
+	$Connect/AddMenu/PortServer.value = G.game_settings[\"port\"] 
+
+func show_menu_add():
+	$Add/AddMenu/IpServer.text = \"\"
+	$Add/AddMenu/NameServer.text = \"\"
+	$Add/AddMenu/PortServer.value = G.game_settings[\"port\"]
+	
+	$Add.show()
+
+func connect_to_adress(ip, port):
+	var peer = NetworkedMultiplayerENet.new()
+	
+	peer.create_client(ip, int(port))
+	get_tree().network_peer = peer
+	$Pass.show()
+
+func remove_adress(id):
+	for i in data_servers:
+		if i.has(\"name\") and i[\"name\"] == id:
+			data_servers.erase(i)
+			reload()
+			save_local_data()
+			break
+
+func save_adress(id):
+	for i in data_servers_online:
+		if i.has(\"name\") and i[\"name\"] == id:
+			data_servers.append(i)
+			reload()
+			save_local_data()
+			break
+
+
+func load_local_data():
+	var file = File.new()
+	if not file.file_exists(G.ways[\"data_servers\"]):
+		return
+	file.open(G.ways[\"data_servers\"], File.READ)
+	data_servers = parse_json(file.get_as_text())
+	file.close()
+func save_local_data():
+	var file = File.new()
+	file.open(G.ways[\"data_servers\"], File.WRITE)
+	file.store_line(to_json(data_servers))
+	file.close()
+
+func add_items(servers, online_mode = false):
+	if servers is Array and servers.size() > 0:
+		$\"No Servers\".hide()
+		for i in servers:
+			var node = $\"List/Box/*Sample\".duplicate()
+			
+			if i.has(\"ip\"):
+				node.get_node(\"IP\").text = i[\"ip\"]
+			if i.has(\"port\") and i[\"port\"] != null:
+				node.get_node(\"PORT\").text = str(i[\"port\"])
+			if i.has(\"name\"):
+				node.get_node(\"Title\").text = i[\"name\"]
+			if i.has(\"players\") and i.has(\"players_live\"):
+				node.get_node(\"Description\").text = \"\"
+			if i.has(\"players\"):
+				node.get_node(\"Description\").text = \"Игроки: \" + str(i[\"players\"])
+			if i.has(\"players_live\"):
+				node.get_node(\"Description\").text = \"Живые игроки: \" + str(i[\"players_live\"])
+			
+			if online_mode == true:
+				node.get_node(\"Remove\").hide()
+			else:
+				node.get_node(\"Save\").hide()
+			
+			node.show()
+			$List/Box.add_child(node, true)
+	else:
+		$\"No Servers\".show()
+func delete_items():
+	for i in $List/Box.get_children():
+		if i.name != \"*Sample\":
+			i.queue_free()
+"
+
+[sub_resource type="DynamicFont" id=54]
+size = 30
+font_data = ExtResource( 11 )
+
+[sub_resource type="Theme" id=55]
+default_font = SubResource( 54 )
+
+[sub_resource type="DynamicFont" id=24]
+font_data = ExtResource( 11 )
+
+[sub_resource type="Theme" id=25]
+default_font = SubResource( 24 )
+
+[sub_resource type="GDScript" id=35]
+script/source = "extends Button
+
+func _pressed():
+	get_parent().get_parent().get_parent().get_parent().connect_to_adress($\"../IP\".text, $\"../PORT\".text)
+"
+
+[sub_resource type="GDScript" id=37]
+script/source = "extends Button
+
+func _pressed():
+	get_parent().get_parent().get_parent().get_parent().remove_adress(get_parent().get_node(\"Title\").text)
+"
+
+[sub_resource type="GDScript" id=36]
+script/source = "extends Button
+
+func _pressed():
+	get_parent().get_parent().get_parent().get_parent().save_adress(get_parent().get_node(\"Title\").text)
+"
+
+[sub_resource type="GDScript" id=88]
+script/source = "extends CheckBox
+
+func _pressed():
+	$\"../..\".reload()
+"
+
+[sub_resource type="GDScript" id=87]
+script/source = "extends Button
+
+func _pressed():
+	$\"../..\".reload()
+"
+
+[sub_resource type="GDScript" id=90]
+script/source = "extends Button
+
+func _pressed():
+	$\"../..\".show_menu_add()
+"
+
+[sub_resource type="GDScript" id=89]
+script/source = "extends Button
+
+func _pressed():
+	$\"../..\".show_menu_connect()
+"
+
+[sub_resource type="GDScript" id=39]
+script/source = "extends Button
+
+func _pressed():
+	get_tree().network_peer = null
+	get_parent().hide()
+"
+
+[sub_resource type="GDScript" id=41]
+script/source = "extends Button
+
+func _pressed():
+	get_parent().get_parent().hide()
+"
+
+[sub_resource type="GDScript" id=91]
+script/source = "extends Button
+
+func _pressed():
+	$\"../../..\".add()
+"
+
+[sub_resource type="GDScript" id=40]
+script/source = "extends Button
+
+func _pressed():
+	get_parent().get_parent().hide()
+"
+
+[sub_resource type="GDScript" id=38]
+script/source = "extends Button
+
+func _pressed():
+	get_parent().get_parent().get_parent().connect_to_adress($\"../IpServer\".text, $\"../PortServer\".value)
+	get_parent().get_parent().hide()
+"
+
+[sub_resource type="GDScript" id=43]
+script/source = "extends Control
+
+var data
+
+func reload(dat):
+	data = dat
+	
+	for i in $\"List/Scroll/Box\".get_children():
+		if i.name != \"*Sample\": i.queue_free()
+	
+	for i in range(dat.size()):
+		var node = $\"List/Scroll/Box/*Sample\".duplicate()
+		
+		node.name = str(i)
+		node.get_node(\"Name\").text = dat[i][\"name\"]
+		
+		node.get_node(\"Text\").text = dat[i][\"description\"]
+		
+		node.show()
+		
+		$\"List/Scroll/Box\".add_child(node, true)
+
+func select_comments(map:int):
+	for i in $\"Comments/List/Box\".get_children():
+		if i.name != \"*Sample\": i.queue_free()
+	
+	for i in data[map][\"comments\"]:
+		var node = $\"Comments/List/Box/*Sample\".duplicate()
+		
+		node.name = str(i)
+		node.get_node(\"Name\").text = i[\"name\"]
+		
+		node.get_node(\"Text\").text = i[\"text\"]
+		
+		node.show()
+		
+		$\"Comments/List/Box\".add_child(node, true)
+	
+	$\"Comments\".show()
+	$\"List\".hide()
+"
+
+[sub_resource type="DynamicFont" id=15]
+size = 30
+font_data = ExtResource( 11 )
+
+[sub_resource type="Theme" id=16]
+default_font = SubResource( 15 )
+
+[sub_resource type="GDScript" id=47]
+script/source = "extends Button
+
+func _pressed():
+	for i in range(get_node(\"/root/Menu/Interfaces/Maps\").data.size()):
+		if str(i) == str(get_parent().name):
+			get_node(\"/root/Menu\").request(\"GET_map/\" + str(get_node(\"/root/Menu/Interfaces/Maps\").data[i][\"id\"]))
+			get_node(\"/root/Menu/Interfaces/Pass\").show_pass(\"Карта загружается, пожалуста подождите (порой грузит долго).\")
+"
+
+[sub_resource type="GDScript" id=44]
+script/source = "extends Button
+
+func _pressed():
+	get_node(\"/root/Menu/Interfaces/Maps\").select_comments(int(get_parent().name))
+"
+
+[sub_resource type="GDScript" id=46]
+script/source = "extends Button
+
+func _pressed():
+	get_node(\"/root/Menu\").request(\"maps\")
+"
+
+[sub_resource type="GDScript" id=45]
+script/source = "extends Button
+
+func _pressed():
+	get_parent().hide()
+	$\"../../List\".show()
+"
+
+[sub_resource type="GDScript" id=42]
+script/source = "extends Control
+
+func reload(dat, _mode = \"news\"):
+	var path = get_node(\"Menu\")
+	
+	for i in path.get_children():
+		i.queue_free()
+	
+	for i in dat:
+		var re := RegEx.new()
+		re.compile('\\\\*\\\\*(.*?)\\\\*\\\\*')
+		i[\"text\"] = re.sub(i[\"text\"], '[b]$1[/b]', true)
+		re.compile('\\\\*(.*?)\\\\*')
+		i[\"text\"] = re.sub(i[\"text\"], '[color=gray][i]$1[/i][color=]', true)
+		re.compile('`(.*?)`')
+		i[\"text\"] = re.sub(i[\"text\"], '[color=aqua][code]$1[/code][color=]', true)
+		
+		var node = get_node(\"*Sample\").duplicate()
+		
+		node.name = i[\"title\"]
+		node.get_node(\"Text\").bbcode_text = i[\"text\"]
+		
+		path.add_child(node, true)
+		node.show()
+"
+
+[sub_resource type="Theme" id=58]
+
+[sub_resource type="DynamicFont" id=59]
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFont" id=60]
+font_data = ExtResource( 14 )
+
+[sub_resource type="DynamicFont" id=61]
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=62]
+font_data = ExtResource( 13 )
+
+[sub_resource type="StyleBoxEmpty" id=56]
+
+[sub_resource type="GDScript" id=57]
+script/source = "extends Button
+
+func _pressed():
+	get_node(\"/root/Menu\").request(\"news\")
+"
+
+[sub_resource type="GDScript" id=50]
+script/source = "extends Control
+
+func show_pass(text):
+	$Title.text = str(text)
+	show()
+"
+
+[sub_resource type="DynamicFont" id=48]
+size = 25
+font_data = ExtResource( 11 )
+
+[sub_resource type="Theme" id=49]
+default_font = SubResource( 48 )
+
+[sub_resource type="GDScript" id=68]
+script/source = "extends Button
+
+func _pressed():
+# warning-ignore:return_value_discarded
+	OS.shell_open(\"https://www.youtube.com/@sphere_games\")
+"
+
+[sub_resource type="GDScript" id=69]
+script/source = "extends Button
+
+func _pressed():
+# warning-ignore:return_value_discarded
+	OS.shell_open(\"https://t.me/sphere_games\")
+"
+
+[sub_resource type="GDScript" id=72]
+script/source = "extends Button
+
+func _pressed():
+# warning-ignore:return_value_discarded
+	OS.shell_open(\"https://discord.gg/UnJnGHNbBp\")
+"
+
+[sub_resource type="GDScript" id=70]
+script/source = "extends Button
+
+func _pressed():
+# warning-ignore:return_value_discarded
+	OS.shell_open(\"https://boosty.to/sphere_games\")
+"
+
+[sub_resource type="GDScript" id=71]
+script/source = "extends Button
+
+func _pressed():
+	$\"../../../AnimationsMenedger\".visible_p = \"\"
+"
+
+[sub_resource type="GDScript" id=77]
+script/source = "extends Control
+
+func _ready():
+	$Label.visible = not G.game_settings[\"prolog\"]
+	
+	$Sur.disabled = not G.game_settings[\"prolog\"]
+	$Dev_room.disabled = not G.game_settings[\"prolog\"]
+"
+
+[sub_resource type="GDScript" id=74]
+script/source = "extends Button
+
+func _pressed():
+	G.get_node(\"Load Screen\").select(\"res://Scenes/LVL/Map1.tscn\", true)
+"
+
+[sub_resource type="GDScript" id=76]
+script/source = "extends Button
+
+func _pressed():
+	G.get_node(\"Load Screen\").select(\"res://Scenes/LVL/endless_mode.tscn\", true)
+"
+
+[sub_resource type="GDScript" id=75]
+script/source = "extends Button
+
+func _pressed():
+	G.get_node(\"Load Screen\").select(\"res://Scenes/LVL/miskler_room.tscn\", true)
+"
+
+[sub_resource type="DynamicFont" id=73]
+size = 40
+font_data = ExtResource( 11 )
+
+[sub_resource type="GDScript" id=64]
+script/source = "tool
+extends Node
+
+export var visible_p = \"\"
+onready var main_node = $\"../Interfaces\"
+
+var visibles_parametr = {
+	\"Settings\": Vector2(-950, 41),
+	\"Saves\": Vector2(-950, 31.5),
+	\"Multiplayer\": Vector2(-950, -600),
+	\"Maps\": Vector2(272.5, -600),
+	\"Changes\": Vector2(187.5, -600),
+	\"InNet\": Vector2(300, -600),
+	\"Game\": Vector2(300, -600),
+}
+
+
+
+var dos_event = [true, true]
+func event():
+	for i in visibles_parametr.keys():
+		if i != visible_p:
+			var tween = create_tween()#.set_trans(Tween.TRANS_EXPO)
+			
+			tween.tween_property(main_node.get_node(i), \"rect_position\", visibles_parametr[i], 0.2)
+	
+	if visible_p in visibles_parametr:
+		if dos_event[0]:
+			dos_event[0] = false
+			var tween = create_tween().set_trans(Tween.TRANS_EXPO)
+			
+			tween.tween_property(main_node.get_node(\"Main\"), \"rect_position:y\", float(main_node.rect_size.y), 0.5)
+			tween.tween_property(main_node.get_node(visible_p), \"rect_position\", main_node.rect_size/2-(main_node.get_node(visible_p).rect_pivot_offset), 0.5)
+			
+			yield(tween, \"finished\")
+			dos_event[0] = true
+	else:
+		if dos_event[1]:
+			dos_event[1] = false
+			var tween = create_tween().set_trans(Tween.TRANS_EXPO)
+			
+			tween.tween_property(main_node.get_node(\"Main\"), \"rect_position:y\", float(main_node.rect_size.y-main_node.get_node(\"Main\").rect_size.y), 0.5)
+			
+			yield(tween, \"finished\")
+			dos_event[1] = true
+"
+
+[node name="Menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 15 )
+script = SubResource( 26 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Backgrounds" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Back" type="ColorRect" parent="Backgrounds"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.054902, 0, 0.129412, 1 )
+
+[node name="Spheres" type="ColorRect" parent="Backgrounds"]
+material = SubResource( 5 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 840.464, 782.292 )
+
+[node name="Details" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="kHUTER" type="Label" parent="Details"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -299.0
+margin_bottom = 97.0
+theme = SubResource( 7 )
+text = "kHUTER "
+align = 2
+valign = 1
+
+[node name="VersionUI" type="Label" parent="Details/kHUTER"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = -18.0
+margin_right = 301.0
+margin_bottom = 67.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_colors/font_color = Color( 0.796078, 0.796078, 0.796078, 1 )
+text = "Desktop"
+
+[node name="Version" type="Label" parent="Details"]
+margin_left = 12.0
+margin_top = 6.0
+margin_right = 168.0
+margin_bottom = 29.0
+text = "Версия игры: ?.?.?"
+valign = 1
+
+[node name="ButtonSound" type="AudioStreamPlayer" parent="Details"]
+stream = ExtResource( 9 )
+pitch_scale = 5.33
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="Details"]
+stream = ExtResource( 8 )
+volume_db = -10.0
+autoplay = true
+
+[node name="Interfaces" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Main" type="Control" parent="Interfaces"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 97.0
+margin_top = -42.0
+rect_pivot_offset = Vector2( 512, 19 )
+
+[node name="Buttons" type="HBoxContainer" parent="Interfaces/Main"]
+anchor_left = -0.021
+anchor_top = -0.024
+anchor_right = 0.993
+anchor_bottom = 1.0
+margin_left = -0.288998
+margin_top = 3.008
+margin_right = 0.237
+margin_bottom = -4.0
+alignment = 2
+
+[node name="Maps" type="Button" parent="Interfaces/Main/Buttons"]
+visible = false
+margin_left = 5.0
+margin_right = 118.0
+margin_bottom = 36.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = " Карты сфер "
+script = SubResource( 79 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="InNet" type="Button" parent="Interfaces/Main/Buttons"]
+margin_left = 30.0
+margin_right = 144.0
+margin_bottom = 36.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = " Мы в сети "
+script = SubResource( 66 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Start" type="Button" parent="Interfaces/Main/Buttons"]
+margin_left = 148.0
+margin_right = 231.0
+margin_bottom = 36.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = " Играть "
+script = SubResource( 53 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CRASH" type="Button" parent="Interfaces/Main/Buttons"]
+visible = false
+margin_left = 205.0
+margin_right = 273.0
+margin_bottom = 36.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "КРАШ"
+script = SubResource( 78 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Connect" type="Button" parent="Interfaces/Main/Buttons"]
+margin_left = 235.0
+margin_right = 398.0
+margin_bottom = 36.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = " Подключиться "
+script = SubResource( 80 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Load" type="Button" parent="Interfaces/Main/Buttons"]
+margin_left = 402.0
+margin_right = 518.0
+margin_bottom = 36.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = " Загрузить "
+script = SubResource( 81 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Changes" type="Button" parent="Interfaces/Main/Buttons"]
+margin_left = 522.0
+margin_right = 731.0
+margin_bottom = 36.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = " История изменений "
+script = SubResource( 82 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Settings" type="Button" parent="Interfaces/Main/Buttons"]
+margin_left = 735.0
+margin_right = 857.0
+margin_bottom = 36.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = " Настройки "
+script = SubResource( 83 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Exit" type="Button" parent="Interfaces/Main/Buttons"]
+margin_left = 861.0
+margin_right = 940.0
+margin_bottom = 36.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = " Выход "
+script = SubResource( 84 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Settings" type="Control" parent="Interfaces"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -1462.0
+margin_top = -259.0
+margin_right = -527.0
+margin_bottom = 259.0
+rect_pivot_offset = Vector2( 467.5, 259 )
+script = SubResource( 29 )
+
+[node name="Shadow" type="ColorRect" parent="Interfaces/Settings"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -469.5
+margin_top = -261.0
+margin_right = 469.5
+margin_bottom = 261.0
+color = Color( 0, 0, 0, 0.588235 )
+
+[node name="Body" type="ColorRect" parent="Interfaces/Settings"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -467.5
+margin_top = -259.0
+margin_right = 467.5
+margin_bottom = 259.0
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="List" type="ScrollContainer" parent="Interfaces/Settings"]
+margin_left = 2.0
+margin_top = 3.0
+margin_right = 337.0
+margin_bottom = 513.0
+
+[node name="Buttons" type="VBoxContainer" parent="Interfaces/Settings/List"]
+
+[node name="*SampleBool" type="CheckBox" parent="Interfaces/Settings/List/Buttons"]
+visible = false
+margin_right = 86.0
+margin_bottom = 20.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Sample"
+script = SubResource( 30 )
+
+[node name="*SampleString" type="LineEdit" parent="Interfaces/Settings/List/Buttons"]
+visible = false
+margin_right = 62.0
+margin_bottom = 30.0
+text = "Sample"
+script = ExtResource( 19 )
+
+[node name="*SampleInt" type="SpinBox" parent="Interfaces/Settings/List/Buttons"]
+visible = false
+margin_right = 62.0
+margin_bottom = 30.0
+min_value = 1.0
+max_value = 1000.0
+value = 5.0
+script = ExtResource( 21 )
+
+[node name="Title" type="Label" parent="Interfaces/Settings"]
+margin_left = 347.0
+margin_right = 904.0
+margin_bottom = 43.0
+theme = SubResource( 14 )
+text = "Описание:"
+
+[node name="Description" type="RichTextLabel" parent="Interfaces/Settings"]
+margin_left = 346.0
+margin_top = 49.0
+margin_right = 858.0
+margin_bottom = 510.0
+text = "Наведите курсор на настройку которой нужной пояснение"
+
+[node name="Close" type="Button" parent="Interfaces/Settings"]
+margin_left = 869.0
+margin_top = 7.0
+margin_right = 929.0
+margin_bottom = 67.0
+focus_mode = 0
+custom_fonts/font = SubResource( 67 )
+enabled_focus_mode = 0
+text = "X"
+script = ExtResource( 18 )
+
+[node name="Saves" type="Control" parent="Interfaces"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -1360.0
+margin_top = -295.0
+margin_right = -593.0
+margin_bottom = 242.0
+rect_pivot_offset = Vector2( 383.5, 268.5 )
+script = SubResource( 28 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Shadow" type="ColorRect" parent="Interfaces/Saves"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -385.5
+margin_top = -270.5
+margin_right = 385.5
+margin_bottom = 270.5
+color = Color( 0, 0, 0, 0.588235 )
+
+[node name="Body" type="ColorRect" parent="Interfaces/Saves"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Buttons" type="HBoxContainer" parent="Interfaces/Saves"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -40.0
+margin_bottom = -6.0
+custom_constants/separation = 30
+alignment = 1
+
+[node name="Reload" type="Button" parent="Interfaces/Saves/Buttons"]
+margin_left = 133.0
+margin_right = 235.0
+margin_bottom = 34.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Обновить"
+script = SubResource( 86 )
+
+[node name="InFileSystem" type="Button" parent="Interfaces/Saves/Buttons"]
+margin_left = 265.0
+margin_right = 539.0
+margin_bottom = 34.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Найти в файловой системе"
+script = SubResource( 85 )
+
+[node name="Close" type="Button" parent="Interfaces/Saves/Buttons"]
+margin_left = 569.0
+margin_right = 634.0
+margin_bottom = 34.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Назад"
+script = ExtResource( 18 )
+
+[node name="List" type="ScrollContainer" parent="Interfaces/Saves"]
+margin_left = 9.0
+margin_top = 10.0
+margin_right = 754.0
+margin_bottom = 485.0
+
+[node name="Box" type="VBoxContainer" parent="Interfaces/Saves/List"]
+margin_right = 725.0
+rect_min_size = Vector2( 725, 0 )
+
+[node name="*Sample" type="Control" parent="Interfaces/Saves/List/Box"]
+visible = false
+margin_right = 725.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 0, 150 )
+script = SubResource( 52 )
+
+[node name="Background" type="ColorRect" parent="Interfaces/Saves/List/Box/*Sample"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.117647, 0.117647, 0.117647, 1 )
+
+[node name="Icon" type="TextureRect" parent="Interfaces/Saves/List/Box/*Sample"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 205.0
+margin_bottom = 145.0
+expand = true
+
+[node name="Title" type="Label" parent="Interfaces/Saves/List/Box/*Sample"]
+margin_left = 215.0
+margin_top = 10.0
+margin_right = 619.0
+margin_bottom = 48.0
+theme = SubResource( 22 )
+text = "Название игры"
+
+[node name="Description" type="RichTextLabel" parent="Interfaces/Saves/List/Box/*Sample"]
+margin_left = 217.0
+margin_top = 54.0
+margin_right = 626.0
+margin_bottom = 143.0
+text = "Дата создания: 08.05.2022
+Создатель: Pandaren
+Вес карты: 5.4 МБ
+"
+
+[node name="Play" type="Button" parent="Interfaces/Saves/List/Box/*Sample"]
+margin_left = 646.324
+margin_top = 29.4003
+margin_right = 716.324
+margin_bottom = 63.4003
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Играть"
+script = ExtResource( 20 )
+
+[node name="Catalog" type="Button" parent="Interfaces/Saves/List/Box/*Sample"]
+margin_left = 636.998
+margin_top = 68.6629
+margin_right = 716.998
+margin_bottom = 102.663
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Каталог"
+script = ExtResource( 16 )
+
+[node name="Remove" type="Button" parent="Interfaces/Saves/List/Box/*Sample"]
+margin_left = 634.657
+margin_top = 108.376
+margin_right = 716.657
+margin_bottom = 142.376
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Удалить"
+script = ExtResource( 17 )
+
+[node name="Multiplayer" type="Control" parent="Interfaces"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -1456.0
+margin_top = -296.0
+margin_right = -578.0
+margin_bottom = 257.0
+rect_pivot_offset = Vector2( 439, 276.5 )
+script = SubResource( 31 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Shadow" type="ColorRect" parent="Interfaces/Multiplayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 0, 0, 0, 0.588235 )
+
+[node name="Body" type="ColorRect" parent="Interfaces/Multiplayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="No Servers" type="Label" parent="Interfaces/Multiplayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -52.9998
+theme = SubResource( 55 )
+text = "В списке нет серверов!"
+align = 1
+valign = 1
+
+[node name="List" type="ScrollContainer" parent="Interfaces/Multiplayer"]
+margin_left = 6.81079
+margin_top = 7.81079
+margin_right = 869.811
+margin_bottom = 500.811
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Box" type="VBoxContainer" parent="Interfaces/Multiplayer/List"]
+margin_right = 850.0
+rect_min_size = Vector2( 850, 0 )
+
+[node name="*Sample" type="Control" parent="Interfaces/Multiplayer/List/Box"]
+visible = false
+margin_right = 850.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 0, 150 )
+
+[node name="Background" type="ColorRect" parent="Interfaces/Multiplayer/List/Box/*Sample"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.117647, 0.117647, 0.117647, 1 )
+
+[node name="Icon" type="TextureRect" parent="Interfaces/Multiplayer/List/Box/*Sample"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 145.0
+margin_bottom = 145.0
+expand = true
+
+[node name="Title" type="Label" parent="Interfaces/Multiplayer/List/Box/*Sample"]
+margin_left = 165.0
+margin_top = 10.0
+margin_right = 619.0
+margin_bottom = 48.0
+theme = SubResource( 22 )
+text = "Названия нет"
+
+[node name="IP" type="Label" parent="Interfaces/Multiplayer/List/Box/*Sample"]
+margin_left = 459.0
+margin_top = 3.0
+margin_right = 845.0
+margin_bottom = 25.0
+theme = SubResource( 25 )
+text = "Адресс не известен"
+align = 2
+valign = 1
+
+[node name="PORT" type="Label" parent="Interfaces/Multiplayer/List/Box/*Sample"]
+margin_left = 459.0
+margin_top = 25.0
+margin_right = 845.0
+margin_bottom = 45.0
+theme = SubResource( 25 )
+text = "Порт не известен"
+align = 2
+valign = 1
+
+[node name="Description" type="RichTextLabel" parent="Interfaces/Multiplayer/List/Box/*Sample"]
+margin_left = 161.0
+margin_top = 52.0
+margin_right = 626.0
+margin_bottom = 141.0
+text = "Описания нет"
+
+[node name="Play" type="Button" parent="Interfaces/Multiplayer/List/Box/*Sample"]
+margin_left = 772.678
+margin_top = 69.0171
+margin_right = 842.678
+margin_bottom = 103.017
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Играть"
+script = SubResource( 35 )
+
+[node name="Remove" type="Button" parent="Interfaces/Multiplayer/List/Box/*Sample"]
+margin_left = 761.01
+margin_top = 110.16
+margin_right = 843.01
+margin_bottom = 144.16
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Удалить"
+script = SubResource( 37 )
+
+[node name="Save" type="Button" parent="Interfaces/Multiplayer/List/Box/*Sample"]
+margin_left = 741.0
+margin_top = 110.0
+margin_right = 843.0
+margin_bottom = 144.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Сохранить"
+script = SubResource( 36 )
+
+[node name="Buttons" type="HBoxContainer" parent="Interfaces/Multiplayer"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -41.9998
+margin_bottom = -3.99976
+alignment = 1
+
+[node name="MyServers" type="CheckBox" parent="Interfaces/Multiplayer/Buttons"]
+margin_left = 76.0
+margin_right = 230.0
+margin_bottom = 38.0
+focus_mode = 0
+pressed = true
+enabled_focus_mode = 0
+text = "Мои сервера"
+script = SubResource( 88 )
+
+[node name="Placeholder" type="Label" parent="Interfaces/Multiplayer/Buttons"]
+margin_left = 234.0
+margin_top = 7.0
+margin_right = 266.0
+margin_bottom = 31.0
+text = "        "
+
+[node name="Reload" type="Button" parent="Interfaces/Multiplayer/Buttons"]
+margin_left = 270.0
+margin_right = 372.0
+margin_bottom = 38.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Обновить"
+script = SubResource( 87 )
+
+[node name="Add" type="Button" parent="Interfaces/Multiplayer/Buttons"]
+margin_left = 376.0
+margin_right = 478.0
+margin_bottom = 38.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Добавить"
+script = SubResource( 90 )
+
+[node name="Connect" type="Button" parent="Interfaces/Multiplayer/Buttons"]
+margin_left = 482.0
+margin_right = 733.0
+margin_bottom = 38.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Подключится на прямую"
+script = SubResource( 89 )
+
+[node name="Close" type="Button" parent="Interfaces/Multiplayer/Buttons"]
+margin_left = 737.0
+margin_right = 802.0
+margin_bottom = 38.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Назад"
+script = ExtResource( 18 )
+
+[node name="Pass" type="Control" parent="Interfaces/Multiplayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Background" type="ColorRect" parent="Interfaces/Multiplayer/Pass"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.466667 )
+
+[node name="Title" type="Label" parent="Interfaces/Multiplayer/Pass"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -199.0
+margin_top = -10.0
+margin_right = 199.0
+margin_bottom = 10.0
+text = "Ждите, идёт попытка подключения к серверу..."
+
+[node name="Stop" type="Button" parent="Interfaces/Multiplayer/Pass"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -46.0
+margin_top = 23.5001
+margin_right = 46.0
+margin_bottom = 49.5001
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Прервать"
+script = SubResource( 39 )
+
+[node name="Add" type="Control" parent="Interfaces/Multiplayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Background" type="ColorRect" parent="Interfaces/Multiplayer/Add"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.466667 )
+
+[node name="AddMenu" type="Control" parent="Interfaces/Multiplayer/Add"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -126.0
+margin_top = -105.5
+margin_right = 126.0
+margin_bottom = 105.5
+
+[node name="Background" type="ColorRect" parent="Interfaces/Multiplayer/Add/AddMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Title" type="Label" parent="Interfaces/Multiplayer/Add/AddMenu"]
+margin_right = 155.0
+margin_bottom = 27.0
+text = "Добавить сервер"
+align = 1
+valign = 1
+
+[node name="NameServer" type="LineEdit" parent="Interfaces/Multiplayer/Add/AddMenu"]
+margin_left = 19.0
+margin_top = 44.0
+margin_right = 240.0
+margin_bottom = 74.0
+placeholder_text = "Сервер kHUTER"
+
+[node name="IpServer" type="LineEdit" parent="Interfaces/Multiplayer/Add/AddMenu"]
+margin_left = 19.0
+margin_top = 81.0
+margin_right = 240.0
+margin_bottom = 111.0
+placeholder_text = "127.0.0.1"
+
+[node name="PortServer" type="SpinBox" parent="Interfaces/Multiplayer/Add/AddMenu"]
+margin_left = 19.0
+margin_top = 117.565
+margin_right = 138.0
+margin_bottom = 147.565
+min_value = 1024.0
+max_value = 9999.0
+value = 7732.0
+prefix = "Порт:"
+
+[node name="Close" type="Button" parent="Interfaces/Multiplayer/Add/AddMenu"]
+margin_left = 160.0
+margin_top = 170.0
+margin_right = 235.0
+margin_bottom = 196.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Отмена"
+script = SubResource( 41 )
+
+[node name="AddServer" type="Button" parent="Interfaces/Multiplayer/Add/AddMenu"]
+margin_left = 21.5
+margin_top = 170.0
+margin_right = 96.5
+margin_bottom = 196.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Добавить"
+script = SubResource( 91 )
+
+[node name="Connect" type="Control" parent="Interfaces/Multiplayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Background" type="ColorRect" parent="Interfaces/Multiplayer/Connect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.466667 )
+
+[node name="AddMenu" type="Control" parent="Interfaces/Multiplayer/Connect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -126.0
+margin_top = -61.4999
+margin_right = 126.0
+margin_bottom = 105.5
+
+[node name="Background" type="ColorRect" parent="Interfaces/Multiplayer/Connect/AddMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Title" type="Label" parent="Interfaces/Multiplayer/Connect/AddMenu"]
+margin_right = 219.0
+margin_bottom = 27.0
+text = "Подключиться к серверу"
+align = 1
+valign = 1
+
+[node name="IpServer" type="LineEdit" parent="Interfaces/Multiplayer/Connect/AddMenu"]
+margin_left = 21.5
+margin_top = 36.9999
+margin_right = 242.5
+margin_bottom = 66.9999
+placeholder_text = "127.0.0.1"
+
+[node name="PortServer" type="SpinBox" parent="Interfaces/Multiplayer/Connect/AddMenu"]
+margin_left = 21.5
+margin_top = 73.5648
+margin_right = 140.5
+margin_bottom = 103.565
+min_value = 1024.0
+max_value = 9999.0
+value = 7732.0
+prefix = "Порт:"
+
+[node name="Close" type="Button" parent="Interfaces/Multiplayer/Connect/AddMenu"]
+margin_left = 164.0
+margin_top = 126.0
+margin_right = 239.0
+margin_bottom = 152.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Отмена"
+script = SubResource( 40 )
+
+[node name="AddServer" type="Button" parent="Interfaces/Multiplayer/Connect/AddMenu"]
+margin_left = 13.2091
+margin_top = 126.0
+margin_right = 150.209
+margin_bottom = 152.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Подключиться"
+script = SubResource( 38 )
+
+[node name="Maps" type="Control" parent="Interfaces"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -239.5
+margin_top = -900.0
+margin_right = 239.5
+margin_bottom = -334.0
+rect_pivot_offset = Vector2( 239.5, 283 )
+script = SubResource( 43 )
+
+[node name="Shadow" type="ColorRect" parent="Interfaces/Maps"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -241.5
+margin_top = -285.0
+margin_right = 241.5
+margin_bottom = 285.0
+color = Color( 0, 0, 0, 0.588235 )
+
+[node name="Body" type="ColorRect" parent="Interfaces/Maps"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="List" type="Control" parent="Interfaces/Maps"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Title" type="Label" parent="Interfaces/Maps/List"]
+margin_left = 2.0
+margin_top = 3.0
+margin_right = 411.0
+margin_bottom = 41.0
+theme = SubResource( 16 )
+text = "Пользовательские карты:"
+align = 1
+valign = 1
+
+[node name="Scroll" type="ScrollContainer" parent="Interfaces/Maps/List"]
+margin_left = 2.0
+margin_top = 42.0
+margin_right = 478.0
+margin_bottom = 531.0
+
+[node name="Box" type="VBoxContainer" parent="Interfaces/Maps/List/Scroll"]
+
+[node name="*Sample" type="TextureButton" parent="Interfaces/Maps/List/Scroll/Box"]
+visible = false
+margin_right = 463.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 463, 150 )
+focus_mode = 0
+enabled_focus_mode = 0
+
+[node name="Background" type="ColorRect" parent="Interfaces/Maps/List/Scroll/Box/*Sample"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0862745, 0.0862745, 0.0862745, 1 )
+
+[node name="Name" type="Label" parent="Interfaces/Maps/List/Scroll/Box/*Sample"]
+margin_left = 126.0
+margin_right = 462.0
+margin_bottom = 30.0
+mouse_filter = 1
+text = "ffffffffffffffffffffffffffffffffffffffffGGGGG"
+valign = 1
+max_lines_visible = 1
+
+[node name="Text" type="RichTextLabel" parent="Interfaces/Maps/List/Scroll/Box/*Sample"]
+margin_left = 93.0
+margin_top = 35.0
+margin_right = 461.0
+margin_bottom = 146.0
+text = "Привет!
+Суть моей карты в то чтобы починить корабль и вывести персонал из криосна. Подробнее в полной ->"
+
+[node name="Load" type="Button" parent="Interfaces/Maps/List/Scroll/Box/*Sample"]
+margin_left = 6.0
+margin_top = 38.3792
+margin_right = 87.0
+margin_bottom = 64.3792
+hint_tooltip = "ЗАГРУЗКУ НЕВОЗМОЖНО ПРЕРВАТЬ!"
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Скачать"
+script = SubResource( 47 )
+
+[node name="Comments" type="Button" parent="Interfaces/Maps/List/Scroll/Box/*Sample"]
+margin_left = 5.83163
+margin_top = 6.0
+margin_right = 119.832
+margin_bottom = 32.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Коментарии"
+script = SubResource( 44 )
+
+[node name="Reload" type="Button" parent="Interfaces/Maps/List"]
+margin_left = 366.0
+margin_top = 521.0
+margin_right = 477.0
+margin_bottom = 562.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Обновить"
+script = SubResource( 46 )
+
+[node name="Comments" type="Control" parent="Interfaces/Maps"]
+visible = false
+margin_left = 5.0
+margin_top = 44.0
+margin_right = 472.0
+margin_bottom = 562.0
+
+[node name="List" type="ScrollContainer" parent="Interfaces/Maps/Comments"]
+margin_right = 473.0
+margin_bottom = 516.0
+
+[node name="Box" type="VBoxContainer" parent="Interfaces/Maps/Comments/List"]
+margin_right = 460.0
+rect_min_size = Vector2( 460, 0 )
+
+[node name="*Sample" type="Control" parent="Interfaces/Maps/Comments/List/Box"]
+visible = false
+margin_right = 460.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 0, 150 )
+
+[node name="Background" type="ColorRect" parent="Interfaces/Maps/Comments/List/Box/*Sample"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.117647, 0.117647, 0.117647, 1 )
+
+[node name="Name" type="Label" parent="Interfaces/Maps/Comments/List/Box/*Sample"]
+margin_left = 6.0
+margin_top = 10.0
+margin_right = 456.0
+margin_bottom = 30.0
+text = "Просто человек"
+
+[node name="Text" type="RichTextLabel" parent="Interfaces/Maps/Comments/List/Box/*Sample"]
+margin_left = 5.0
+margin_top = 35.0
+margin_right = 456.0
+margin_bottom = 146.0
+text = "Текст...."
+
+[node name="Title" type="Label" parent="Interfaces/Maps/Comments"]
+margin_left = 170.841
+margin_top = -39.6427
+margin_right = 277.841
+margin_bottom = -19.6427
+text = "Коментарии:"
+
+[node name="Back" type="Button" parent="Interfaces/Maps/Comments"]
+margin_left = 2.83163
+margin_top = -37.755
+margin_right = 64.8316
+margin_bottom = -11.755
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Назад"
+script = SubResource( 45 )
+
+[node name="Close" type="Button" parent="Interfaces/Maps"]
+margin_left = 423.5
+margin_top = 5.0
+margin_right = 473.5
+margin_bottom = 60.0
+focus_mode = 0
+custom_fonts/font = SubResource( 67 )
+enabled_focus_mode = 0
+text = "X"
+script = ExtResource( 18 )
+
+[node name="Changes" type="Control" parent="Interfaces"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -390.0
+margin_top = -893.0
+margin_right = 259.0
+margin_bottom = -355.0
+rect_pivot_offset = Vector2( 324.5, 269 )
+script = SubResource( 42 )
+
+[node name="Shadow" type="ColorRect" parent="Interfaces/Changes"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 0, 0, 0, 0.588235 )
+
+[node name="Body" type="ColorRect" parent="Interfaces/Changes"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="*Sample" type="Tabs" parent="Interfaces/Changes"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.5
+margin_top = 59.0
+margin_right = -2.5
+margin_bottom = -2.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Text" type="RichTextLabel" parent="Interfaces/Changes/*Sample"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 58 )
+custom_fonts/bold_italics_font = SubResource( 59 )
+custom_fonts/italics_font = SubResource( 60 )
+custom_fonts/bold_font = SubResource( 61 )
+custom_fonts/normal_font = SubResource( 62 )
+bbcode_enabled = true
+bbcode_text = "[color=red][b]Запросите данные с сервера нажав кнопку [/b][color=]\"Обновить\"[color=red][b].[/b][color=]"
+text = "Запросите данные с сервера нажав кнопку \"Обновить\"."
+
+[node name="Menu" type="TabContainer" parent="Interfaces/Changes"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 37.0
+margin_right = -3.0
+margin_bottom = -5.0
+custom_styles/panel = SubResource( 56 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Close" type="Button" parent="Interfaces/Changes"]
+margin_left = 582.0
+margin_top = 8.0
+margin_right = 642.0
+margin_bottom = 68.0
+focus_mode = 0
+custom_fonts/font = SubResource( 67 )
+enabled_focus_mode = 0
+text = "X"
+script = ExtResource( 18 )
+
+[node name="Button" type="Button" parent="Interfaces/Changes"]
+margin_left = 3.5
+margin_top = 2.0
+margin_right = 113.5
+margin_bottom = 42.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Обновить"
+script = SubResource( 57 )
+
+[node name="Pass" type="Control" parent="Interfaces"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 50 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Background" type="ColorRect" parent="Interfaces/Pass"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.482353 )
+
+[node name="Title" type="Label" parent="Interfaces/Pass"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -16.0
+margin_bottom = 16.0
+theme = SubResource( 49 )
+text = "Заголовок"
+align = 1
+valign = 1
+
+[node name="InNet" type="Control" parent="Interfaces"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -454.0
+margin_top = -856.0
+margin_right = 8.0
+margin_bottom = -352.0
+rect_pivot_offset = Vector2( 231, 252 )
+
+[node name="Shadow" type="ColorRect" parent="Interfaces/InNet"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.588235 )
+
+[node name="Body" type="ColorRect" parent="Interfaces/InNet"]
+anchor_left = 0.005
+anchor_top = 0.005
+anchor_right = 0.995
+anchor_bottom = 0.995
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="YouTube" type="Button" parent="Interfaces/InNet"]
+margin_left = 29.0
+margin_top = 23.0
+margin_right = 310.0
+margin_bottom = 112.0
+custom_fonts/font = SubResource( 67 )
+text = "YouTube "
+icon = ExtResource( 2 )
+expand_icon = true
+script = SubResource( 68 )
+
+[node name="Telegram" type="Button" parent="Interfaces/InNet"]
+margin_left = 29.0
+margin_top = 144.0
+margin_right = 312.0
+margin_bottom = 233.0
+custom_fonts/font = SubResource( 67 )
+text = "  Telegram "
+icon = ExtResource( 6 )
+expand_icon = true
+script = SubResource( 69 )
+
+[node name="Discord" type="Button" parent="Interfaces/InNet"]
+margin_left = 31.0
+margin_top = 268.0
+margin_right = 312.0
+margin_bottom = 357.0
+custom_fonts/font = SubResource( 67 )
+text = "    Discord   "
+icon = ExtResource( 3 )
+expand_icon = true
+script = SubResource( 72 )
+
+[node name="Boosty" type="Button" parent="Interfaces/InNet"]
+margin_left = 29.0
+margin_top = 388.0
+margin_right = 310.0
+margin_bottom = 477.0
+custom_fonts/font = SubResource( 67 )
+text = "      Boosty   "
+icon = ExtResource( 4 )
+expand_icon = true
+script = SubResource( 70 )
+
+[node name="Close" type="Button" parent="Interfaces/InNet"]
+margin_left = 375.0
+margin_top = 23.0
+margin_right = 435.0
+margin_bottom = 83.0
+custom_fonts/font = SubResource( 67 )
+text = "X"
+script = SubResource( 71 )
+
+[node name="Game" type="Control" parent="Interfaces"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -454.0
+margin_top = -856.0
+margin_right = 8.0
+margin_bottom = -379.0
+rect_pivot_offset = Vector2( 231, 252 )
+script = SubResource( 77 )
+
+[node name="Shadow" type="ColorRect" parent="Interfaces/Game"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.588235 )
+
+[node name="Body" type="ColorRect" parent="Interfaces/Game"]
+anchor_left = 0.005
+anchor_top = 0.005
+anchor_right = 0.995
+anchor_bottom = 0.995
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Prolog" type="Button" parent="Interfaces/Game"]
+margin_left = 29.0
+margin_top = 16.0
+margin_right = 310.0
+margin_bottom = 105.0
+custom_fonts/font = SubResource( 67 )
+text = "Пролог"
+icon = ExtResource( 5 )
+expand_icon = true
+script = SubResource( 74 )
+
+[node name="Sur" type="Button" parent="Interfaces/Game"]
+margin_left = 31.0
+margin_top = 258.0
+margin_right = 314.0
+margin_bottom = 347.0
+custom_fonts/font = SubResource( 67 )
+disabled = true
+text = "Выживание"
+icon = ExtResource( 7 )
+expand_icon = true
+script = SubResource( 76 )
+
+[node name="Dev_room" type="Button" parent="Interfaces/Game"]
+margin_left = 31.0
+margin_top = 357.0
+margin_right = 424.0
+margin_bottom = 463.0
+custom_fonts/font = SubResource( 67 )
+disabled = true
+text = "Комната разработчкика"
+clip_text = true
+icon_align = 2
+expand_icon = true
+script = SubResource( 75 )
+
+[node name="Close" type="Button" parent="Interfaces/Game"]
+margin_left = 375.0
+margin_top = 23.0
+margin_right = 435.0
+margin_bottom = 83.0
+custom_fonts/font = SubResource( 67 )
+text = "X"
+script = ExtResource( 18 )
+
+[node name="Label" type="Label" parent="Interfaces/Game"]
+margin_left = 29.0
+margin_top = 148.0
+margin_right = 415.0
+margin_bottom = 249.0
+custom_fonts/font = SubResource( 73 )
+text = "
+Скоро..."
+
+[node name="Conductor" type="FileDialog" parent="Interfaces"]
+margin_left = 12.0
+margin_top = 32.0
+margin_right = 1010.0
+margin_bottom = 579.0
+window_title = "Сохранить файл"
+access = 2
+
+[node name="Notification" type="AcceptDialog" parent="Interfaces"]
+margin_left = 433.005
+margin_top = 255.971
+margin_right = 569.005
+margin_bottom = 325.971
+window_title = "Внимание!"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="AnimationsMenedger" type="Node" parent="."]
+script = SubResource( 64 )
+
+[node name="Event" type="Timer" parent="AnimationsMenedger"]
+wait_time = 0.1
+autostart = true
+
+[connection signal="mouse_entered" from="Interfaces/Settings/List/Buttons/*SampleBool" to="Interfaces/Settings/List/Buttons/*SampleBool" method="mouse_entered"]
+[connection signal="mouse_entered" from="Interfaces/Settings/List/Buttons/*SampleString" to="Interfaces/Settings/List/Buttons/*SampleString" method="mouse_entered"]
+[connection signal="text_changed" from="Interfaces/Settings/List/Buttons/*SampleString" to="Interfaces/Settings/List/Buttons/*SampleString" method="text_changed"]
+[connection signal="mouse_entered" from="Interfaces/Settings/List/Buttons/*SampleInt" to="Interfaces/Settings/List/Buttons/*SampleInt" method="mouse_entered"]
+[connection signal="value_changed" from="Interfaces/Settings/List/Buttons/*SampleInt" to="Interfaces/Settings/List/Buttons/*SampleInt" method="changed"]
+[connection signal="timeout" from="AnimationsMenedger/Event" to="AnimationsMenedger" method="event"]

@@ -1,0 +1,148 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://scenes/interface/interface_elements/slot_item.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends RigidBody2D
+ 
+var permission_use = true
+
+var significant_data
+
+func _ready():
+	if $SlotInWorld.significant_data.size() <= 0: 
+		$SlotInWorld.significant_data = significant_data
+		$SlotInWorld._ready()
+	
+	$Timer.connect(\"timeout\", self, \"del\")
+	$AnimationPlayer.connect(\"animation_finished\", self, \"del\")
+	
+	$VisibilityEnabler2D.connect(\"screen_entered\", self, \"off\")
+	$VisibilityEnabler2D.connect(\"screen_exited\", self, \"on\")
+	
+	if $VisibilityEnabler2D.is_on_screen(): sleep_off()
+	else: sleep_on()
+	
+	var SD = get_node_or_null(\"/root/rootGame/Node/SettingData\")
+	if SD == null: return
+	
+	if SD.map_settings[\"time_to_destruction\"] > 0:
+		$Timer.wait_time = float(SD.map_settings[\"time_to_destruction\"])
+		$Timer.start()
+	if get_node_or_null(\"/root/rootGame/Node/TileMap\") != null:
+		get_node(\"/root/rootGame/Node/TileMap\").connect(\"map_event\", self, \"to_on\")
+
+func use(user, _id):
+	if permission_use == true:
+		if $SlotInWorld.significant_data.has(\"name_in_game\"):
+			var number = $SlotInWorld.insignificant_data.get(\"uni_quantity\")
+			if number == null: number = 1
+			$Label.text = $SlotInWorld.significant_data[\"name_in_game\"] + \" +\" + str(number)
+		user.edit_items($SlotInWorld.significant_data, $SlotInWorld.insignificant_data)
+		
+		$AnimationPlayer.play(\"del\")
+		permission_use = false
+		if get_tree().network_peer != null:
+			rpc(\"used\", $Label.text)
+
+export var range_to_on:int = 2
+func to_on(x, y):
+	var TM = get_node_or_null(\"/root/rootGame/Node/TileMap\")
+	if TM != null:
+		var local_position = TM.to_local(global_position)
+		var map_position = TM.world_to_map(local_position)
+		var difference = Vector2(x - map_position.x, y - map_position.y)
+		if range_to_on >= difference.x and (range_to_on*-1) <= difference.x:
+			if range_to_on >= difference.y and (range_to_on*-1) <= difference.y:
+				self.sleeping = false
+
+remote func used(nam:String):
+	if permission_use == true:
+		$Label.text = nam
+		permission_use = false
+		$AnimationPlayer.play(\"del\")
+
+func del(_d = null):
+	queue_free()
+
+func sleep_off():
+	can_sleep = false
+	sleeping = false
+func sleep_on():
+	can_sleep = true
+"
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 17.0
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "del"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Label:percent_visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+
+[node name="ItemInWorld" type="RigidBody2D"]
+collision_layer = 524289
+collision_mask = 524288
+script = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="SlotInWorld" parent="." instance=ExtResource( 2 )]
+margin_left = -15.0
+margin_top = -16.0
+margin_right = 15.0
+margin_bottom = 14.0
+settings_slot = {
+"hide_background": true,
+"hide_health": false,
+"hide_quantity": false,
+"hide_scope": true,
+"multiplayer_synchronization": true,
+"permission_to_use": false,
+"put_items": false,
+"slot_capacity": -1,
+"slot_off": true,
+"take_items": false,
+"texture_flip_h": false,
+"texture_flip_v": false,
+"valid_types": [  ]
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 16.0
+margin_top = -53.0
+margin_right = 56.0
+margin_bottom = -39.0
+custom_fonts/font = SubResource( 3 )
+text = "Неизветсный предмет +1"
+percent_visible = 0.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/del = SubResource( 4 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+scale = Vector2( 10, 10 )
+
+[node name="Event" type="Timer" parent="."]

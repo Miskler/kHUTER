@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/interface/specter_interface.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody2D
+
+var vec = Vector2()
+var speed = 600
+var zoom_speed = 0.1
+
+func _init():
+	add_to_group(\"specter\")
+
+func _process(_delta):
+	if Input.is_action_pressed(\"a\"):
+		vec.x = -speed * $Camera2D_specter.zoom.x
+	elif Input.is_action_pressed(\"d\"):
+		vec.x = speed * $Camera2D_specter.zoom.x
+	else:
+		vec.x = 0
+	if Input.is_action_pressed(\"w\"):
+		vec.y = -speed * $Camera2D_specter.zoom.x
+	elif Input.is_action_pressed(\"s\"):
+		vec.y = speed * $Camera2D_specter.zoom.x
+	else:
+		vec.y = 0
+	
+	if G.game_settings[\"mobile\"]:
+		vec = $Camera2D_specter/CanvasLayer/main/Shoot.vec*5 * $Camera2D_specter.zoom
+	
+	var ro = $Camera2D_specter.zoom.x
+	
+	if Input.is_action_pressed(\"+\") and $Camera2D_specter.zoom.x < 10:
+		ro += zoom_speed
+	elif Input.is_action_pressed(\"-\") and $Camera2D_specter.zoom.x > 0.2:
+		ro -= zoom_speed
+	
+	ro = clamp(ro, 0.2, 150)
+	$Camera2D_specter.zoom.x = ro
+	$Camera2D_specter.zoom.y = ro
+	
+	move_and_slide(vec)
+"
+
+[node name="Specter" type="KinematicBody2D"]
+script = SubResource( 1 )
+
+[node name="Camera2D_specter" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 2, 2 )
+
+[node name="CanvasLayer" parent="Camera2D_specter" instance=ExtResource( 1 )]

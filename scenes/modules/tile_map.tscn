@@ -1,0 +1,652 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://tile_set.res" type="TileSet" id=1]
+
+[sub_resource type="GDScript" id=6]
+script/source = "extends TileMap
+
+signal use_tile(data)
+
+onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
+
+export var tiles = {
+	0: {
+		0: {
+			\"tile_name\": \"\",
+			\"autotile_coord\": Vector2(0, 0),
+			\"data\": {},
+		}
+	}
+}
+
+var cam = null
+
+func _ready():
+	$Timer.start()
+
+
+remote func registration(node): #Сохраняет карту сделанную через редактор в формат 2д массива
+	var map = {}
+	node.fix_invalid_tiles()
+	
+	for pos in node.get_used_cells():
+		if not map.has(int(pos.x)): map[int(pos.x)] = {}
+		if not map[int(pos.x)].has(int(pos.y)):
+			var d = {
+				\"tile_name\": \"\",
+				\"autotile_coord\": Vector2(0, 0),
+				\"data\": {}
+			}
+			map[int(pos.x)][int(pos.y)] = d
+		
+		map[int(pos.x)][int(pos.y)][\"tile_name\"] = node.tile_set.tile_get_name(node.get_cellv(pos))
+		map[int(pos.x)][int(pos.y)][\"autotile_coord\"] = node.get_cell_autotile_coord(pos.x, pos.y)
+	
+	node.clear()
+	return map
+
+
+remote func clear_tile(pos:Vector2):
+	if tiles.has(int(pos.x)) and tiles[int(pos.x)].has(int(pos.y)):
+		use_tile({\"pos\": pos, \"method\": \"clear_tile\"})
+		
+		#printt(cam, pos, render_is(pos, 3, false), $TileData.get(tiles[int(pos.x)][int(pos.y)][\"tile_name\"]) != null, $TileData.get(tiles[int(pos.x)][int(pos.y)][\"tile_name\"]).has(\"destruction sound\"))
+		if render_is(pos, 3, false) and $TileData.get(tiles[int(pos.x)][int(pos.y)][\"tile_name\"]) != null and $TileData.get(tiles[int(pos.x)][int(pos.y)][\"tile_name\"]).has(\"destruction sound\"):
+			var node = $Player.duplicate()
+			
+			node.stream = load($TileData.get(tiles[int(pos.x)][int(pos.y)][\"tile_name\"])[\"destruction sound\"])
+			node.playing = true
+			
+			add_child(node)
+		
+		tiles[int(pos.x)].erase(int(pos.y))
+	else: return false
+	return true
+
+remote func edit_tile(pos:Vector2, dat:Dictionary = {}): #{\"dat\": {\"operation\": (0-4), \"value\": ...}} -- 0-установка,1-прибавление,2-отнимание,3-умножение,4-деление
+	#Получает словарь того что нужно поменять и как
+	#Может добавлять, отнимать, заменять
+	if not tiles.has(int(pos.x)):
+		tiles[int(pos.x)] = {}
+	if not tiles[int(pos.x)].has(int(pos.y)):
+		tiles[int(pos.x)][int(pos.y)] = {
+			\"tile_name\": \"\",
+			\"autotile_coord\": Vector2(0, 0),
+			\"data\": {},
+		}
+		
+		if render_is(pos, 3, false) and dat.has(\"tile_name\") and $TileData.get(dat[\"tile_name\"][\"value\"]) != null and $TileData.get(dat[\"tile_name\"][\"value\"]).has(\"installation sound\"):
+			var node = $Player.duplicate()
+			
+			node.stream = load($TileData.get(dat[\"tile_name\"][\"value\"])[\"installation sound\"])
+			node.playing = true
+			
+			add_child(node)
+	
+	for key in dat.keys():
+		var dt = dat[key]
+		
+		var tile = tiles[int(pos.x)][int(pos.y)]
+		if not (key in [\"tile_name\", \"autotile_coord\"]): 
+			tile = tile[\"data\"]
+		
+		if render_is(pos, 3, false) and $TileData.get(tiles[int(pos.x)][int(pos.y)][\"tile_name\"]) != null and dat.has(\"autotile_coord\") and dat[\"autotile_coord\"][\"operation\"] in [1, 2]:
+			var node = $Player.duplicate()
+			
+			if dat[\"autotile_coord\"][\"operation\"] == 1 and $TileData.get(tiles[int(pos.x)][int(pos.y)][\"tile_name\"]).has(\"repair sound\"):
+				node.stream = load($TileData.get(tiles[int(pos.x)][int(pos.y)][\"tile_name\"])[\"repair sound\"])
+			elif $TileData.get(tiles[int(pos.x)][int(pos.y)][\"tile_name\"]).has(\"damage sound\"):
+				node.stream = load($TileData.get(tiles[int(pos.x)][int(pos.y)][\"tile_name\"])[\"damage sound\"])
+			
+			if node.stream != null:
+				node.playing = true
+				
+				add_child(node)
+		
+		if dt[\"operation\"] == 0 or not tile.has(key):
+				tile[key] = dt[\"value\"]
+		match dt[\"operation\"]:
+			1:
+				tile[key] += dt[\"value\"]
+			2:
+				tile[key] -= dt[\"value\"]
+			3:
+				tile[key] *= dt[\"value\"]
+			4:
+				tile[key] /= dt[\"value\"]
+
+remote func use_tile(data:Dictionary = {}): #Принимает любые входные параметры и испускает сигнал использования тайла, значение \"pos\" - координата тайла (обязательно)
+	if not data.has(\"method\"): data[\"method\"] = \"use_tile\"
+	if data.has(\"pos\") and tiles.has(int(data[\"pos\"].x)) and tiles[int(data[\"pos\"].x)].has(int(data[\"pos\"].y)) and get_node_or_null(\"TileLogical/\"+str(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"])) != null and get_node(\"TileLogical/\"+str(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"])).has_method(data[\"method\"]):
+		get_node(\"TileLogical/\"+str(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"])).call(data[\"method\"], data)
+		
+		#printt(cam, data[\"pos\"], render_is(data[\"pos\"], 3, false), $TileData.get(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"]) != null, $TileData.get(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"]).has(\"use sound\"))
+		if data[\"method\"] == \"use_tile\" and render_is(data[\"pos\"], 3, false) and $TileData.get(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"]) != null and $TileData.get(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"]).has(\"use sound\"):
+			var node = $Player.duplicate()
+			
+			node.stream = load($TileData.get(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"])[\"use sound\"])
+			node.playing = true
+			
+			add_child(node)
+		
+		return true
+	return false
+
+
+remote func render(camera = null, reserve = null): #camera - принимает путь до отрисовываймой камеры, если пуст то отрисовывается все отновительно камеры игрока
+	if reserve == null:
+		reserve = G.game_settings[\"render_bonus\"]
+	
+	if tile_set != null:
+		if camera == null or not camera is Camera2D:
+			if camera is String and get_node_or_null(camera) != null and get_node_or_null(camera) is Camera2D: camera = get_node(camera)
+			elif get_node_or_null(\"/root/rootGame/Node/Player/Camera2D\") != null: camera = get_node(\"/root/rootGame/Node/Player/Camera2D\")
+			elif get_node_or_null(\"/root/rootGame/Node/Player/Camera2D_specter\") != null: camera = get_node(\"/root/rootGame/Node/Player/Camera2D_specter\")
+			else: return false
+		
+		cam = camera
+		
+		var corners = [camera.global_position - Vector2(1024 * camera.zoom.x / 2, 600 * camera.zoom.y / 2), camera.global_position + Vector2(1024 * camera.zoom.x / 2, 600 * camera.zoom.y / 2)]
+		
+		corners[0] = world_to_map(corners[0]) - Vector2(reserve, reserve)
+		corners[1] = world_to_map(corners[1]) + Vector2(reserve, reserve)
+		
+		#print(corners)
+		#print(corners[1] - corners[0])
+		
+		for data_node in [[self, tiles]]:#, [self, background]]:
+			for i in data_node[0].get_used_cells():
+				if (int(i.x) < corners[0].x or int(i.y) < corners[0].y or int(i.x) > corners[1].x or int(i.y) > corners[1].y) or not data_node[1].has(int(i.x)) or not data_node[1][int(i.x)].has(int(i.y)):
+					if data_node[1].has(int(i.x)) and data_node[1][int(i.x)].has(int(i.y)) and get_node_or_null(\"TileLogical/\" + str(data_node[1][int(i.x)][int(i.y)][\"tile_name\"])) != null and get_node(\"TileLogical/\" + str(data_node[1][int(i.x)][int(i.y)][\"tile_name\"])).has_method(\"event_tile\"):
+						use_tile({\"method\": \"event_tile\", \"pos\": i})
+					
+					data_node[0].set_cell(i.x, i.y, -1)
+			
+			for X in corners[1].x - corners[0].x:
+				for Y in corners[1].y - corners[0].y:
+					var tile_pos = Vector2(X, Y)+corners[0]
+					if data_node[1].has(int(tile_pos.x)) and data_node[1][int(tile_pos.x)].has(int(tile_pos.y)) and tile_set.find_tile_by_name(data_node[1][int(tile_pos.x)][int(tile_pos.y)][\"tile_name\"]) != -1:
+						data_node[0].set_cell(tile_pos.x, tile_pos.y, data_node[0].tile_set.find_tile_by_name(data_node[1][int(tile_pos.x)][int(tile_pos.y)][\"tile_name\"]), false, false, false, data_node[1][int(tile_pos.x)][int(tile_pos.y)][\"autotile_coord\"])
+						
+						if get_node_or_null(\"TileLogical/\" + str(data_node[1][int(tile_pos.x)][int(tile_pos.y)][\"tile_name\"])) != null and get_node(\"TileLogical/\" + str(data_node[1][int(tile_pos.x)][int(tile_pos.y)][\"tile_name\"])).has_method(\"event_tile\"):
+							use_tile({\"method\": \"event_tile\", \"pos\": tile_pos})
+
+
+func generate(width:int = 100, height:int = 100, settings:Dictionary = {}, seed_map = null): #Генерирует только образ карты, возращает итог
+	var til = {}
+	
+	var noise = OpenSimplexNoise.new()
+	if seed_map == null:
+		noise.seed = randi()
+	else:
+		noise.seed = seed_map
+	
+	if settings.has(\"octaves\"):
+		noise.octaves = settings[\"octaves\"]
+	else:
+		noise.octaves = 4
+	
+	if settings.has(\"period\"):
+		noise.period = settings[\"period\"]
+	else:
+		noise.period = 15
+	
+	if settings.has(\"lacunarity\"):
+		noise.lacunarity = settings[\"lacunarity\"]
+	else:
+		noise.lacunarity = 1.5
+	
+	if settings.has(\"persistence\"):
+		noise.persistence = settings[\"persistence\"]
+	else:
+		noise.persistence = 0.75
+	
+	for x in range(width):
+		til[x] = {}
+		for y in range(height):
+			var dar = noise.get_noise_2d(x, y)
+			
+			if settings.has(\"back\") and settings[\"back\"]:
+				if dar > -0.07:
+					til[x][y] = {\"tile_name\": \"stone\", \"autotile_coord\": Vector2(2, 0)}
+				elif dar > 0:
+					til[x][y] = {\"tile_name\": \"ground\", \"autotile_coord\": Vector2(2, 0)}
+			else:
+				if dar > 0.06:
+					til[x][y] = {\"tile_name\": \"stone\", \"autotile_coord\": Vector2(2, 0)}
+				elif dar > 0:
+					til[x][y] = {\"tile_name\": \"ground\", \"autotile_coord\": Vector2(2, 0)}
+	
+	return til
+
+func pruning(width:int, height:int, map):
+	var noise = OpenSimplexNoise.new()
+	noise.seed = randi()
+	
+	for x in map:
+		var pos = null
+		
+		for y in map[x].keys():
+			if pos == null and check_island(noise, height, width, x, y) == false: #высота и ширина
+				pos = y
+				map[x].erase(y)
+				if map[x].has(y-1) and map[x][y-1][\"tile_name\"] == \"stone\":
+					map[x][y-1] = {\"tile_name\": \"ground\", \"autotile_coord\": Vector2(2, 0)}
+			elif pos != null and y >= pos:
+				map[x].erase(y)
+	
+	return map
+func check_island(N,R,T,X,Y)-> bool :
+	# Kx и Ky  - ширина и высота острова в тайлах 
+	if R > T/2: 
+		X = X*R/(T/2)
+	elif R < T/2:
+		R = T/2 
+		Y = Y*(T/2)/R
+	
+	
+	return pow(X-R,2)+pow(Y,2) <= pow(R-N.get_noise_1d(X),2)# R*R
+
+func unification(map_one, map_two):
+	for x in map_two.keys():
+		if not map_one.has(x):
+			map_one[x] = map_two[x]
+		else:
+			for y in map_two[x].keys():
+				if not map_one[x].has(y):
+					map_one[x][y] = map_two[x][y]
+	return map_one
+
+remote func structure(map:Dictionary, manual:Array = [[{}, {}], [{}, {}]], repetitions:int = 1, distance:int = 0): #Генерирует структуру по заранее заготовленной инструкции с возможностью повторения несколько раз
+	var last = null
+	for x in map.keys():
+		for y in map[x].keys():
+			var yes = false
+			
+			if last == null or last.distance_to(Vector2(x, y)) > distance:
+				
+				for id in range(manual[0].size()):
+					var key = manual[0][id].keys()[0]
+					match key: #Оба делают одну и туже проверку, добавить её в виде функции в синглтон
+						\"position\": #{\"mode\": int, \"value\": dat} #Проверка позиции
+							if G.comparison(Vector2(x, y), manual[0][id][key][\"value\"], manual[0][id][key][\"mode\"]) != true: break
+						\"tile\": #{\"mode\": int, \"shift\": Vector2, \"value\": dat} #если передать true/false - проверка существует ли тайл
+							var position_tile = Vector2(x, y)
+							if manual[0][id][key].has(\"shift\"):
+								position_tile += manual[0][id][key][\"shift\"]
+							
+							if manual[0][id][key][\"value\"] is bool: #если передать true/false - проверка существует ли тайл
+								if (manual[0][id][key][\"value\"] == true and tiles.has(int(position_tile.x)) == false) or (tiles[int(position_tile.x)].has(int(position_tile.y)) != manual[0][id][key][\"value\"]):
+									break
+							else:
+								if tiles.has(int(position_tile.x)) and tiles[int(position_tile.x)].has(int(position_tile.y)):
+									var f = false
+									for k in manual[0][id][key][\"value\"].keys():
+										var dat_source = tiles[int(position_tile.x)][int(position_tile.y)]
+										if not k in [\"tile_name\", \"autotile_coord\"]:
+											dat_source = dat_source[\"data\"]
+										printt(dat_source.has(k) == false, G.comparison(str(dat_source.get(k)), str(manual[0][id][key][\"value\"][k]), manual[0][id][key][\"mode\"]) != true)
+										
+										if dat_source.has(k) == false or G.comparison(str(dat_source.get(k)), str(manual[0][id][key][\"value\"][k]), manual[0][id][key][\"mode\"]) != true:
+											f = true
+											break
+									
+									if f == true: break
+								else:
+									break
+					
+					if id >= (manual[0].size() - 1): yes = true
+			
+			if yes == true:
+				last = Vector2(x, y)
+				printt(\"!!!!!!!!!!!!!!!!!!!!!\", x, y, \"!!!!!!!!!!!!!!!!!!!!!\")
+				for id in range(manual[1].size()):
+					var key = manual[1][id].keys()[0]
+					match key:
+						\"object\": #{\"pos\": Vector2(), \"name\": \"\", \"data\": {\"key\": valoe}, \"path\": \"res://\"} #pos - относительно центра (не тайловая координата)(необ); name - имя (необ); path - путь до инстанцируемой сцены
+							var object = load(manual[1][id][key][\"path\"]).instance()
+							
+							object.global_position = Vector2(cell_size.x*x, cell_size.y*y)
+							if manual[1][id][key].has(\"pos\"): object.global_position += manual[1][id][key][\"pos\"]
+							
+							if manual[1][id][key].has(\"name\"): object.name = str(manual[1][id][key][\"path\"])
+							
+							if manual[1][id][key].has(\"data\"):
+								var dat = manual[1][id][key][\"data\"]
+								for k in dat.keys():
+									object.set(k, dat[k])
+							
+							get_parent().add_child(object)
+						\"tile\": #{\"shift\": Vector2(), \"dat\": ...} #Пересоздание тайла
+							clear_tile(Vector2(x+manual[1][id][key][\"shift\"].x, y+manual[1][id][key][\"shift\"].y))
+							edit_tile(Vector2(x+manual[1][id][key][\"shift\"].x, y+manual[1][id][key][\"shift\"].y), manual[1][id][key][\"dat\"])
+						\"tile_clear\": #{\"shift\": Vector2()} #Отчищаем тайл
+							clear_tile(Vector2(x+manual[1][id][key][\"shift\"].x, y+manual[1][id][key][\"shift\"].y))
+						\"tile_dat\": #{\"shift\": Vector2(), \"dat\": ...} #Изменение существующего тайла (вызов edit_tile)
+							edit_tile(Vector2(x+manual[1][id][key][\"shift\"].x, y+manual[1][id][key][\"shift\"].y), manual[1][id][key][\"dat\"])
+				repetitions -= 1
+				if repetitions <= 0: return map
+	return map
+
+func ore(_map, manual:Dictionary, width:int = 100, height:int = 100, settings:Dictionary = {}, seed_map = null): #Генерирует пласты руды по заранее заготовленной инструкции
+	var noise = OpenSimplexNoise.new()
+	if seed_map == null:
+		noise.seed = randi()
+	else:
+		noise.seed = seed_map
+	
+	if settings.has(\"octaves\"):
+		noise.octaves = settings[\"octaves\"]
+	else:
+		noise.octaves = 4
+	
+	if settings.has(\"period\"):
+		noise.period = settings[\"period\"]
+	else:
+		noise.period = 15
+	
+	if settings.has(\"lacunarity\"):
+		noise.lacunarity = settings[\"lacunarity\"]
+	else:
+		noise.lacunarity = 1.5
+	
+	if settings.has(\"persistence\"):
+		noise.persistence = settings[\"persistence\"]
+	else:
+		noise.persistence = 0.75
+	
+	for x in range(width):
+		for y in range(height):
+			if tiles.has(int(x)) and tiles[int(x)].has(int(y)):
+				for i in manual.keys():
+					if manual[i] < noise.get_noise_2d(x, y):
+						edit_tile(Vector2(int(x), int(y)), {\"tile_name\": {\"operation\": 0, \"value\": i}, \"autotile_coord\": {\"operation\": 0, \"value\": Vector2(2, 0)}})
+
+
+func render_is(position_obg, reserve:int = 2, real_position:bool = true):
+	if cam != null and is_instance_valid(cam) and cam is Camera2D:
+		var corners = [cam.global_position - Vector2(1024 * cam.zoom.x / 2, 600 * cam.zoom.y / 2), cam.global_position + Vector2(1024 * cam.zoom.x / 2, 600 * cam.zoom.y / 2)]
+		
+		corners[0] = world_to_map(corners[0]) + Vector2(reserve, reserve) - Vector2(G.game_settings[\"render_bonus\"], G.game_settings[\"render_bonus\"])
+		corners[1] = world_to_map(corners[1]) - Vector2(reserve, reserve) + Vector2(G.game_settings[\"render_bonus\"], G.game_settings[\"render_bonus\"])
+		
+		if real_position:
+			position_obg = world_to_map(position_obg)
+		
+		if position_obg.x < corners[1].x and position_obg.x > corners[0].x and position_obg.y < corners[1].y and position_obg.y > corners[0].y:
+			return true
+		else:
+			return false
+	return null
+"
+
+[sub_resource type="GDScript" id=11]
+script/source = "extends TileMap
+
+func _ready():
+	tile_set = get_parent().tile_set
+	clear()
+	
+	printt(\"FGG\", get_collision_mask(), get_collision_mask_bit(0))
+
+func clear_tiles():
+	clear()
+"
+
+[sub_resource type="GDScript" id=8]
+script/source = "extends Node
+
+func use_tile(_dat):
+	get_node(\"/root/rootGame/Node/Player\").edit_items(\"water\", 1)
+"
+
+[sub_resource type="GDScript" id=9]
+script/source = "extends Node
+
+func use_tile(_dat):
+	get_node(\"/root/rootGame/Node/Player\").show_craft_menu()
+"
+
+[sub_resource type="GDScript" id=10]
+script/source = "extends Node
+
+var us
+
+var buffer_data
+
+func use_tile(dat):
+	if us == null:
+		us = dat[\"pos\"]
+		$\"../..\".tiles[int(dat[\"pos\"].x)][int(dat[\"pos\"].y)][\"autotile_coord\"].y = 1
+		
+		if get_tree().network_peer != null:
+			rpc(\"event_tile_state\", 1)
+		
+		if $\"../..\".tiles[int(dat[\"pos\"].x)][int(dat[\"pos\"].y)][\"data\"].has(\"instruction\") == false:
+			init(us, 3)
+		
+		buffer_data = $\"../..\".tiles[int(dat[\"pos\"].x)][int(dat[\"pos\"].y)][\"data\"][\"instruction\"]
+		
+		get_node(\"/root/rootGame/Node/Player\").show_chest(self, \"buffer_data\")
+
+func event_tile(data):
+	if us != null and get_node(\"/root/rootGame/Node/Player/Camera2D/interface/main\").visible == true:
+		us = null
+		
+		$\"../..\".tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"autotile_coord\"].y = 0
+		
+		if get_tree().network_peer != null:
+			rpc(\"event_tile_state\", data[\"pos\"], 0)
+
+func init(pos, slot_count:int = 1):
+	$\"../..\".tiles[int(pos.x)][int(pos.y)][\"data\"][\"instruction\"] = []
+	
+	for i in range(slot_count):
+		$\"../..\".tiles[int(pos.x)][int(pos.y)][\"data\"][\"instruction\"].append([{}, {}, {}])
+
+remote func event_tile_state(pos:Vector2, dat:int):
+	$\"../..\".tiles[int(pos.x)][int(pos.y)][\"autotile_coord\"].y = dat
+
+remote func event(pos:Vector2, result):
+	$\"../..\".tiles[int(pos.x)][int(pos.y)][\"data\"][\"instruction\"] = result
+	buffer_data = result.duplicate(true)
+
+func slots(result, id):
+	if us != null:
+		$\"../..\".tiles[int(us.x)][int(us.y)][\"data\"][\"instruction\"][id] = result.duplicate(true)
+		buffer_data[id] = result.duplicate(true)
+		if get_tree().network_peer != null:
+			rpc(\"event\", us, $\"../..\".tiles[int(us.x)][int(us.y)][\"data\"][\"instruction\"])
+
+func clear_tile(data):
+	if $\"../..\".tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"data\"].has(\"instruction\"):
+		for i in $\"../..\".tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"data\"][\"instruction\"]:
+			if i[1].size() > 0:
+				var random_bloc = load(\"res://Sceni/item/ItemInWorld.scn\").instance()
+				
+				var f_name = \"SlotInWorld_\" + str(rand_range(0, 1))
+				
+				random_bloc.get_node(\"SlotInWorld\").significant_data = i[1]
+				random_bloc.get_node(\"SlotInWorld\").insignificant_data = i[2]
+				
+				random_bloc.global_position = data[\"pos\"] * $\"../..\".cell_size
+				random_bloc.name = f_name
+				
+				get_node(\"/root/rootGame/Node\").add_child(random_bloc)
+"
+
+[sub_resource type="GDScript" id=7]
+script/source = "extends Node
+
+export var example = {
+	\"loot\": \"item_name\",
+	\"installation sound\": \"res://\",
+	\"use sound\": \"res://\",
+	\"repair sound\": \"res://\",
+	\"damage sound\": \"res://\",
+	\"destruction sound\": \"res://\",
+}
+
+export var copper = {
+	\"loot\": \"copper\",
+	\"installation sound\": \"res://audios/tiles/stone/installation.mp3\",
+	\"repair sound\": \"res://audios/tiles/stone/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
+}
+
+export var chest = {
+	\"loot\": \"chest\",
+	\"installation sound\": \"res://audios/tiles/chest/installation.mp3\",
+	\"use sound\": \"res://audios/tiles/chest/use.mp3\",
+	\"repair sound\": \"res://audios/tiles/chest/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/chest/damage.mp3\",
+	\"destruction sound\": \"res://audios/tiles/chest/destruction.mp3\",
+}
+
+export var reinforced_chest = {
+	\"loot\": \"reinforced_chest\",
+	\"installation sound\": \"res://audios/tiles/chest/installation.mp3\",
+	\"use sound\": \"res://audios/tiles/chest/use.mp3\",
+	\"repair sound\": \"res://audios/tiles/chest/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/chest/damage.mp3\",
+	\"destruction sound\": \"res://audios/tiles/chest/destruction.mp3\",
+}
+
+export var ice = {
+	\"loot\": \"ice\",
+	\"repair sound\": \"res://audios/tiles/ice/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/ice/damage.mp3\",
+	\"destruction sound\": \"res://audios/tiles/ice/destruction.mp3\",
+}
+
+export var details = {
+	\"loot\": \"details\",
+	\"installation sound\": \"res://audios/tiles/stone/installation.mp3\",
+	\"repair sound\": \"res://audios/tiles/stone/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
+}
+
+export var door_up = {
+	\"installation sound\": \"res://audios/tiles/door/installation.mp3\",
+}
+
+export var craft = {
+	\"loot\": \"craft\",
+	\"installation sound\": \"res://audios/tiles/chest/installation.mp3\",
+	\"use sound\": \"res://audios/tiles/craft/use.mp3\",
+	\"repair sound\": \"res://audios/tiles/chest/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
+	\"destruction sound\": \"res://audios/tiles/chest/destruction.mp3\",
+}
+
+export var glass = {
+	\"loot\": \"glass\",
+	\"installation sound\": \"res://audios/tiles/glass/installation.mp3\",
+	\"repair sound\": \"res://audios/tiles/glass/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/ice/damage.mp3\",
+	\"destruction sound\": \"res://audios/tiles/glass/destruction.mp3\",
+}
+
+export var ground = {
+	\"loot\": \"ground\",
+	\"installation sound\": \"res://audios/tiles/ground/installation.mp3\",
+	\"repair sound\": \"res://audios/tiles/ground/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/ground/damage.mp3\",
+	\"destruction sound\": \"res://audios/tiles/ground/destruction.mp3\",
+}
+
+export var iron = {
+	\"loot\": \"iron\",
+	\"installation sound\": \"res://audios/tiles/stone/installation.mp3\",
+	\"repair sound\": \"res://audios/tiles/stone/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
+}
+
+export var moss = {
+	\"loot\": \"moss\",
+	\"installation sound\": \"res://audios/tiles/moss/installation.mp3\",
+	\"repair sound\": \"res://audios/tiles/moss/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/moss/damage.mp3\",
+	\"destruction sound\": \"res://audios/tiles/moss/destruction.mp3\",
+}
+
+export var stone = {
+	\"loot\": \"stone\",
+	\"installation sound\": \"res://audios/tiles/stone/installation.mp3\",
+	\"repair sound\": \"res://audios/tiles/stone/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
+}
+
+export var andesite = {
+	\"loot\": \"andesite\",
+	\"installation sound\": \"res://audios/tiles/stone/installation.mp3\",
+	\"repair sound\": \"res://audios/tiles/stone/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
+}
+
+export var wall = {
+	\"loot\": \"wall\",
+	\"installation sound\": \"res://audios/tiles/stone/installation.mp3\",
+	\"repair sound\": \"res://audios/tiles/stone/repair.mp3\",
+	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
+}
+
+export var water = {
+	\"loot\": \"water\",
+	\"destruction sound\": \"res://audios/tiles/glass/destruction.mp3\",
+}
+"
+
+[sub_resource type="GDScript" id=12]
+script/source = "extends AudioStreamPlayer
+
+func _ready():
+	connect(\"finished\", self, \"finish\")
+
+func finish():
+	queue_free()
+"
+
+[node name="TileMap" type="TileMap"]
+tile_set = ExtResource( 1 )
+cell_quadrant_size = 64
+format = 1
+script = SubResource( 6 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Preview" type="TileMap" parent="."]
+modulate = Color( 1, 1, 1, 0.498039 )
+tile_set = ExtResource( 1 )
+collision_layer = 0
+collision_mask = 0
+format = 1
+script = SubResource( 11 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[node name="TileLogical" type="Node" parent="."]
+
+[node name="water" type="Node" parent="TileLogical"]
+script = SubResource( 8 )
+
+[node name="craft" type="Node" parent="TileLogical"]
+script = SubResource( 9 )
+
+[node name="chest" type="Node" parent="TileLogical"]
+script = SubResource( 10 )
+
+[node name="reinforced_chest" type="Node" parent="TileLogical"]
+script = SubResource( 10 )
+
+[node name="TileData" type="Node" parent="."]
+script = SubResource( 7 )
+
+[node name="Player" type="AudioStreamPlayer" parent="."]
+script = SubResource( 12 )
+
+[connection signal="timeout" from="Timer" to="." method="render"]
+[connection signal="timeout" from="Timer" to="Preview" method="clear_tiles"]

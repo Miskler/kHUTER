@@ -1,0 +1,192 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://scripts/items/slot_item.gd" type="Script" id=2]
+[ext_resource path="res://textures/ui/items/loot/ice_item.png" type="Texture" id=3]
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 1 )
+
+[sub_resource type="Theme" id=6]
+default_font = SubResource( 5 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0, 1, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 10
+extra_spacing_top = -1
+extra_spacing_bottom = -2
+font_data = ExtResource( 1 )
+
+[sub_resource type="GDScript" id=8]
+script/source = "extends Timer
+
+
+#func _ready():
+#	wait_time = {true: 0.1, false: 2.0}[G.game_settings[\"mobile\"]]
+onready var move_item = get_node_or_null(\"/root/rootGame/Node/Player/Camera2D/interface/MoveItem/Available Item\")
+
+func entered_to_desc():
+	if get_parent().settings_slot[\"permission_to_use\"] == true and move_item != null:
+		move_item.visible = get_parent().get_signal_connection_list(\"use_item\").size() > 0
+	
+	if G.game_settings[\"mobile\"]:
+		timeout()
+	else:
+		start()
+func timeout():
+	if get_parent().significant_data.get(\"description\") != null:
+		#get_parent().hide()
+		G.get_node(\"Global Interface/Control/Description\").add_desc(get_parent().significant_data[\"description\"])
+func exited():
+	stop()
+	if move_item != null:
+		move_item.visible = false
+"
+
+[sub_resource type="GDScript" id=7]
+script/source = "extends TextureButton
+
+var time = -1.0
+var count_press = 0
+
+
+signal pressed_slot(time, count_press)
+
+
+func down():
+	if G.game_settings[\"mobile\"]:
+		time = 0.0
+		count_press = +1
+		
+		$WaitPress.stop()
+		$EventPress.start()
+
+func timeout_event():
+	time += $EventPress.wait_time
+	
+	if time >= 1: #Используем
+		$EventPress.stop()
+		$WaitPress.stop()
+		
+		ok()
+
+func up():
+	if time >= 0:
+		$EventPress.stop()
+		$WaitPress.start()
+
+
+func ok():
+	emit_signal(\"pressed_slot\", time, count_press)
+	time = -1
+	count_press = 0
+"
+
+[node name="Slot" type="Control"]
+anchor_right = 0.068
+anchor_bottom = 0.117
+margin_right = 0.367996
+margin_bottom = -0.200005
+mouse_default_cursor_shape = 2
+theme = SubResource( 6 )
+script = ExtResource( 2 )
+
+[node name="Background" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.133333, 0.133333, 0.133333, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Texture" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource( 3 )
+expand = true
+
+[node name="Scales" type="HBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = -11.0
+margin_right = -1.0
+margin_bottom = -1.0
+mouse_filter = 2
+custom_constants/separation = 1
+alignment = 2
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Health" type="ProgressBar" parent="Scales"]
+margin_right = 62.0
+margin_bottom = 10.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/fg = SubResource( 2 )
+custom_styles/bg = SubResource( 3 )
+value = 77.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quantity" type="Label" parent="Scales"]
+margin_left = 63.0
+margin_right = 68.0
+margin_bottom = 10.0
+custom_fonts/font = SubResource( 4 )
+text = "1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Scope" type="ReferenceRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+border_color = Color( 0.172549, 0.14902, 0.121569, 1 )
+border_width = 1.2
+editor_only = false
+
+[node name="AnimEvent" type="Timer" parent="."]
+
+[node name="Desc" type="Timer" parent="."]
+one_shot = true
+script = SubResource( 8 )
+
+[node name="ButtonMobile" type="TextureButton" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 0
+mouse_filter = 1
+enabled_focus_mode = 0
+script = SubResource( 7 )
+
+[node name="EventPress" type="Timer" parent="ButtonMobile"]
+wait_time = 0.1
+
+[node name="WaitPress" type="Timer" parent="ButtonMobile"]
+wait_time = 0.3
+one_shot = true
+
+[connection signal="mouse_entered" from="." to="Desc" method="entered_to_desc"]
+[connection signal="mouse_exited" from="." to="Desc" method="exited"]
+[connection signal="timeout" from="Desc" to="Desc" method="timeout"]
+[connection signal="button_down" from="ButtonMobile" to="Desc" method="entered_to_desc"]
+[connection signal="button_down" from="ButtonMobile" to="ButtonMobile" method="down"]
+[connection signal="button_up" from="ButtonMobile" to="ButtonMobile" method="up"]
+[connection signal="pressed_slot" from="ButtonMobile" to="." method="press"]
+[connection signal="timeout" from="ButtonMobile/EventPress" to="ButtonMobile" method="timeout_event"]
+[connection signal="timeout" from="ButtonMobile/WaitPress" to="ButtonMobile" method="ok"]

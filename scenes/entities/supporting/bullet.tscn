@@ -1,0 +1,216 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://textures/ui/items/punch.png" type="Texture" id=1]
+[ext_resource path="res://scenes/modules/syncing_render.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody2D
+
+onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
+
+export var vec = Vector2()
+
+var setting_bullet = {
+	\"texture\": null,
+	\"damage\": 0,
+	\"attraction\": 0,
+	\"speed\": 0,
+	\"instantly\": false,
+	\"source\": null
+}
+
+var gan = [{}, {}]
+var bullet = [{}, {}]
+
+func _ready():
+	$AnimatedSprite.connect(\"animation_finished\", self, \"del\")
+	setting_bullet[\"gan\"] = gan
+	setting_bullet[\"bullet\"] = bullet
+	
+	$Area2D.connect(\"body_shape_entered\", self, \"body_shape_entered\")
+	if bullet.hash() != [{}, {}].hash() and setting_bullet.get(\"instantly\") == false:
+		$Sprite.texture = load(setting_bullet[\"texture\"])
+	
+	$Timer.connect(\"timeout\", self, \"go_damage\")
+	if setting_bullet.get(\"instantly\") == true:
+		$Timer.wait_time = 0.3
+	
+	$Timer.start()
+	
+	if $Area2D.get_overlapping_bodies().size() > 0: go_damage()
+
+func _process(_delta):
+	if bullet.hash() != [{}, {}].hash() and $AnimatedSprite.visible == false and G.my_id() == $Sing.cur:
+		vec = Vector2(setting_bullet[\"speed\"], 0).rotated(self.rotation)
+		#vec.y += setting_bullet[\"attraction\"]
+		vec = move_and_slide(vec, Vector2(0, -1))
+		
+		if get_tree().network_peer != null:
+			rpc(\"sing\", [rotation, global_position])
+
+remote func sing(dat):
+	rotation = dat[0]
+	global_position = dat[1]
+
+func body_shape_entered(_body_id, body, _body_shape, _area_shape):
+	go_damage(body)
+
+func go_damage(body:Node = null):
+	if $AnimatedSprite.visible == false:
+		dis()
+		var collision = $RayCast2D.get_collider()
+		if body != null: collision = body
+		
+		if collision != null:
+			setting_bullet[\"position_collision\"] = collision.global_position
+			setting_bullet[\"rotation\"] = rotation
+			setting_bullet[\"position\"] = global_position
+			if collision is TileMap:
+				var tile_pos = [
+					collision.world_to_map(global_position) - Vector2(-2, -2),
+					collision.world_to_map(global_position) - Vector2(-1, -2),
+					collision.world_to_map(global_position) - Vector2(0, -2),
+					collision.world_to_map(global_position) - Vector2(1, -2),
+					collision.world_to_map(global_position) - Vector2(2, -2),
+					collision.world_to_map(global_position) - Vector2(-2, -1),
+					collision.world_to_map(global_position) - Vector2(-1, -1),
+					collision.world_to_map(global_position) - Vector2(0, -1),
+					collision.world_to_map(global_position) - Vector2(1, -1),
+					collision.world_to_map(global_position) - Vector2(2, -1),
+					collision.world_to_map(global_position) - Vector2(-2, 0),
+					collision.world_to_map(global_position) - Vector2(-1, 0),
+					collision.world_to_map(global_position),
+					collision.world_to_map(global_position) - Vector2(1, 0),
+					collision.world_to_map(global_position) - Vector2(2, 0),
+					collision.world_to_map(global_position) - Vector2(-2, 1),
+					collision.world_to_map(global_position) - Vector2(-1, 1),
+					collision.world_to_map(global_position) - Vector2(1, 1),
+					collision.world_to_map(global_position) - Vector2(2, 1),
+					collision.world_to_map(global_position) - Vector2(-2, 2),
+					collision.world_to_map(global_position) - Vector2(-1, 2),
+					collision.world_to_map(global_position) - Vector2(0, 2),
+					collision.world_to_map(global_position) - Vector2(1, 2),
+					collision.world_to_map(global_position) - Vector2(2, 2)
+				] #Массив позиций ближайших 2 тайлов в каждую из сторон
+				var center = collision.cell_size/2 #Растояние от левого вверха, до центра
+				for i in tile_pos:
+					var j = global_position.distance_to(i*collision.cell_size+center) #((1,1)*64+32) = 96
+					
+					if j < center.length() and collision.tiles.has(int(i.x)) and collision.tiles[int(i.x)].has(int(i.y)):
+						setting_bullet[\"tile\"] = i
+						break
+			
+			var damag = int(setting_bullet[\"damage\"])
+			var tile_d = false
+			if (collision.has_method(\"damage\") or collision.has_method(\"edit_tile\")) and collision != setting_bullet[\"source\"]:
+				var b
+				
+				if collision.get(\"vec\") != null:
+					collision.vec += Vector2(setting_bullet[\"output\"], 0).rotated(self.rotation)
+				
+				if collision.has_method(\"damage\"): collision.damage(setting_bullet)
+				elif collision.has_method(\"edit_tile\") and setting_bullet.has(\"tile\"):
+					var t_name = collision.tiles[int(setting_bullet[\"tile\"].x)][int(setting_bullet[\"tile\"].y)][\"tile_name\"]
+					if t_name in SD.transition_value:
+						damag = 0
+						while setting_bullet[\"damage\"] > SD.transition_value[t_name]:
+							damag += 1
+							setting_bullet[\"damage\"] -= SD.transition_value[t_name]
+					if damag <= 0 or damag < collision.tiles[int(setting_bullet[\"tile\"].x)][int(setting_bullet[\"tile\"].y)][\"autotile_coord\"].x:
+						collision.edit_tile(setting_bullet[\"tile\"], {\"autotile_coord\": {\"operation\": 2, \"value\": Vector2(damag, 0)}})
+					else:
+						tile_d = true
+						if collision.get_node(\"TileData\").get(collision.tiles[int(setting_bullet[\"tile\"].x)][int(setting_bullet[\"tile\"].y)][\"tile_name\"]) != null and collision.get_node(\"TileData\").get(collision.tiles[int(setting_bullet[\"tile\"].x)][int(setting_bullet[\"tile\"].y)][\"tile_name\"]).has(\"loot\"):
+							b = collision.get_node(\"TileData\").get(collision.tiles[int(setting_bullet[\"tile\"].x)][int(setting_bullet[\"tile\"].y)][\"tile_name\"])[\"loot\"]
+						
+						get_node(\"/root/rootGame\").create_item(\"res://Scenes/Items/ItemInWorld.scn\", {\"global_position\": setting_bullet[\"tile\"]*Vector2(64, 64)+Vector2(32, 32), \"significant_data\": {\"item\": b}})
+						#collision.tiles = collision.structure(collision.tiles, [[{\"position\": {\"mode\": 0, \"value\": setting_bullet[\"tile\"]}}], [{\"object\": {\"pos\": Vector2(32, 32), \"data\": {\"significant_data\": {\"item\": b}}}}]])
+						
+						collision.clear_tile(setting_bullet[\"tile\"])
+				
+				if collision.get(\"vec\") != null:
+					collision.vec += vec
+				if get_tree().network_peer != null:
+					rpc(\"dis\")
+					if collision.name == \"TileMap\":
+						if tile_d == false:
+							collision.rpc(\"edit_tile\", setting_bullet[\"tile\"], {\"autotile_coord\": {\"operation\": 2, \"value\": Vector2(damag, 0)}})
+						else: 
+							#get_node(\"/root/rootGame\").create_item(\"res://Scenes/Items/ItemInWorld.scn\", {\"global_position\": setting_bullet[\"tile\"]*Vector2(32, 32), \"significant_data\": {\"item\": b}})
+							collision.rpc(\"create_item\", \"res://Scenes/Items/ItemInWorld.scn\", {\"global_position\": setting_bullet[\"tile\"]*Vector2(64, 64)+Vector2(32, 32), \"significant_data\": {\"item\": b}})
+							collision.rpc(\"clear_tile\", setting_bullet[\"tile\"])
+
+remote func dis():
+	if $AnimatedSprite.visible == false:
+		$AnimatedSprite.visible = true
+		$Sprite.visible = false
+		$AnimatedSprite.play(\"del\")
+
+func del(): queue_free()
+"
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 8, 1.25 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 1 )
+region = Rect2( 48, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=8]
+animations = [ {
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
+"loop": true,
+"name": "del",
+"speed": 4.0
+} ]
+
+[node name="bullet" type="KinematicBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = SubResource( 1 )
+
+[node name="Sprite" type="TextureRect" parent="."]
+margin_left = -9.0
+margin_top = -5.0
+margin_right = 9.0
+margin_bottom = 5.0
+expand = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 255
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 3 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 8 )
+animation = "del"
+frame = 1
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( -8.5, 0 )
+rotation = -1.57079
+enabled = true
+exclude_parent = false
+cast_to = Vector2( 0, 35 )
+collision_mask = 255
+
+[node name="Sing" parent="." instance=ExtResource( 2 )]

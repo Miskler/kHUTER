@@ -1,0 +1,413 @@
+[gd_scene load_steps=60 format=2]
+
+[ext_resource path="res://textures/people/droid/shield_puulse.png" type="Texture" id=1]
+[ext_resource path="res://textures/people/droid/shield_prep.png" type="Texture" id=2]
+[ext_resource path="res://textures/people/droid/walk.png" type="Texture" id=3]
+[ext_resource path="res://textures/people/droid/shock_attack.png" type="Texture" id=4]
+[ext_resource path="res://textures/people/droid/hit_and_death.png" type="Texture" id=5]
+[ext_resource path="res://textures/people/droid/static_idle.png" type="Texture" id=6]
+[ext_resource path="res://textures/people/droid/shield_finished.png" type="Texture" id=7]
+[ext_resource path="res://scenes/modules/syncing_render.tscn" type="PackedScene" id=8]
+
+[sub_resource type="GDScript" id=51]
+script/source = "extends KinematicBody2D
+
+
+var speed = Vector2(2500, 400)
+var Floor = Vector2(0,-1)
+
+func _init():
+	add_to_group(\"droid\")
+
+func _ready():
+	randomize()
+
+
+var attack = false
+var way_left = false
+var dead = false
+var vec = Vector2()
+func _process(delta):
+	if G.my_id() != $Sing.cur:
+		return
+	
+	if not is_on_floor():
+		vec.y += speed.y*delta
+	
+	var d = false
+	for i in $area.get_overlapping_bodies():
+		if i.name == \"Player\":
+			d = true
+	
+	if not attack and not dead and not d:
+		$anim.flip_h = way_left
+		if way_left and $LeftBottom.is_colliding():
+			vec.x = -(speed.x*delta)
+			$anim.animation = \"walk\"
+		elif not way_left and $RigthBottom.is_colliding():
+			vec.x = speed.x*delta
+			$anim.animation = \"walk\"
+		else:
+			vec.x = 0
+			$anim.animation = \"idle\"
+		
+		if (way_left and $LeftAttack.is_colliding()) or (not way_left and $RightAttack.is_colliding()):
+			if rand_range(0, 10) >= 7:
+				attack = true
+			else:
+				way_left = not way_left
+		elif (way_left and not $LeftBottom.is_colliding()) or (not way_left and not $RigthBottom.is_colliding()):
+			way_left = not way_left
+	elif dead and not f:
+		f = true
+		$anim.play(\"stop\")
+	elif not f:
+		vec.x = 0
+		_attack()
+	
+	vec = move_and_slide(vec, Floor)
+	if get_tree().network_peer != null:
+		rpc(\"pos_sing\", global_position, $anim.animation)
+var f = false
+var d = false
+func _attack():
+	if f: return
+	
+	d = true
+	f = true
+	attack = true
+	
+	$anim.play(\"attack\")
+	yield($anim, \"frame_changed\")
+	yield($anim, \"frame_changed\")
+	yield($anim, \"frame_changed\")
+	yield($anim, \"frame_changed\")
+	yield($anim, \"frame_changed\")
+	
+	print($area.get_overlapping_bodies())
+	for i in $area.get_overlapping_bodies():
+		if not i.is_in_group(\"droid\"):
+			if i is TileMap:
+				for g in [Vector2(0, 0), Vector2(50, 0), Vector2(-50, 0), Vector2(0, -30), Vector2(50, -30), Vector2(-50, -30), Vector2(100, 0), Vector2(-100, 0), Vector2(100, -30), Vector2(-100, -30)]:
+					$Position2D.global_position = i.global_position
+					
+					get_node(\"/root/rootGame\").create_bullet([{}, {}], [{}, {}], global_position+g, $Position2D.rotation_degrees, \"res://Texture/Other/Items/blebreskinproj.png\", 30, 0, 0, true, 90000000, self)
+					if get_tree().network_peer != null:
+						get_node(\"/root/rootGame\").rpc(\"create_bullet\", [{}, {}], [{}, {}], global_position+g, $Position2D.rotation_degrees, \"res://Texture/Other/Items/blebreskinproj.png\", 30, 0, 0, true, 90000000, self)
+			else:
+				$Position2D.global_position = i.global_position
+				var rot = $Position2D.look_at(i.global_position)
+				
+				get_node(\"/root/rootGame\").create_bullet([{}, {}], [{}, {}], i.global_position, $Position2D.rotation_degrees, \"res://Texture/Other/Items/blebreskinproj.png\", 30, 0, 0, true, 90000000, self)
+				if get_tree().network_peer != null:
+					get_node(\"/root/rootGame\").rpc(\"create_bullet\", [{}, {}], [{}, {}], i.global_position, $Position2D.rotation_degrees, \"res://Texture/Other/Items/blebreskinproj.png\", 30, 0, 0, true, 90000000, self)
+	d = true
+
+func fin():
+	if d:
+		d = false
+		f = false
+		attack = false
+	elif dead:
+		Firebase.logEvent(\"npc_died\", {\"npc\": {\"value\": \"droid\", \"type\": \"string\"}})
+		queue_free()
+
+remote func pos_sing(pos:Vector2, anim:String):
+	global_position = pos
+	$anim.animation = anim
+
+remote func damage(setting_bullet):
+	if not dead:
+		dead = true
+		$Sing.manager_signals.signal_event(\"damage\", self)
+		if get_tree().network_peer != null:
+			rpc(\"damage\", setting_bullet)
+"
+
+[sub_resource type="AtlasTexture" id=48]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=49]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 31, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=50]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 62, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=76]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 93, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=52]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 124, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=53]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 155, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=54]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 186, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=55]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 217, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=56]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 248, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=57]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 279, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=58]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 310, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=59]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 341, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=60]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 372, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=61]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 403, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=62]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=63]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 31, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=64]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 62, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=65]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 93, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 124, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=66]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 155, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=67]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=68]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 31, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=69]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 62, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=70]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 93, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=71]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=72]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 31, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=73]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 62, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=74]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 93, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=75]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 124, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=30]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 155, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=31]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 186, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=32]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 217, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=33]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 248, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 279, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 31, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=37]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 62, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=38]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 93, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=39]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 124, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=40]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 155, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=41]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 186, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=42]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=43]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 31, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=44]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 62, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=45]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 93, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=46]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 124, 90, 31 )
+
+[sub_resource type="AtlasTexture" id=47]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 155, 90, 31 )
+
+[sub_resource type="SpriteFrames" id=77]
+animations = [ {
+"frames": [ SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 76 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), SubResource( 61 ) ],
+"loop": false,
+"name": "attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 62 ), SubResource( 63 ), SubResource( 64 ), SubResource( 65 ), SubResource( 19 ), SubResource( 66 ) ],
+"loop": true,
+"name": "shield",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 67 ), SubResource( 68 ), SubResource( 69 ), SubResource( 70 ) ],
+"loop": false,
+"name": "shield end",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ) ],
+"loop": false,
+"name": "shield start",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 41 ), SubResource( 41 ), SubResource( 41 ), SubResource( 41 ) ],
+"loop": false,
+"name": "stop",
+"speed": 4.0
+}, {
+"frames": [ SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=78]
+radius = 12.0012
+
+[sub_resource type="CapsuleShape2D" id=79]
+radius = 12.6667
+height = 66.6667
+
+[node name="droid" type="KinematicBody2D"]
+scale = Vector2( 3, 3 )
+collision_layer = 5
+collision_mask = 6
+script = SubResource( 51 )
+
+[node name="anim" type="AnimatedSprite" parent="."]
+frames = SubResource( 77 )
+animation = "stop"
+frame = 10
+playing = true
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 3.5 )
+shape = SubResource( 78 )
+
+[node name="area" type="Area2D" parent="."]
+
+[node name="collision" type="CollisionShape2D" parent="area"]
+position = Vector2( 0, 2 )
+rotation = 1.5708
+shape = SubResource( 79 )
+
+[node name="LeftAttack" type="RayCast2D" parent="."]
+position = Vector2( -12, 0 )
+rotation = 1.5708
+enabled = true
+cast_to = Vector2( 0, 20 )
+collision_mask = 256
+
+[node name="RightAttack" type="RayCast2D" parent="."]
+position = Vector2( 12, 0 )
+rotation = -1.5708
+enabled = true
+cast_to = Vector2( 0, 20 )
+collision_mask = 256
+
+[node name="RigthBottom" type="RayCast2D" parent="."]
+position = Vector2( 12, 10 )
+enabled = true
+cast_to = Vector2( 0, 20 )
+collision_mask = 256
+
+[node name="LeftBottom" type="RayCast2D" parent="."]
+position = Vector2( -12, 10 )
+enabled = true
+cast_to = Vector2( 0, 20 )
+collision_mask = 256
+
+[node name="Sing" parent="." instance=ExtResource( 8 )]
+
+[node name="Position2D" type="Position2D" parent="."]
+
+[connection signal="animation_finished" from="anim" to="." method="fin"]
