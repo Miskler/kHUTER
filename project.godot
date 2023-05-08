@@ -50,7 +50,7 @@ Python="C:/Users/KAMA/AppData/Local/Programs/Python/Python310/python.exe"
 
 config/name="kHUTER"
 config/description="Небольшой проект...."
-run/main_scene="res://scene/levels/technical/load.tscn"
+run/main_scene="res://scenes/levels/technical/load.tscn"
 boot_splash/image="res://textures/black.png"
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0, 0, 0, 1 )

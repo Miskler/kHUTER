@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://scene/interface/interface_elements/slot_item.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/interface/interface_elements/slot_item.tscn" type="PackedScene" id=2]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends RigidBody2D

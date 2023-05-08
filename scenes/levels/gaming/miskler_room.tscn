@@ -5,7 +5,7 @@
 [ext_resource path="res://resources/shaders/background_sphere.material" type="Material" id=3]
 [ext_resource path="res://scenes/entities/basic/droid.res" type="PackedScene" id=4]
 [ext_resource path="res://scene/TileMap.res" type="PackedScene" id=5]
-[ext_resource path="res://scene/modules/signal_center.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/modules/signal_center.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/modules/SettingData.res" type="PackedScene" id=7]
 [ext_resource path="res://resources/fonts/standart/small.otf" type="DynamicFontData" id=8]
 [ext_resource path="res://textures/people/mob/fall.png" type="Texture" id=9]
@@ -48,7 +48,7 @@
 [ext_resource path="res://textures/ui/items/created/water.png" type="Texture" id=46]
 [ext_resource path="res://textures/ui/items/loot/ice_item.png" type="Texture" id=47]
 [ext_resource path="res://textures/ui/items/mini_blocks/craft.png" type="Texture" id=48]
-[ext_resource path="res://scene/modules/background_music.tscn" type="PackedScene" id=49]
+[ext_resource path="res://scenes/modules/background_music.tscn" type="PackedScene" id=49]
 
 [sub_resource type="GDScript" id=4]
 script/source = "extends Node2D
