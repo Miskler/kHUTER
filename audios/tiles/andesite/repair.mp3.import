@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/repair.mp3-318f8061af34f2f63aed7c18029dd616.mp3str"
+
+[deps]
+
+source_file="res://audios/tiles/andesite/repair.mp3"
+dest_files=[ "res://.import/repair.mp3-318f8061af34f2f63aed7c18029dd616.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

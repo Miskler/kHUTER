@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/mysterious_structure.mp3-343269fae8ebae276c0b86604b8eeae3.mp3str"
+
+[deps]
+
+source_file="res://audios/guider/mysterious_structure.mp3"
+dest_files=[ "res://.import/mysterious_structure.mp3-343269fae8ebae276c0b86604b8eeae3.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/win_game.mp3-ae98b83993b60402a960d7adae98fd59.mp3str"
+
+[deps]
+
+source_file="res://audios/guider/win_game.mp3"
+dest_files=[ "res://.import/win_game.mp3-ae98b83993b60402a960d7adae98fd59.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

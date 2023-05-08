@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/installation.mp3-24c9b95573847a942751bfd8982d1563.mp3str"
+
+[deps]
+
+source_file="res://audios/tiles/stone/installation.mp3"
+dest_files=[ "res://.import/installation.mp3-24c9b95573847a942751bfd8982d1563.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

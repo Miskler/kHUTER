@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/destruction.mp3-a75e4d8fb6228fc9035d114c2ee4f9d6.mp3str"
+
+[deps]
+
+source_file="res://audios/tiles/ground/destruction.mp3"
+dest_files=[ "res://.import/destruction.mp3-a75e4d8fb6228fc9035d114c2ee4f9d6.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

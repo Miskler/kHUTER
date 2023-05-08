@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/use.mp3-713aac2af4ed8b8ee0ab9fad80584e03.mp3str"
+
+[deps]
+
+source_file="res://audios/tiles/craft/use.mp3"
+dest_files=[ "res://.import/use.mp3-713aac2af4ed8b8ee0ab9fad80584e03.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

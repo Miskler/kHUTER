@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/before_explosion.mp3-6a535d8189b79058aeebaf89b102f480.mp3str"
+
+[deps]
+
+source_file="res://audios/entities/bleb/before_explosion.mp3"
+dest_files=[ "res://.import/before_explosion.mp3-6a535d8189b79058aeebaf89b102f480.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

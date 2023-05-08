@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/food.mp3-b0202906ec1cc49f9508f8957221bbe8.mp3str"
+
+[deps]
+
+source_file="res://audios/guider/events/food.mp3"
+dest_files=[ "res://.import/food.mp3-b0202906ec1cc49f9508f8957221bbe8.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

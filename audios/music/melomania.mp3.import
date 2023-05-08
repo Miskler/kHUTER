@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/melomania.mp3-134ab30b7d5cfd4b6e1b57793a49b22a.mp3str"
+
+[deps]
+
+source_file="res://audios/music/melomania.mp3"
+dest_files=[ "res://.import/melomania.mp3-134ab30b7d5cfd4b6e1b57793a49b22a.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

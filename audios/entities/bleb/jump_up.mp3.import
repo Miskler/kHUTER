@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/jump_up.mp3-3f49ea0bbe0d42dff5fcb343b5d46eed.mp3str"
+
+[deps]
+
+source_file="res://audios/entities/bleb/jump_up.mp3"
+dest_files=[ "res://.import/jump_up.mp3-3f49ea0bbe0d42dff5fcb343b5d46eed.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

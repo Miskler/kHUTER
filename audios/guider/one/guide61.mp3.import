@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/guide61.mp3-9664fb13a97e0864bc8b60678a41ab02.mp3str"
+
+[deps]
+
+source_file="res://audios/guider/one/guide61.mp3"
+dest_files=[ "res://.import/guide61.mp3-9664fb13a97e0864bc8b60678a41ab02.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

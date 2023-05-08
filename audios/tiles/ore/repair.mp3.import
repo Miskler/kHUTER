@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/repair.mp3-954f2ed203ee89e1a0790e645ac6a77b.mp3str"
+
+[deps]
+
+source_file="res://audios/tiles/ore/repair.mp3"
+dest_files=[ "res://.import/repair.mp3-954f2ed203ee89e1a0790e645ac6a77b.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
