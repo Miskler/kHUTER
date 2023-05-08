@@ -9,7 +9,7 @@
 [ext_resource path="res://audios/entities/bleb/crawling.mp3" type="AudioStream" id=7]
 [ext_resource path="res://textures/people/mob/fall.png" type="Texture" id=8]
 [ext_resource path="res://textures/people/mob/walk.png" type="Texture" id=9]
-[ext_resource path="res://scenes/modules/syncing_render.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scene/modules/syncing_render.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scripts/entities/slug.gd" type="Script" id=11]
 
 [sub_resource type="AtlasTexture" id=20]

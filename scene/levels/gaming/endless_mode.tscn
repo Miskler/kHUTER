@@ -1,7 +1,7 @@
 [gd_scene load_steps=31 format=2]
 
-[ext_resource path="res://scenes/modules/tile_map.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/modules/signal_center.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scene/modules/tile_map.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scene/modules/signal_center.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/modules/SettingData.res" type="PackedScene" id=3]
 [ext_resource path="res://textures/other/asteroids/five.png" type="Texture" id=4]
 [ext_resource path="res://tile_b.tres" type="TileSet" id=5]
@@ -13,7 +13,7 @@
 [ext_resource path="res://textures/people/guider/guider2.png" type="Texture" id=11]
 [ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=12]
 [ext_resource path="res://resources/themes/main.theme" type="Theme" id=13]
-[ext_resource path="res://scenes/modules/background_music.tscn" type="PackedScene" id=14]
+[ext_resource path="res://scene/modules/background_music.tscn" type="PackedScene" id=14]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends ColorRect

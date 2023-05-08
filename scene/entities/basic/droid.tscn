@@ -7,7 +7,7 @@
 [ext_resource path="res://textures/people/droid/hit_and_death.png" type="Texture" id=5]
 [ext_resource path="res://textures/people/droid/static_idle.png" type="Texture" id=6]
 [ext_resource path="res://textures/people/droid/shield_finished.png" type="Texture" id=7]
-[ext_resource path="res://scenes/modules/syncing_render.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scene/modules/syncing_render.tscn" type="PackedScene" id=8]
 
 [sub_resource type="GDScript" id=51]
 script/source = "extends KinematicBody2D
