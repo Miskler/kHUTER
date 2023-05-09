@@ -64,7 +64,7 @@ default_bus_layout=""
 
 [autoload]
 
-G="*res://Scenes/Global.tscn"
+G="*res://scenes/levels/technical/global.tscn"
 Firebase="*res://addons/Firebase/Scripts/Firebase.gd"
 GamesSignInClient="*res://addons/google_play_game_services_manager/sign_in/GamesSignInClient.gd"
 AchievementsClient="*res://addons/google_play_game_services_manager/achievements/AchievementsClient.gd"
