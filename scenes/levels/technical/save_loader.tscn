@@ -1,0 +1,364 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/map_packer.gd" type="Script" id=1]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Node
+
+
+signal save_complete(complete)
+
+
+func load_map(path_start_node:Node, path_file):
+	if get_node_or_null(\"/root/rootGame\") != null:
+		$loader.set_scene(path_start_node, path_file)
+
+func send_map():
+	if get_node_or_null(\"/root/rootGame/Node\") != null:
+		pass
+
+func save_map(name_save:String = \"Быстрое сохранение\"):
+	if get_node_or_null(\"/root/rootGame/Node\") != null:
+		var dirSAV = Directory.new()
+		var path = \"user://SaveGame/Worlds/\" + str(name_save)
+		if !dirSAV.dir_exists(path):
+			dirSAV.make_dir_recursive(path)
+		
+		#Сохраняем мир
+		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = true
+		var saver = $save.save_game()
+		var file_t = File.new()
+		file_t.open(path + \"/map.khuter\", File.WRITE)
+		file_t.store_line(var2str(saver[0]))
+		file_t.close()
+		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = false
+		
+		#Делаем .json файл с данными о времени, версии и т.д..
+		var file = File.new()
+		file.open(path + \"/data.json\", File.WRITE)
+		file.store_line(to_json(saver[1]))
+		file.close()
+		return true
+	return false
+
+func save_screenshot_map(name_save):
+	var dirSAV = Directory.new()
+	var path = \"user://SaveGame/Worlds/\" + str(name_save)
+	if !dirSAV.dir_exists(path):
+		return false
+	
+	#Делаем скриншот
+	var image = get_viewport().get_texture().get_data()
+	image.flip_y()
+	image.save_png(path + \"/screenshot.png\")
+	
+	return true
+"
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends Node
+
+func ready_script_started(root, ignored):
+	for node in root.get_children():
+		var path = node.get_path()
+		if !path in ignored and node.has_method(\"_ready\"):
+			node._ready()
+		ready_script_started(node, ignored)
+
+func connect_virtual_signals(root: Node = $\"/root\", ignor: Array = []):
+	for node in root.get_children():
+		if not (node.get_path() in ignor):
+			if node.script != null:
+				if node.has_method(\"_process\"):
+					node.set_process(true)
+				if node.has_method(\"_physics_process\"):
+					node.set_physics_process(true)
+				if node.has_method(\"_input\"):
+					node.set_process_input(true)
+			connect_virtual_signals(node, ignor)
+
+func scripts_reload(root, ignored):
+	for node in root.get_children():
+		#var path = node.get_path()
+		if node.script:
+			print(\"Скрипт перезагружен: \" + node.get_path())
+			node.script.reload()
+			ready_script_started(node, ignored)
+
+func set_scene(node_start:Node, path):# <- ТОЧКА ВХОДА
+	G.get_node(\"Load Screen\").event_p(0)
+	if path is String:
+		print(\"Установка полученной карты...\")
+		G.get_node(\"Load Screen\").event_p(50)
+		G.loadSCN = path
+		var p = load(path)
+		
+		p = p.instance()
+		p.name = \"Node\"
+		node_start.add_child(p, false)
+	else:
+		print(\"Распаковка полученной карты...\")
+		print(\"Создание дерева нод...\")
+		for i in path:
+			var node_spavn = ClassDB.instance(i[\"node\"])
+			var no_use = [\"node\", \"script\", \"path\", \"tile_data\", \"filename\", \"frames\", \"collision_layer\", \"collision_mask\", \"animation\"]
+			
+			node_spavn.name = i[\"name\"]
+			
+			if i.get(\"path\") != null and get_node_or_null(i[\"path\"]) != null:
+				node_start.get_node(i[\"path\"]).add_child(node_spavn)
+				
+				if i.has(\"tile_data\"):
+					for f in range(i[\"tile_data\"].size()):
+						node_spavn.set_cell(i[\"tile_data\"][f][\"position\"].x, i[\"tile_data\"][f][\"position\"].y, i[\"tile_data\"][f][\"atlas\"], false, false, false, i[\"tile_data\"][f][\"position_in_atlas\"])
+				elif i.has(\"frames\"):
+					var SF = SpriteFrames.new()
+					printt(\"ROOT_FRAMES\", SF)
+					for j in i[\"frames\"].keys():
+						SF.add_animation(j)
+						SF.set_animation_loop(j, i[\"frames\"][j][\"animation_loop\"])
+						SF.set_animation_speed(j, i[\"frames\"][j][\"animation_speed\"])
+						for d in range(i[\"frames\"][j][\"animation_frames\"].size()):
+							if i[\"frames\"][j][\"animation_frames\"][d] is String:
+								SF.add_frame(j, load(i[\"frames\"][j][\"animation_frames\"][d]), d)#load(i[\"frames\"][j][\"animation_frames\"][d]), d)
+							else:
+								var atla = AtlasTexture.new()
+								
+								atla.atlas = load(i[\"frames\"][j][\"animation_frames\"][d][\"original_image\"])
+								atla.region = i[\"frames\"][j][\"animation_frames\"][d][\"region\"]
+								atla.margin = i[\"frames\"][j][\"animation_frames\"][d][\"margin\"]
+								atla.filter_clip = i[\"frames\"][j][\"animation_frames\"][d][\"filter_clip\"]
+								atla.flags = i[\"frames\"][j][\"animation_frames\"][d][\"flags\"]
+								
+								SF.add_frame(j, atla, d)
+						
+					printt(\"ROOT_FRAMES\", SF.get_animation_names(), SF.get_frame_count(SF.get_animation_names()[0]))
+					node_spavn.frames = SF
+					printt(\"ROOT_FRAMES_ANM\", node_spavn.animation)
+					node_spavn.animation = i[\"animation\"]
+				
+				setter_param(node_spavn, i, no_use)
+				
+				if i.has(\"is_stopped\") and i.get(\"is_stopped\") == false:
+					node_spavn.start(i[\"time_left\"])
+				elif i.has(\"stream\") and i[\"stream\"] != null and i[\"playing\"] == true:
+					node_spavn.play(i[\"playback_position\"])
+				elif i.has(\"collision_mask\"):
+					#if node_spavn is TileMap:
+					printt(\"TILEMAP\", i[\"node\"], i[\"collision_mask\"])
+					node_spavn.set_collision_mask(i[\"collision_mask\"])
+					node_spavn.set_collision_layer(i[\"collision_layer\"])
+					if i.has(\"navigation_layers\"):
+						node_spavn.set_navigation_layers(i[\"navigation_layers\"])
+					#node_spavn.set_collision_mask_bit(0, i[\"collision_mask\"][1])
+				
+				
+				if i.has(\"script\"):
+					var script = GDScript.new()
+					var parse_res = JSON.parse(i[\"script\"][\"code\"]).result
+					script.source_code = parse_res
+					script.reload()
+					node_spavn.set_script(script)
+				
+				if i.has(\"global_position\"):
+					node_spavn.set_global_position(i[\"global_position\"])
+					node_spavn.rotation = i[\"rotation\"]
+				elif i.has(\"rect_position\"):
+					node_spavn.rect_position = i[\"rect_position\"]
+					node_spavn.rect_size = i[\"rect_size\"]
+		
+		yield(get_tree(), \"idle_frame\")
+		G.get_node(\"Load Screen\").event_p(20)
+		print(\"Установка переменных...\")
+		for i in path:
+			var node = node_start.get_node_or_null(str(i[\"path\"]) + \"/\" + i[\"name\"])
+			if i.has(\"animations\") and node != null:
+				
+				for anim in i[\"animations\"]:
+					var A = Animation.new()
+					
+					A.set_length(anim[\"length\"])
+					A.set_loop(anim[\"loop\"])
+					A.set_step(anim[\"step\"])
+					
+					for track in anim[\"tracks\"]:
+						var track_id = A.add_track(track[\"type\"])
+						
+						A.track_set_enabled(track_id, track[\"enabled\"])
+						A.track_set_imported(track_id, track[\"imported\"])
+						A.track_set_interpolation_loop_wrap(track_id, track[\"interpolation_loop\"])
+						A.track_set_interpolation_type(track_id, track[\"interpolation\"])
+						A.track_set_path(track_id, track[\"path\"])
+						
+						for key in track[\"keys\"]:
+							A.track_insert_key(track_id, key[\"position\"], key[\"value\"])
+					
+					node.add_animation(anim[\"name\"], A)
+			if i.has(\"script\") and node != null:
+				var vars_keys = i[\"script\"][\"vars\"].keys()
+				for k in range(i[\"script\"][\"vars\"].size()):
+					node.set(vars_keys[k], i[\"script\"][\"vars\"][vars_keys[k]])
+		
+		yield(get_tree(), \"idle_frame\")
+		G.get_node(\"Load Screen\").event_p(40)
+		print(\"Установка сигналов...\")
+		for i in path:
+			for signal_name in i[\"signals\"].keys():
+				var node = node_start.get_node_or_null(str(i[\"path\"]) + \"/\" + i[\"name\"])
+				if node != null:
+					for signal_data in i[\"signals\"][signal_name]:
+						node.connect(signal_name, node_start.get_node(signal_data[1]), signal_data[0])
+		
+		yield(get_tree(), \"idle_frame\")
+		G.get_node(\"Load Screen\").event_p(60)
+		print(\"Запуск виртуальных функций...\")
+		connect_virtual_signals(node_start, [\"/root/rootGame/Timer\", \"/root/rootGame/Timer2\"])
+		
+		G.get_node(\"Load Screen\").event_p(80)
+		print(\"Запуск скриптов...\")
+		ready_script_started($\"/root/rootGame\", [\"/root/rootGame/Timer\", \"/root/rootGame/Timer2\"])
+	yield(get_tree(), \"idle_frame\")
+	G.get_node(\"Load Screen\").event_p(100)
+	print(\"Готово!\")
+	G.get_node(\"Load Screen\").not_select()
+
+func setter_param(node_spavn, path, no_use):
+	for j in path.keys():
+		if !j in no_use:
+			if path[j] is String and(path[j].begins_with(\"res://\")):
+				node_spavn.set(j, load(path[j]))
+			elif path[j] is Dictionary and path[j].has(\"type\"):
+				if path[j][\"type\"] == \"AtlasTexture\":
+					var atlas_texture = AtlasTexture.new()
+					
+					atlas_texture.atlas = load(path[j][\"original_image\"])
+					atlas_texture.region = path[j][\"region\"]
+					atlas_texture.margin = path[j][\"margin\"]
+					atlas_texture.filter_clip = path[j][\"filter_clip\"]
+					atlas_texture.flags = path[j][\"flags\"]
+					
+					node_spavn.set(j, atlas_texture)
+			elif path[j] is Dictionary and path[j].size() >= 1 and path[j].has(\"use_setter_param\"):
+				var param = ClassDB.instance(path[j][\"node\"])
+				node_spavn.set(j, setter_param(param, path[j], no_use))
+			elif j != \"use_setter_param\":
+				node_spavn.set(j, path[j])
+	return node_spavn
+"
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node
+
+var SCREENfile
+export var file_prefix = \"\"
+
+var _tag = \"\"
+var _index = 0
+
+func _ready():
+	var dir = Directory.new()
+	print(OS.get_system_dir(OS.SYSTEM_DIR_PICTURES))
+	
+	SCREENfile = str(OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)) + \"/kHUTER\"
+	
+	if not dir.dir_exists(SCREENfile):
+		dir.make_dir_recursive(SCREENfile)
+	
+	dir.open(SCREENfile)
+	
+	if not SCREENfile[-1] == \"/\":
+		SCREENfile += \"/\"
+	if not file_prefix.empty():
+		file_prefix += \"_\"
+	set_process_input(true)
+
+func _input(_event):
+	if Input.is_action_just_pressed(\"F12\"):
+		make_screenshot()
+
+func make_screenshot():
+	var image = get_viewport().get_texture().get_data()
+	image.flip_y()
+	
+	_update_tags()
+	image.save_png(\"%s%s%s_%s-индекс.png\" % [SCREENfile, file_prefix, _tag, _index])
+
+func _update_tags():
+	var time
+	
+	time = OS.get_datetime()
+	time = \"%s-%02d-%02d-%02d\" % [time['year'], time['month'], time['day'], time['hour']]
+	if (_tag == time): _index += 1
+	else:
+		_index = 0
+	_tag = time
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node
+
+var id = 10
+
+func start_auto_save():
+	if G.game_settings[\"auto_on\"]:
+		id = 10
+		
+		$global_time.wait_time = (G.game_settings[\"auto_save\"]*60)-10
+		$global_time.start()
+	else:
+		stop_auto_save()
+func stop_auto_save():
+	$global_time.stop()
+	$local_time.stop()
+
+
+func global_timeout():
+	$local_time.start()
+func local_timeout():
+	id -= 1
+	
+	if id <= 0:
+		$local_time.stop()
+		save()
+	else:
+		G.get_node(\"../Global Interface\").new_notification(\"Авто сохранение\", \"Через \"+str(id)+\"...\", Color(\"ffc500\"), Color(\"9bffa100\"), 1.1)
+
+func save() -> bool:
+	start_auto_save()
+	
+	var node = get_node_or_null(\"/root/rootGame/Node/Player/Camera2D/interface/menu/Saves\")
+	if node == null:
+		G.get_node(\"../Global Interface\").new_notification(\"Ошибка\", \"Попытка автосохранения...\\nУзел пользователя не найден!\", Color(\"ddff0000\"), Color(\"ddb50000\"), 0.1)
+		return false
+	
+	SaveLoader.save_map(\"Авто сохранение\")
+	G.get_node(\"../Global Interface\").new_notification(\"Успешно!\", \"Попытка автосохранения...\\nСохранение прошло успешно!\")
+	
+	yield(get_tree().create_timer(1.1), \"timeout\")
+	get_node(\"/root/rootGame/Node/Player\").show_main()
+	
+	return true
+"
+
+[node name="save_loader" type="Node"]
+script = SubResource( 3 )
+
+[node name="save" type="Node" parent="."]
+script = ExtResource( 1 )
+
+[node name="loader" type="Node" parent="."]
+script = SubResource( 4 )
+
+[node name="screenshot" type="Node" parent="."]
+script = SubResource( 1 )
+
+[node name="auto_save" type="Node" parent="."]
+script = SubResource( 2 )
+
+[node name="global_time" type="Timer" parent="auto_save"]
+one_shot = true
+
+[node name="local_time" type="Timer" parent="auto_save"]
+
+[connection signal="timeout" from="auto_save/global_time" to="auto_save" method="global_timeout"]
+[connection signal="timeout" from="auto_save/local_time" to="auto_save" method="local_timeout"]

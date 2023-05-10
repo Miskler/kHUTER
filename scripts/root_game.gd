@@ -26,9 +26,9 @@ func _ready():
 			file.open(G.loadSCN, File.READ)
 			var data = str2var(file.get_as_text())
 			file.close()
-			set_scene(data)
+			SaveLoader.set_scene(self, data)
 		else:
-			set_scene(G.loadSCN)
+			SaveLoader.set_scene(self, G.loadSCN)
 		if get_node_or_null("Node/Player") == null:
 			revive_player(G.my_id())
 		print("Cцена инициализированна!")
@@ -153,7 +153,7 @@ remote func file_select(nodes, pl_rs, l_pl_rs):
 	G.get_node("Load Screen").event_p(10)
 	yield(get_tree(), "idle_frame")
 	
-	set_scene(nodes)
+	SaveLoader.set_scene(nodes)
 	
 	G.player_roster = pl_rs
 	G.live_player_roster = l_pl_rs
@@ -165,197 +165,11 @@ remote func file_select(nodes, pl_rs, l_pl_rs):
 	
 	yield(get_tree(), "idle_frame")
 	
-	revive_player(get_tree().get_network_unique_id())
+	revive_player(G.my_id())
 	
 	yield(get_tree(), "idle_frame")
 	
 	spavn_players()
-
-func ready_script_started(root, ignored):
-	for node in root.get_children():
-		var path = node.get_path()
-		if !path in ignored and node.has_method("_ready"):
-			node._ready()
-		ready_script_started(node, ignored)
-
-func connect_virtual_signals(root: Node = $"/root", ignor: Array = []):
-	for node in root.get_children():
-		if not (node.get_path() in ignor):
-			if node.script != null:
-				if node.has_method("_process"):
-					node.set_process(true)
-				if node.has_method("_physics_process"):
-					node.set_physics_process(true)
-				if node.has_method("_input"):
-					node.set_process_input(true)
-			connect_virtual_signals(node, ignor)
-
-func scripts_reload(root, ignored):
-	for node in root.get_children():
-		#var path = node.get_path()
-		if node.script:
-			print("Скрипт перезагружен: " + node.get_path())
-			node.script.reload()
-			ready_script_started(node, ignored)
-
-func set_scene(path):
-	if path is String:
-		print("Установка полученной карты...")
-		G.loadSCN = path
-		var p = load(path)
-		
-		p = p.instance()
-		p.name = "Node"
-		add_child(p, false)
-	else:
-		print("Распаковка полученной карты...")
-		print("Создание дерева нод...")
-		G.get_node("Load Screen").event_p(0)
-		for i in path:
-			var node_spavn = ClassDB.instance(i["node"])
-			var no_use = ["node", "script", "path", "tile_data", "filename", "frames", "collision_layer", "collision_mask", "animation"]
-			
-			node_spavn.name = i["name"]
-			
-			if i.get("path") != null and get_node_or_null(i["path"]) != null:
-				get_node(i["path"]).add_child(node_spavn)
-				
-				if i.has("tile_data"):
-					for f in range(i["tile_data"].size()):
-						node_spavn.set_cell(i["tile_data"][f]["position"].x, i["tile_data"][f]["position"].y, i["tile_data"][f]["atlas"], false, false, false, i["tile_data"][f]["position_in_atlas"])
-				elif i.has("frames"):
-					var SF = SpriteFrames.new()
-					printt("ROOT_FRAMES", SF)
-					for j in i["frames"].keys():
-						SF.add_animation(j)
-						SF.set_animation_loop(j, i["frames"][j]["animation_loop"])
-						SF.set_animation_speed(j, i["frames"][j]["animation_speed"])
-						for d in range(i["frames"][j]["animation_frames"].size()):
-							if i["frames"][j]["animation_frames"][d] is String:
-								SF.add_frame(j, load(i["frames"][j]["animation_frames"][d]), d)#load(i["frames"][j]["animation_frames"][d]), d)
-							else:
-								var atla = AtlasTexture.new()
-								
-								atla.atlas = load(i["frames"][j]["animation_frames"][d]["original_image"])
-								atla.region = i["frames"][j]["animation_frames"][d]["region"]
-								atla.margin = i["frames"][j]["animation_frames"][d]["margin"]
-								atla.filter_clip = i["frames"][j]["animation_frames"][d]["filter_clip"]
-								atla.flags = i["frames"][j]["animation_frames"][d]["flags"]
-								
-								SF.add_frame(j, atla, d)
-						
-					printt("ROOT_FRAMES", SF.get_animation_names(), SF.get_frame_count(SF.get_animation_names()[0]))
-					node_spavn.frames = SF
-					printt("ROOT_FRAMES_ANM", node_spavn.animation)
-					node_spavn.animation = i["animation"]
-				
-				setter_param(node_spavn, i, no_use)
-				
-				if i.has("is_stopped") and i.get("is_stopped") == false:
-					node_spavn.start(i["time_left"])
-				elif i.has("stream") and i["stream"] != null and i["playing"] == true:
-					node_spavn.play(i["playback_position"])
-				elif i.has("collision_mask"):
-					#if node_spavn is TileMap:
-					printt("TILEMAP", i["node"], i["collision_mask"])
-					node_spavn.set_collision_mask(i["collision_mask"])
-					node_spavn.set_collision_layer(i["collision_layer"])
-					if i.has("navigation_layers"):
-						node_spavn.set_navigation_layers(i["navigation_layers"])
-					#node_spavn.set_collision_mask_bit(0, i["collision_mask"][1])
-				
-				
-				if i.has("script"):
-					var script = GDScript.new()
-					var parse_res = JSON.parse(i["script"]["code"]).result
-					script.source_code = parse_res
-					script.reload()
-					node_spavn.set_script(script)
-				
-				if i.has("global_position"):
-					node_spavn.set_global_position(i["global_position"])
-					node_spavn.rotation = i["rotation"]
-				elif i.has("rect_position"):
-					node_spavn.rect_position = i["rect_position"]
-					node_spavn.rect_size = i["rect_size"]
-		
-		yield(get_tree(), "idle_frame")
-		G.get_node("Load Screen").event_p(20)
-		print("Установка переменных...")
-		for i in path:
-			var node = get_node_or_null(str(i["path"]) + "/" + i["name"])
-			if i.has("animations") and node != null:
-				
-				for anim in i["animations"]:
-					var A = Animation.new()
-					
-					A.set_length(anim["length"])
-					A.set_loop(anim["loop"])
-					A.set_step(anim["step"])
-					
-					for track in anim["tracks"]:
-						var track_id = A.add_track(track["type"])
-						
-						A.track_set_enabled(track_id, track["enabled"])
-						A.track_set_imported(track_id, track["imported"])
-						A.track_set_interpolation_loop_wrap(track_id, track["interpolation_loop"])
-						A.track_set_interpolation_type(track_id, track["interpolation"])
-						A.track_set_path(track_id, track["path"])
-						
-						for key in track["keys"]:
-							A.track_insert_key(track_id, key["position"], key["value"])
-					
-					node.add_animation(anim["name"], A)
-			if i.has("script") and get_node_or_null(str(i["path"]) + "/" + i["name"]) != null:
-				var vars_keys = i["script"]["vars"].keys()
-				for k in range(i["script"]["vars"].size()):
-					node.set(vars_keys[k], i["script"]["vars"][vars_keys[k]])
-		
-		yield(get_tree(), "idle_frame")
-		G.get_node("Load Screen").event_p(40)
-		print("Установка сигналов...")
-		for i in path:
-			for signal_name in i["signals"].keys():
-				var node = get_node_or_null(str(i["path"]) + "/" + i["name"])
-				if node != null:
-					for signal_data in i["signals"][signal_name]:
-						node.connect(signal_name, get_node(signal_data[1]), signal_data[0])
-		
-		yield(get_tree(), "idle_frame")
-		G.get_node("Load Screen").event_p(60)
-		print("Запуск виртуальных функций...")
-		connect_virtual_signals($"/root/rootGame", ["/root/rootGame/Timer", "/root/rootGame/Timer2"])
-		
-		G.get_node("Load Screen").event_p(80)
-		print("Запуск скриптов...")
-		ready_script_started($"/root/rootGame", ["/root/rootGame/Timer", "/root/rootGame/Timer2"])
-	yield(get_tree(), "idle_frame")
-	G.get_node("Load Screen").event_p(100)
-	print("Готово!")
-	G.get_node("Load Screen").not_select()
-
-func setter_param(node_spavn, path, no_use):
-	for j in path.keys():
-		if !j in no_use:
-			if path[j] is String and(path[j].begins_with("res://")):
-				node_spavn.set(j, load(path[j]))
-			elif path[j] is Dictionary and path[j].has("type"):
-				if path[j]["type"] == "AtlasTexture":
-					var atlas_texture = AtlasTexture.new()
-					
-					atlas_texture.atlas = load(path[j]["original_image"])
-					atlas_texture.region = path[j]["region"]
-					atlas_texture.margin = path[j]["margin"]
-					atlas_texture.filter_clip = path[j]["filter_clip"]
-					atlas_texture.flags = path[j]["flags"]
-					
-					node_spavn.set(j, atlas_texture)
-			elif path[j] is Dictionary and path[j].size() >= 1 and path[j].has("use_setter_param"):
-				var param = ClassDB.instance(path[j]["node"])
-				node_spavn.set(j, setter_param(param, path[j], no_use))
-			elif j != "use_setter_param":
-				node_spavn.set(j, path[j])
-	return node_spavn
 
 remote func game_win(titre, text, audio:bool = true):
 	var v = load("res://Scenes/win_game.res").instance()

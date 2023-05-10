@@ -1,61 +1,12 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://resources/fonts/writer_duo/writer_duos_bold_italic.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://resources/fonts/writer_duo/writer_duos_italic.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=3]
 [ext_resource path="res://resources/fonts/writer_duo/writer_duos_bold.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://resources/fonts/writer_duo/writer_duov.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://scripts/map_packer.gd" type="Script" id=6]
 [ext_resource path="res://scripts/global.gd" type="Script" id=7]
 [ext_resource path="res://scenes/interface/interface_elements/slot_item.tscn" type="PackedScene" id=8]
-
-[sub_resource type="GDScript" id=9]
-script/source = "extends Node
-
-var SCREENfile
-export var file_prefix = \"\"
-
-var _tag = \"\"
-var _index = 0
-
-func _ready():
-	var dir = Directory.new()
-	print(OS.get_system_dir(OS.SYSTEM_DIR_PICTURES))
-	
-	SCREENfile = str(OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)) + \"/kHUTER\"
-	
-	if not dir.dir_exists(SCREENfile):
-		dir.make_dir_recursive(SCREENfile)
-	
-	dir.open(SCREENfile)
-	
-	if not SCREENfile[-1] == \"/\":
-		SCREENfile += \"/\"
-	if not file_prefix.empty():
-		file_prefix += \"_\"
-	set_process_input(true)
-
-func _input(_event):
-	if Input.is_action_just_pressed(\"F12\"):
-		make_screenshot()
-
-func make_screenshot():
-	var image = get_viewport().get_texture().get_data()
-	image.flip_y()
-	
-	_update_tags()
-	image.save_png(\"%s%s%s_%s-индекс.png\" % [SCREENfile, file_prefix, _tag, _index])
-
-func _update_tags():
-	var time
-	
-	time = OS.get_datetime()
-	time = \"%s-%02d-%02d-%02d\" % [time['year'], time['month'], time['day'], time['hour']]
-	if (_tag == time): _index += 1
-	else:
-		_index = 0
-	_tag = time
-"
 
 [sub_resource type="GDScript" id=4]
 script/source = "extends CanvasLayer
@@ -462,64 +413,12 @@ font_data = ExtResource( 4 )
 [sub_resource type="DynamicFont" id=27]
 font_data = ExtResource( 5 )
 
-[sub_resource type="GDScript" id=29]
-script/source = "extends Node
-
-var id = 10
-
-func start_auto_save():
-	if G.game_settings[\"auto_on\"]:
-		id = 10
-		
-		$global_time.wait_time = (G.game_settings[\"auto_save\"]*60)-10
-		$global_time.start()
-	else:
-		stop_auto_save()
-func stop_auto_save():
-	$global_time.stop()
-	$local_time.stop()
-
-
-func global_timeout():
-	$local_time.start()
-func local_timeout():
-	id -= 1
-	
-	if id <= 0:
-		$local_time.stop()
-		save()
-	else:
-		$\"../Global Interface\".new_notification(\"Авто сохранение\", \"Через \"+str(id)+\"...\", Color(\"ffc500\"), Color(\"9bffa100\"), 1.1)
-
-func save() -> bool:
-	start_auto_save()
-	
-	var node = get_node_or_null(\"/root/rootGame/Node/Player/Camera2D/interface/menu/Saves\")
-	if node == null:
-		$\"../Global Interface\".new_notification(\"Ошибка\", \"Попытка автосохранения...\\nУзел пользователя не найден!\", Color(\"ddff0000\"), Color(\"ddb50000\"), 0.1)
-		return false
-	
-	node.add_element(\"Автосохранение\", true)
-	$\"../Global Interface\".new_notification(\"Успешно!\", \"Попытка автосохранения...\\nСохранение прошло успешно!\")
-	
-	yield(get_tree().create_timer(1.1), \"timeout\")
-	get_node(\"/root/rootGame/Node/Player\").show_main()
-	
-	return true
-"
-
 [node name="Global" type="Node"]
 pause_mode = 2
 script = ExtResource( 7 )
 __meta__ = {
 "_editor_description_": "35fggffg"
 }
-
-[node name="screenshot" type="Node" parent="."]
-script = SubResource( 9 )
-
-[node name="map_packer" type="Node" parent="."]
-script = ExtResource( 6 )
 
 [node name="Load Screen" type="CanvasLayer" parent="."]
 layer = 9
@@ -775,16 +674,6 @@ bbcode_enabled = true
 fit_content_height = true
 scroll_active = false
 
-[node name="auto_save" type="Node" parent="."]
-script = SubResource( 29 )
-
-[node name="global_time" type="Timer" parent="auto_save"]
-one_shot = true
-
-[node name="local_time" type="Timer" parent="auto_save"]
-
 [connection signal="animation_finished" from="Load Screen/Animation" to="Load Screen" method="select2"]
 [connection signal="animation_finished" from="Global Interface/Control/Notifications/Sample*/Pass" to="Global Interface/Control/Notifications/Sample*" method="_start_hide"]
 [connection signal="animation_finished" from="Global Interface/Control/Notifications/Sample*/Visible" to="Global Interface/Control/Notifications/Sample*" method="_finished"]
-[connection signal="timeout" from="auto_save/global_time" to="auto_save" method="global_timeout"]
-[connection signal="timeout" from="auto_save/local_time" to="auto_save" method="local_timeout"]

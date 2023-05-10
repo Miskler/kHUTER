@@ -1,48 +1,13 @@
 extends Node
 
-
-func resave_screenshot(name_save):
-	var dirSAV = Directory.new()
-	var path = "user://SaveGame/Worlds/" + str(name_save)
-	if !dirSAV.dir_exists(path):
-		return false
-	
-	#Делаем скриншот
-	var image = get_viewport().get_texture().get_data()
-	image.flip_y()
-	image.save_png(path + "/screenshot.png")
-	
-	return true
-
-func save_game(name_save):
+func save_game(name_save, ignor:Array = ["/root/rootGame/Timer", "/root/rootGame/Timer2"]):
 	if get_node_or_null("/root/rootGame/Node") != null:
-		var dirSAV = Directory.new()
-		var path = "user://SaveGame/Worlds/" + str(name_save)
-		if !dirSAV.dir_exists(path):
-			dirSAV.make_dir_recursive(path)
-		
-		#Делаем скриншот
-		var image = get_viewport().get_texture().get_data()
-		image.flip_y()
-		image.save_png(path + "/screenshot.png")
-		
-		#Сохраняем мир
-		get_node("/root/rootGame/Node/SettingData").map_settings["is_save"] = true
-		var file_t = File.new()
-		var ignor = ["/root/rootGame/Timer", "/root/rootGame/Timer2"]
 		var list_nodes = get_nodes($"/root/rootGame", ignor)
 		var nodes = list_param(list_nodes)
-		file_t.open(path + "/map.huter", File.WRITE)
-		file_t.store_line(var2str(nodes))
-		file_t.close()
-		get_node("/root/rootGame/Node/SettingData").map_settings["is_save"] = false
 		
-		#Делаем .json файл с данными о времени, версии и т.д..
-		var file = File.new()
 		var array_to_save = [get_parent().game_settings["version"], get_parent().game_settings["player_name"], OS.get_datetime()]
-		file.open(path + "/data.json", File.WRITE)
-		file.store_line(to_json(array_to_save))
-		file.close()
+		
+		return [nodes, array_to_save]
 
 func get_params(node:Object, node_list = {}):
 	if node is Object and is_instance_valid(node):

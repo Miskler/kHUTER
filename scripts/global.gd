@@ -3,7 +3,7 @@ extends Node
 #НОВЫЕ
 
 var game_settings = {
-	"version": "0.2.6    ",
+	"version": "0.2.8",
 	"prolog": false,
 	"boot_menu": false,
 	"bad_graphics": false,
@@ -18,7 +18,7 @@ var game_settings = {
 }
 
 export var ways = {
-	"main": "C:/Users/ПК/AppData/Roaming/Godot/app_userdata/Huter/SaveGame",
+	"main": "C:/Users/ПК/AppData/Roaming/Godot/app_userdata/kHUTER/SaveGame",
 	"settings": "user://SaveGame/setting_data.json",
 	"data_servers": "user://SaveGame/servers_data.json",
 	"server": "5.44.41.50", #"127.0.0.1"

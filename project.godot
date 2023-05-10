@@ -70,6 +70,7 @@ GamesSignInClient="*res://addons/google_play_game_services_manager/sign_in/Games
 AchievementsClient="*res://addons/google_play_game_services_manager/achievements/AchievementsClient.gd"
 LeaderboardsClient="*res://addons/google_play_game_services_manager/leaderboards/LeaderboardsClient.gd"
 FriendsClient="*res://addons/google_play_game_services_manager/friends/FriendsClient.gd"
+SaveLoader="*res://scenes/levels/technical/save_loader.tscn"
 
 [beautifier]
 
