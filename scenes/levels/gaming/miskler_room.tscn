@@ -762,7 +762,7 @@ position = Vector2( -378, 81 )
 scale = Vector2( 1.633, 1.55 )
 frames = SubResource( 25 )
 animation = "walk"
-frame = 1
+frame = 3
 playing = true
 
 [node name="Anim4" type="AnimatedSprite" parent="Node2D"]
@@ -824,7 +824,6 @@ texture = ExtResource( 15 )
 position = Vector2( -867, 32 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 29 )
-frame = 1
 playing = true
 flip_h = true
 
@@ -848,7 +847,7 @@ position = Vector2( -1220, 82 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 78 )
 animation = "walk"
-frame = 3
+frame = 5
 playing = true
 
 [node name="anim2" type="AnimatedSprite" parent="Node2D"]
@@ -863,7 +862,7 @@ position = Vector2( -1388, 81 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 77 )
 animation = "attack"
-frame = 10
+frame = 8
 playing = true
 
 [node name="Anim5" type="AnimatedSprite" parent="Node2D"]
@@ -894,6 +893,7 @@ position = Vector2( -1876, 48 )
 scale = Vector2( 2.25, 2.025 )
 frames = SubResource( 99 )
 animation = "jump"
+frame = 2
 playing = true
 
 [node name="Anim9" type="AnimatedSprite" parent="Node2D"]

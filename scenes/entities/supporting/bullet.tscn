@@ -123,7 +123,7 @@ func go_damage(body:Node = null):
 						if collision.get_node(\"TileData\").get(collision.tiles[int(setting_bullet[\"tile\"].x)][int(setting_bullet[\"tile\"].y)][\"tile_name\"]) != null and collision.get_node(\"TileData\").get(collision.tiles[int(setting_bullet[\"tile\"].x)][int(setting_bullet[\"tile\"].y)][\"tile_name\"]).has(\"loot\"):
 							b = collision.get_node(\"TileData\").get(collision.tiles[int(setting_bullet[\"tile\"].x)][int(setting_bullet[\"tile\"].y)][\"tile_name\"])[\"loot\"]
 						
-						get_node(\"/root/rootGame\").create_item(\"res://Scenes/Items/ItemInWorld.scn\", {\"global_position\": setting_bullet[\"tile\"]*Vector2(64, 64)+Vector2(32, 32), \"significant_data\": {\"item\": b}})
+						get_node(\"/root/rootGame\").drop_item({\"global_position\": setting_bullet[\"tile\"]*Vector2(64, 64)+Vector2(32, 32), \"significant_data\": {\"item\": b}})
 						#collision.tiles = collision.structure(collision.tiles, [[{\"position\": {\"mode\": 0, \"value\": setting_bullet[\"tile\"]}}], [{\"object\": {\"pos\": Vector2(32, 32), \"data\": {\"significant_data\": {\"item\": b}}}}]])
 						
 						collision.clear_tile(setting_bullet[\"tile\"])
@@ -136,8 +136,8 @@ func go_damage(body:Node = null):
 						if tile_d == false:
 							collision.rpc(\"edit_tile\", setting_bullet[\"tile\"], {\"autotile_coord\": {\"operation\": 2, \"value\": Vector2(damag, 0)}})
 						else: 
-							#get_node(\"/root/rootGame\").create_item(\"res://Scenes/Items/ItemInWorld.scn\", {\"global_position\": setting_bullet[\"tile\"]*Vector2(32, 32), \"significant_data\": {\"item\": b}})
-							collision.rpc(\"create_item\", \"res://Scenes/Items/ItemInWorld.scn\", {\"global_position\": setting_bullet[\"tile\"]*Vector2(64, 64)+Vector2(32, 32), \"significant_data\": {\"item\": b}})
+							#get_node(\"/root/rootGame\").drop_item({\"global_position\": setting_bullet[\"tile\"]*Vector2(32, 32), \"significant_data\": {\"item\": b}})
+							collision.rpc(\"create_item\", {\"global_position\": setting_bullet[\"tile\"]*Vector2(64, 64)+Vector2(32, 32), \"significant_data\": {\"item\": b}})
 							collision.rpc(\"clear_tile\", setting_bullet[\"tile\"])
 
 remote func dis():

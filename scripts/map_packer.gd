@@ -1,12 +1,14 @@
 extends Node
 
-func save_game(name_save, ignor:Array = ["/root/rootGame/Timer", "/root/rootGame/Timer2"]):
+signal save_done
+func save_game(ignor:Array = ["/root/rootGame/Timer", "/root/rootGame/Timer2"]):
 	if get_node_or_null("/root/rootGame/Node") != null:
 		var list_nodes = get_nodes($"/root/rootGame", ignor)
 		var nodes = list_param(list_nodes)
 		
-		var array_to_save = [get_parent().game_settings["version"], get_parent().game_settings["player_name"], OS.get_datetime()]
+		var array_to_save = [G.game_settings["version"], G.game_settings["player_name"], OS.get_datetime()]
 		
+		emit_signal("save_done")
 		return [nodes, array_to_save]
 
 func get_params(node:Object, node_list = {}):

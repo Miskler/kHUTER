@@ -110,7 +110,7 @@ func data_updated():
 	$HandSlot.item_connecting()
 
 remote func put_item(significant_, insignificant_, pos, nam):
-	var random_bloc = load(\"res://Scenes/Items/ItemInWorld.scn\").instance()
+	var random_bloc = load(\"res://scenes/entities/supporting/world_item.tscn\").instance()
 	
 	random_bloc.get_node(\"SlotInWorld\").significant_data = significant_
 	random_bloc.get_node(\"SlotInWorld\").insignificant_data = insignificant_

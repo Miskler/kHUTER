@@ -309,7 +309,7 @@ remote func structure(map:Dictionary, manual:Array = [[{}, {}], [{}, {}]], repet
 							object.global_position = Vector2(cell_size.x*x, cell_size.y*y)
 							if manual[1][id][key].has(\"pos\"): object.global_position += manual[1][id][key][\"pos\"]
 							
-							if manual[1][id][key].has(\"name\"): object.name = str(manual[1][id][key][\"path\"])
+							if manual[1][id][key].has(\"name\"): object.name = str(manual[1][id][key][\"name\"])
 							
 							if manual[1][id][key].has(\"data\"):
 								var dat = manual[1][id][key][\"data\"]

@@ -31,6 +31,7 @@ func save_map(name_save:String = \"Быстрое сохранение\") -> boo
 	if get_node_or_null(\"/root/rootGame/Node\") != null:
 		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = true
 		var saver = $save.save_game()
+		yield($save, \"save_done\")
 		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = false
 		
 		if saver is Array:
@@ -50,9 +51,11 @@ func save_map(name_save:String = \"Быстрое сохранение\") -> boo
 			file.open(path + \"/data.json\", File.WRITE)
 			file.store_line(to_json(saver[1]))
 			file.close()
+			
 			emit_signal(\"save_complete\", true)
 			return true
 	emit_signal(\"save_complete\", false)
+	
 	return false
 
 func save_screenshot_map(name_save) -> bool:
@@ -342,22 +345,22 @@ func local_timeout():
 		$local_time.stop()
 		save()
 	else:
-		G.get_node(\"../Global Interface\").new_notification(\"Авто сохранение\", \"Через \"+str(id)+\"...\", Color(\"ffc500\"), Color(\"9bffa100\"), 1.1)
+		G.get_node(\"Global Interface\").new_notification(\"Авто сохранение\", \"Через \"+str(id)+\"...\", Color(\"ffc500\"), Color(\"9bffa100\"), 1.1)
 
 func save() -> bool:
 	start_auto_save()
 	
 	var node = get_node_or_null(\"/root/rootGame/Node/Player/Camera2D/interface/menu/Saves\")
 	if node == null:
-		G.get_node(\"../Global Interface\").new_notification(\"Ошибка\", \"Попытка автосохранения...\\nУзел пользователя не найден!\", Color(\"ddff0000\"), Color(\"ddb50000\"), 0.1)
+		G.get_node(\"Global Interface\").new_notification(\"Ошибка\", \"Попытка автосохранения...\\nУзел пользователя не найден!\", Color(\"ddff0000\"), Color(\"ddb50000\"), 0.1)
 		return false
 	
 	SaveLoader.save_map(\"Авто сохранение\")
 	yield(SaveLoader, \"save_complete\")
 	if SaveLoader.save_screenshot_map(\"Авто сохранение\"):
-		G.get_node(\"../Global Interface\").new_notification(\"Успешно!\", \"Попытка автосохранения...\\nСохранение прошло успешно!\")
+		G.get_node(\"Global Interface\").new_notification(\"Успешно!\", \"Попытка автосохранения...\\nСохранение прошло успешно!\")
 	else:
-		G.get_node(\"../Global Interface\").new_notification(\"Ошибка\", \"Попытка автосохранения...\\nНеизвестная ошибка!\", Color(\"ddff0000\"), Color(\"ddb50000\"), 0.1)
+		G.get_node(\"Global Interface\").new_notification(\"Ошибка\", \"Попытка автосохранения...\\nНеизвестная ошибка!\", Color(\"ddff0000\"), Color(\"ddb50000\"), 0.1)
 	
 	return true
 "

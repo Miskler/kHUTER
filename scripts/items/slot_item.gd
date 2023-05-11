@@ -530,7 +530,7 @@ func data_repair(significant:Dictionary, insignificant:Dictionary):
 		if item_in_SD is Dictionary and item_in_SD.has("animation"):
 			significant["animation"] = item_in_SD["animation"]
 		else:
-			significant["animation"] = {"event": 1, "frames": ["res://Tecture/Modeli/no_texture.png"]}
+			significant["animation"] = {"event": 1, "frames": ["res://textures/black.png"]}
 	if not significant.has("health"):
 		if item_in_SD is Dictionary and item_in_SD.has("health"):
 			significant["health"] = item_in_SD["health"]
@@ -568,7 +568,7 @@ func anim_event():
 			if significant_data.has("animation") and significant_data["animation"].has("frames"):
 				$Texture.texture = load(significant_data["animation"]["frames"][0])
 			else:
-				$Texture.texture = load("res://Tecture/Modeli/no_texture.png")
+				$Texture.texture = load("res://textures/black.png")
 			insignificant_data["not_anim_id"] = 0
 
 

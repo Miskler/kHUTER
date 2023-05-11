@@ -99,18 +99,19 @@ remote func player_disconnect(id):
 		G.player_roster.erase(id)
 		if G.live_player_roster.has(id):
 			G.live_player_roster.erase(id)
-		if id != get_tree().get_network_unique_id() and get_node_or_null("Node/" + str(id)):
+		if id != G.my_id() and get_node_or_null("Node/" + str(id)):
 			get_node("Node/" + str(id)).queue_free()
 
-remote func specter():
+remote func specter() -> Node:
 	var spect = load("res://scenes/entities/controlled/specter.tscn").instance()
 	spect.global_position = get_node("Node/Player").global_position
 	get_node("Node/Player").queue_free()
 	yield(get_tree(), "idle_frame")
 	spect.name = "Player"
 	get_node("Node").add_child(spect)
+	return spect
 
-remote func revive_player(id):
+remote func revive_player(id:int):
 	SD = get_node("Node/SettingData")
 	if get_node_or_null("Node/Player/Camera2D_specter") != null and id != G.my_id():
 		get_node("Node/Player/Camera2D_specter/CanvasLayer/main").chat_event("Игрок " + str(G.player_roster[id]) + " возрадился")
@@ -124,7 +125,6 @@ remote func revive_player(id):
 		player.global_position = SD.map_settings["creation_position"]
 		get_node("Node").add_child(player)
 		player.name = "Player"
-		yield(get_tree(), "idle_frame")
 	else:
 		var player_puppet = load("res://scenes/entities/controlled/player_puppet.tscn").instance()
 		player_puppet.name = str(id)
@@ -137,31 +137,29 @@ remote func revive_player(id):
 	else:
 		G.live_player_roster[id] = G.player_roster[id]
 
-remote func player_died(id):
+remote func player_died(id:int) -> void:
 	print("Игрок умер: " + str(id))
 	G.live_player_roster.erase(id)
 	if get_node_or_null("Node/Player/Camera2D_specter") != null:
-		get_node("Node/Player/Camera2D_specter/CanvasLayer/main").chat_event("Игрок " + str(G.player_roster[id]) + " умер")
+		get_node("Node/Player/Camera2D_specter/CanvasLayer/main").chat_event("Игрок " + str(G.player_roster[id]) + " уничтожен")
 	else:
-		get_node("Node/Player/Camera2D/interface/chat").chat_event("Игрок " + str(G.player_roster[id]) + " умер")
+		get_node("Node/Player/Camera2D/interface/chat").chat_event("Игрок " + str(G.player_roster[id]) + " уничтожен")
 	
 	if id != get_tree().get_network_unique_id() and get_node_or_null("Node/" + str(id)) != null:
 		get_node("Node/" + str(id)).queue_free()
 
-remote func file_select(nodes, pl_rs, l_pl_rs):
+remote func file_select(nodes, player_roster, live_player_roster):
 	print("Загрузка полученной карты размером " + str(nodes.size()) + " нод.")
-	G.get_node("Load Screen").event_p(10)
-	yield(get_tree(), "idle_frame")
 	
 	SaveLoader.set_scene(nodes)
 	
-	G.player_roster = pl_rs
-	G.live_player_roster = l_pl_rs
+	G.player_roster = player_roster
+	G.live_player_roster = live_player_roster
 	
-	for i in range(pl_rs.size()):
-		var user_id = pl_rs.keys()[i]
+	for i in range(player_roster.size()):
+		var user_id = player_roster.keys()[i]
 		if user_id != get_tree().get_network_unique_id():
-			send(user_id, pl_rs[user_id])
+			send(user_id, player_roster[user_id])
 	
 	yield(get_tree(), "idle_frame")
 	
@@ -171,7 +169,7 @@ remote func file_select(nodes, pl_rs, l_pl_rs):
 	
 	spavn_players()
 
-remote func game_win(titre, text, audio:bool = true):
+remote func game_win(titre:String, text:String, audio:bool = true):
 	var v = load("res://scenes/interface/win_game.tscn").instance()
 	add_child(v)
 	get_node("win/ColorRect2/Label").text = titre
@@ -183,7 +181,8 @@ remote func event_state(path, data = null):
 	if get_node_or_null(path) != null and path.begins_with("/root/rootGame/Node") and data != null:
 		get_node(path).event_state(data)
 
-remote func create_bullet(gan, bullet, pos, rot = 0, texture = "res://textures/ui/items/blebreskinproj.png", damage = 1, attraction = 0, speed = 100, mode:bool = false, output:int = 0, source:Node = null): #Позиция, поворот, текстура, урон, притяжение к земле
+#Позиция, поворот, текстура, урон, притяжение к земле
+remote func create_bullet(gan, bullet, pos, rot = 0, texture:String = "res://textures/ui/items/blebreskinproj.png", damage = 1, attraction = 0, speed = 100, mode:bool = false, output:int = 0, source:Node = null) -> Node:
 	#SD = get_node("/root/rootGame/Node/SettingData")
 	var bullet_load = load("res://scenes/entities/supporting/bullet.tscn").instance()
 	bullet_load.global_position = pos
@@ -203,8 +202,8 @@ remote func create_bullet(gan, bullet, pos, rot = 0, texture = "res://textures/u
 	get_node("Node").add_child(bullet_load)
 	return bullet_load
 
-remote func create_item(item, data:Dictionary = {}):
-	var node = load(item).instance()
+remote func drop_item(data:Dictionary = {}) -> Node:
+	var node = load("res://scenes/entities/supporting/world_item.tscn").instance()
 	
 	for key in data.keys():
 		node.set(key, data[key])

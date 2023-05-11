@@ -616,8 +616,8 @@ script/source = "extends Button
 
 func _pressed():
 	icon = load({
-		true: \"res://Texture/Other/UI/Available Item.png\", 
-		false: \"res://Texture/Other/UI/bubble.png\"
+		true: \"res://textures/ui/available_item.png\", 
+		false: \"res://textures/ui/bubble.png\"
 	}[pressed])
 "
 
@@ -915,7 +915,7 @@ func edit_book_menu(existing, anailable, selected):
 	var book = $Control/book_menu/ItemList
 	book.clear()
 	for i in existing.values():
-		var dat = [SD.get_node(\"ItemData\").get(str(i[0]))[\"name_in_game\"], \"res://Tecture/Modeli/no_texture.png\", false, \"Рецепт:\"]
+		var dat = [SD.get_node(\"ItemData\").get(str(i[0]))[\"name_in_game\"], \"res://textures/black.png\", false, \"Рецепт:\"]
 		if i[1] >= 1:
 			dat[0] += \" (\" + str(i[1] + 1) + \" вариант)\"
 		if SD.get_node(\"ItemData\").get(str(i[0]))[\"animation\"].get(\"frames\") != null:
@@ -1073,9 +1073,9 @@ func _ready():
 func pressed(mode):
 	$book_menu.visible = mode
 	if mode == true:
-		$book_button/book/Sprite.texture = load(\"res://Texture/Other/Icons/book/book_open.png\")
+		$book_button/book/Sprite.texture = load(\"res://textures/ui/icons/book/book_open.png\")
 	else:
-		$book_button/book/Sprite.texture = load(\"res://Texture/Other/Icons/book/book_close.png\")
+		$book_button/book/Sprite.texture = load(\"res://textures/ui/icons/book/book_close.png\")
 "
 
 [sub_resource type="DynamicFont" id=9]
@@ -1234,7 +1234,7 @@ func set_slot_data(data):
 	var id = 0
 	print(data.size())
 	for i in data:
-		var slot = load(\"res://Scenes/Items/slot_item.res\").instance()
+		var slot = load(\"res://scenes/interface/interface_elements/slot_item.tscn\").instance()
 		for u in i[0].keys():
 			slot.settings_slot[i[0][u]] = i[0][u]
 		slot.significant_data = i[1]
@@ -1369,7 +1369,7 @@ func _ready():
 		$Control/ScrollContainer/VBoxContainer/Button5.hide()
 
 func anim_exit():
-	G.get_node(\"Load Screen\").select(\"res://Scenes/Menu.scn\", false)
+	G.get_node(\"Load Screen\").select(\"res://scenes/levels/technical/main_menu.tscn\", false)
 
 func hide_menu():
 	get_node(\"../../../../Player\").show_main()
@@ -1431,7 +1431,7 @@ func list():
 		var file_name = dir.get_next()
 		while file_name != \"\":
 			var file = File.new()
-			if file_name != \".\" and dir.current_is_dir() and file.file_exists(\"user://SaveGame/Worlds/\" + file_name + \"/map.huter\"):
+			if file_name != \".\" and dir.current_is_dir() and file.file_exists(\"user://SaveGame/Worlds/\" + file_name + \"/map.khuter\"):
 				$ItemList.add_item(file_name)
 				var id = $ItemList.get_item_count() - 1
 				
@@ -1440,7 +1440,7 @@ func list():
 				if err == OK:
 					$ItemList.set_item_icon(id, ImageTexture.new().create_from_image(image, 0))
 				else:
-					$ItemList.set_item_icon(id, load(\"res://Tecture/Modeli/no_texture.png\"))
+					$ItemList.set_item_icon(id, load(\"res://textures/black.png\"))
 				
 				if file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ) == OK:
 					file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ)
@@ -1468,10 +1468,12 @@ func add_element():
 		$\"..\".hide()
 		$\"../../main\".show()
 		
-		G.save_game($LineEdit.text)
+		if not SaveLoader.save_map($LineEdit.text):
+			G.get_node(\"Global Interface\").new_notification(\"Ошибка\", \"Ручное сохранение.\\nНеизвестная ошибка!\", Color(\"ddff0000\"), Color(\"ddb50000\"), 0.1)
 		
-		yield(get_tree(), \"idle_frame\")
-		G.resave_screenshot($LineEdit.text)
+		yield(SaveLoader, \"save_complete\")
+		if SaveLoader.save_screenshot_map($LineEdit.text):
+			G.get_node(\"Global Interface\").new_notification(\"Сохранение\", \"Успешно сохранено!\")
 		
 		$\"../../main\".hide()
 		$\"..\".show()
@@ -1657,10 +1659,7 @@ func _ready():
 
 func anim_exit():
 	get_tree().network_peer = null
-	G.get_node(\"Load Screen\").select(\"res://Scenes/Menu.scn\", false)
-func ok_exit():
-	get_tree().network_peer = null
-	get_tree().change_scene(\"res://Scenes/Menu.scn\")
+	G.get_node(\"Load Screen\").select(\"res://scenes/levels/technical/main_menu.tscn\", false)
 
 func died(cause):
 	if SD.map_settings[\"specter\"] == true:
@@ -1739,8 +1738,6 @@ remote func sing(name_p, text):
 	G.get_node(\"Global Interface\").new_notification(\"Чат\", str(name_p) + \": \" + str(text))
 
 remote func chat_event(sms):
-	if $\".\".visible == false and $\"../Control\".rect_position.y != 0:
-		$\"../Control/AnimationPlayer\".play_backwards(\"def\")
 	var s = sms
 	$ItemList.add_item(s)
 	
@@ -1938,6 +1935,7 @@ position = Vector2( 37, 36 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 150 )
 animation = "bat"
+frame = 1
 playing = true
 
 [node name="HighTemp" type="Control" parent="main/Box"]
@@ -2137,8 +2135,8 @@ enabled_focus_mode = 0
 text = "->"
 
 [node name="TouchLeft" type="TouchScreenButton" parent="main/RunButtons"]
-position = Vector2( 22, 0 )
-scale = Vector2( 5, 5 )
+position = Vector2( 0, -20 )
+scale = Vector2( 6, 6 )
 normal = SubResource( 177 )
 pressed = SubResource( 178 )
 shape = SubResource( 169 )
@@ -2149,9 +2147,9 @@ scale = Vector2( 2.5, 2.5 )
 shape = SubResource( 174 )
 
 [node name="TouchRight" type="TouchScreenButton" parent="main/RunButtons"]
-position = Vector2( 226, 100 )
+position = Vector2( 246, 100 )
 rotation = 3.14159
-scale = Vector2( 5, 5 )
+scale = Vector2( 6, 6 )
 normal = SubResource( 177 )
 pressed = SubResource( 178 )
 shape = SubResource( 169 )
