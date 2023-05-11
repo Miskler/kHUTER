@@ -21,12 +21,11 @@ var d = 1
 var ro = \"\"
 func select(scene, game:bool = false):
 	var roo = \"res://Scenes/rootGame.tscn\"
+	SaveLoader.activity_autosaver(game)
 	if not game: 
 		ro = scene
-		$\"../auto_save\".stop_auto_save()
 	else: 
 		ro = roo
-		$\"../auto_save\".start_auto_save()
 	
 	#Firebase.logEvent_LevelStart(str(ro))
 	

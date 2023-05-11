@@ -60,7 +60,7 @@ func load_game():
 
 func animation_finished(_anim_name):
 	if path == \"\" or path == null:
-		path = \"res://Scenes/Menu.scn\"
+		path = \"res://scenes/levels/technical/main_menu.tscn\"
 	
 	G.get_node(\"Load Screen\").select(path)
 "

@@ -9,39 +9,50 @@ script/source = "extends Node
 signal save_complete(complete)
 
 
-func load_map(path_start_node:Node, path_file):
-	if get_node_or_null(\"/root/rootGame\") != null:
-		$loader.set_scene(path_start_node, path_file)
-
-func send_map():
-	if get_node_or_null(\"/root/rootGame/Node\") != null:
-		pass
-
-func save_map(name_save:String = \"Быстрое сохранение\"):
-	if get_node_or_null(\"/root/rootGame/Node\") != null:
-		var dirSAV = Directory.new()
-		var path = \"user://SaveGame/Worlds/\" + str(name_save)
-		if !dirSAV.dir_exists(path):
-			dirSAV.make_dir_recursive(path)
-		
-		#Сохраняем мир
-		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = true
-		var saver = $save.save_game()
-		var file_t = File.new()
-		file_t.open(path + \"/map.khuter\", File.WRITE)
-		file_t.store_line(var2str(saver[0]))
-		file_t.close()
-		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = false
-		
-		#Делаем .json файл с данными о времени, версии и т.д..
-		var file = File.new()
-		file.open(path + \"/data.json\", File.WRITE)
-		file.store_line(to_json(saver[1]))
-		file.close()
+remote func load_map(path_start_node:NodePath, path_file) -> bool:
+	if get_node_or_null(\"/root/rootGame\") != null and get_node_or_null(path_start_node) != null:
+		$loader.set_scene(get_node(path_start_node), path_file)
 		return true
 	return false
 
-func save_screenshot_map(name_save):
+remote func send_map(user_id:int) -> bool:
+	if get_node_or_null(\"/root/rootGame/Node\") != null and get_tree().network_peer != null:
+		var saver = $save.save_game()
+		
+		if saver is Array:
+			rpc_id(user_id, \"load_map\", \"/root/rootGame\", saver[0])
+			return true
+	return false
+
+func save_map(name_save:String = \"Быстрое сохранение\") -> bool:
+	if get_node_or_null(\"/root/rootGame/Node\") != null:
+		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = true
+		var saver = $save.save_game()
+		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = false
+		
+		if saver is Array:
+			var dirSAV = Directory.new()
+			var path = \"user://SaveGame/Worlds/\" + str(name_save)
+			if !dirSAV.dir_exists(path):
+				dirSAV.make_dir_recursive(path)
+			
+			#Сохраняем мир
+			var file_t = File.new()
+			file_t.open(path + \"/map.khuter\", File.WRITE)
+			file_t.store_line(var2str(saver[0]))
+			file_t.close()
+			
+			#Делаем .json файл с данными о времени, версии и т.д..
+			var file = File.new()
+			file.open(path + \"/data.json\", File.WRITE)
+			file.store_line(to_json(saver[1]))
+			file.close()
+			emit_signal(\"save_complete\", true)
+			return true
+	emit_signal(\"save_complete\", false)
+	return false
+
+func save_screenshot_map(name_save) -> bool:
 	var dirSAV = Directory.new()
 	var path = \"user://SaveGame/Worlds/\" + str(name_save)
 	if !dirSAV.dir_exists(path):
@@ -53,6 +64,13 @@ func save_screenshot_map(name_save):
 	image.save_png(path + \"/screenshot.png\")
 	
 	return true
+
+
+func activity_autosaver(mode:bool = false):
+	if mode:
+		$auto_save.start_auto_save()
+	else:
+		$auto_save.stop_auto_save()
 "
 
 [sub_resource type="GDScript" id=4]
@@ -332,10 +350,11 @@ func save() -> bool:
 		return false
 	
 	SaveLoader.save_map(\"Авто сохранение\")
-	G.get_node(\"../Global Interface\").new_notification(\"Успешно!\", \"Попытка автосохранения...\\nСохранение прошло успешно!\")
-	
-	yield(get_tree().create_timer(1.1), \"timeout\")
-	get_node(\"/root/rootGame/Node/Player\").show_main()
+	yield(SaveLoader, \"save_complete\")
+	if SaveLoader.save_screenshot_map(\"Авто сохранение\"):
+		G.get_node(\"../Global Interface\").new_notification(\"Успешно!\", \"Попытка автосохранения...\\nСохранение прошло успешно!\")
+	else:
+		G.get_node(\"../Global Interface\").new_notification(\"Ошибка\", \"Попытка автосохранения...\\nНеизвестная ошибка!\", Color(\"ddff0000\"), Color(\"ddb50000\"), 0.1)
 	
 	return true
 "
