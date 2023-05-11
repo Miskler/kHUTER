@@ -20,7 +20,7 @@ var evidence = [
 var d = 1
 var ro = \"\"
 func select(scene, game:bool = false):
-	var roo = \"res://Scenes/rootGame.tscn\"
+	var roo = \"res://scenes/levels/technical/root_game.tscn\"
 	SaveLoader.activity_autosaver(game)
 	if not game: 
 		ro = scene

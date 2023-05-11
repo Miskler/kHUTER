@@ -434,7 +434,7 @@ func add_element():
 		
 		while file_name != \"\":
 			var file = File.new()
-			if file_name != \".\" and dir.current_is_dir() and file.file_exists(\"user://SaveGame/Worlds/\" + file_name + \"/map.huter\"):
+			if file_name != \".\" and dir.current_is_dir() and file.file_exists(\"user://SaveGame/Worlds/\" + file_name + \"/map.khuter\"):
 				var item = get_node(\"List/Box/*Sample\").duplicate()
 				
 				item.name = file_name
@@ -447,7 +447,7 @@ func add_element():
 					item.get_node(\"Icon\").texture = ImageTexture.new()
 					item.get_node(\"Icon\").texture.create_from_image(image, 0)
 				else:
-					item.get_node(\"Icon\").texture = load(\"res://Tecture/Modeli/no_texture.png\")
+					item.get_node(\"Icon\").texture = load(\"res://textures/other/sphere_monitors/sphere_error/error1.png\")
 				
 				if file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ) == OK:
 					file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ)
@@ -476,7 +476,7 @@ func list_reload():
 
 
 func dir_load_game(name_save):
-	G.get_node(\"Load Screen\").select(\"user://SaveGame/Worlds/\" + name_save + \"/map.huter\", true)
+	G.get_node(\"Load Screen\").select(\"user://SaveGame/Worlds/\" + name_save + \"/map.khuter\", true)
 func dir_open(name_save):
 	return OS.shell_open(str(OS.get_user_data_dir()) + \"/SaveGame/Worlds/\" + name_save)
 func dir_del_game(name_save):
@@ -571,7 +571,7 @@ func reload():
 
 
 func go():
-	G.get_node(\"Load Screen\").select(\"res://Scenes/rootGame.tscn\")
+	G.get_node(\"Load Screen\").select(\"res://scenes/levels/technical/root_game.tscn\")
 
 func failed():
 	get_tree().network_peer = null
@@ -981,21 +981,21 @@ func _ready():
 script/source = "extends Button
 
 func _pressed():
-	G.get_node(\"Load Screen\").select(\"res://Scenes/LVL/Map1.tscn\", true)
+	G.get_node(\"Load Screen\").select(\"res://scenes/levels/gaming/prologue.tscn\", true)
 "
 
 [sub_resource type="GDScript" id=76]
 script/source = "extends Button
 
 func _pressed():
-	G.get_node(\"Load Screen\").select(\"res://Scenes/LVL/endless_mode.tscn\", true)
+	G.get_node(\"Load Screen\").select(\"res://scenes/levels/gaming/endless_mode.tscn\", true)
 "
 
 [sub_resource type="GDScript" id=75]
 script/source = "extends Button
 
 func _pressed():
-	G.get_node(\"Load Screen\").select(\"res://Scenes/LVL/miskler_room.tscn\", true)
+	G.get_node(\"Load Screen\").select(\"res://scenes/levels/gaming/miskler_room.tscn\", true)
 "
 
 [sub_resource type="DynamicFont" id=73]

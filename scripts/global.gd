@@ -41,7 +41,7 @@ func _input(_event):
 	if Input.is_action_just_pressed("FullScrin"):
 		OS.window_fullscreen = not OS.window_fullscreen
 	elif Input.is_action_just_pressed("F5"):
-		save_game("быстрое-сохранение")
+		SaveLoader.save_map("Быстрое-сохранение")
 
 func remove_recursive(path):
 	var directory = Directory.new()
@@ -108,12 +108,3 @@ func my_id():
 	else:
 		G.player_roster[G.game_settings["player_name"]] = 1
 	return G.player_roster.get(G.game_settings["player_name"])
-
-
-func resave_screenshot(name_save):
-	$map_packer.resave_screenshot(name_save)
-func save_game(name_save):
-	$map_packer.save_game(name_save)
-
-remote func _player_connected(user_id, user_name):
-	$map_packer.send_map(user_id, user_name)

@@ -21,14 +21,14 @@ func _ready():
 	if get_tree().network_peer == null or get_tree().is_network_server() == true:
 		print("Пользователь опеределён как сервер!")
 		get_tree().paused = false
-		if str(G.loadSCN).ends_with(".huter"):
+		if str(G.loadSCN).ends_with(".khuter"):
 			var file = File.new()
 			file.open(G.loadSCN, File.READ)
 			var data = str2var(file.get_as_text())
 			file.close()
-			SaveLoader.set_scene(self, data)
+			SaveLoader.load_map(get_path(), data)
 		else:
-			SaveLoader.set_scene(self, G.loadSCN)
+			SaveLoader.load_map(get_path(), G.loadSCN)
 		if get_node_or_null("Node/Player") == null:
 			revive_player(G.my_id())
 		print("Cцена инициализированна!")
@@ -103,7 +103,7 @@ remote func player_disconnect(id):
 			get_node("Node/" + str(id)).queue_free()
 
 remote func specter():
-	var spect = load("res://Scenes/NPS/Specter.res").instance()
+	var spect = load("res://scenes/entities/controlled/specter.tscn").instance()
 	spect.global_position = get_node("Node/Player").global_position
 	get_node("Node/Player").queue_free()
 	yield(get_tree(), "idle_frame")
@@ -119,14 +119,14 @@ remote func revive_player(id):
 	if id == G.my_id():
 		if get_node_or_null("Node/Player") != null:
 			get_node("Node/Player").queue_free()
-		var player = load("res://Scenes/NPS/Player.res").instance()
+		var player = load("res://scenes/entities/controlled/player.tscn").instance()
 		yield(get_tree(), "idle_frame")
 		player.global_position = SD.map_settings["creation_position"]
 		get_node("Node").add_child(player)
 		player.name = "Player"
 		yield(get_tree(), "idle_frame")
 	else:
-		var player_puppet = load("res://Scenes/NPS/Player_puppet.res").instance()
+		var player_puppet = load("res://scenes/entities/controlled/player_puppet.tscn").instance()
 		player_puppet.name = str(id)
 		player_puppet.local_name = str(G.player_roster[id])
 		yield(get_tree(), "idle_frame")
@@ -172,7 +172,7 @@ remote func file_select(nodes, pl_rs, l_pl_rs):
 	spavn_players()
 
 remote func game_win(titre, text, audio:bool = true):
-	var v = load("res://Scenes/win_game.res").instance()
+	var v = load("res://scenes/interface/win_game.tscn").instance()
 	add_child(v)
 	get_node("win/ColorRect2/Label").text = titre
 	get_node("win/ColorRect2/RichTextLabel").text = text
@@ -183,9 +183,9 @@ remote func event_state(path, data = null):
 	if get_node_or_null(path) != null and path.begins_with("/root/rootGame/Node") and data != null:
 		get_node(path).event_state(data)
 
-remote func create_bullet(gan, bullet, pos, rot = 0, texture = "res://Texture/Other/Items/blebreskinproj.png", damage = 1, attraction = 0, speed = 100, mode:bool = false, output:int = 0, source:Node = null): #Позиция, поворот, текстура, урон, притяжение к земле
+remote func create_bullet(gan, bullet, pos, rot = 0, texture = "res://textures/ui/items/blebreskinproj.png", damage = 1, attraction = 0, speed = 100, mode:bool = false, output:int = 0, source:Node = null): #Позиция, поворот, текстура, урон, притяжение к земле
 	#SD = get_node("/root/rootGame/Node/SettingData")
-	var bullet_load = load("res://Scenes/Items/bullet.res").instance()
+	var bullet_load = load("res://scenes/entities/supporting/bullet.tscn").instance()
 	bullet_load.global_position = pos
 	bullet_load.rotation = rot
 	

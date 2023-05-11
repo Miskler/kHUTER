@@ -36,10 +36,6 @@ export var transition_value = {
 	"water": 1,
 }
 
-export var use_tile = {
-	"craft": {"use_func": ["/root/rootGame/Node/Player", "show_craft_menu"]},
-	"water": {"add_item": "water"},
-}
 
 func _ready():
 	items = []

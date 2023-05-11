@@ -7,12 +7,15 @@ script/source = "extends Node
 
 
 signal save_complete(complete)
+signal load_complete(complete)
 
 
 remote func load_map(path_start_node:NodePath, path_file) -> bool:
 	if get_node_or_null(\"/root/rootGame\") != null and get_node_or_null(path_start_node) != null:
 		$loader.set_scene(get_node(path_start_node), path_file)
+		emit_signal(\"load_complete\", true)
 		return true
+	emit_signal(\"load_complete\", false)
 	return false
 
 remote func send_map(user_id:int) -> bool:
