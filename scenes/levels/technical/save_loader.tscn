@@ -31,7 +31,7 @@ func save_map(name_save:String = \"Быстрое сохранение\") -> boo
 	if get_node_or_null(\"/root/rootGame/Node\") != null:
 		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = true
 		var saver = $save.save_game()
-		yield($save, \"save_done\")
+		#yield($save, \"save_done\")
 		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = false
 		
 		if saver is Array:

@@ -453,7 +453,7 @@ func add_element():
 					file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ)
 					var data = str2var(file.get_as_text())
 					file.close()
-					item.get_node(\"Description\").text = \"Версия игры \" + data[0] + \",\\nДата создания \" + str(data[2][\"day\"])+\".\"+str(data[2][\"month\"])+\".\"+str(data[2][\"year\"]) + \",\\nАвтор \" + data[1]
+					item.get_node(\"Description\").text = \"Версия игры \" + data[0] + \",\\nДата создания \"+ str(data[2][\"hour\"])+\":\"+str(data[2][\"minute\"])+\" - \" + str(data[2][\"day\"])+\".\"+str(data[2][\"month\"])+\".\"+str(data[2][\"year\"]) + \",\\nАвтор \" + data[1]
 				else:
 					item.get_node(\"Description\").text = \"Данные отцуцтвуют!\"
 				

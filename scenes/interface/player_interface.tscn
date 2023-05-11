@@ -1471,7 +1471,7 @@ func add_element():
 		if not SaveLoader.save_map($LineEdit.text):
 			G.get_node(\"Global Interface\").new_notification(\"Ошибка\", \"Ручное сохранение.\\nНеизвестная ошибка!\", Color(\"ddff0000\"), Color(\"ddb50000\"), 0.1)
 		
-		yield(SaveLoader, \"save_complete\")
+		yield(get_tree(), \"idle_frame\")
 		if SaveLoader.save_screenshot_map($LineEdit.text):
 			G.get_node(\"Global Interface\").new_notification(\"Сохранение\", \"Успешно сохранено!\")
 		

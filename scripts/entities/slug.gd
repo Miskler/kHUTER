@@ -99,7 +99,7 @@ func bum():
 
 remote func spavn_lyt(count, name_):
 	if count > 0:
-		var random_item = load("res://Scenes/Items/ItemInWorld.scn").instance()
+		var random_item = load("res://scenes/entities/supporting/world_item.tscn").instance()
 		
 		random_item.name = name_
 		

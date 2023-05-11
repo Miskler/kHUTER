@@ -746,7 +746,7 @@ position = Vector2( -446, -2 )
 scale = Vector2( 1.633, 1.55 )
 frames = SubResource( 25 )
 animation = "fall"
-frame = 2
+frame = 1
 playing = true
 
 [node name="Anim2" type="AnimatedSprite" parent="Node2D"]
@@ -762,7 +762,6 @@ position = Vector2( -378, 81 )
 scale = Vector2( 1.633, 1.55 )
 frames = SubResource( 25 )
 animation = "walk"
-frame = 3
 playing = true
 
 [node name="Anim4" type="AnimatedSprite" parent="Node2D"]
@@ -770,7 +769,7 @@ position = Vector2( -266, 81 )
 scale = Vector2( 1.633, 1.55 )
 frames = SubResource( 25 )
 animation = "idle"
-frame = 2
+frame = 1
 playing = true
 
 [node name="Label" type="Label" parent="Node2D"]
@@ -847,7 +846,7 @@ position = Vector2( -1220, 82 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 78 )
 animation = "walk"
-frame = 5
+frame = 2
 playing = true
 
 [node name="anim2" type="AnimatedSprite" parent="Node2D"]
@@ -862,7 +861,7 @@ position = Vector2( -1388, 81 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 77 )
 animation = "attack"
-frame = 8
+frame = 7
 playing = true
 
 [node name="Anim5" type="AnimatedSprite" parent="Node2D"]
@@ -870,6 +869,7 @@ position = Vector2( -1595, 47 )
 scale = Vector2( 2.25, 2.025 )
 frames = SubResource( 98 )
 animation = "idle"
+frame = 3
 playing = true
 
 [node name="Anim6" type="AnimatedSprite" parent="Node2D"]
@@ -877,7 +877,6 @@ position = Vector2( -1686, 47 )
 scale = Vector2( 2.25, 2.025 )
 frames = SubResource( 96 )
 animation = "run"
-frame = 1
 playing = true
 
 [node name="Anim7" type="AnimatedSprite" parent="Node2D"]
@@ -885,7 +884,7 @@ position = Vector2( -1781, 47 )
 scale = Vector2( 2.25, 2.025 )
 frames = SubResource( 96 )
 animation = "fall"
-frame = 3
+frame = 2
 playing = true
 
 [node name="Anim8" type="AnimatedSprite" parent="Node2D"]
