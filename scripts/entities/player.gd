@@ -165,7 +165,7 @@ func movement():
 		vec.y -= speed.y
 		$Anim.play("jump")
 		#android_y.up = false
-	elif (Input.is_action_just_pressed("w") or android_y.up) and player_settings["jumping"] == true and is_on_wall() and clutches > 0 and $Camera2D/interface/main.visible == true and $Camera2D/interface/chat.visible == false:
+	elif (Input.is_action_just_pressed("w") or android_y.up) and player_settings["jumping"] == true and $jump.jump_access() and clutches > 0 and $Camera2D/interface/main.visible == true and $Camera2D/interface/chat.visible == false:
 		clutches -= 1
 		vec.y -= speed.y*1.5
 		vec.y = clamp(vec.y, -550, 550)

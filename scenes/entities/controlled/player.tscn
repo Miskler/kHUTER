@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://textures/ui/logos/sphere_main.png" type="Texture" id=1]
 [ext_resource path="res://textures/people/player/idle.png" type="Texture" id=2]
@@ -216,6 +216,23 @@ func use_d():
 [sub_resource type="RectangleShape2D" id=25]
 extents = Vector2( 23, 38 )
 
+[sub_resource type="GDScript" id=96]
+script/source = "extends Area2D
+
+
+func jump_access() -> bool:
+	var bodies = get_overlapping_bodies()
+	
+	bodies.erase(get_parent())
+	
+	if bodies.size() > 0:
+		return true
+	return false
+"
+
+[sub_resource type="RectangleShape2D" id=97]
+extents = Vector2( 30, 40 )
+
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 5
 collision_mask = 6
@@ -342,3 +359,14 @@ shadow_gradient_length = 0.1
 [node name="Wait_ui" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
+
+[node name="jump" type="Area2D" parent="."]
+collision_layer = 255
+collision_mask = 255
+script = SubResource( 96 )
+
+[node name="collision" type="CollisionShape2D" parent="jump"]
+shape = SubResource( 97 )
+
+[node name="coupling_time" type="Timer" parent="."]
+wait_time = 0.1
