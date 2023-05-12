@@ -18,7 +18,7 @@ func _ready():
 	else:
 		G.player_roster[G.my_id()] = G.game_settings["player_name"]
 	
-	if get_tree().network_peer == null or get_tree().is_network_server() == true:
+	if (get_tree().network_peer == null or get_tree().is_network_server()) and (G.loadSCN is String):
 		print("Пользователь опеределён как сервер!")
 		get_tree().paused = false
 		if str(G.loadSCN).ends_with(".khuter"):
@@ -32,62 +32,50 @@ func _ready():
 		if get_node_or_null("Node/Player") == null:
 			revive_player(G.my_id())
 		print("Cцена инициализированна!")
-	elif get_tree().network_peer != null:
-		$Timer.start()
+	elif get_tree().network_peer != null and not get_tree().is_network_server():
+		SaveLoader.connect("load_complete", self, "new_user_complete")
+		$connect_wait.start()
+		rpc("new_user", G.my_id(), G.game_settings["player_name"])
+	else:
+		G.get_node("Global Interface").new_notification("Ошибка", "Не удалось загрузить карту...", Color("ddff0000"), Color("ddb50000"), 0.1)
+		G.get_node("Load Screen").select("res://scenes/levels/technical/main_menu.tscn")
 
-func idl():
-	print("Запуск клиента...")
-	get_map()
+remote func new_user(user_id:int, user_name:String):
+	G.player_roster[user_id] = user_name
+	G.live_player_roster[user_id] = user_name
+	
+	revive_player(user_id, false)
+	sms("Пользователь "+user_name+" подключился!")
+	
+	if get_tree().is_network_server():
+		SaveLoader.send_map(user_id, [G.player_roster, G.live_player_roster])
+func new_user_complete(complete:bool, data:Array):
+	if complete:
+		$connect_wait.stop()
+		
+		G.player_roster = data[0]
+		G.live_player_roster = data[1]
+		
+		create_users(G.live_player_roster)
+	else:
+		get_tree().network_peer = null
+		G.get_node("Global Interface").new_notification("Ошибка подключения", "Сервер прислал карту битой!", Color("ddff0000"), Color("ddb50000"), 0.1)
+		G.get_node("Load Screen").select("res://scenes/levels/technical/main_menu.tscn")
+func connect_wait():
+	get_tree().network_peer = null
+	G.get_node("Global Interface").new_notification("Ошибка подключения", "Сервер не смог подготовить карту для подключения.", Color("ddff0000"), Color("ddb50000"), 0.1)
+	G.get_node("Load Screen").select("res://scenes/levels/technical/main_menu.tscn")
 
-func get_map():
-	print("Отправлен запрос на получения карты...")
-	G.rpc_id(1, "_player_connected", G.my_id(), G.game_settings["player_name"])
-	G.get_node("Load Screen").event_p(5)
 
-func spavn_players():
-	for i in G.player_roster.keys():
-		if G.live_player_roster.has(i) and str(i) != str(G.my_id()):
-			print("Добавление новой пешки на карту: " + str(i))
-			var GG = load("res://Scenes/NPS/Player_puppet.res").instance()
-			GG.name = str(i)
-			GG.local_name = str(G.player_roster[i])
-			yield(get_tree(), "idle_frame")
-			get_node("Node").add_child(GG)
-
-func get_player(id):
-	print("Получение информации о пользователе: " + str(id))
-	rpc_id(id, "send", get_tree().get_network_unique_id(), G.game_settings["player_name"])
-
-remote func send(user_id, user_name):
-	print("Отправка информации о мне по запросу: " + str(user_id))
-	rpc_id(user_id, "player_connect_server", get_tree().get_network_unique_id(), G.game_settings["player_name"])
-	if !G.player_roster.has(user_id):
-		G.player_roster[user_id] = user_name
-		G.live_player_roster[user_id] = user_name
-		if get_node_or_null("Node/Player/Camera2D_specter") != null:
-			get_node("Node/Player/Camera2D_specter/CanvasLayer/main").chat_event("Игрок " + str(user_name) + " подключился")
-		elif get_node_or_null("Node/Player/Camera2D") != null:
-			get_node("Node/Player/Camera2D/interface/chat").chat_event("Игрок " + str(user_name) + " подключился")
+func create_users(users):
+	for i in users.keys():
+		revive_player(i, false)
 
 remote func sms(text, nam = null, mode:bool = true):
 	if get_node_or_null("Node/Player/Camera2D_specter") != null:
 		get_node("Node/Player/Camera2D_specter/CanvasLayer/main").chat_event(text, nam)
 	elif mode:
 		get_node("Node/Player/Camera2D/interface/chat").chat_event(str(text))
-
-var id_d
-var p_name_d
-
-remote func player_connect_server(id, p_name):
-	id_d = id
-	p_name_d = p_name
-	G.player_roster[id] = p_name
-	G.live_player_roster[id] = p_name
-	if get_node_or_null("Node/Player/Camera2D_specter") != null:
-		get_node("Node/Player/Camera2D_specter/CanvasLayer/main").chat_event("Игрок " + str(p_name) + " подключился")
-	elif get_node_or_null("Node/Player/Camera2D") != null:
-		get_node("Node/Player/Camera2D/interface/chat").chat_event("Игрок " + str(p_name) + " подключился")
-	$Timer2.start()
 
 remote func player_disconnect(id):
 	if G.player_roster.has(id):
@@ -111,12 +99,13 @@ remote func specter() -> Node:
 	get_node("Node").add_child(spect)
 	return spect
 
-remote func revive_player(id:int):
+remote func revive_player(id:int, send_notification:bool = true):
 	SD = get_node("Node/SettingData")
-	if get_node_or_null("Node/Player/Camera2D_specter") != null and id != G.my_id():
-		get_node("Node/Player/Camera2D_specter/CanvasLayer/main").chat_event("Игрок " + str(G.player_roster[id]) + " возрадился")
-	elif get_node_or_null("Node/Player/Camera2D/interface/chat") != null and id != G.my_id():
-		get_node("Node/Player/Camera2D/interface/chat").chat_event("Игрок " + str(G.player_roster[id]) + " возрадился")
+	if send_notification:
+		if get_node_or_null("Node/Player/Camera2D_specter") != null and id != G.my_id():
+			get_node("Node/Player/Camera2D_specter/CanvasLayer/main").chat_event("Игрок " + str(G.player_roster[id]) + " возрадился")
+		elif get_node_or_null("Node/Player/Camera2D/interface/chat") != null and id != G.my_id():
+			get_node("Node/Player/Camera2D/interface/chat").chat_event("Игрок " + str(G.player_roster[id]) + " возрадился")
 	if id == G.my_id():
 		if get_node_or_null("Node/Player") != null:
 			get_node("Node/Player").queue_free()
@@ -145,7 +134,7 @@ remote func player_died(id:int) -> void:
 	else:
 		get_node("Node/Player/Camera2D/interface/chat").chat_event("Игрок " + str(G.player_roster[id]) + " уничтожен")
 	
-	if id != get_tree().get_network_unique_id() and get_node_or_null("Node/" + str(id)) != null:
+	if id != G.my_id() and get_node_or_null("Node/" + str(id)) != null:
 		get_node("Node/" + str(id)).queue_free()
 
 remote func file_select(nodes, player_roster, live_player_roster):
@@ -158,8 +147,9 @@ remote func file_select(nodes, player_roster, live_player_roster):
 	
 	for i in range(player_roster.size()):
 		var user_id = player_roster.keys()[i]
-		if user_id != get_tree().get_network_unique_id():
-			send(user_id, player_roster[user_id])
+		if user_id != G.my_id():
+			breakpoint
+			#send(user_id, player_roster[user_id])
 	
 	yield(get_tree(), "idle_frame")
 	
@@ -167,7 +157,8 @@ remote func file_select(nodes, player_roster, live_player_roster):
 	
 	yield(get_tree(), "idle_frame")
 	
-	spavn_players()
+	breakpoint
+	#spavn_players()
 
 remote func game_win(titre:String, text:String, audio:bool = true):
 	var v = load("res://scenes/interface/win_game.tscn").instance()
@@ -202,22 +193,16 @@ remote func create_bullet(gan, bullet, pos, rot = 0, texture:String = "res://tex
 	get_node("Node").add_child(bullet_load)
 	return bullet_load
 
-remote func drop_item(data:Dictionary = {}) -> Node:
+remote func drop_item(data:Dictionary = {}, name_drop:String = G.name_generate("SlotInWorld", "/root/rootGame/Node")) -> Node:
 	var node = load("res://scenes/entities/supporting/world_item.tscn").instance()
 	
 	for key in data.keys():
 		node.set(key, data[key])
 	
-	node.name = G.name_generate("SlotInWorld", "/root/rootGame/Node")
+	node.name = name_drop
 	
 	get_node("Node").add_child(node)
 	return node
 
-
-func _on_Timer2_timeout():
-	print("Добавление новой пешки на карту: " + str(id_d))
-	var GG = load("res://Scenes/NPS/Player_puppet.res").instance()
-	GG.name = str(id_d)
-	GG.local_name = str(p_name_d)
-	yield(get_tree(), "idle_frame")
-	get_node("Node").add_child(GG)
+remote func damage(path, setting_bullet):
+	get_node(path).damage(setting_bullet)

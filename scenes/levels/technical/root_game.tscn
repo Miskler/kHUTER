@@ -5,15 +5,8 @@
 [node name="rootGame" type="Node"]
 script = ExtResource( 1 )
 
-[node name="Timer2" type="Timer" parent="."]
-wait_time = 0.7
+[node name="connect_wait" type="Timer" parent="."]
+wait_time = 20.0
 one_shot = true
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-
-[connection signal="timeout" from="Timer2" to="." method="_on_Timer2_timeout"]
-[connection signal="timeout" from="Timer" to="." method="idl"]
+[connection signal="timeout" from="connect_wait" to="." method="connect_wait"]

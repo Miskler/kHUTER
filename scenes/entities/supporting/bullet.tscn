@@ -56,7 +56,7 @@ func body_shape_entered(_body_id, body, _body_shape, _area_shape):
 	go_damage(body)
 
 func go_damage(body:Node = null):
-	if $AnimatedSprite.visible == false:
+	if $AnimatedSprite.visible == false and G.my_id() == 1:
 		dis()
 		var collision = $RayCast2D.get_collider()
 		if body != null: collision = body
@@ -108,6 +108,7 @@ func go_damage(body:Node = null):
 				if collision.get(\"vec\") != null:
 					collision.vec += Vector2(setting_bullet[\"output\"], 0).rotated(self.rotation)
 				
+				var drop
 				if collision.has_method(\"damage\"): collision.damage(setting_bullet)
 				elif collision.has_method(\"edit_tile\") and setting_bullet.has(\"tile\"):
 					var t_name = collision.tiles[int(setting_bullet[\"tile\"].x)][int(setting_bullet[\"tile\"].y)][\"tile_name\"]
@@ -123,7 +124,7 @@ func go_damage(body:Node = null):
 						if collision.get_node(\"TileData\").get(collision.tiles[int(setting_bullet[\"tile\"].x)][int(setting_bullet[\"tile\"].y)][\"tile_name\"]) != null and collision.get_node(\"TileData\").get(collision.tiles[int(setting_bullet[\"tile\"].x)][int(setting_bullet[\"tile\"].y)][\"tile_name\"]).has(\"loot\"):
 							b = collision.get_node(\"TileData\").get(collision.tiles[int(setting_bullet[\"tile\"].x)][int(setting_bullet[\"tile\"].y)][\"tile_name\"])[\"loot\"]
 						
-						get_node(\"/root/rootGame\").drop_item({\"global_position\": setting_bullet[\"tile\"]*Vector2(64, 64)+Vector2(32, 32), \"significant_data\": {\"item\": b}})
+						drop = get_node(\"/root/rootGame\").drop_item({\"global_position\": setting_bullet[\"tile\"]*Vector2(64, 64)+Vector2(32, 32), \"significant_data\": {\"item\": b}})
 						#collision.tiles = collision.structure(collision.tiles, [[{\"position\": {\"mode\": 0, \"value\": setting_bullet[\"tile\"]}}], [{\"object\": {\"pos\": Vector2(32, 32), \"data\": {\"significant_data\": {\"item\": b}}}}]])
 						
 						collision.clear_tile(setting_bullet[\"tile\"])
@@ -132,12 +133,12 @@ func go_damage(body:Node = null):
 					collision.vec += vec
 				if get_tree().network_peer != null:
 					rpc(\"dis\")
-					if collision.name == \"TileMap\":
+					if collision.name == \"TileMap\" and setting_bullet.has(\"tile\"):
 						if tile_d == false:
 							collision.rpc(\"edit_tile\", setting_bullet[\"tile\"], {\"autotile_coord\": {\"operation\": 2, \"value\": Vector2(damag, 0)}})
-						else: 
+						else:
 							#get_node(\"/root/rootGame\").drop_item({\"global_position\": setting_bullet[\"tile\"]*Vector2(32, 32), \"significant_data\": {\"item\": b}})
-							collision.rpc(\"create_item\", {\"global_position\": setting_bullet[\"tile\"]*Vector2(64, 64)+Vector2(32, 32), \"significant_data\": {\"item\": b}})
+							get_node(\"/root/rootGame\").rpc(\"drop_item\", {\"global_position\": setting_bullet[\"tile\"]*Vector2(64, 64)+Vector2(32, 32), \"significant_data\": {\"item\": b}}, drop.name)
 							collision.rpc(\"clear_tile\", setting_bullet[\"tile\"])
 
 remote func dis():

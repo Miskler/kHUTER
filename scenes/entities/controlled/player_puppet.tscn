@@ -39,6 +39,9 @@ func event_state(dat):
 	
 	get_node(\"Anim\").animation = dat[5]
 	get_node(\"Anim\").flip_h = dat[6]
+
+remote func damage(setting_bullet):
+	get_node(\"/root/rootGame\").rpc_id(int(name), \"damage\", \"/root/rootGame/Node/Player\", setting_bullet)
 "
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -197,7 +200,6 @@ position = Vector2( 4.76837e-07, 2.71797e-06 )
 scale = Vector2( 1.25, 1.025 )
 frames = SubResource( 24 )
 animation = "idle"
-frame = 2
 playing = true
 
 [node name="sat_down" type="CollisionShape2D" parent="."]
