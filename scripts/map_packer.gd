@@ -1,10 +1,10 @@
 extends Node
 
 signal save_done
-func save_game(ignor:Array = ["/root/rootGame/Timer", "/root/rootGame/Timer2"]):
+func save_game(ignor:Array = ["/root/rootGame/Timer", "/root/rootGame/Timer2"], stored_parameter = {}):
 	if get_node_or_null("/root/rootGame/Node") != null:
 		var list_nodes = get_nodes($"/root/rootGame", ignor)
-		var nodes = list_param(list_nodes)
+		var nodes = list_param(list_nodes, stored_parameter)
 		
 		var array_to_save = [G.game_settings["version"], G.game_settings["player_name"], OS.get_datetime()]
 		
@@ -45,7 +45,7 @@ func get_params(node:Object, node_list = {}):
 	
 	return node_list
 
-func list_param(nodes_list = []):
+func list_param(nodes_list:Array = [], stored_parameter:Dictionary = {}):
 	for i in range(nodes_list.size()):
 		var node = get_node(nodes_list[i]["path"])
 		
@@ -183,6 +183,10 @@ func list_param(nodes_list = []):
 					nodes_list[i]["script"]["vars"][g["name"]] = node.get(g["name"])
 				elif is_instance_valid(node.get(g["name"])):
 					nodes_list[i]["script"]["vars"][g["name"]] = node.get(g["name"]).get_path()
+			
+			if node.get_path() in stored_parameter.keys():
+				for stored in stored_parameter[str(node.get_path())].keys():
+					nodes_list[i]["script"]["vars"][stored] = stored_parameter[str(node.get_path())][stored]
 		
 		nodes_list[i]["signals"] = {}
 		for d in node.get_signal_list():

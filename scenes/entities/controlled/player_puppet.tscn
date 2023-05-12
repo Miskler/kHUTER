@@ -200,6 +200,7 @@ position = Vector2( 4.76837e-07, 2.71797e-06 )
 scale = Vector2( 1.25, 1.025 )
 frames = SubResource( 24 )
 animation = "idle"
+frame = 1
 playing = true
 
 [node name="sat_down" type="CollisionShape2D" parent="."]

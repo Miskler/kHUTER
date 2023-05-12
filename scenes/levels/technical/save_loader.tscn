@@ -20,9 +20,9 @@ remote func load_map(path_start_node:NodePath, path_file, add_data:Array = []) -
 
 remote func send_map(user_id:int, send_data:Array = []) -> bool:
 	if get_node_or_null(\"/root/rootGame/Node\") != null and get_tree().network_peer != null:
-		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = true
-		var saver = $save.save_game([\"/root/rootGame/Timer\", \"/root/rootGame/Timer2\", \"/root/rootGame/Node/Player\"])
-		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = false
+		var map_settings = get_node(\"/root/rootGame/Node/SettingData\").map_settings.duplicate(true)
+		map_settings[\"is_save\"] = true
+		var saver = $save.save_game([\"/root/rootGame/Timer\", \"/root/rootGame/Timer2\", \"/root/rootGame/Node/Player\"], {\"/root/rootGame/Node/SettingData\": {\"map_settings\": map_settings}})
 		
 		if saver is Array:
 			rpc_id(user_id, \"load_map\", \"/root/rootGame\", saver[0], send_data)
@@ -31,10 +31,9 @@ remote func send_map(user_id:int, send_data:Array = []) -> bool:
 
 func save_map(name_save:String = \"Быстрое сохранение\") -> bool:
 	if get_node_or_null(\"/root/rootGame/Node\") != null:
-		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = true
-		var saver = $save.save_game()
-		yield($save, \"save_done\")
-		get_node(\"/root/rootGame/Node/SettingData\").map_settings[\"is_save\"] = false
+		var map_settings = get_node(\"/root/rootGame/Node/SettingData\").map_settings.duplicate(true)
+		map_settings[\"is_save\"] = true
+		var saver = $save.save_game([\"/root/rootGame/Timer\", \"/root/rootGame/Timer2\"], {\"/root/rootGame/Node/SettingData\": {\"map_settings\": map_settings}})
 		
 		if saver is Array:
 			var dirSAV = Directory.new()
