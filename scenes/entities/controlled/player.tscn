@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://textures/ui/logos/sphere_main.png" type="Texture" id=1]
 [ext_resource path="res://textures/people/player/idle.png" type="Texture" id=2]
@@ -225,13 +225,25 @@ func jump_access() -> bool:
 	
 	bodies.erase(get_parent())
 	
-	if bodies.size() > 0:
-		return true
+	for i in bodies:
+		if i is TileMap:
+			return true
+	#if bodies.size() > 0:
+	#	return true
 	return false
 "
 
 [sub_resource type="RectangleShape2D" id=97]
 extents = Vector2( 30, 40 )
+
+[sub_resource type="GDScript" id=98]
+script/source = "extends Timer
+
+
+
+func timeout():
+	$\"..\".post_jump = false
+"
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 5
@@ -369,4 +381,8 @@ script = SubResource( 96 )
 shape = SubResource( 97 )
 
 [node name="coupling_time" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.5
+one_shot = true
+script = SubResource( 98 )
+
+[connection signal="timeout" from="coupling_time" to="coupling_time" method="timeout"]

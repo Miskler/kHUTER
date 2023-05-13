@@ -28,6 +28,7 @@ export var player_settings = {
 	"visible_health": true,
 	"visible_heating": true,
 	"invisibility_to_players": false,
+	"coupling_time": 0.5,
 }
 
 
@@ -107,6 +108,7 @@ func setting_event():
 	$Camera2D/interface/main/HBoxContainer.visible = player_settings["itembar"]
 	$Node2D.visible = not player_settings["invisible"]
 	$Anim.visible = not player_settings["invisible"]
+	$coupling_time.wait_time = player_settings["coupling_time"]
 
 func _process(_delta):
 	weapon_turn()
@@ -126,7 +128,7 @@ func event():
 		else: mode = true
 		get_node("/root/rootGame").rpc_unreliable("event_state", "/root/rootGame/Node/" + str(get_tree().get_network_unique_id()), [get_tree().get_network_unique_id(), global_position, $Node2D.rotation_degrees, gan_on, $Node2D/Sprite.flip_v, $Anim.animation, $Anim.flip_h, mode, player_settings["invisibility_to_players"]])
 
-
+var jump_const = false
 func movement():
 	var android_x = $Camera2D/interface/main/RunButtons
 	var android_y = $Camera2D/interface/main/JumpButtons
@@ -164,6 +166,7 @@ func movement():
 	if (Input.is_action_pressed("w") or android_y.up_jump) and player_settings["jumping"] == true and is_on_floor() and $Camera2D/interface/main.visible == true and $Camera2D/interface/chat.visible == false:
 		vec.y -= speed.y
 		$Anim.play("jump")
+		jump_const = true
 		#android_y.up = false
 	elif (Input.is_action_just_pressed("w") or android_y.up) and player_settings["jumping"] == true and $jump.jump_access() and clutches > 0 and $Camera2D/interface/main.visible == true and $Camera2D/interface/chat.visible == false:
 		clutches -= 1
@@ -171,17 +174,31 @@ func movement():
 		vec.y = clamp(vec.y, -550, 550)
 		$Anim.play("jump")
 		android_y.up = false
+		jump_const = true
 	elif (Input.is_action_pressed("s") or android_y.down) and !is_on_floor() and $Camera2D/interface/main.visible == true and $Camera2D/interface/chat.visible == false:
 		vec.y += speed.y/10
 
+var post_jump = false
 func post_move():
 	if is_on_floor():
 		clutches = SD.map_settings["number_of_clutches"]
+		post_jump = false
+		#jump_const = false
+		$coupling_time.stop()
 	
 	if vec.y > 1: $Anim.play("fall")
 	elif vec.x == 0 and vec.y == 0: $Anim.play("idle")
 	
-	vec.y += speed.y/21
+	if vec.y >= speed.y/21 and jump_const:
+		jump_const = false
+		post_jump = true
+		$coupling_time.start()
+		vec.y = 0
+	elif vec.y < 0 or not post_jump or !$jump.jump_access():
+		vec.y += speed.y/21
+	#else:
+	#	vec.y = clamp(vec.y, -speed_max.y, 0)
+	
 	
 	vec.x = clamp(vec.x, -speed_max.x, speed_max.x)
 	vec.y = clamp(vec.y, -speed_max.y, speed_max.y)
