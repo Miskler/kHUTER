@@ -291,16 +291,24 @@ func _pressed():
 script/source = "extends Control
 
 var translation_dictionary = {
-	\"boot_menu\": \"Показывать меню загрузки\",
-	\"bad_graphics\": \"Использовать плохую графику\",
-	\"FPS\": \"ККС (ФПС/FPS)\",
-	\"port\": \"Порт сервера\",
-	\"player_name\": \"Имя игрока\",
-	\"render_bonus\": \"Дальность отрисовки\",
-	\"mobile\": \"Мобильная версия\",
-	\"mobile_use_all\": \"Андроид использование\",
-	\"auto_save\": \"Период автосохранения\",
-	\"auto_on\": \"Автосохранение\",
+	\"Базовое\": {
+		\"boot_menu\": \"Показывать меню загрузки\",
+		\"player_name\": \"Имя игрока\",
+		\"bad_graphics\": \"Использовать плохую графику\",
+		\"FPS\": \"ККС (ФПС/FPS)\",
+		\"render_bonus\": \"Дальность отрисовки\",
+	},
+	\"Сеть\": {
+		\"port\": \"Порт сервера\",
+	},
+	\"Android\": {
+		\"mobile\": \"Мобильная версия\",
+		\"mobile_use_all\": \"Андроид использование\",
+	},
+	\"Сохранения\": {
+		\"auto_save\": \"Период автосохранения\",
+		\"auto_on\": \"Автосохранение\",
+	}
 }
 
 var descriptions_dictionary = {
@@ -316,56 +324,60 @@ var descriptions_dictionary = {
 	\"auto_on\": \"Влючает и выключает функцию автосохранения.\",
 }
 
-var ignore = [
-	\"version\",
-	\"old_version\",
-	\"statistics\",
-	\"prolog\"
-]
-
 func _ready():
 	add_buttons()
 	dat()
 
 func add_buttons():
 	del_buttons()
-	for i in G.game_settings.keys():
-		if not i in ignore:
-			if G.game_settings[i] is int or G.game_settings[i] is float:
+	
+	for group in translation_dictionary.keys():
+		var title = $\"List/Buttons/*SampleTitle\".duplicate()
+		
+		title.text = \"          \"+str(group)
+		title.name = str(group)
+		
+		title.show()
+		
+		$List/Buttons.add_child(title)
+		
+		for item_key in translation_dictionary[group].keys():
+			if G.game_settings[item_key] is int or G.game_settings[item_key] is float:
 				var item = $\"List/Buttons/*SampleInt\".duplicate()
 				
-				item.name = i
-				item.prefix = translation_dictionary[i] + \" - \"
+				item.name = item_key
+				item.prefix = translation_dictionary[group][item_key] + \" - \"
 				
-				item.value = G.game_settings[i]
+				item.value = G.game_settings[item_key]
 				
 				item.show()
 				$\"List/Buttons\".add_child(item)
-			elif G.game_settings[i] is bool:
+			elif G.game_settings[item_key] is bool:
 				var item = $\"List/Buttons/*SampleBool\".duplicate()
 				
-				item.name = i
-				if translation_dictionary.has(i):
-					item.text = translation_dictionary[i]
+				item.name = item_key
+				if translation_dictionary[group].has(item_key):
+					item.text = translation_dictionary[group][item_key]
 				else:
-					item.text = i
+					item.text = item_key
 				
-				item.pressed = G.game_settings[i]
+				item.pressed = G.game_settings[item_key]
 				
 				item.show()
 				$\"List/Buttons\".add_child(item)
-			elif G.game_settings[i] is String:
+			elif G.game_settings[item_key] is String:
 				var item = $\"List/Buttons/*SampleString\".duplicate()
 				
-				item.name = i
-				item.placeholder_text = translation_dictionary[i]
+				item.name = item_key
+				item.placeholder_text = translation_dictionary[group][item_key]
 				
-				item.text = G.game_settings[i]
+				item.text = G.game_settings[item_key]
 				
 				item.show()
 				$\"List/Buttons\".add_child(item)
 			else:
-				push_error(\"Система настроек: Неизвестный тип данных - \\\"\" + str(i) + \"\\\": \" + str(G.game_settings[i]))
+				push_error(\"Система настроек: Неизвестный тип данных - \\\"\" + str(item_key) + \"\\\": \" + str(G.game_settings[item_key]))
+
 func del_buttons():
 	for i in $List/Buttons.get_children():
 		if not i.name.begins_with(\"*Sample\"):
@@ -1300,6 +1312,8 @@ margin_right = 337.0
 margin_bottom = 513.0
 
 [node name="Buttons" type="VBoxContainer" parent="Interfaces/Settings/List"]
+margin_right = 288.0
+margin_bottom = 51.0
 
 [node name="*SampleBool" type="CheckBox" parent="Interfaces/Settings/List/Buttons"]
 visible = false
@@ -1325,6 +1339,12 @@ min_value = 1.0
 max_value = 1000.0
 value = 5.0
 script = ExtResource( 21 )
+
+[node name="*SampleTitle" type="Label" parent="Interfaces/Settings/List/Buttons"]
+margin_right = 288.0
+margin_bottom = 51.0
+text = "                        Настройки                     
+						          "
 
 [node name="Title" type="Label" parent="Interfaces/Settings"]
 margin_left = 347.0
@@ -1352,6 +1372,7 @@ text = "X"
 script = ExtResource( 18 )
 
 [node name="Saves" type="Control" parent="Interfaces"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1496,6 +1517,7 @@ text = "Удалить"
 script = ExtResource( 17 )
 
 [node name="Multiplayer" type="Control" parent="Interfaces"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
