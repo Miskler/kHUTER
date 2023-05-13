@@ -67,9 +67,6 @@ func _ready():
 				{"tile_clear": {"shift": Vector2(0, -3)}},
 				{"tile_clear": {"shift": Vector2(1, -3)}},
 				{"tile_clear": {"shift": Vector2(2, -3)}},
-				
-				
-				{"object": {"path": "res://Scenes/LVL/mysterious_structure.tscn", "pos": Vector2(32, -32)}}
 			]
 		]
 		$TileMap.tiles = $TileMap.structure($TileMap.tiles, manual, 1)
@@ -85,7 +82,7 @@ func _ready():
 				{"tile": {"mode": 0, "shift": Vector2(1, -1), "value": false}}
 			], 
 			[
-				{"object": {"path": "res://Scenes/NPS/Mob.res", "pos": Vector2(32, 0)}}#"pos": Vector2(32, -64), 
+				{"object": {"path": "res://scenes/entities/basic/slime.tscn", "pos": Vector2(32, 0)}}#"pos": Vector2(32, -64), 
 			]
 		]
 		$TileMap.structure($TileMap.tiles, manual, 40, 60)
@@ -107,7 +104,7 @@ func _ready():
 				{"tile": {"mode": 0, "shift": Vector2(1, -1), "value": false}}
 			], 
 			[
-				{"object": {"path": "res://Scenes/NPS/Phase Firefly.res"}}#"pos": Vector2(32, -64), 
+				{"object": {"path": "res://scenes/entities/basic/phase_firefly.tscn"}}#"pos": Vector2(32, -64), 
 			]
 		]
 		$TileMap.structure($TileMap.tiles, manual, 120, 40)
@@ -141,7 +138,7 @@ func _ready():
 				{"tile_clear": {"shift": Vector2(0, -2)}},
 				{"tile_clear": {"shift": Vector2(1, -2)}},
 				
-				{"object": {"pos": Vector2(64, -32), "path": "res://Scenes/NPS/Player.res"}}# 
+				{"object": {"pos": Vector2(64, -32), "path": "res://scenes/entities/controlled/player.tscn"}}# 
 			]
 		]
 		$TileMap.structure($TileMap.tiles, manual, 1, 10)
@@ -209,7 +206,7 @@ func wave(count:int = 10):
 			{"tile": {"mode": 0, "shift": Vector2(1, -1), "value": false}}
 		], 
 		[
-			{"object": {"path": "res://Scenes/NPS/Mob.res", "pos": Vector2(32, 0)}}#"pos": Vector2(32, -64), 
+			{"object": {"path": "res://scenes/entities/basic/slime.tscn", "pos": Vector2(32, 0)}}#"pos": Vector2(32, -64), 
 		]
 	]
 	$TileMap.structure($TileMap.tiles, manual, count, 120)
@@ -231,7 +228,7 @@ func wave(count:int = 10):
 			{"tile": {"mode": 0, "shift": Vector2(1, -1), "value": false}}
 		], 
 		[
-			{"object": {"path": "res://Scenes/NPS/Phase Firefly.res"}}#"pos": Vector2(32, -64), 
+			{"object": {"path": "res://scenes/entities/basic/phase_firefly.tscn"}}#"pos": Vector2(32, -64), 
 		]
 	]
 	$TileMap.structure($TileMap.tiles, manual, count, 80)
@@ -251,7 +248,7 @@ func wave(count:int = 10):
 			{"tile": {"mode": 0, "shift": Vector2(-1, -2), "value": false}}
 		], 
 		[
-			{"object": {"path": "res://Scenes/NPS/droid.res", "pos": Vector2(32, 0)}}#"pos": Vector2(32, -64), 
+			{"object": {"path": "res://scenes/entities/basic/droid.tscn", "pos": Vector2(32, 0)}}#"pos": Vector2(32, -64), 
 		]
 	]
 	$TileMap.structure($TileMap.tiles, manual, 20, 70)

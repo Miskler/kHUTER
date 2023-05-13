@@ -3,7 +3,7 @@ extends Node
 #НОВЫЕ
 
 var game_settings = {
-	"version": "0.2.8",
+	"version": "0.2.8 - Refactoring",
 	"prolog": false,
 	"boot_menu": false,
 	"bad_graphics": false,
@@ -29,7 +29,7 @@ var live_player_roster = {}
 
 
 var start_game_params = {
-	"ore": [{"andesite": 0.3}, {"copper": 0.5}, {"details": 0.5}, {"moss": 0.5}, {"ice": 0.5}, {"iron": 0.5}]
+	"ore": [{"andesite": 0.3}, {"copper": 0.45}, {"details": 0.45}, {"moss": 0.45}, {"ice": 0.45}, {"iron": 0.45}]
 }
 
 

@@ -272,7 +272,7 @@ func shoot(forced:bool = false):
 			if bullet_name != null: bullet_dat = SD.get_node("ItemData").get(str(bullet_name))
 			
 			if gan_dat != null and(gan_dat["type"] == "sword" or bullet_name != null) and($Camera2D/interface/clothes.data_clothes["bullet"][0] in [null or true] or bullet_name in gan_dat.get("bullets_needed")):
-				var dat = ["res://Tecture/Modeli/no_texture.png", 0, 0, 1000, false, 0] #текстура, урон, придяжение, скорость, режим пули
+				var dat = ["res://textures/black.png", 0, 0, 1000, false, 0] #текстура, урон, придяжение, скорость, режим пули
 				
 				if bullet_dat != null: dat[0] = bullet_dat.get("special_animation")
 				if dat[0] == null: dat[0] = $Camera2D/interface/clothes/Control/AdditionalArmSlot/Texture.texture.get_path()
@@ -516,20 +516,12 @@ func show_died(cause):
 		
 		for i in dat_items:
 			if i[1].size() > 0:
-				var random_bloc = load("res://Scenes/Items/ItemInWorld.scn").instance()
-				
 				var f_name = "SlotInWorld_" + str(rand_range(0, 1))
 				
-				random_bloc.get_node("SlotInWorld").significant_data = i[1]
-				random_bloc.get_node("SlotInWorld").insignificant_data = i[2]
-				
-				random_bloc.global_position = global_position
-				random_bloc.name = f_name
+				get_node("/root/rootGame").drop_item({"global_position": global_position, "significant_data": i[1], "insignificant_data": i[2]}, f_name)
 				
 				if get_tree().network_peer != null:
-					$Camera2D/interface/MoveItem.rpc("put_item", i[1], i[2], global_position, f_name)
-				
-				get_node("/root/rootGame/Node").add_child(random_bloc)
+					get_node("/root/rootGame").rpc("drop_item", {"global_position": global_position, "significant_data": i[1], "insignificant_data": i[2]}, f_name)
 		
 		emit_signal("died", cause)
 		
