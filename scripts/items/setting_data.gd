@@ -11,7 +11,7 @@ export var map_settings = {
 	"dehumidification_frequency": 12, #Значение меньше нуля отключает функцию
 	"number_of_clutches": 3,
 	"adding_to_statistics": true, #Разрешение элементам карты вносить новые данные в статистику
-	"crafting": ["breaker", "remotedrill", "standart_bullet", "flask"],
+	"crafting": ["breaker", "remotedrill", "standart_bullet", "flask", "plate"],
 	"time_to_destruction": 60,
 }
 

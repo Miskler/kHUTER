@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/items/setting_data.gd" type="Script" id=1]
 
@@ -27,6 +27,40 @@ export var new_sample_item = {
 	#Свойства
 		\"name_in_game\": \"Почва\", #Имя на русском
 		\"description\": \"Грязная, не прочная порода...\", #Описание предмета, оставить \"\" если нет
+		\"creature\": 1, #Вероятность с которой предмет будет выбран \"блоком случая\"
+		\"maximum_number\": 6, #Максимальное число предметов в одном слоте
+	
+	#Особые свойства
+		\"type\": \"thing\", #thing/weapon/sword/protection - предмет/пушка/меч/защита
+		\"number\": 0, #Оно будет использовано как уровень защиты
+		#Если пуст будет использована обычная анимация
+		\"special_animation\": \"\", #Будет использоваться при активации (текстура пули, оружие в руках)
+		\"permission_to_install\": \"\", #Если не пуст и блок найден, можно установить связанный с предметом блок на карту
+		
+		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
+}
+
+export var plate = {
+	#Рецепт
+	#Пример
+	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
+		\"slot0\": [[{\"del_item\": true}, {\"item\": \"iron\"}, {\"uni_quantity\": Vector2(1, -1)}]], #Что должно содержаться в слоте 1
+		\"slot1\": [[{\"del_item\": true}, {\"item\": \"details\"}, {\"uni_quantity\": Vector2(1, -1)}]], #Что должно содержаться в слоте 2
+		\"slot2\": [], #Что должно содержаться в слоте 3
+		\"slot3\": [[{\"del_item\": true}, {\"item\": \"details\"}, {\"uni_quantity\": Vector2(1, -1)}]], #Что должно содержаться в слоте 4
+		\"slot4\": [[{\"del_item\": true}, {\"item\": \"iron\"}, {\"uni_quantity\": Vector2(1, -1)}]], #Что должно содержаться в слоте 5
+		\"slot5\": [], #Что должно содержаться в слоте 6
+		\"slot6\": [], #Что должно содержаться в слоте 7
+		\"slot7\": [], #Что должно содержаться в слоте 8
+		\"slot8\": [], #Что должно содержаться в слоте 9
+	
+	#Получаймый предмет
+		\"quantity\": 1, #Число предметов которые можно получить с 1 рецепта
+		\"animation\": {\"event\": 1, \"frames\": [\"res://textures/ui/items/created/plate.png\"]}, #Текстура итога крафта
+	
+	#Свойства
+		\"name_in_game\": \"Пластина\", #Имя на русском
+		\"description\": \"Поможет восстановить здоровье!\", #Описание предмета, оставить \"\" если нет
 		\"creature\": 1, #Вероятность с которой предмет будет выбран \"блоком случая\"
 		\"maximum_number\": 6, #Максимальное число предметов в одном слоте
 	
@@ -938,6 +972,17 @@ func use_item(slot, significant, insignificant):
 	$\"../bread\".use_item(slot, significant, insignificant)
 "
 
+[sub_resource type="GDScript" id=7]
+script/source = "extends Node
+
+func use_item(slot, significant, insignificant):
+	var procent = round((significant[\"health\"][\"maximum\"] * 0.05) / insignificant[\"uni_quantity\"])
+	
+	slot.change_health(procent)
+	
+	get_node(\"/root/rootGame/Node/Player\").effect_health(10)
+"
+
 [node name="SettingData" type="Node"]
 script = ExtResource( 1 )
 map_settings = {
@@ -968,3 +1013,6 @@ script = SubResource( 5 )
 
 [node name="moss" type="Node" parent="ItemLogical"]
 script = SubResource( 6 )
+
+[node name="plate" type="Node" parent="ItemLogical"]
+script = SubResource( 7 )

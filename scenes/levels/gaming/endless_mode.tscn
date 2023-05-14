@@ -308,7 +308,7 @@ tile_data = PoolIntArray( -2883584, 27, 0 )
 map_settings = {
 "adding_to_statistics": true,
 "can_be_saved": true,
-"crafting": [ "remotedrill", "standart_bullet", "flask", "water", "breaker", "chest", "craft", "glass", "reinforced_chest", "wall", "sint" ],
+"crafting": [ "remotedrill", "standart_bullet", "flask", "water", "breaker", "chest", "craft", "glass", "reinforced_chest", "wall", "sint", "plate" ],
 "creation_position": Vector2( 0, 0 ),
 "dehumidification_frequency": 16,
 "edit_save": false,
