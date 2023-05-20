@@ -44,9 +44,8 @@ func _input(_event):
 		SaveLoader.save_map("Быстрое-сохранение")
 
 func remove_recursive(path):
-	var directory = DirAccess.new()
+	var directory = DirAccess.open(path)
 	
-	directory.open(path)
 	directory.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	var file_name = directory.get_next()
 	while file_name != "":

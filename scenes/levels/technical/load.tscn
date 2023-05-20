@@ -19,16 +19,15 @@ func _ready():
 	#Firebase.setSessionTimeoutDuration(120000)
 	
 	randomize()
-	OS.center_window()
+	
 	#OS.window_fullscreen = true
 	
-	var dir = DirAccess.new()
-	if !dir.dir_exists(\"user://SaveGame\"):
-		dir.make_dir_recursive(\"user://SaveGame\")
+	if !DirAccess.dir_exists_absolute(\"user://SaveGame\"):
+		DirAccess.make_dir_absolute(\"user://SaveGame\")
 	
 	var mode = load_game()
 	
-	Engine.set_target_fps(G.game_settings[\"FPS\"])
+	Engine.max_fps = G.game_settings[\"FPS\"]
 	
 	if mode and G.game_settings[\"boot_menu\"] == false:
 		animation_finished(-1)
@@ -38,15 +37,15 @@ func _ready():
 func load_game():
 	var v = G.game_settings[\"version\"]
 	
-	var file = File.new()
+	var file = FileAccess
 	if not file.file_exists(G.ways[\"settings\"]):
 		G.game_settings[\"mobile\"] = OS.get_name() in [\"Android\", \"BlackBerry 10\", \"WinRT\", \"iOS\"]
 		
-		file.open(G.ways[\"settings\"], File.WRITE)
-		file.store_line(JSON.new().stringify(G.game_settings))
+		file = file.open(G.ways[\"settings\"], FileAccess.WRITE)
+		file.store_var(JSON.new().stringify(G.game_settings))
 		file.close()
 		return false
-	file.open(G.ways[\"settings\"], File.READ)
+	file.open(G.ways[\"settings\"], FileAccess.READ)
 	var test_json_conv = JSON.new()
 	test_json_conv.parse(file.get_as_text())
 	var data = test_json_conv.get_data()

@@ -485,9 +485,6 @@ cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 [node name="Global" type="Node"]
 process_mode = 2
 script = ExtResource("7")
-__meta__ = {
-"_editor_description_": "35fggffg"
-}
 
 [node name="Load Screen" type="CanvasLayer" parent="."]
 layer = 9
@@ -499,6 +496,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = SubResource("7")
 
 [node name="Background" type="ColorRect" parent="Load Screen/Control"]
@@ -563,6 +562,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
 [node name="Notifications" type="VBoxContainer" parent="Global Interface/Control"]

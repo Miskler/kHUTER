@@ -54,7 +54,7 @@ signal pressed_item(slot, significant, insignificant, button) #Реагируе�
 
 #Срабатывает когда предмет был принудительно установлен
 #Срабатывает только когда был установлен по приказу скрипта, а не игрока
-signal set_item(slot, significant, insignificant)
+signal installed_item(slot, significant, insignificant)
 
 
 #Дополнительные сигналы
@@ -404,8 +404,7 @@ func add_item(significant, insignificant):
 				insignificant_data[i] = insignificant[i]
 		
 		if settings_slot["multiplayer_synchronization"] == true:
-			rset("significant_data", significant_data)
-			rset("insignificant_data", insignificant_data)
+			rpc("set_item", significant_data, insignificant_data)
 			rpc("installation_item")
 		
 		if insignificant["uni_quantity"] <= 0:
@@ -416,13 +415,13 @@ func add_item(significant, insignificant):
 	return [false, significant, insignificant, 0]
 
 #Добавляет предмет принудительно
+@rpc("any_peer")
 func set_item(significant, insignificant):
 	emit_signal("set_item", self, significant_data, insignificant_data)
 	significant_data = significant
 	insignificant_data = insignificant
 	if settings_slot["multiplayer_synchronization"] == true:
-		rset("significant_data", significant)
-		rset("insignificant_data", insignificant)
+		rpc("set_item", significant_data, insignificant_data)
 		rpc("installation_item")
 
 #Опустошает слот, возвращает удаленные данные
@@ -442,8 +441,7 @@ func get_item(mode:bool = true):
 			significant_data = default_significant_data.duplicate()
 			insignificant_data = default_insignificant_data.duplicate()
 	if settings_slot["multiplayer_synchronization"] == true:
-		rset("significant_data", significant_data)
-		rset("insignificant_data", insignificant_data)
+		rpc("set_item", significant_data, insignificant_data)
 		rpc("installation_item")
 	return data
 
