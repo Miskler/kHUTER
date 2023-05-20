@@ -1,12 +1,12 @@
-tool
+@tool
 extends HSplitContainer
 
 const PieChart: Script = preload("./PieChart.gd")
 
-const CIRCLE_ICON: Texture = preload("../../icons/circle.svg")
+const CIRCLE_ICON: Texture2D = preload("../../icons/circle.svg")
 
-onready var chart: PieChart = $PieChart
-onready var key_tree: Tree = $KeyTree
+@onready var chart: PieChart = $PieChart
+@onready var key_tree: Tree = $KeyTree
 
 
 func set_series(series: Dictionary) -> void:
@@ -17,7 +17,7 @@ func set_series(series: Dictionary) -> void:
 	var root: TreeItem = key_tree.create_item()
 	
 	var values: Array = series.values()
-	values.sort_custom(self, "_sort_series")
+	values.sort_custom(Callable(self, "_sort_series"))
 	
 	var total: float = _get_total(values)
 	for data in values:
@@ -45,4 +45,4 @@ func _notification(what: int) -> void:
 	match what:
 		NOTIFICATION_RESIZED, NOTIFICATION_SORT_CHILDREN:
 			if chart:
-				chart.radius = min(chart.rect_size.x, chart.rect_size.y) / 2 * 0.9
+				chart.radius = min(chart.size.x, chart.size.y) / 2 * 0.9

@@ -6,7 +6,7 @@ func save_game(ignor:Array = ["/root/rootGame/Timer", "/root/rootGame/Timer2"], 
 		var list_nodes = get_nodes($"/root/rootGame", ignor)
 		var nodes = list_param(list_nodes, stored_parameter)
 		
-		var array_to_save = [G.game_settings["version"], G.game_settings["player_name"], OS.get_datetime()]
+		var array_to_save = [G.game_settings["version"], G.game_settings["player_name"], Time.get_datetime_dict_from_system()]
 		
 		emit_signal("save_done")
 		return [nodes, array_to_save]
@@ -112,7 +112,7 @@ func list_param(nodes_list:Array = [], stored_parameter:Dictionary = {}):
 				var j = {"position": b, "atlas": node.get_cellv(b), "position_in_atlas": node.get_cell_autotile_coord(b.x, b.y)}
 				nodes_list[i]["tile_data"].append(j)
 		
-		if node is KinematicBody2D or node is RigidBody2D or node is StaticBody2D or node is TileMap:
+		if node is CharacterBody2D or node is RigidBody2D or node is StaticBody2D or node is TileMap:
 			nodes_list[i]["collision_mask"] = node.get_collision_mask()
 			nodes_list[i]["collision_layer"] = node.get_collision_layer()
 			if node is TileMap:
@@ -122,7 +122,7 @@ func list_param(nodes_list:Array = [], stored_parameter:Dictionary = {}):
 			nodes_list[i]["time_left"] = node.time_left
 		elif node is AudioStreamPlayer or node is AudioStreamPlayer2D:
 			nodes_list[i]["playback_position"] = node.get_playback_position()
-		elif node is AnimatedSprite and node.get_sprite_frames() != null:
+		elif node is AnimatedSprite2D and node.get_sprite_frames() != null:
 			var frames_object = node.get_sprite_frames()
 			nodes_list[i]["frames"] = {}
 			for j in frames_object.get_animation_names():
@@ -174,7 +174,7 @@ func list_param(nodes_list:Array = [], stored_parameter:Dictionary = {}):
 		
 		if is_instance_valid(node.get_script()):
 			nodes_list[i]["script"] = {}
-			nodes_list[i]["script"]["code"] = to_json(node.get_script().source_code)
+			nodes_list[i]["script"]["code"] = JSON.new().stringify(node.get_script().source_code)
 			nodes_list[i]["script"]["vars"] = {}
 			
 			var node_vars = node.get_script().get_script_property_list()
@@ -199,11 +199,11 @@ func list_param(nodes_list:Array = [], stored_parameter:Dictionary = {}):
 					nodes_list[i]["signals"][d["name"]].append([r["method"], r["target"].get_path()])
 	return nodes_list
 
-remote func send_map(user_id, user_name):
+@rpc("any_peer") func send_map(user_id, user_name):
 	if !G.player_roster.has(user_id):
 		G.player_roster[user_id] = user_name
 		G.live_player_roster[user_id] = user_name
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	print("Передача запущенной карты по запросу \""+str(user_name)+"\" ("+str(user_id)+")")
 	
 	var ignor = ["/root/rootGame/Node/Player", "/root/rootGame/Timer", "/root/rootGame/Timer2"]

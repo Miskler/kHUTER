@@ -6,7 +6,7 @@ const MarkdownStatistics: Script = preload("./extensions/MarkdownStatistics.gd")
 const ResourceStatistics: Script = preload("./extensions/ResourceStatistics.gd")
 const YAMLStatistics: Script = preload("./extensions/YAMLStatistics.gd")
 
-var directories: PoolStringArray
+var directories: PackedStringArray
 
 var scenes: Array
 var resources: Array
@@ -14,14 +14,14 @@ var scripts: Array
 var misc: Array
 
 func load(root: String = "res://") -> int:
-	var directory: Directory = Directory.new()
+	var directory: DirAccess = DirAccess.new()
 	var error: int = directory.open(root)
 	if error != OK:
 		return error
 	
-	directory.list_dir_begin(true, true)
+	directory.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	var file_name: String = directory.get_next()
-	while not file_name.empty():
+	while not file_name.is_empty():
 		var current_path: String = directory.get_current_dir().plus_file(file_name)
 		if path_force_included(current_path) or not path_ignored(current_path):
 			if directory.current_is_dir():
@@ -43,8 +43,8 @@ func load(root: String = "res://") -> int:
 	
 	return OK
 
-func get_used_langauges() -> PoolStringArray:
-	var languages: PoolStringArray = []
+func get_used_langauges() -> PackedStringArray:
+	var languages: PackedStringArray = []
 	for file_stats in scripts:
 		var extension: String = file_stats.get_extension()
 		if not file_stats.get_extension() in languages:
@@ -134,27 +134,27 @@ func duplicate():
 	return clone
 
 static func is_path_ignored(path: String) -> bool:
-	if not Engine.editor_hint:
+	if not Engine.is_editor_hint():
 		return false
-	var ignores: PoolStringArray = ProjectSettings.get_setting("statistics/ignore")
+	var ignores: PackedStringArray = ProjectSettings.get_setting("statistics/ignore")
 	for expression in ignores:
 		if path.matchn(expression):
 			return true
 	return false
 
 static func path_ignored(path: String) -> bool:
-	if not Engine.editor_hint:
+	if not Engine.is_editor_hint():
 		return false
-	var expressions: PoolStringArray = ProjectSettings.get_setting("statistics/ignore")
+	var expressions: PackedStringArray = ProjectSettings.get_setting("statistics/ignore")
 	for expression in expressions:
 		if path.matchn(expression):
 			return true
 	return false
 
 static func path_force_included(path: String) -> bool:
-	if not Engine.editor_hint:
+	if not Engine.is_editor_hint():
 		return false
-	var expressions: PoolStringArray = ProjectSettings.get_setting("statistics/force_include")
+	var expressions: PackedStringArray = ProjectSettings.get_setting("statistics/force_include")
 	for expression in expressions:
 		if path.matchn(expression):
 			return true

@@ -1,19 +1,19 @@
 [gd_scene load_steps=93 format=2]
 
-[ext_resource path="res://resources/fonts/standart/small.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://textures/ui/logos/youtube.png" type="Texture" id=2]
-[ext_resource path="res://textures/ui/logos/discord.png" type="Texture" id=3]
-[ext_resource path="res://textures/ui/logos/boosty.png" type="Texture" id=4]
-[ext_resource path="res://textures/ui/android/inventory.png" type="Texture" id=5]
-[ext_resource path="res://textures/ui/logos/telegram.png" type="Texture" id=6]
-[ext_resource path="res://textures/ui/items/created/breaker.png" type="Texture" id=7]
+[ext_resource path="res://resources/fonts/standart/small.otf" type="FontFile" id=1]
+[ext_resource path="res://textures/ui/logos/youtube.png" type="Texture2D" id=2]
+[ext_resource path="res://textures/ui/logos/discord.png" type="Texture2D" id=3]
+[ext_resource path="res://textures/ui/logos/boosty.png" type="Texture2D" id=4]
+[ext_resource path="res://textures/ui/android/inventory.png" type="Texture2D" id=5]
+[ext_resource path="res://textures/ui/logos/telegram.png" type="Texture2D" id=6]
+[ext_resource path="res://textures/ui/items/created/breaker.png" type="Texture2D" id=7]
 [ext_resource path="res://audios/music/menu.ogg" type="AudioStream" id=8]
 [ext_resource path="res://audios/button.mp3" type="AudioStream" id=9]
-[ext_resource path="res://resources/fonts/writer_duo/writer_duos_bold_italic.ttf" type="DynamicFontData" id=10]
-[ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=11]
-[ext_resource path="res://resources/fonts/writer_duo/writer_duos_bold.ttf" type="DynamicFontData" id=12]
-[ext_resource path="res://resources/fonts/writer_duo/writer_duov.ttf" type="DynamicFontData" id=13]
-[ext_resource path="res://resources/fonts/writer_duo/writer_duos_italic.ttf" type="DynamicFontData" id=14]
+[ext_resource path="res://resources/fonts/writer_duo/writer_duos_bold_italic.ttf" type="FontFile" id=10]
+[ext_resource path="res://resources/fonts/standart/standart.otf" type="FontFile" id=11]
+[ext_resource path="res://resources/fonts/writer_duo/writer_duos_bold.ttf" type="FontFile" id=12]
+[ext_resource path="res://resources/fonts/writer_duo/writer_duov.ttf" type="FontFile" id=13]
+[ext_resource path="res://resources/fonts/writer_duo/writer_duos_italic.ttf" type="FontFile" id=14]
 [ext_resource path="res://resources/themes/main.theme" type="Theme" id=15]
 [ext_resource path="res://scripts/interface/main_menu/catalog_save_button.gd" type="Script" id=16]
 [ext_resource path="res://scripts/interface/main_menu/remove_save_button.gd" type="Script" id=17]
@@ -32,7 +32,7 @@ func _ready():
 	#$Animations.play_backwards(\"BlackScreen\")
 	
 # warning-ignore:return_value_discarded
-	get_node(\"HTTPRequest\").connect(\"request_completed\", self, \"complite_load_data\")
+	get_node(\"HTTPRequest\").connect(\"request_completed\", Callable(self, \"complite_load_data\"))
 	request(\"all\")
 
 func request(dat = \"all\"):
@@ -44,7 +44,9 @@ func request(dat = \"all\"):
 	else:
 		print(\"Запрос \\\"\"+str(dat)+\"\\\" отправлен корректно, ожидание ответа сервера... (http://\"+G.ways[\"server\"]+\":\"+str(G.game_settings[\"port\"])+\"/)\")
 func complite_load_data(_result, _response_code, _headers, body):
-	var response = parse_json(body.get_string_from_utf8())
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(body.get_string_from_utf8())
+	var response = test_json_conv.get_data()
 	
 	if response == null:
 		push_warning(\"Сервер прислал битый ответ!\")
@@ -90,7 +92,7 @@ func complite_load_data(_result, _response_code, _headers, body):
 func download(name_map, param, map):
 	$\"Interfaces/Pass\".hide()
 	
-	var dirSAV = Directory.new()
+	var dirSAV = DirAccess.new()
 	var path = \"user://SaveGame/Worlds/\" + str(name_map)
 	if !dirSAV.dir_exists(path):
 		dirSAV.make_dir_recursive(path)
@@ -102,7 +104,7 @@ func download(name_map, param, map):
 	
 	file = File.new()
 	file.open(path + \"/data.json\", File.WRITE)
-	file.store_line(to_json(param))
+	file.store_line(JSON.new().stringify(param))
 	file.close()
 	
 	$\"Animations\".play(\"MapsToSaves\")
@@ -217,7 +219,7 @@ shader_param/saturation = 0.45
 shader_param/iResolution = Vector2( 19, 1 )
 shader_param/iMouse = Vector2( 0, 0 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="FontFile" id=6]
 size = 70
 font_data = ExtResource( 11 )
 
@@ -361,7 +363,7 @@ func add_buttons():
 				else:
 					item.text = item_key
 				
-				item.pressed = G.game_settings[item_key]
+				item.button_pressed = G.game_settings[item_key]
 				
 				item.show()
 				$\"List/Buttons\".add_child(item)
@@ -390,7 +392,7 @@ func set_data(title, new_param):
 	
 	var file = File.new()
 	file.open(G.ways[\"settings\"], File.WRITE)
-	file.store_line(to_json(G.game_settings))
+	file.store_line(JSON.new().stringify(G.game_settings))
 	file.close()
 
 func dat():
@@ -421,14 +423,14 @@ func mouse_entered():
 	$\"../../..\".set_description(name)
 "
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="FontFile" id=13]
 size = 35
 font_data = ExtResource( 11 )
 
 [sub_resource type="Theme" id=14]
 default_font = SubResource( 13 )
 
-[sub_resource type="DynamicFont" id=67]
+[sub_resource type="FontFile" id=67]
 size = 50
 font_data = ExtResource( 1 )
 
@@ -439,9 +441,9 @@ func _ready():
 	list_reload()
 
 func add_element():
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	if dir.open(\"user://SaveGame/Worlds\") == OK:
-		dir.list_dir_begin()
+		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var file_name = dir.get_next()
 		
 		while file_name != \"\":
@@ -457,13 +459,13 @@ func add_element():
 				var err = image.load(\"user://SaveGame/Worlds/\" + file_name + \"/screenshot.png\")
 				if err == OK:
 					item.get_node(\"Icon\").texture = ImageTexture.new()
-					item.get_node(\"Icon\").texture.create_from_image(image, 0)
+					item.get_node(\"Icon\").texture.create_from_image(image) #,0
 				else:
 					item.get_node(\"Icon\").texture = load(\"res://textures/other/sphere_monitors/sphere_error/error1.png\")
 				
 				if file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ) == OK:
 					file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ)
-					var data = str2var(file.get_as_text())
+					var data = str_to_var(file.get_as_text())
 					file.close()
 					item.get_node(\"Description\").text = \"Версия игры \" + data[0] + \",\\nДата создания \"+ str(data[2][\"hour\"])+\":\"+str(data[2][\"minute\"])+\" - \" + str(data[2][\"day\"])+\".\"+str(data[2][\"month\"])+\".\"+str(data[2][\"year\"]) + \",\\nАвтор \" + data[1]
 				else:
@@ -496,9 +498,9 @@ func dir_del_game(name_save):
 	$\"../Notification\".dialog_text = \"Вы точно хотите удалить \\\"\" + name_save + \"\\\"?\"
 	$\"../Notification\".popup_centered()
 # warning-ignore:return_value_discarded
-	$\"../Notification\".connect(\"confirmed\", self, \"dir_del_accept\")
+	$\"../Notification\".connect(\"confirmed\", Callable(self, \"dir_del_accept\"))
 func dir_del_accept():
-	$\"../Notification\".disconnect(\"confirmed\", self, \"dir_del_accept\")
+	$\"../Notification\".disconnect(\"confirmed\", Callable(self, \"dir_del_accept\"))
 	var path = str(OS.get_user_data_dir()) + \"/SaveGame/Worlds/\" + str($\"../Notification\".window_title)
 	G.remove_recursive(path)
 	list_reload()
@@ -507,12 +509,12 @@ func dir_del_accept():
 func load_scene():
 	$\"../Conductor\".popup_centered()
 # warning-ignore:return_value_discarded
-	$\"../Conductor\".connect(\"file_selected\", self, \"file_selected\")
+	$\"../Conductor\".connect(\"file_selected\", Callable(self, \"file_selected\"))
 # warning-ignore:return_value_discarded
-	$\"../Conductor\".connect(\"hide\", self, \"hid\")
+	$\"../Conductor\".connect(\"hide\", Callable(self, \"hid\"))
 func hid(): 
-	$\"../Conductor\".disconnect(\"file_selected\", self, \"file_selected\")
-	$\"../Conductor\".disconnect(\"hide\", self, \"hid\")
+	$\"../Conductor\".disconnect(\"file_selected\", Callable(self, \"file_selected\"))
+	$\"../Conductor\".disconnect(\"hide\", Callable(self, \"hid\"))
 func file_selected(path):
 	G.get_node(\"Load Screen\").select(path, true)
 "
@@ -534,10 +536,10 @@ func _pressed():
 [sub_resource type="GDScript" id=52]
 script/source = "extends Control
 
-export var name_map = \"\"
+@export var name_map = \"\"
 "
 
-[sub_resource type="DynamicFont" id=21]
+[sub_resource type="FontFile" id=21]
 size = 30
 font_data = ExtResource( 11 )
 
@@ -553,20 +555,20 @@ var data_servers_online = []
 
 func _ready():
 # warning-ignore:return_value_discarded
-	get_tree().connect(\"connection_failed\", self, \"failed\")
+	get_tree().connect(\"connection_failed\", Callable(self, \"failed\"))
 # warning-ignore:return_value_discarded
-	get_tree().connect(\"connected_to_server\", self, \"go\")
+	get_tree().connect(\"connected_to_server\", Callable(self, \"go\"))
 	
 # warning-ignore:return_value_discarded
-	$Buttons/Reload.connect(\"pressed\", self, \"reload\")
+	$Buttons/Reload.connect(\"pressed\", Callable(self, \"reload\"))
 # warning-ignore:return_value_discarded
-	$Buttons/MyServers.connect(\"pressed\", self, \"reload\")
+	$Buttons/MyServers.connect(\"pressed\", Callable(self, \"reload\"))
 # warning-ignore:return_value_discarded
-	$Buttons/Connect.connect(\"pressed\", self, \"show_menu_connect\")
+	$Buttons/Connect.connect(\"pressed\", Callable(self, \"show_menu_connect\"))
 # warning-ignore:return_value_discarded
-	$Buttons/Add.connect(\"pressed\", self, \"show_menu_add\")
+	$Buttons/Add.connect(\"pressed\", Callable(self, \"show_menu_add\"))
 # warning-ignore:return_value_discarded
-	$Add/AddMenu/AddServer.connect(\"pressed\", self, \"add\")
+	$Add/AddMenu/AddServer.connect(\"pressed\", Callable(self, \"add\"))
 	
 	load_local_data()
 	reload()
@@ -575,7 +577,7 @@ func _ready():
 func reload():
 	delete_items()
 	save_local_data()
-	if $Buttons/MyServers.pressed == false:
+	if $Buttons/MyServers.button_pressed == false:
 		get_node(\"/root/Menu\").request(\"servers\")
 	else:
 		load_local_data()
@@ -624,7 +626,7 @@ func show_menu_add():
 	$Add.show()
 
 func connect_to_adress(ip, port):
-	var peer = NetworkedMultiplayerENet.new()
+	var peer = ENetMultiplayerPeer.new()
 	
 	peer.create_client(ip, int(port))
 	get_tree().network_peer = peer
@@ -652,12 +654,14 @@ func load_local_data():
 	if not file.file_exists(G.ways[\"data_servers\"]):
 		return
 	file.open(G.ways[\"data_servers\"], File.READ)
-	data_servers = parse_json(file.get_as_text())
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(file.get_as_text())
+	data_servers = test_json_conv.get_data()
 	file.close()
 func save_local_data():
 	var file = File.new()
 	file.open(G.ways[\"data_servers\"], File.WRITE)
-	file.store_line(to_json(data_servers))
+	file.store_line(JSON.new().stringify(data_servers))
 	file.close()
 
 func add_items(servers, online_mode = false):
@@ -694,14 +698,14 @@ func delete_items():
 			i.queue_free()
 "
 
-[sub_resource type="DynamicFont" id=54]
+[sub_resource type="FontFile" id=54]
 size = 30
 font_data = ExtResource( 11 )
 
 [sub_resource type="Theme" id=55]
 default_font = SubResource( 54 )
 
-[sub_resource type="DynamicFont" id=24]
+[sub_resource type="FontFile" id=24]
 font_data = ExtResource( 11 )
 
 [sub_resource type="Theme" id=25]
@@ -836,7 +840,7 @@ func select_comments(map:int):
 	$\"List\".hide()
 "
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="FontFile" id=15]
 size = 30
 font_data = ExtResource( 11 )
 
@@ -896,7 +900,7 @@ func reload(dat, _mode = \"news\"):
 		var node = get_node(\"*Sample\").duplicate()
 		
 		node.name = i[\"title\"]
-		node.get_node(\"Text\").bbcode_text = i[\"text\"]
+		node.get_node(\"Text\").text = i[\"text\"]
 		
 		path.add_child(node, true)
 		node.show()
@@ -904,16 +908,16 @@ func reload(dat, _mode = \"news\"):
 
 [sub_resource type="Theme" id=58]
 
-[sub_resource type="DynamicFont" id=59]
+[sub_resource type="FontFile" id=59]
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=60]
+[sub_resource type="FontFile" id=60]
 font_data = ExtResource( 14 )
 
-[sub_resource type="DynamicFont" id=61]
+[sub_resource type="FontFile" id=61]
 font_data = ExtResource( 12 )
 
-[sub_resource type="DynamicFont" id=62]
+[sub_resource type="FontFile" id=62]
 font_data = ExtResource( 13 )
 
 [sub_resource type="StyleBoxEmpty" id=56]
@@ -933,7 +937,7 @@ func show_pass(text):
 	show()
 "
 
-[sub_resource type="DynamicFont" id=48]
+[sub_resource type="FontFile" id=48]
 size = 25
 font_data = ExtResource( 11 )
 
@@ -1010,7 +1014,7 @@ func _pressed():
 	G.get_node(\"Load Screen\").select(\"res://scenes/levels/gaming/miskler_room.tscn\", true)
 "
 
-[sub_resource type="DynamicFont" id=73]
+[sub_resource type="FontFile" id=73]
 size = 40
 font_data = ExtResource( 11 )
 
@@ -1018,8 +1022,8 @@ font_data = ExtResource( 11 )
 script/source = "tool
 extends Node
 
-export var visible_p = \"\"
-onready var main_node = $\"../Interfaces\"
+@export var visible_p = \"\"
+@onready var main_node = $\"../Interfaces\"
 
 var visibles_parametr = {
 	\"Settings\": Vector2(-950, 41),
@@ -1039,26 +1043,26 @@ func event():
 		if i != visible_p:
 			var tween = create_tween()#.set_trans(Tween.TRANS_EXPO)
 			
-			tween.tween_property(main_node.get_node(i), \"rect_position\", visibles_parametr[i], 0.2)
+			tween.tween_property(main_node.get_node(i), \"position\", visibles_parametr[i], 0.2)
 	
 	if visible_p in visibles_parametr:
 		if dos_event[0]:
 			dos_event[0] = false
 			var tween = create_tween().set_trans(Tween.TRANS_EXPO)
 			
-			tween.tween_property(main_node.get_node(\"Main\"), \"rect_position:y\", float(main_node.rect_size.y), 0.5)
-			tween.tween_property(main_node.get_node(visible_p), \"rect_position\", main_node.rect_size/2-(main_node.get_node(visible_p).rect_pivot_offset), 0.5)
+			tween.tween_property(main_node.get_node(\"Main\"), \"position:y\", float(main_node.size.y), 0.5)
+			tween.tween_property(main_node.get_node(visible_p), \"position\", main_node.size/2-(main_node.get_node(visible_p).pivot_offset), 0.5)
 			
-			yield(tween, \"finished\")
+			await tween.finished
 			dos_event[0] = true
 	else:
 		if dos_event[1]:
 			dos_event[1] = false
 			var tween = create_tween().set_trans(Tween.TRANS_EXPO)
 			
-			tween.tween_property(main_node.get_node(\"Main\"), \"rect_position:y\", float(main_node.rect_size.y-main_node.get_node(\"Main\").rect_size.y), 0.5)
+			tween.tween_property(main_node.get_node(\"Main\"), \"position:y\", float(main_node.size.y-main_node.get_node(\"Main\").size.y), 0.5)
 			
-			yield(tween, \"finished\")
+			await tween.finished
 			dos_event[1] = true
 "
 
@@ -1088,7 +1092,7 @@ color = Color( 0.054902, 0, 0.129412, 1 )
 material = SubResource( 5 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 840.464, 782.292 )
+pivot_offset = Vector2( 840.464, 782.292 )
 
 [node name="Details" type="Control" parent="."]
 anchor_right = 1.0
@@ -1100,8 +1104,8 @@ __meta__ = {
 [node name="kHUTER" type="Label" parent="Details"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -299.0
-margin_bottom = 97.0
+offset_left = -299.0
+offset_bottom = 97.0
 theme = SubResource( 7 )
 text = "kHUTER "
 align = 2
@@ -1110,19 +1114,19 @@ valign = 1
 [node name="VersionUI" type="Label" parent="Details/kHUTER"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 2.0
-margin_top = -18.0
-margin_right = 301.0
-margin_bottom = 67.0
-rect_scale = Vector2( 0.5, 0.5 )
-custom_colors/font_color = Color( 0.796078, 0.796078, 0.796078, 1 )
+offset_left = 2.0
+offset_top = -18.0
+offset_right = 301.0
+offset_bottom = 67.0
+scale = Vector2( 0.5, 0.5 )
+theme_override_colors/font_color = Color( 0.796078, 0.796078, 0.796078, 1 )
 text = "Desktop"
 
 [node name="Version" type="Label" parent="Details"]
-margin_left = 12.0
-margin_top = 6.0
-margin_right = 168.0
-margin_bottom = 29.0
+offset_left = 12.0
+offset_top = 6.0
+offset_right = 168.0
+offset_bottom = 29.0
 text = "Версия игры: ?.?.?"
 valign = 1
 
@@ -1146,28 +1150,28 @@ __meta__ = {
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 97.0
-margin_top = -42.0
-rect_pivot_offset = Vector2( 512, 19 )
+offset_left = 97.0
+offset_top = -42.0
+pivot_offset = Vector2( 512, 19 )
 
 [node name="Buttons" type="HBoxContainer" parent="Interfaces/Main"]
 anchor_left = -0.021
 anchor_top = -0.024
 anchor_right = 0.993
 anchor_bottom = 1.0
-margin_left = -0.288998
-margin_top = 3.008
-margin_right = 0.237
-margin_bottom = -4.0
+offset_left = -0.288998
+offset_top = 3.008
+offset_right = 0.237
+offset_bottom = -4.0
 alignment = 2
 
 [node name="Maps" type="Button" parent="Interfaces/Main/Buttons"]
 visible = false
-margin_left = 5.0
-margin_right = 118.0
-margin_bottom = 36.0
+offset_left = 5.0
+offset_right = 118.0
+offset_bottom = 36.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = " Карты сфер "
 script = SubResource( 79 )
 __meta__ = {
@@ -1175,11 +1179,11 @@ __meta__ = {
 }
 
 [node name="InNet" type="Button" parent="Interfaces/Main/Buttons"]
-margin_left = 30.0
-margin_right = 144.0
-margin_bottom = 36.0
+offset_left = 30.0
+offset_right = 144.0
+offset_bottom = 36.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = " Мы в сети "
 script = SubResource( 66 )
 __meta__ = {
@@ -1187,11 +1191,11 @@ __meta__ = {
 }
 
 [node name="Start" type="Button" parent="Interfaces/Main/Buttons"]
-margin_left = 148.0
-margin_right = 231.0
-margin_bottom = 36.0
+offset_left = 148.0
+offset_right = 231.0
+offset_bottom = 36.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = " Играть "
 script = SubResource( 53 )
 __meta__ = {
@@ -1200,11 +1204,11 @@ __meta__ = {
 
 [node name="CRASH" type="Button" parent="Interfaces/Main/Buttons"]
 visible = false
-margin_left = 205.0
-margin_right = 273.0
-margin_bottom = 36.0
+offset_left = 205.0
+offset_right = 273.0
+offset_bottom = 36.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "КРАШ"
 script = SubResource( 78 )
 __meta__ = {
@@ -1212,11 +1216,11 @@ __meta__ = {
 }
 
 [node name="Connect" type="Button" parent="Interfaces/Main/Buttons"]
-margin_left = 235.0
-margin_right = 398.0
-margin_bottom = 36.0
+offset_left = 235.0
+offset_right = 398.0
+offset_bottom = 36.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = " Подключиться "
 script = SubResource( 80 )
 __meta__ = {
@@ -1224,11 +1228,11 @@ __meta__ = {
 }
 
 [node name="Load" type="Button" parent="Interfaces/Main/Buttons"]
-margin_left = 402.0
-margin_right = 518.0
-margin_bottom = 36.0
+offset_left = 402.0
+offset_right = 518.0
+offset_bottom = 36.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = " Загрузить "
 script = SubResource( 81 )
 __meta__ = {
@@ -1236,11 +1240,11 @@ __meta__ = {
 }
 
 [node name="Changes" type="Button" parent="Interfaces/Main/Buttons"]
-margin_left = 522.0
-margin_right = 731.0
-margin_bottom = 36.0
+offset_left = 522.0
+offset_right = 731.0
+offset_bottom = 36.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = " История изменений "
 script = SubResource( 82 )
 __meta__ = {
@@ -1248,11 +1252,11 @@ __meta__ = {
 }
 
 [node name="Settings" type="Button" parent="Interfaces/Main/Buttons"]
-margin_left = 735.0
-margin_right = 857.0
-margin_bottom = 36.0
+offset_left = 735.0
+offset_right = 857.0
+offset_bottom = 36.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = " Настройки "
 script = SubResource( 83 )
 __meta__ = {
@@ -1260,11 +1264,11 @@ __meta__ = {
 }
 
 [node name="Exit" type="Button" parent="Interfaces/Main/Buttons"]
-margin_left = 861.0
-margin_right = 940.0
-margin_bottom = 36.0
+offset_left = 861.0
+offset_right = 940.0
+offset_bottom = 36.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = " Выход "
 script = SubResource( 84 )
 __meta__ = {
@@ -1276,11 +1280,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -1462.0
-margin_top = -259.0
-margin_right = -527.0
-margin_bottom = 259.0
-rect_pivot_offset = Vector2( 467.5, 259 )
+offset_left = -1462.0
+offset_top = -259.0
+offset_right = -527.0
+offset_bottom = 259.0
+pivot_offset = Vector2( 467.5, 259 )
 script = SubResource( 29 )
 
 [node name="Shadow" type="ColorRect" parent="Interfaces/Settings"]
@@ -1288,10 +1292,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -469.5
-margin_top = -261.0
-margin_right = 469.5
-margin_bottom = 261.0
+offset_left = -469.5
+offset_top = -261.0
+offset_right = 469.5
+offset_bottom = 261.0
 color = Color( 0, 0, 0, 0.588235 )
 
 [node name="Body" type="ColorRect" parent="Interfaces/Settings"]
@@ -1299,75 +1303,75 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -467.5
-margin_top = -259.0
-margin_right = 467.5
-margin_bottom = 259.0
+offset_left = -467.5
+offset_top = -259.0
+offset_right = 467.5
+offset_bottom = 259.0
 color = Color( 0.101961, 0.101961, 0.101961, 1 )
 
 [node name="List" type="ScrollContainer" parent="Interfaces/Settings"]
-margin_left = 2.0
-margin_top = 3.0
-margin_right = 337.0
-margin_bottom = 513.0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 337.0
+offset_bottom = 513.0
 
 [node name="Buttons" type="VBoxContainer" parent="Interfaces/Settings/List"]
-margin_right = 288.0
-margin_bottom = 51.0
+offset_right = 288.0
+offset_bottom = 51.0
 
 [node name="*SampleBool" type="CheckBox" parent="Interfaces/Settings/List/Buttons"]
 visible = false
-margin_right = 86.0
-margin_bottom = 20.0
+offset_right = 86.0
+offset_bottom = 20.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Sample"
 script = SubResource( 30 )
 
 [node name="*SampleString" type="LineEdit" parent="Interfaces/Settings/List/Buttons"]
 visible = false
-margin_right = 62.0
-margin_bottom = 30.0
+offset_right = 62.0
+offset_bottom = 30.0
 text = "Sample"
 script = ExtResource( 19 )
 
 [node name="*SampleInt" type="SpinBox" parent="Interfaces/Settings/List/Buttons"]
 visible = false
-margin_right = 62.0
-margin_bottom = 30.0
+offset_right = 62.0
+offset_bottom = 30.0
 min_value = 1.0
 max_value = 1000.0
 value = 5.0
 script = ExtResource( 21 )
 
 [node name="*SampleTitle" type="Label" parent="Interfaces/Settings/List/Buttons"]
-margin_right = 288.0
-margin_bottom = 51.0
+offset_right = 288.0
+offset_bottom = 51.0
 text = "                        Настройки                     
 						          "
 
 [node name="Title" type="Label" parent="Interfaces/Settings"]
-margin_left = 347.0
-margin_right = 904.0
-margin_bottom = 43.0
+offset_left = 347.0
+offset_right = 904.0
+offset_bottom = 43.0
 theme = SubResource( 14 )
 text = "Описание:"
 
 [node name="Description" type="RichTextLabel" parent="Interfaces/Settings"]
-margin_left = 346.0
-margin_top = 49.0
-margin_right = 858.0
-margin_bottom = 510.0
+offset_left = 346.0
+offset_top = 49.0
+offset_right = 858.0
+offset_bottom = 510.0
 text = "Наведите курсор на настройку которой нужной пояснение"
 
 [node name="Close" type="Button" parent="Interfaces/Settings"]
-margin_left = 869.0
-margin_top = 7.0
-margin_right = 929.0
-margin_bottom = 67.0
+offset_left = 869.0
+offset_top = 7.0
+offset_right = 929.0
+offset_bottom = 67.0
 focus_mode = 0
-custom_fonts/font = SubResource( 67 )
-enabled_focus_mode = 0
+theme_override_fonts/font = SubResource( 67 )
+focus_mode = 0
 text = "X"
 script = ExtResource( 18 )
 
@@ -1377,11 +1381,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -1360.0
-margin_top = -295.0
-margin_right = -593.0
-margin_bottom = 242.0
-rect_pivot_offset = Vector2( 383.5, 268.5 )
+offset_left = -1360.0
+offset_top = -295.0
+offset_right = -593.0
+offset_bottom = 242.0
+pivot_offset = Vector2( 383.5, 268.5 )
 script = SubResource( 28 )
 __meta__ = {
 "_edit_group_": true
@@ -1392,10 +1396,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -385.5
-margin_top = -270.5
-margin_right = 385.5
-margin_bottom = 270.5
+offset_left = -385.5
+offset_top = -270.5
+offset_right = 385.5
+offset_bottom = 270.5
 color = Color( 0, 0, 0, 0.588235 )
 
 [node name="Body" type="ColorRect" parent="Interfaces/Saves"]
@@ -1407,53 +1411,53 @@ color = Color( 0.101961, 0.101961, 0.101961, 1 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -40.0
-margin_bottom = -6.0
-custom_constants/separation = 30
+offset_top = -40.0
+offset_bottom = -6.0
+theme_override_constants/separation = 30
 alignment = 1
 
 [node name="Reload" type="Button" parent="Interfaces/Saves/Buttons"]
-margin_left = 133.0
-margin_right = 235.0
-margin_bottom = 34.0
+offset_left = 133.0
+offset_right = 235.0
+offset_bottom = 34.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Обновить"
 script = SubResource( 86 )
 
 [node name="InFileSystem" type="Button" parent="Interfaces/Saves/Buttons"]
-margin_left = 265.0
-margin_right = 539.0
-margin_bottom = 34.0
+offset_left = 265.0
+offset_right = 539.0
+offset_bottom = 34.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Найти в файловой системе"
 script = SubResource( 85 )
 
 [node name="Close" type="Button" parent="Interfaces/Saves/Buttons"]
-margin_left = 569.0
-margin_right = 634.0
-margin_bottom = 34.0
+offset_left = 569.0
+offset_right = 634.0
+offset_bottom = 34.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Назад"
 script = ExtResource( 18 )
 
 [node name="List" type="ScrollContainer" parent="Interfaces/Saves"]
-margin_left = 9.0
-margin_top = 10.0
-margin_right = 754.0
-margin_bottom = 485.0
+offset_left = 9.0
+offset_top = 10.0
+offset_right = 754.0
+offset_bottom = 485.0
 
 [node name="Box" type="VBoxContainer" parent="Interfaces/Saves/List"]
-margin_right = 725.0
-rect_min_size = Vector2( 725, 0 )
+offset_right = 725.0
+custom_minimum_size = Vector2( 725, 0 )
 
 [node name="*Sample" type="Control" parent="Interfaces/Saves/List/Box"]
 visible = false
-margin_right = 725.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 0, 150 )
+offset_right = 725.0
+offset_bottom = 150.0
+custom_minimum_size = Vector2( 0, 150 )
 script = SubResource( 52 )
 
 [node name="Background" type="ColorRect" parent="Interfaces/Saves/List/Box/*Sample"]
@@ -1462,57 +1466,57 @@ anchor_bottom = 1.0
 color = Color( 0.117647, 0.117647, 0.117647, 1 )
 
 [node name="Icon" type="TextureRect" parent="Interfaces/Saves/List/Box/*Sample"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 205.0
-margin_bottom = 145.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 205.0
+offset_bottom = 145.0
 expand = true
 
 [node name="Title" type="Label" parent="Interfaces/Saves/List/Box/*Sample"]
-margin_left = 215.0
-margin_top = 10.0
-margin_right = 619.0
-margin_bottom = 48.0
+offset_left = 215.0
+offset_top = 10.0
+offset_right = 619.0
+offset_bottom = 48.0
 theme = SubResource( 22 )
 text = "Название игры"
 
 [node name="Description" type="RichTextLabel" parent="Interfaces/Saves/List/Box/*Sample"]
-margin_left = 217.0
-margin_top = 54.0
-margin_right = 626.0
-margin_bottom = 143.0
+offset_left = 217.0
+offset_top = 54.0
+offset_right = 626.0
+offset_bottom = 143.0
 text = "Дата создания: 08.05.2022
 Создатель: Pandaren
 Вес карты: 5.4 МБ
 "
 
 [node name="Play" type="Button" parent="Interfaces/Saves/List/Box/*Sample"]
-margin_left = 646.324
-margin_top = 29.4003
-margin_right = 716.324
-margin_bottom = 63.4003
+offset_left = 646.324
+offset_top = 29.4003
+offset_right = 716.324
+offset_bottom = 63.4003
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Играть"
 script = ExtResource( 20 )
 
 [node name="Catalog" type="Button" parent="Interfaces/Saves/List/Box/*Sample"]
-margin_left = 636.998
-margin_top = 68.6629
-margin_right = 716.998
-margin_bottom = 102.663
+offset_left = 636.998
+offset_top = 68.6629
+offset_right = 716.998
+offset_bottom = 102.663
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Каталог"
 script = ExtResource( 16 )
 
 [node name="Remove" type="Button" parent="Interfaces/Saves/List/Box/*Sample"]
-margin_left = 634.657
-margin_top = 108.376
-margin_right = 716.657
-margin_bottom = 142.376
+offset_left = 634.657
+offset_top = 108.376
+offset_right = 716.657
+offset_bottom = 142.376
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Удалить"
 script = ExtResource( 17 )
 
@@ -1522,11 +1526,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -1456.0
-margin_top = -296.0
-margin_right = -578.0
-margin_bottom = 257.0
-rect_pivot_offset = Vector2( 439, 276.5 )
+offset_left = -1456.0
+offset_top = -296.0
+offset_right = -578.0
+offset_bottom = 257.0
+pivot_offset = Vector2( 439, 276.5 )
 script = SubResource( 31 )
 __meta__ = {
 "_edit_group_": true
@@ -1535,10 +1539,10 @@ __meta__ = {
 [node name="Shadow" type="ColorRect" parent="Interfaces/Multiplayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -2.0
-margin_top = -2.0
-margin_right = 2.0
-margin_bottom = 2.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
 color = Color( 0, 0, 0, 0.588235 )
 
 [node name="Body" type="ColorRect" parent="Interfaces/Multiplayer"]
@@ -1550,30 +1554,30 @@ color = Color( 0.101961, 0.101961, 0.101961, 1 )
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -52.9998
+offset_bottom = -52.9998
 theme = SubResource( 55 )
 text = "В списке нет серверов!"
 align = 1
 valign = 1
 
 [node name="List" type="ScrollContainer" parent="Interfaces/Multiplayer"]
-margin_left = 6.81079
-margin_top = 7.81079
-margin_right = 869.811
-margin_bottom = 500.811
+offset_left = 6.81079
+offset_top = 7.81079
+offset_right = 869.811
+offset_bottom = 500.811
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Box" type="VBoxContainer" parent="Interfaces/Multiplayer/List"]
-margin_right = 850.0
-rect_min_size = Vector2( 850, 0 )
+offset_right = 850.0
+custom_minimum_size = Vector2( 850, 0 )
 
 [node name="*Sample" type="Control" parent="Interfaces/Multiplayer/List/Box"]
 visible = false
-margin_right = 850.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 0, 150 )
+offset_right = 850.0
+offset_bottom = 150.0
+custom_minimum_size = Vector2( 0, 150 )
 
 [node name="Background" type="ColorRect" parent="Interfaces/Multiplayer/List/Box/*Sample"]
 anchor_right = 1.0
@@ -1581,74 +1585,74 @@ anchor_bottom = 1.0
 color = Color( 0.117647, 0.117647, 0.117647, 1 )
 
 [node name="Icon" type="TextureRect" parent="Interfaces/Multiplayer/List/Box/*Sample"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 145.0
-margin_bottom = 145.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 145.0
+offset_bottom = 145.0
 expand = true
 
 [node name="Title" type="Label" parent="Interfaces/Multiplayer/List/Box/*Sample"]
-margin_left = 165.0
-margin_top = 10.0
-margin_right = 619.0
-margin_bottom = 48.0
+offset_left = 165.0
+offset_top = 10.0
+offset_right = 619.0
+offset_bottom = 48.0
 theme = SubResource( 22 )
 text = "Названия нет"
 
 [node name="IP" type="Label" parent="Interfaces/Multiplayer/List/Box/*Sample"]
-margin_left = 459.0
-margin_top = 3.0
-margin_right = 845.0
-margin_bottom = 25.0
+offset_left = 459.0
+offset_top = 3.0
+offset_right = 845.0
+offset_bottom = 25.0
 theme = SubResource( 25 )
 text = "Адресс не известен"
 align = 2
 valign = 1
 
 [node name="PORT" type="Label" parent="Interfaces/Multiplayer/List/Box/*Sample"]
-margin_left = 459.0
-margin_top = 25.0
-margin_right = 845.0
-margin_bottom = 45.0
+offset_left = 459.0
+offset_top = 25.0
+offset_right = 845.0
+offset_bottom = 45.0
 theme = SubResource( 25 )
 text = "Порт не известен"
 align = 2
 valign = 1
 
 [node name="Description" type="RichTextLabel" parent="Interfaces/Multiplayer/List/Box/*Sample"]
-margin_left = 161.0
-margin_top = 52.0
-margin_right = 626.0
-margin_bottom = 141.0
+offset_left = 161.0
+offset_top = 52.0
+offset_right = 626.0
+offset_bottom = 141.0
 text = "Описания нет"
 
 [node name="Play" type="Button" parent="Interfaces/Multiplayer/List/Box/*Sample"]
-margin_left = 772.678
-margin_top = 69.0171
-margin_right = 842.678
-margin_bottom = 103.017
+offset_left = 772.678
+offset_top = 69.0171
+offset_right = 842.678
+offset_bottom = 103.017
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Играть"
 script = SubResource( 35 )
 
 [node name="Remove" type="Button" parent="Interfaces/Multiplayer/List/Box/*Sample"]
-margin_left = 761.01
-margin_top = 110.16
-margin_right = 843.01
-margin_bottom = 144.16
+offset_left = 761.01
+offset_top = 110.16
+offset_right = 843.01
+offset_bottom = 144.16
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Удалить"
 script = SubResource( 37 )
 
 [node name="Save" type="Button" parent="Interfaces/Multiplayer/List/Box/*Sample"]
-margin_left = 741.0
-margin_top = 110.0
-margin_right = 843.0
-margin_bottom = 144.0
+offset_left = 741.0
+offset_top = 110.0
+offset_right = 843.0
+offset_bottom = 144.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Сохранить"
 script = SubResource( 36 )
 
@@ -1656,60 +1660,60 @@ script = SubResource( 36 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -41.9998
-margin_bottom = -3.99976
+offset_top = -41.9998
+offset_bottom = -3.99976
 alignment = 1
 
 [node name="MyServers" type="CheckBox" parent="Interfaces/Multiplayer/Buttons"]
-margin_left = 76.0
-margin_right = 230.0
-margin_bottom = 38.0
+offset_left = 76.0
+offset_right = 230.0
+offset_bottom = 38.0
 focus_mode = 0
 pressed = true
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Мои сервера"
 script = SubResource( 88 )
 
 [node name="Placeholder" type="Label" parent="Interfaces/Multiplayer/Buttons"]
-margin_left = 234.0
-margin_top = 7.0
-margin_right = 266.0
-margin_bottom = 31.0
+offset_left = 234.0
+offset_top = 7.0
+offset_right = 266.0
+offset_bottom = 31.0
 text = "        "
 
 [node name="Reload" type="Button" parent="Interfaces/Multiplayer/Buttons"]
-margin_left = 270.0
-margin_right = 372.0
-margin_bottom = 38.0
+offset_left = 270.0
+offset_right = 372.0
+offset_bottom = 38.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Обновить"
 script = SubResource( 87 )
 
 [node name="Add" type="Button" parent="Interfaces/Multiplayer/Buttons"]
-margin_left = 376.0
-margin_right = 478.0
-margin_bottom = 38.0
+offset_left = 376.0
+offset_right = 478.0
+offset_bottom = 38.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Добавить"
 script = SubResource( 90 )
 
 [node name="Connect" type="Button" parent="Interfaces/Multiplayer/Buttons"]
-margin_left = 482.0
-margin_right = 733.0
-margin_bottom = 38.0
+offset_left = 482.0
+offset_right = 733.0
+offset_bottom = 38.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Подключится на прямую"
 script = SubResource( 89 )
 
 [node name="Close" type="Button" parent="Interfaces/Multiplayer/Buttons"]
-margin_left = 737.0
-margin_right = 802.0
-margin_bottom = 38.0
+offset_left = 737.0
+offset_right = 802.0
+offset_bottom = 38.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Назад"
 script = ExtResource( 18 )
 
@@ -1732,10 +1736,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -199.0
-margin_top = -10.0
-margin_right = 199.0
-margin_bottom = 10.0
+offset_left = -199.0
+offset_top = -10.0
+offset_right = 199.0
+offset_bottom = 10.0
 text = "Ждите, идёт попытка подключения к серверу..."
 
 [node name="Stop" type="Button" parent="Interfaces/Multiplayer/Pass"]
@@ -1743,12 +1747,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -46.0
-margin_top = 23.5001
-margin_right = 46.0
-margin_bottom = 49.5001
+offset_left = -46.0
+offset_top = 23.5001
+offset_right = 46.0
+offset_bottom = 49.5001
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Прервать"
 script = SubResource( 39 )
 
@@ -1770,10 +1774,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -126.0
-margin_top = -105.5
-margin_right = 126.0
-margin_bottom = 105.5
+offset_left = -126.0
+offset_top = -105.5
+offset_right = 126.0
+offset_bottom = 105.5
 
 [node name="Background" type="ColorRect" parent="Interfaces/Multiplayer/Add/AddMenu"]
 anchor_right = 1.0
@@ -1784,53 +1788,53 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Interfaces/Multiplayer/Add/AddMenu"]
-margin_right = 155.0
-margin_bottom = 27.0
+offset_right = 155.0
+offset_bottom = 27.0
 text = "Добавить сервер"
 align = 1
 valign = 1
 
 [node name="NameServer" type="LineEdit" parent="Interfaces/Multiplayer/Add/AddMenu"]
-margin_left = 19.0
-margin_top = 44.0
-margin_right = 240.0
-margin_bottom = 74.0
+offset_left = 19.0
+offset_top = 44.0
+offset_right = 240.0
+offset_bottom = 74.0
 placeholder_text = "Сервер kHUTER"
 
 [node name="IpServer" type="LineEdit" parent="Interfaces/Multiplayer/Add/AddMenu"]
-margin_left = 19.0
-margin_top = 81.0
-margin_right = 240.0
-margin_bottom = 111.0
+offset_left = 19.0
+offset_top = 81.0
+offset_right = 240.0
+offset_bottom = 111.0
 placeholder_text = "127.0.0.1"
 
 [node name="PortServer" type="SpinBox" parent="Interfaces/Multiplayer/Add/AddMenu"]
-margin_left = 19.0
-margin_top = 117.565
-margin_right = 138.0
-margin_bottom = 147.565
+offset_left = 19.0
+offset_top = 117.565
+offset_right = 138.0
+offset_bottom = 147.565
 min_value = 1024.0
 max_value = 9999.0
 value = 7732.0
 prefix = "Порт:"
 
 [node name="Close" type="Button" parent="Interfaces/Multiplayer/Add/AddMenu"]
-margin_left = 160.0
-margin_top = 170.0
-margin_right = 235.0
-margin_bottom = 196.0
+offset_left = 160.0
+offset_top = 170.0
+offset_right = 235.0
+offset_bottom = 196.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Отмена"
 script = SubResource( 41 )
 
 [node name="AddServer" type="Button" parent="Interfaces/Multiplayer/Add/AddMenu"]
-margin_left = 21.5
-margin_top = 170.0
-margin_right = 96.5
-margin_bottom = 196.0
+offset_left = 21.5
+offset_top = 170.0
+offset_right = 96.5
+offset_bottom = 196.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Добавить"
 script = SubResource( 91 )
 
@@ -1852,10 +1856,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -126.0
-margin_top = -61.4999
-margin_right = 126.0
-margin_bottom = 105.5
+offset_left = -126.0
+offset_top = -61.4999
+offset_right = 126.0
+offset_bottom = 105.5
 
 [node name="Background" type="ColorRect" parent="Interfaces/Multiplayer/Connect/AddMenu"]
 anchor_right = 1.0
@@ -1866,46 +1870,46 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Interfaces/Multiplayer/Connect/AddMenu"]
-margin_right = 219.0
-margin_bottom = 27.0
+offset_right = 219.0
+offset_bottom = 27.0
 text = "Подключиться к серверу"
 align = 1
 valign = 1
 
 [node name="IpServer" type="LineEdit" parent="Interfaces/Multiplayer/Connect/AddMenu"]
-margin_left = 21.5
-margin_top = 36.9999
-margin_right = 242.5
-margin_bottom = 66.9999
+offset_left = 21.5
+offset_top = 36.9999
+offset_right = 242.5
+offset_bottom = 66.9999
 placeholder_text = "127.0.0.1"
 
 [node name="PortServer" type="SpinBox" parent="Interfaces/Multiplayer/Connect/AddMenu"]
-margin_left = 21.5
-margin_top = 73.5648
-margin_right = 140.5
-margin_bottom = 103.565
+offset_left = 21.5
+offset_top = 73.5648
+offset_right = 140.5
+offset_bottom = 103.565
 min_value = 1024.0
 max_value = 9999.0
 value = 7732.0
 prefix = "Порт:"
 
 [node name="Close" type="Button" parent="Interfaces/Multiplayer/Connect/AddMenu"]
-margin_left = 164.0
-margin_top = 126.0
-margin_right = 239.0
-margin_bottom = 152.0
+offset_left = 164.0
+offset_top = 126.0
+offset_right = 239.0
+offset_bottom = 152.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Отмена"
 script = SubResource( 40 )
 
 [node name="AddServer" type="Button" parent="Interfaces/Multiplayer/Connect/AddMenu"]
-margin_left = 13.2091
-margin_top = 126.0
-margin_right = 150.209
-margin_bottom = 152.0
+offset_left = 13.2091
+offset_top = 126.0
+offset_right = 150.209
+offset_bottom = 152.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Подключиться"
 script = SubResource( 38 )
 
@@ -1914,11 +1918,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -239.5
-margin_top = -900.0
-margin_right = 239.5
-margin_bottom = -334.0
-rect_pivot_offset = Vector2( 239.5, 283 )
+offset_left = -239.5
+offset_top = -900.0
+offset_right = 239.5
+offset_bottom = -334.0
+pivot_offset = Vector2( 239.5, 283 )
 script = SubResource( 43 )
 
 [node name="Shadow" type="ColorRect" parent="Interfaces/Maps"]
@@ -1926,10 +1930,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -241.5
-margin_top = -285.0
-margin_right = 241.5
-margin_bottom = 285.0
+offset_left = -241.5
+offset_top = -285.0
+offset_right = 241.5
+offset_bottom = 285.0
 color = Color( 0, 0, 0, 0.588235 )
 
 [node name="Body" type="ColorRect" parent="Interfaces/Maps"]
@@ -1938,34 +1942,34 @@ anchor_bottom = 1.0
 color = Color( 0.101961, 0.101961, 0.101961, 1 )
 
 [node name="List" type="Control" parent="Interfaces/Maps"]
-margin_right = 40.0
-margin_bottom = 40.0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="Title" type="Label" parent="Interfaces/Maps/List"]
-margin_left = 2.0
-margin_top = 3.0
-margin_right = 411.0
-margin_bottom = 41.0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 411.0
+offset_bottom = 41.0
 theme = SubResource( 16 )
 text = "Пользовательские карты:"
 align = 1
 valign = 1
 
 [node name="Scroll" type="ScrollContainer" parent="Interfaces/Maps/List"]
-margin_left = 2.0
-margin_top = 42.0
-margin_right = 478.0
-margin_bottom = 531.0
+offset_left = 2.0
+offset_top = 42.0
+offset_right = 478.0
+offset_bottom = 531.0
 
 [node name="Box" type="VBoxContainer" parent="Interfaces/Maps/List/Scroll"]
 
 [node name="*Sample" type="TextureButton" parent="Interfaces/Maps/List/Scroll/Box"]
 visible = false
-margin_right = 463.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 463, 150 )
+offset_right = 463.0
+offset_bottom = 150.0
+custom_minimum_size = Vector2( 463, 150 )
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 
 [node name="Background" type="ColorRect" parent="Interfaces/Maps/List/Scroll/Box/*Sample"]
 anchor_right = 1.0
@@ -1973,73 +1977,73 @@ anchor_bottom = 1.0
 color = Color( 0.0862745, 0.0862745, 0.0862745, 1 )
 
 [node name="Name" type="Label" parent="Interfaces/Maps/List/Scroll/Box/*Sample"]
-margin_left = 126.0
-margin_right = 462.0
-margin_bottom = 30.0
+offset_left = 126.0
+offset_right = 462.0
+offset_bottom = 30.0
 mouse_filter = 1
 text = "ffffffffffffffffffffffffffffffffffffffffGGGGG"
 valign = 1
 max_lines_visible = 1
 
 [node name="Text" type="RichTextLabel" parent="Interfaces/Maps/List/Scroll/Box/*Sample"]
-margin_left = 93.0
-margin_top = 35.0
-margin_right = 461.0
-margin_bottom = 146.0
+offset_left = 93.0
+offset_top = 35.0
+offset_right = 461.0
+offset_bottom = 146.0
 text = "Привет!
 Суть моей карты в то чтобы починить корабль и вывести персонал из криосна. Подробнее в полной ->"
 
 [node name="Load" type="Button" parent="Interfaces/Maps/List/Scroll/Box/*Sample"]
-margin_left = 6.0
-margin_top = 38.3792
-margin_right = 87.0
-margin_bottom = 64.3792
-hint_tooltip = "ЗАГРУЗКУ НЕВОЗМОЖНО ПРЕРВАТЬ!"
+offset_left = 6.0
+offset_top = 38.3792
+offset_right = 87.0
+offset_bottom = 64.3792
+tooltip_text = "ЗАГРУЗКУ НЕВОЗМОЖНО ПРЕРВАТЬ!"
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Скачать"
 script = SubResource( 47 )
 
 [node name="Comments" type="Button" parent="Interfaces/Maps/List/Scroll/Box/*Sample"]
-margin_left = 5.83163
-margin_top = 6.0
-margin_right = 119.832
-margin_bottom = 32.0
+offset_left = 5.83163
+offset_top = 6.0
+offset_right = 119.832
+offset_bottom = 32.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Коментарии"
 script = SubResource( 44 )
 
 [node name="Reload" type="Button" parent="Interfaces/Maps/List"]
-margin_left = 366.0
-margin_top = 521.0
-margin_right = 477.0
-margin_bottom = 562.0
+offset_left = 366.0
+offset_top = 521.0
+offset_right = 477.0
+offset_bottom = 562.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Обновить"
 script = SubResource( 46 )
 
 [node name="Comments" type="Control" parent="Interfaces/Maps"]
 visible = false
-margin_left = 5.0
-margin_top = 44.0
-margin_right = 472.0
-margin_bottom = 562.0
+offset_left = 5.0
+offset_top = 44.0
+offset_right = 472.0
+offset_bottom = 562.0
 
 [node name="List" type="ScrollContainer" parent="Interfaces/Maps/Comments"]
-margin_right = 473.0
-margin_bottom = 516.0
+offset_right = 473.0
+offset_bottom = 516.0
 
 [node name="Box" type="VBoxContainer" parent="Interfaces/Maps/Comments/List"]
-margin_right = 460.0
-rect_min_size = Vector2( 460, 0 )
+offset_right = 460.0
+custom_minimum_size = Vector2( 460, 0 )
 
 [node name="*Sample" type="Control" parent="Interfaces/Maps/Comments/List/Box"]
 visible = false
-margin_right = 460.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 0, 150 )
+offset_right = 460.0
+offset_bottom = 150.0
+custom_minimum_size = Vector2( 0, 150 )
 
 [node name="Background" type="ColorRect" parent="Interfaces/Maps/Comments/List/Box/*Sample"]
 anchor_right = 1.0
@@ -2047,44 +2051,44 @@ anchor_bottom = 1.0
 color = Color( 0.117647, 0.117647, 0.117647, 1 )
 
 [node name="Name" type="Label" parent="Interfaces/Maps/Comments/List/Box/*Sample"]
-margin_left = 6.0
-margin_top = 10.0
-margin_right = 456.0
-margin_bottom = 30.0
+offset_left = 6.0
+offset_top = 10.0
+offset_right = 456.0
+offset_bottom = 30.0
 text = "Просто человек"
 
 [node name="Text" type="RichTextLabel" parent="Interfaces/Maps/Comments/List/Box/*Sample"]
-margin_left = 5.0
-margin_top = 35.0
-margin_right = 456.0
-margin_bottom = 146.0
+offset_left = 5.0
+offset_top = 35.0
+offset_right = 456.0
+offset_bottom = 146.0
 text = "Текст...."
 
 [node name="Title" type="Label" parent="Interfaces/Maps/Comments"]
-margin_left = 170.841
-margin_top = -39.6427
-margin_right = 277.841
-margin_bottom = -19.6427
+offset_left = 170.841
+offset_top = -39.6427
+offset_right = 277.841
+offset_bottom = -19.6427
 text = "Коментарии:"
 
 [node name="Back" type="Button" parent="Interfaces/Maps/Comments"]
-margin_left = 2.83163
-margin_top = -37.755
-margin_right = 64.8316
-margin_bottom = -11.755
+offset_left = 2.83163
+offset_top = -37.755
+offset_right = 64.8316
+offset_bottom = -11.755
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Назад"
 script = SubResource( 45 )
 
 [node name="Close" type="Button" parent="Interfaces/Maps"]
-margin_left = 423.5
-margin_top = 5.0
-margin_right = 473.5
-margin_bottom = 60.0
+offset_left = 423.5
+offset_top = 5.0
+offset_right = 473.5
+offset_bottom = 60.0
 focus_mode = 0
-custom_fonts/font = SubResource( 67 )
-enabled_focus_mode = 0
+theme_override_fonts/font = SubResource( 67 )
+focus_mode = 0
 text = "X"
 script = ExtResource( 18 )
 
@@ -2093,20 +2097,20 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -390.0
-margin_top = -893.0
-margin_right = 259.0
-margin_bottom = -355.0
-rect_pivot_offset = Vector2( 324.5, 269 )
+offset_left = -390.0
+offset_top = -893.0
+offset_right = 259.0
+offset_bottom = -355.0
+pivot_offset = Vector2( 324.5, 269 )
 script = SubResource( 42 )
 
 [node name="Shadow" type="ColorRect" parent="Interfaces/Changes"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -2.0
-margin_top = -2.0
-margin_right = 2.0
-margin_bottom = 2.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
 color = Color( 0, 0, 0, 0.588235 )
 
 [node name="Body" type="ColorRect" parent="Interfaces/Changes"]
@@ -2114,14 +2118,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.101961, 0.101961, 0.101961, 1 )
 
-[node name="*Sample" type="Tabs" parent="Interfaces/Changes"]
+[node name="*Sample" type="TabBar" parent="Interfaces/Changes"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.5
-margin_top = 59.0
-margin_right = -2.5
-margin_bottom = -2.0
+offset_left = 10.5
+offset_top = 59.0
+offset_right = -2.5
+offset_bottom = -2.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -2130,44 +2134,44 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = SubResource( 58 )
-custom_fonts/bold_italics_font = SubResource( 59 )
-custom_fonts/italics_font = SubResource( 60 )
-custom_fonts/bold_font = SubResource( 61 )
-custom_fonts/normal_font = SubResource( 62 )
+theme_override_fonts/bold_italics_font = SubResource( 59 )
+theme_override_fonts/italics_font = SubResource( 60 )
+theme_override_fonts/bold_font = SubResource( 61 )
+theme_override_fonts/normal_font = SubResource( 62 )
 bbcode_enabled = true
-bbcode_text = "[color=red][b]Запросите данные с сервера нажав кнопку [/b][color=]\"Обновить\"[color=red][b].[/b][color=]"
+text = "[color=red][b]Запросите данные с сервера нажав кнопку [/b][color=]\"Обновить\"[color=red][b].[/b][color=]"
 text = "Запросите данные с сервера нажав кнопку \"Обновить\"."
 
 [node name="Menu" type="TabContainer" parent="Interfaces/Changes"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 37.0
-margin_right = -3.0
-margin_bottom = -5.0
-custom_styles/panel = SubResource( 56 )
+offset_left = 5.0
+offset_top = 37.0
+offset_right = -3.0
+offset_bottom = -5.0
+theme_override_styles/panel = SubResource( 56 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Close" type="Button" parent="Interfaces/Changes"]
-margin_left = 582.0
-margin_top = 8.0
-margin_right = 642.0
-margin_bottom = 68.0
+offset_left = 582.0
+offset_top = 8.0
+offset_right = 642.0
+offset_bottom = 68.0
 focus_mode = 0
-custom_fonts/font = SubResource( 67 )
-enabled_focus_mode = 0
+theme_override_fonts/font = SubResource( 67 )
+focus_mode = 0
 text = "X"
 script = ExtResource( 18 )
 
 [node name="Button" type="Button" parent="Interfaces/Changes"]
-margin_left = 3.5
-margin_top = 2.0
-margin_right = 113.5
-margin_bottom = 42.0
+offset_left = 3.5
+offset_top = 2.0
+offset_right = 113.5
+offset_bottom = 42.0
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Обновить"
 script = SubResource( 57 )
 
@@ -2189,8 +2193,8 @@ color = Color( 0, 0, 0, 0.482353 )
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_top = -16.0
-margin_bottom = 16.0
+offset_top = -16.0
+offset_bottom = 16.0
 theme = SubResource( 49 )
 text = "Заголовок"
 align = 1
@@ -2201,11 +2205,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -454.0
-margin_top = -856.0
-margin_right = 8.0
-margin_bottom = -352.0
-rect_pivot_offset = Vector2( 231, 252 )
+offset_left = -454.0
+offset_top = -856.0
+offset_right = 8.0
+offset_bottom = -352.0
+pivot_offset = Vector2( 231, 252 )
 
 [node name="Shadow" type="ColorRect" parent="Interfaces/InNet"]
 anchor_right = 1.0
@@ -2220,55 +2224,55 @@ anchor_bottom = 0.995
 color = Color( 0.101961, 0.101961, 0.101961, 1 )
 
 [node name="YouTube" type="Button" parent="Interfaces/InNet"]
-margin_left = 29.0
-margin_top = 23.0
-margin_right = 310.0
-margin_bottom = 112.0
-custom_fonts/font = SubResource( 67 )
+offset_left = 29.0
+offset_top = 23.0
+offset_right = 310.0
+offset_bottom = 112.0
+theme_override_fonts/font = SubResource( 67 )
 text = "YouTube "
 icon = ExtResource( 2 )
 expand_icon = true
 script = SubResource( 68 )
 
 [node name="Telegram" type="Button" parent="Interfaces/InNet"]
-margin_left = 29.0
-margin_top = 144.0
-margin_right = 312.0
-margin_bottom = 233.0
-custom_fonts/font = SubResource( 67 )
+offset_left = 29.0
+offset_top = 144.0
+offset_right = 312.0
+offset_bottom = 233.0
+theme_override_fonts/font = SubResource( 67 )
 text = "  Telegram "
 icon = ExtResource( 6 )
 expand_icon = true
 script = SubResource( 69 )
 
 [node name="Discord" type="Button" parent="Interfaces/InNet"]
-margin_left = 31.0
-margin_top = 268.0
-margin_right = 312.0
-margin_bottom = 357.0
-custom_fonts/font = SubResource( 67 )
+offset_left = 31.0
+offset_top = 268.0
+offset_right = 312.0
+offset_bottom = 357.0
+theme_override_fonts/font = SubResource( 67 )
 text = "    Discord   "
 icon = ExtResource( 3 )
 expand_icon = true
 script = SubResource( 72 )
 
 [node name="Boosty" type="Button" parent="Interfaces/InNet"]
-margin_left = 29.0
-margin_top = 388.0
-margin_right = 310.0
-margin_bottom = 477.0
-custom_fonts/font = SubResource( 67 )
+offset_left = 29.0
+offset_top = 388.0
+offset_right = 310.0
+offset_bottom = 477.0
+theme_override_fonts/font = SubResource( 67 )
 text = "      Boosty   "
 icon = ExtResource( 4 )
 expand_icon = true
 script = SubResource( 70 )
 
 [node name="Close" type="Button" parent="Interfaces/InNet"]
-margin_left = 375.0
-margin_top = 23.0
-margin_right = 435.0
-margin_bottom = 83.0
-custom_fonts/font = SubResource( 67 )
+offset_left = 375.0
+offset_top = 23.0
+offset_right = 435.0
+offset_bottom = 83.0
+theme_override_fonts/font = SubResource( 67 )
 text = "X"
 script = SubResource( 71 )
 
@@ -2277,11 +2281,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -454.0
-margin_top = -856.0
-margin_right = 8.0
-margin_bottom = -379.0
-rect_pivot_offset = Vector2( 231, 252 )
+offset_left = -454.0
+offset_top = -856.0
+offset_right = 8.0
+offset_bottom = -379.0
+pivot_offset = Vector2( 231, 252 )
 script = SubResource( 77 )
 
 [node name="Shadow" type="ColorRect" parent="Interfaces/Game"]
@@ -2297,22 +2301,22 @@ anchor_bottom = 0.995
 color = Color( 0.101961, 0.101961, 0.101961, 1 )
 
 [node name="Prolog" type="Button" parent="Interfaces/Game"]
-margin_left = 29.0
-margin_top = 16.0
-margin_right = 310.0
-margin_bottom = 105.0
-custom_fonts/font = SubResource( 67 )
+offset_left = 29.0
+offset_top = 16.0
+offset_right = 310.0
+offset_bottom = 105.0
+theme_override_fonts/font = SubResource( 67 )
 text = "Пролог"
 icon = ExtResource( 5 )
 expand_icon = true
 script = SubResource( 74 )
 
 [node name="Sur" type="Button" parent="Interfaces/Game"]
-margin_left = 31.0
-margin_top = 258.0
-margin_right = 314.0
-margin_bottom = 347.0
-custom_fonts/font = SubResource( 67 )
+offset_left = 31.0
+offset_top = 258.0
+offset_right = 314.0
+offset_bottom = 347.0
+theme_override_fonts/font = SubResource( 67 )
 disabled = true
 text = "Выживание"
 icon = ExtResource( 7 )
@@ -2320,49 +2324,49 @@ expand_icon = true
 script = SubResource( 76 )
 
 [node name="Dev_room" type="Button" parent="Interfaces/Game"]
-margin_left = 31.0
-margin_top = 357.0
-margin_right = 424.0
-margin_bottom = 463.0
-custom_fonts/font = SubResource( 67 )
+offset_left = 31.0
+offset_top = 357.0
+offset_right = 424.0
+offset_bottom = 463.0
+theme_override_fonts/font = SubResource( 67 )
 disabled = true
 text = "Комната разработчкика"
 clip_text = true
-icon_align = 2
+icon_alignment = 2
 expand_icon = true
 script = SubResource( 75 )
 
 [node name="Close" type="Button" parent="Interfaces/Game"]
-margin_left = 375.0
-margin_top = 23.0
-margin_right = 435.0
-margin_bottom = 83.0
-custom_fonts/font = SubResource( 67 )
+offset_left = 375.0
+offset_top = 23.0
+offset_right = 435.0
+offset_bottom = 83.0
+theme_override_fonts/font = SubResource( 67 )
 text = "X"
 script = ExtResource( 18 )
 
 [node name="Label" type="Label" parent="Interfaces/Game"]
-margin_left = 29.0
-margin_top = 148.0
-margin_right = 415.0
-margin_bottom = 249.0
-custom_fonts/font = SubResource( 73 )
+offset_left = 29.0
+offset_top = 148.0
+offset_right = 415.0
+offset_bottom = 249.0
+theme_override_fonts/font = SubResource( 73 )
 text = "
 Скоро..."
 
 [node name="Conductor" type="FileDialog" parent="Interfaces"]
-margin_left = 12.0
-margin_top = 32.0
-margin_right = 1010.0
-margin_bottom = 579.0
+offset_left = 12.0
+offset_top = 32.0
+offset_right = 1010.0
+offset_bottom = 579.0
 window_title = "Сохранить файл"
 access = 2
 
 [node name="Notification" type="AcceptDialog" parent="Interfaces"]
-margin_left = 433.005
-margin_top = 255.971
-margin_right = 569.005
-margin_bottom = 325.971
+offset_left = 433.005
+offset_top = 255.971
+offset_right = 569.005
+offset_bottom = 325.971
 window_title = "Внимание!"
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]

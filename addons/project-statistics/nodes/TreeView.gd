@@ -1,11 +1,11 @@
-tool
+@tool
 extends "./StatisticsView.gd"
 
-onready var tree: Tree
-onready var summary_tree: Tree
+@onready var tree: Tree
+@onready var summary_tree: Tree
 
 func display(stats: ProjectStatistics) -> void:
-	.display(stats)
+	super.display(stats)
 	update_tree(stats)
 
 func update_tree(stats: ProjectStatistics) -> void:

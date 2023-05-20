@@ -21,11 +21,11 @@ func signal_event(type_signal:String, npc:Node):
 [sub_resource type="GDScript" id=2]
 script/source = "extends Node
 
-onready var par = get_parent()
+@onready var par = get_parent()
 
 func _ready():
-	par.connect(\"npc_entered\", self, \"npc_entered\")
-	par.connect(\"npc_exited\", self, \"npc_exited\")
+	par.connect(\"npc_entered\", Callable(self, \"npc_entered\"))
+	par.connect(\"npc_exited\", Callable(self, \"npc_exited\"))
 
 
 

@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/damage.mp3-0bbf6155baf842ab4aad9b8e9b0a4073.mp3str"
+uid="uid://dnn4yod7uoijt"
+path="res://.godot/imported/damage.mp3-0bbf6155baf842ab4aad9b8e9b0a4073.mp3str"
 
 [deps]
 
 source_file="res://audios/tiles/ice/damage.mp3"
-dest_files=[ "res://.import/damage.mp3-0bbf6155baf842ab4aad9b8e9b0a4073.mp3str" ]
+dest_files=["res://.godot/imported/damage.mp3-0bbf6155baf842ab4aad9b8e9b0a4073.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

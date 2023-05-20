@@ -11,7 +11,7 @@ func get_icon() -> String:
 	return "GDScript"
 
 func get_color() -> Color:
-	return Color.steelblue
+	return Color.STEEL_BLUE
 
 func is_script() -> bool:
 	return true

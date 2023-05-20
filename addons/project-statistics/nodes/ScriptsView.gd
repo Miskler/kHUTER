@@ -1,4 +1,4 @@
-tool
+@tool
 extends "./TreeView.gd"
 
 enum {
@@ -19,7 +19,7 @@ var total_comments_lines: TreeItem
 var total_blank_lines: TreeItem
 var total_size: TreeItem
 
-onready var graph: Control = $VSplitContainer/HSplitContainer/MarginContainer/PieGraph
+@onready var graph: Control = $VSplitContainer/HSplitContainer/MarginContainer/PieGraph
 
 func _ready() -> void:
 	tree = $VSplitContainer/Tree
@@ -35,8 +35,8 @@ func _ready() -> void:
 	tree.set_column_titles_visible(true)
 	tree.hide_root = true
 	
-	tree.connect("item_activated", self, "_on_item_activated")
-	tree.connect("column_title_pressed", self, "_on_column_title_pressed")
+	tree.connect("item_activated", Callable(self, "_on_item_activated"))
+	tree.connect("column_title_pressed", Callable(self, "_on_column_title_pressed"))
 	
 	var root: TreeItem = summary_tree.create_item()
 	total_scripts = summary_tree.create_item(root)
@@ -58,10 +58,10 @@ func _ready() -> void:
 
 
 func display(stats: ProjectStatistics) -> void:
-	.display(stats)
+	super.display(stats)
 	
 	total_scripts.set_text(1, str(stats.scripts.size()))
-	used_languages.set_text(1, stats.get_used_langauges().join(", "))
+	used_languages.set_text(1, stats.", ".join(get_used_langauges()))
 	total_lines.set_text(1, str(stats.get_total_lines()))
 	total_code_lines.set_text(1, str(stats.get_total_code_lines()))
 	total_comments_lines.set_text(1, str(stats.get_total_comment_lines()))
@@ -121,16 +121,16 @@ func update_icons() -> void:
 func _sort_by_column(column: int) -> void:
 	match column:
 		NAME_COLUMN:
-			stats.scripts.sort_custom(self, "sort_name")
+			stats.scripts.sort_custom(Callable(self, "sort_name"))
 		LANGUAGE_COLUMN:
-			stats.scripts.sort_custom(self, "sort_extension")
+			stats.scripts.sort_custom(Callable(self, "sort_extension"))
 		TOTAL_LINES_COLUMN:
-			stats.scripts.sort_custom(self, "sort_total_lines")
+			stats.scripts.sort_custom(Callable(self, "sort_total_lines"))
 		CODE_LINES_COLUMN:
-			stats.scripts.sort_custom(self, "sort_source_code_lines")
+			stats.scripts.sort_custom(Callable(self, "sort_source_code_lines"))
 		COMMENT_LINES_COLUMN:
-			stats.scripts.sort_custom(self, "sort_comment_lines")
+			stats.scripts.sort_custom(Callable(self, "sort_comment_lines"))
 		BLANK_LINES_COLUMN:
-			stats.scripts.sort_custom(self, "sort_blank_lines")
+			stats.scripts.sort_custom(Callable(self, "sort_blank_lines"))
 		SIZE_COLUMN:
-			stats.scripts.sort_custom(self, "sort_size")
+			stats.scripts.sort_custom(Callable(self, "sort_size"))

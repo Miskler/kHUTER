@@ -16,8 +16,8 @@ enum Collection {
 
 func _ready() -> void:
 	if android_plugin:
-		android_plugin.connect("submitScoreSuccess", self, "on_submit_score_success")
-		android_plugin.connect("submitScoreFailure", self, "on_submit_score_failure")
+		android_plugin.connect("submitScoreSuccess", Callable(self, "on_submit_score_success"))
+		android_plugin.connect("submitScoreFailure", Callable(self, "on_submit_score_failure"))
 
 func on_submit_score_success() -> void:
 	emit_signal("submit_score_success")

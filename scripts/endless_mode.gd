@@ -4,7 +4,7 @@ var map_gen = false
 var size_world = Vector2(200, 100)
 func _ready():
 	Firebase.logEvent("endless_mode", {})
-	if get_tree().network_peer == null or get_tree().is_network_server():
+	if get_tree().network_peer == null or get_tree().is_server():
 		$Timer.start()
 		
 		if map_gen: return
@@ -146,15 +146,15 @@ func _ready():
 		
 		$SettingData.map_settings["creation_position"] = get_node("Player").global_position
 # warning-ignore:return_value_discarded
-		get_node("Player").connect("died", self, "died")
+		get_node("Player").connect("died", Callable(self, "died"))
 		if get_tree().network_peer != null:
 			rpc("map_sing", $TileMap.tiles, $SettingData.map_settings["creation_position"])
-remote func map_sing(mapp, spavn_pos):
+@rpc("any_peer") func map_sing(mapp, spavn_pos):
 	$TileMap.tiles = mapp
 	$SettingData.map_settings["creation_position"] = spavn_pos
 	get_node("/root/rootGame").revive_player(G.my_id())
 
-remote func died(cause, remote_signal:bool = false):
+@rpc("any_peer") func died(cause, remote_signal:bool = false):
 	if get_tree().network_peer != null and not remote_signal:
 		rpc("died", cause, true)
 	elif remote_signal:
@@ -167,16 +167,18 @@ remote func died(cause, remote_signal:bool = false):
 	var file = File.new()
 	if not file.file_exists("user://SaveGame/endless_data.json"):
 		file.open("user://SaveGame/endless_data.json", File.WRITE)
-		file.store_line(to_json([0, 0, 0]))
+		file.store_line(JSON.new().stringify([0, 0, 0]))
 		file.close()
 	file.open("user://SaveGame/endless_data.json", File.READ)
-	var data = parse_json(file.get_as_text())
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(file.get_as_text())
+	var data = test_json_conv.get_data()
 	
 	$Guider/CanvasLayer/Control3/Label2.text = "Прожито волн: "+str(id)+"\nОчков: "+str($Guider/Node/Events.coin)+"\nРазрушено дройдов: "+str($Guider/Node/Events.dead_droids)+"\n\nРекорд волн: "+str(data[0])+"\nРекорд очков: "+str(data[1])+"\nРекорд разрушения дройдов: "+str(data[2])
 	
 	if data[1] < $Guider/Node/Events.coin:
 		file.open("user://SaveGame/endless_data.json", File.WRITE)
-		file.store_line(to_json([id, $Guider/Node/Events.coin, $Guider/Node/Events.dead_droids]))
+		file.store_line(JSON.new().stringify([id, $Guider/Node/Events.coin, $Guider/Node/Events.dead_droids]))
 		file.close()
 	
 	get_node("Player/Camera2D/interface/died").modulate.a = 0
@@ -193,7 +195,7 @@ func _process(_delta):
 
 var id = 0
 func wave(count:int = 10):
-	if get_tree().network_peer != null and not get_tree().is_network_server():
+	if get_tree().network_peer != null and not get_tree().is_server():
 		return
 	
 	count = clamp(count-id/2, 2, 10)
@@ -287,7 +289,7 @@ func restart(rem:bool = false):
 	$Guider/CanvasLayer/Control3.hide()
 	
 	$M._ready()
-	yield(get_tree().create_timer(0.1),"timeout")
+	await get_tree().create_timer(0.1).timeout
 	_ready()
 
 

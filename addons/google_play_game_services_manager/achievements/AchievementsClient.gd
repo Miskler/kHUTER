@@ -11,14 +11,14 @@ signal unlock_failure
 
 func _ready() -> void:
 	if android_plugin:
-		android_plugin.connect("incrementAchievementSuccess", self, "on_increment_success")
-		android_plugin.connect("incrementAchievementSuccessFailure", self, "on_increment_failure")
-		android_plugin.connect("loadAchievementsSuccess", self, "on_load_success")
-		android_plugin.connect("loadAchievementsFailure", self, "on_load_failure")
-		android_plugin.connect("revealAchievement", self, "on_reveal_success")
-		android_plugin.connect("revealAchievement", self, "on_reveal_failure")
-		android_plugin.connect("unlockAchievementSuccess", self, "on_unlock_success")
-		android_plugin.connect("unlockAchievementFailure", self, "on_unlock_failure")
+		android_plugin.connect("incrementAchievementSuccess", Callable(self, "on_increment_success"))
+		android_plugin.connect("incrementAchievementSuccessFailure", Callable(self, "on_increment_failure"))
+		android_plugin.connect("loadAchievementsSuccess", Callable(self, "on_load_success"))
+		android_plugin.connect("loadAchievementsFailure", Callable(self, "on_load_failure"))
+		android_plugin.connect("revealAchievement", Callable(self, "on_reveal_success"))
+		android_plugin.connect("revealAchievement", Callable(self, "on_reveal_failure"))
+		android_plugin.connect("unlockAchievementSuccess", Callable(self, "on_unlock_success"))
+		android_plugin.connect("unlockAchievementFailure", Callable(self, "on_unlock_failure"))
 
 func on_increment_success(is_unlocked: bool) -> void:
 	emit_signal("increment_success", is_unlocked)
@@ -27,7 +27,9 @@ func on_increment_failure() -> void:
 	emit_signal("increment_failure")
 
 func on_load_success(achievements: String) -> void:
-	emit_signal("load_success", JSON.parse(achievements).result as Array)
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(achievements).result as Array)
+	emit_signal("load_success", test_json_conv.get_data()
 
 func on_load_failure() -> void:
 	emit_signal("load_failure")

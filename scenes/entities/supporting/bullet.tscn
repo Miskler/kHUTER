@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://textures/ui/items/punch.png" type="Texture" id=1]
+[ext_resource path="res://textures/ui/items/punch.png" type="Texture2D" id=1]
 [ext_resource path="res://scenes/modules/syncing_render.tscn" type="PackedScene" id=2]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends KinematicBody2D
+script/source = "extends CharacterBody2D
 
-onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
+@onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
 
-export var vec = Vector2()
+@export var vec = Vector2()
 
 var setting_bullet = {
 	\"texture\": null,
@@ -23,15 +23,15 @@ var gan = [{}, {}]
 var bullet = [{}, {}]
 
 func _ready():
-	$AnimatedSprite.connect(\"animation_finished\", self, \"del\")
+	$AnimatedSprite2D.connect(\"animation_finished\", Callable(self, \"del\"))
 	setting_bullet[\"gan\"] = gan
 	setting_bullet[\"bullet\"] = bullet
 	
-	$Area2D.connect(\"body_shape_entered\", self, \"body_shape_entered\")
+	$Area2D.connect(\"body_shape_entered\", Callable(self, \"body_shape_entered\"))
 	if bullet.hash() != [{}, {}].hash() and setting_bullet.get(\"instantly\") == false:
-		$Sprite.texture = load(setting_bullet[\"texture\"])
+		$Sprite2D.texture = load(setting_bullet[\"texture\"])
 	
-	$Timer.connect(\"timeout\", self, \"go_damage\")
+	$Timer.connect(\"timeout\", Callable(self, \"go_damage\"))
 	if setting_bullet.get(\"instantly\") == true:
 		$Timer.wait_time = 0.3
 	
@@ -40,15 +40,18 @@ func _ready():
 	if $Area2D.get_overlapping_bodies().size() > 0: go_damage()
 
 func _process(_delta):
-	if bullet.hash() != [{}, {}].hash() and $AnimatedSprite.visible == false and G.my_id() == $Sing.cur:
+	if bullet.hash() != [{}, {}].hash() and $AnimatedSprite2D.visible == false and G.my_id() == $Sing.cur:
 		vec = Vector2(setting_bullet[\"speed\"], 0).rotated(self.rotation)
 		#vec.y += setting_bullet[\"attraction\"]
-		vec = move_and_slide(vec, Vector2(0, -1))
+		set_velocity(vec)
+		set_up_direction(Vector2(0, -1))
+		move_and_slide()
+		vec = velocity
 		
 		if get_tree().network_peer != null:
 			rpc(\"sing\", [rotation, global_position])
 
-remote func sing(dat):
+@rpc("any_peer") func sing(dat):
 	rotation = dat[0]
 	global_position = dat[1]
 
@@ -56,7 +59,7 @@ func body_shape_entered(_body_id, body, _body_shape, _area_shape):
 	go_damage(body)
 
 func go_damage(body:Node = null):
-	if $AnimatedSprite.visible == false and G.my_id() == 1:
+	if $AnimatedSprite2D.visible == false and G.my_id() == 1:
 		dis()
 		var collision = $RayCast2D.get_collider()
 		if body != null: collision = body
@@ -67,30 +70,30 @@ func go_damage(body:Node = null):
 			setting_bullet[\"position\"] = global_position
 			if collision is TileMap:
 				var tile_pos = [
-					collision.world_to_map(global_position) - Vector2(-2, -2),
-					collision.world_to_map(global_position) - Vector2(-1, -2),
-					collision.world_to_map(global_position) - Vector2(0, -2),
-					collision.world_to_map(global_position) - Vector2(1, -2),
-					collision.world_to_map(global_position) - Vector2(2, -2),
-					collision.world_to_map(global_position) - Vector2(-2, -1),
-					collision.world_to_map(global_position) - Vector2(-1, -1),
-					collision.world_to_map(global_position) - Vector2(0, -1),
-					collision.world_to_map(global_position) - Vector2(1, -1),
-					collision.world_to_map(global_position) - Vector2(2, -1),
-					collision.world_to_map(global_position) - Vector2(-2, 0),
-					collision.world_to_map(global_position) - Vector2(-1, 0),
-					collision.world_to_map(global_position),
-					collision.world_to_map(global_position) - Vector2(1, 0),
-					collision.world_to_map(global_position) - Vector2(2, 0),
-					collision.world_to_map(global_position) - Vector2(-2, 1),
-					collision.world_to_map(global_position) - Vector2(-1, 1),
-					collision.world_to_map(global_position) - Vector2(1, 1),
-					collision.world_to_map(global_position) - Vector2(2, 1),
-					collision.world_to_map(global_position) - Vector2(-2, 2),
-					collision.world_to_map(global_position) - Vector2(-1, 2),
-					collision.world_to_map(global_position) - Vector2(0, 2),
-					collision.world_to_map(global_position) - Vector2(1, 2),
-					collision.world_to_map(global_position) - Vector2(2, 2)
+					collision.local_to_map(global_position) - Vector2(-2, -2),
+					collision.local_to_map(global_position) - Vector2(-1, -2),
+					collision.local_to_map(global_position) - Vector2(0, -2),
+					collision.local_to_map(global_position) - Vector2(1, -2),
+					collision.local_to_map(global_position) - Vector2(2, -2),
+					collision.local_to_map(global_position) - Vector2(-2, -1),
+					collision.local_to_map(global_position) - Vector2(-1, -1),
+					collision.local_to_map(global_position) - Vector2(0, -1),
+					collision.local_to_map(global_position) - Vector2(1, -1),
+					collision.local_to_map(global_position) - Vector2(2, -1),
+					collision.local_to_map(global_position) - Vector2(-2, 0),
+					collision.local_to_map(global_position) - Vector2(-1, 0),
+					collision.local_to_map(global_position),
+					collision.local_to_map(global_position) - Vector2(1, 0),
+					collision.local_to_map(global_position) - Vector2(2, 0),
+					collision.local_to_map(global_position) - Vector2(-2, 1),
+					collision.local_to_map(global_position) - Vector2(-1, 1),
+					collision.local_to_map(global_position) - Vector2(1, 1),
+					collision.local_to_map(global_position) - Vector2(2, 1),
+					collision.local_to_map(global_position) - Vector2(-2, 2),
+					collision.local_to_map(global_position) - Vector2(-1, 2),
+					collision.local_to_map(global_position) - Vector2(0, 2),
+					collision.local_to_map(global_position) - Vector2(1, 2),
+					collision.local_to_map(global_position) - Vector2(2, 2)
 				] #Массив позиций ближайших 2 тайлов в каждую из сторон
 				var center = collision.cell_size/2 #Растояние от левого вверха, до центра
 				for i in tile_pos:
@@ -141,17 +144,17 @@ func go_damage(body:Node = null):
 							get_node(\"/root/rootGame\").rpc(\"drop_item\", {\"global_position\": setting_bullet[\"tile\"]*Vector2(64, 64)+Vector2(32, 32), \"significant_data\": {\"item\": b}}, drop.name)
 							collision.rpc(\"clear_tile\", setting_bullet[\"tile\"])
 
-remote func dis():
-	if $AnimatedSprite.visible == false:
-		$AnimatedSprite.visible = true
-		$Sprite.visible = false
-		$AnimatedSprite.play(\"del\")
+@rpc("any_peer") func dis():
+	if $AnimatedSprite2D.visible == false:
+		$AnimatedSprite2D.visible = true
+		$Sprite2D.visible = false
+		$AnimatedSprite2D.play(\"del\")
 
 func del(): queue_free()
 "
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 8, 1.25 )
+size = Vector2( 8, 1.25 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
@@ -177,16 +180,16 @@ animations = [ {
 "speed": 4.0
 } ]
 
-[node name="bullet" type="KinematicBody2D"]
+[node name="bullet" type="CharacterBody2D"]
 collision_layer = 0
 collision_mask = 0
 script = SubResource( 1 )
 
-[node name="Sprite" type="TextureRect" parent="."]
-margin_left = -9.0
-margin_top = -5.0
-margin_right = 9.0
-margin_bottom = 5.0
+[node name="Sprite2D" type="TextureRect" parent="."]
+offset_left = -9.0
+offset_top = -5.0
+offset_right = 9.0
+offset_bottom = 5.0
 expand = true
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -200,7 +203,7 @@ shape = SubResource( 3 )
 wait_time = 10.0
 one_shot = true
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
 frames = SubResource( 8 )
 animation = "del"
@@ -211,7 +214,7 @@ position = Vector2( -8.5, 0 )
 rotation = -1.57079
 enabled = true
 exclude_parent = false
-cast_to = Vector2( 0, 35 )
+target_position = Vector2( 0, 35 )
 collision_mask = 255
 
 [node name="Sing" parent="." instance=ExtResource( 2 )]

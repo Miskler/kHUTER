@@ -14,7 +14,7 @@ func get_icon() -> String:
 	return "CSharpScript"
 
 func get_color() -> Color:
-	return Color.limegreen
+	return Color.LIME_GREEN
 
 func is_script() -> bool:
 	return true

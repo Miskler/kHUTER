@@ -1,6 +1,6 @@
 extends Node
 
-export var map_settings = {
+@export var map_settings = {
 	"can_be_saved": true,
 	"edit_save": false,
 	"is_save": false,
@@ -23,9 +23,9 @@ var multiplayer_settings = {
 	"save_server": true, #Разрешает пользователям сохранять игру, can_be_saved - только для сервера
 }
 
-onready var items = ["diskette"]
+@onready var items = ["diskette"]
 
-export var transition_value = {
+@export var transition_value = {
 	"ground": 2,
 	"stone": 4,
 	"wall": 3,

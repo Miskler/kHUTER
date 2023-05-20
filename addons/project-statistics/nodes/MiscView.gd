@@ -1,4 +1,4 @@
-tool
+@tool
 extends "./TreeView.gd"
 
 enum {
@@ -18,7 +18,7 @@ var total_comments_lines: TreeItem
 var total_blank_lines: TreeItem
 var total_size: TreeItem
 
-onready var graph: Control = $VSplitContainer/HSplitContainer/MarginContainer/PieGraph
+@onready var graph: Control = $VSplitContainer/HSplitContainer/MarginContainer/PieGraph
 
 func _ready() -> void:
 	tree = $VSplitContainer/Tree
@@ -34,8 +34,8 @@ func _ready() -> void:
 	tree.set_column_titles_visible(true)
 	tree.hide_root = true
 	
-	tree.connect("item_activated", self, "_on_item_activated")
-	tree.connect("column_title_pressed", self, "_on_column_title_pressed")
+	tree.connect("item_activated", Callable(self, "_on_item_activated"))
+	tree.connect("column_title_pressed", Callable(self, "_on_column_title_pressed"))
 	
 	var root: TreeItem = summary_tree.create_item()
 	total_files = summary_tree.create_item(root)
@@ -54,7 +54,7 @@ func _ready() -> void:
 	summary_tree.hide_root = true
 
 func display(stats: ProjectStatistics) -> void:
-	.display(stats)
+	super.display(stats)
 	total_files.set_text(1, str(stats.misc.size()))
 	total_lines.set_text(1, str(stats.get_total_lines(false)))
 	total_code_lines.set_text(1, str(stats.get_total_code_lines(false)))
@@ -119,16 +119,16 @@ func update_icons() -> void:
 func _sort_by_column(column: int) -> void:
 	match column:
 		NAME_COLUMN:
-			stats.misc.sort_custom(self, "sort_name")
+			stats.misc.sort_custom(Callable(self, "sort_name"))
 		EXTENSION_COLUMN:
-			stats.misc.sort_custom(self, "sort_extension")
+			stats.misc.sort_custom(Callable(self, "sort_extension"))
 		TOTAL_LINES_COLUMN:
-			stats.misc.sort_custom(self, "sort_total_lines")
+			stats.misc.sort_custom(Callable(self, "sort_total_lines"))
 		SOURCE_LINES_COLUMN:
-			stats.misc.sort_custom(self, "sort_source_code_lines")
+			stats.misc.sort_custom(Callable(self, "sort_source_code_lines"))
 		COMMENT_LINES_COLUMN:
-			stats.misc.sort_custom(self, "sort_comment_lines")
+			stats.misc.sort_custom(Callable(self, "sort_comment_lines"))
 		BLANK_LINES_COLUMN:
-			stats.misc.sort_custom(self, "sort_blank_lines")
+			stats.misc.sort_custom(Callable(self, "sort_blank_lines"))
 		SIZE_COLUMN:
-			stats.misc.sort_custom(self, "sort_size")
+			stats.misc.sort_custom(Callable(self, "sort_size"))

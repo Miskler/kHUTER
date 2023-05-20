@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/health.mp3-59adf02610620d3c60e044a1b1c61edf.mp3str"
+uid="uid://bglypkpmx5iml"
+path="res://.godot/imported/health.mp3-59adf02610620d3c60e044a1b1c61edf.mp3str"
 
 [deps]
 
 source_file="res://audios/guider/events/health.mp3"
-dest_files=[ "res://.import/health.mp3-59adf02610620d3c60e044a1b1c61edf.mp3str" ]
+dest_files=["res://.godot/imported/health.mp3-59adf02610620d3c60e044a1b1c61edf.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

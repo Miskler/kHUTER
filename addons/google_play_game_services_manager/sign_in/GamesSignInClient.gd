@@ -9,12 +9,12 @@ signal sign_in_failure
 
 func _ready() -> void:
 	if android_plugin:
-		android_plugin.connect("isUserAuthenticatedSuccess", self, "on_user_authenticated_success")
-		android_plugin.connect("isUserAuthenticatedFailure", self, "on_user_authenticated_success")
-		android_plugin.connect("requestServerSideAccessSuccess", self, "on_request_server_side_access_success")
-		android_plugin.connect("requestServerSideAccessFailure", self, "on_request_server_side_access_failure")
-		android_plugin.connect("signInSuccess", self, "on_sign_in_success")
-		android_plugin.connect("signInFailure", self, "on_sign_in_failure")
+		android_plugin.connect("isUserAuthenticatedSuccess", Callable(self, "on_user_authenticated_success"))
+		android_plugin.connect("isUserAuthenticatedFailure", Callable(self, "on_user_authenticated_success"))
+		android_plugin.connect("requestServerSideAccessSuccess", Callable(self, "on_request_server_side_access_success"))
+		android_plugin.connect("requestServerSideAccessFailure", Callable(self, "on_request_server_side_access_failure"))
+		android_plugin.connect("signInSuccess", Callable(self, "on_sign_in_success"))
+		android_plugin.connect("signInFailure", Callable(self, "on_sign_in_failure"))
 		android_plugin.initialize()
 
 func on_user_authenticated_success(is_authenticated: bool) -> void:

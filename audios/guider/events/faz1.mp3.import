@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/faz1.mp3-80ca3a832f4a6b647d510e7211efcbf6.mp3str"
+uid="uid://bsvkjkkq3utvm"
+path="res://.godot/imported/faz1.mp3-80ca3a832f4a6b647d510e7211efcbf6.mp3str"
 
 [deps]
 
 source_file="res://audios/guider/events/faz1.mp3"
-dest_files=[ "res://.import/faz1.mp3-80ca3a832f4a6b647d510e7211efcbf6.mp3str" ]
+dest_files=["res://.godot/imported/faz1.mp3-80ca3a832f4a6b647d510e7211efcbf6.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

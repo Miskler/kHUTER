@@ -1,16 +1,16 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-onready var SD = get_node("/root/rootGame/Node/SettingData")
+@onready var SD = get_node("/root/rootGame/Node/SettingData")
 
-export var clutches:int
+@export var clutches:int
 
-export var speed = Vector2(30, 520)
-export var speed_max = Vector2(400, 2000)
+@export var speed = Vector2(30, 520)
+@export var speed_max = Vector2(400, 2000)
 
 var gan_on = null
 
-export var vec = Vector2()
-export var Floor = Vector2(0,-1)
+@export var vec = Vector2()
+@export var Floor = Vector2(0,-1)
 
 var well_being = {
 	"hunger": 20, #Максимум 20
@@ -18,7 +18,7 @@ var well_being = {
 	"thirst": 0.0 #Максимум 2.0
 }
 
-export var player_settings = {
+@export var player_settings = {
 	"disable_physics": false,
 	"immortal": false,
 	"invisible": false,
@@ -41,9 +41,9 @@ func _init():
 func _ready():
 	setting_event()
 	
-	$Timer.connect("timeout", self, "event")
-	$hunger.connect("timeout", self, "hunger")
-	$thirst.connect("timeout", self, "thirst")
+	$Timer.connect("timeout", Callable(self, "event"))
+	$hunger.connect("timeout", Callable(self, "hunger"))
+	$thirst.connect("timeout", Callable(self, "thirst"))
 	
 	clutches = SD.map_settings["number_of_clutches"]
 	
@@ -119,14 +119,18 @@ func _physics_process(_delta):
 	if $Camera2D/interface/died.visible == false and player_settings["disable_physics"] == false:
 		movement()
 		post_move()
-		vec = move_and_slide(vec, Floor, true)
+		set_velocity(vec)
+		set_up_direction(Floor)
+		set_floor_stop_on_slope_enabled(true)
+		move_and_slide()
+		vec = velocity
 
 func event():
 	if get_tree().network_peer != null:
 		var mode
 		if $Node2D.position.y == -9: mode = false
 		else: mode = true
-		get_node("/root/rootGame").rpc_unreliable("event_state", "/root/rootGame/Node/" + str(get_tree().get_network_unique_id()), [get_tree().get_network_unique_id(), global_position, $Node2D.rotation_degrees, gan_on, $Node2D/Sprite.flip_v, $Anim.animation, $Anim.flip_h, mode, player_settings["invisibility_to_players"]])
+		get_node("/root/rootGame").rpc_unreliable("event_state", "/root/rootGame/Node/" + str(get_tree().get_unique_id()), [get_tree().get_unique_id(), global_position, $Node2D.rotation_degrees, gan_on, $Node2D/Sprite2D.flip_v, $Anim.animation, $Anim.flip_h, mode, player_settings["invisibility_to_players"]])
 
 var jump_const = false
 func movement():
@@ -247,21 +251,21 @@ func thirst():
 # Оружие
 
 func event_gan():
-	var gan = $Camera2D/interface/clothes/Control/MainArmSlot/Texture.texture
+	var gan = $Camera2D/interface/clothes/Control/MainArmSlot/Texture2D.texture
 	if gan != null:
 		gan_on = gan.get_path()
-		$Node2D/Sprite.show()
-		$Node2D/Sprite.texture = load(gan_on)
+		$Node2D/Sprite2D.show()
+		$Node2D/Sprite2D.texture = load(gan_on)
 	else:
 		gan_on = null
-		$Node2D/Sprite.hide()
-		$Node2D/Sprite.texture = null
+		$Node2D/Sprite2D.hide()
+		$Node2D/Sprite2D.texture = null
 
 #Стрельба
 func shoot(forced:bool = false):
 	var gan = $Camera2D/interface/clothes.data_clothes["gan"][0].get("item")
 	if $Camera2D/interface/MoveItem/HandSlot.significant_data.hash() != $Camera2D/interface/MoveItem/HandSlot.default_significant_data.hash(): return
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	if forced or ((Input.is_action_just_pressed("LBM") and !G.game_settings["mobile"]) and $Camera2D/interface/MoveItem/HandSlot.significant_data.hash() == $Camera2D/interface/MoveItem/HandSlot.default_significant_data.hash() and $Camera2D/interface/main.visible == true and gan != null):
 		if get_node_or_null("/root/rootGame/Node/SettingData/ItemLogical/" + str(gan)) == null:
 			var bullet_name = $Camera2D/interface/clothes/Control/AdditionalArmSlot.significant_data.get("item")
@@ -275,10 +279,10 @@ func shoot(forced:bool = false):
 				var dat = ["res://textures/black.png", 0, 0, 1000, false, 0] #текстура, урон, придяжение, скорость, режим пули
 				
 				if bullet_dat != null: dat[0] = bullet_dat.get("special_animation")
-				if dat[0] == null: dat[0] = $Camera2D/interface/clothes/Control/AdditionalArmSlot/Texture.texture.get_path()
+				if dat[0] == null: dat[0] = $Camera2D/interface/clothes/Control/AdditionalArmSlot/Texture2D.texture.get_path()
 				
-				if $Camera2D/interface/clothes/Control/AdditionalArmSlot/Texture.texture != null:
-					dat[0] = $Camera2D/interface/clothes/Control/AdditionalArmSlot/Texture.texture.get_path()
+				if $Camera2D/interface/clothes/Control/AdditionalArmSlot/Texture2D.texture != null:
+					dat[0] = $Camera2D/interface/clothes/Control/AdditionalArmSlot/Texture2D.texture.get_path()
 				
 				if gan_dat.get("output") != null: 
 					dat[5] = gan_dat["output"]
@@ -294,9 +298,9 @@ func shoot(forced:bool = false):
 					dat[4] = true
 					dat[3] = 1
 				
-				get_node("/root/rootGame").create_bullet($Camera2D/interface/clothes.data_clothes["gan"], $Camera2D/interface/clothes.data_clothes["bullet"], $Node2D/Position2D.global_position, $Node2D.rotation, dat[0], dat[1], dat[2], dat[3], dat[4], dat[5], self)
+				get_node("/root/rootGame").create_bullet($Camera2D/interface/clothes.data_clothes["gan"], $Camera2D/interface/clothes.data_clothes["bullet"], $Node2D/Marker2D.global_position, $Node2D.rotation, dat[0], dat[1], dat[2], dat[3], dat[4], dat[5], self)
 				if get_tree().network_peer != null:
-					get_node("/root/rootGame").rpc("create_bullet", $Camera2D/interface/clothes.data_clothes["gan"], $Camera2D/interface/clothes.data_clothes["bullet"], $Node2D/Position2D.global_position, $Node2D.rotation, dat[0], dat[1], dat[2], dat[3], dat[4], dat[5])
+					get_node("/root/rootGame").rpc("create_bullet", $Camera2D/interface/clothes.data_clothes["gan"], $Camera2D/interface/clothes.data_clothes["bullet"], $Node2D/Marker2D.global_position, $Node2D.rotation, dat[0], dat[1], dat[2], dat[3], dat[4], dat[5])
 				
 				$Camera2D/interface/clothes.take_away_the_bullet()
 		elif get_node_or_null("/root/rootGame/Node/SettingData/ItemLogical/" + str(gan)).has_method("shoot"):
@@ -311,11 +315,11 @@ func weapon_turn():
 			$Node2D.rotation_degrees += 360
 	
 	if $Node2D.rotation_degrees > 90 or $Node2D.rotation_degrees < -90:
-		$Node2D/Sprite.flip_v = true
+		$Node2D/Sprite2D.flip_v = true
 	else:
-		$Node2D/Sprite.flip_v = false
+		$Node2D/Sprite2D.flip_v = false
 
-remote func damage(setting_bullet):
+@rpc("any_peer") func damage(setting_bullet):
 	if player_settings["immortal"] == false:
 		var lvl_on = setting_bullet["damage"]
 		var double = null
@@ -337,7 +341,7 @@ remote func damage(setting_bullet):
 		
 		var armor = [$Camera2D/interface/clothes/Control/LegsSlot, $Camera2D/interface/clothes/Control/HeadSlot, $Camera2D/interface/clothes/Control/TorsoSlot]
 		for i in armor:
-			var dat = get_node_or_null("/root/rootGame/Node/SettingData/ItemLogical/" + var2str(i.significant_data.get("item")))
+			var dat = get_node_or_null("/root/rootGame/Node/SettingData/ItemLogical/" + var_to_str(i.significant_data.get("item")))
 			if i.significant_data.get("item") != null and dat != null and dat.has_method("get_damage"):
 				dat.get_damage(i, self, setting_bullet, lvl_on)
 		
@@ -446,7 +450,7 @@ func show_dialogue(dialogue = null):
 func show_chat():
 	get_node(emit).frame()
 	
-	if $Camera2D/interface/Control.rect_position.y == 0:
+	if $Camera2D/interface/Control.position.y == 0:
 		$Camera2D/interface/Control/AnimationPlayer.play("def")
 	$Camera2D/interface/chat.show()
 
@@ -516,7 +520,7 @@ func show_died(cause):
 		
 		for i in dat_items:
 			if i[1].size() > 0:
-				var f_name = "SlotInWorld_" + str(rand_range(0, 1))
+				var f_name = "SlotInWorld_" + str(randf_range(0, 1))
 				
 				get_node("/root/rootGame").drop_item({"global_position": global_position, "significant_data": i[1], "insignificant_data": i[2]}, f_name)
 				

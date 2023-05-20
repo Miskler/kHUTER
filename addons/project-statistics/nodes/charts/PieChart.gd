@@ -1,14 +1,14 @@
-tool
+@tool
 extends Control
 
 const ChartData: Script = preload("./ChartData.gd")
 
-export(float) var radius: float = 50.0 setget set_radius
+@export var radius: float: float = 50.0: set = set_radius
 
 var series: Dictionary
 
 func _init() -> void:
-	rect_clip_content = true
+	clip_contents = true
 
 func clear() -> void:
 	series.clear()
@@ -24,12 +24,12 @@ func remove_data(name: String) -> void:
 
 func set_radius(value: float) -> void:
 	radius = max(0, value)
-	self.rect_min_size = Vector2.ONE * radius * 2
+	self.custom_minimum_size = Vector2.ONE * radius * 2
 
 func draw_filled_arc(center: Vector2, radius: float, start_angle: float, end_angle: float,
 	point_count: int, color: Color, antialiased: bool = false
 ) -> void:
-	var points: PoolVector2Array = []
+	var points: PackedVector2Array = []
 	points.push_back(center)
 	
 	for i in range(point_count + 1):
@@ -43,7 +43,7 @@ func _draw() -> void:
 	for data in charts_data:
 		total += data.value
 	
-	var center: Vector2 = rect_size / 2.0
+	var center: Vector2 = size / 2.0
 	var start_angle: float = 0.0
 	var i: int
 	for data in charts_data:
@@ -62,7 +62,7 @@ func _draw() -> void:
 	var outline_width: float = 1.2
 	
 	if not get_constant("dark_theme", "Editor"):
-		draw_arc(center, radius - outline_width / 2, 0.0, 2 * PI, 32, Color.lightslategray, 1.5, true)
+		draw_arc(center, radius - outline_width / 2, 0.0, 2 * PI, 32, Color.LIGHT_SLATE_GRAY, 1.5, true)
 
 func _notification(what: int) -> void:
 	match what:

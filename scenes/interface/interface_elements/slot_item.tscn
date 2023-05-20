@@ -1,10 +1,10 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://resources/fonts/standart/standart.otf" type="FontFile" id=1]
 [ext_resource path="res://scripts/items/slot_item.gd" type="Script" id=2]
-[ext_resource path="res://textures/ui/items/loot/ice_item.png" type="Texture" id=3]
+[ext_resource path="res://textures/ui/items/loot/ice_item.png" type="Texture2D" id=3]
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="FontFile" id=5]
 font_data = ExtResource( 1 )
 
 [sub_resource type="Theme" id=6]
@@ -16,10 +16,10 @@ bg_color = Color( 0, 1, 0, 1 )
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="FontFile" id=4]
 size = 10
-extra_spacing_top = -1
-extra_spacing_bottom = -2
+spacing_top = -1
+spacing_bottom = -2
 font_data = ExtResource( 1 )
 
 [sub_resource type="GDScript" id=8]
@@ -28,7 +28,7 @@ script/source = "extends Timer
 
 #func _ready():
 #	wait_time = {true: 0.1, false: 2.0}[G.game_settings[\"mobile\"]]
-onready var move_item = get_node_or_null(\"/root/rootGame/Node/Player/Camera2D/interface/MoveItem/Available Item\")
+@onready var move_item = get_node_or_null(\"/root/rootGame/Node/Player/Camera2D/interface/MoveItem/Available Item\")
 
 func entered_to_desc():
 	if get_parent().settings_slot[\"permission_to_use\"] == true and move_item != null:
@@ -90,8 +90,8 @@ func ok():
 [node name="Slot" type="Control"]
 anchor_right = 0.068
 anchor_bottom = 0.117
-margin_right = 0.367996
-margin_bottom = -0.200005
+offset_right = 0.367996
+offset_bottom = -0.200005
 mouse_default_cursor_shape = 2
 theme = SubResource( 6 )
 script = ExtResource( 2 )
@@ -106,7 +106,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Texture" type="TextureRect" parent="."]
+[node name="Texture2D" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -117,25 +117,25 @@ expand = true
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = -11.0
-margin_right = -1.0
-margin_bottom = -1.0
+offset_left = 1.0
+offset_top = -11.0
+offset_right = -1.0
+offset_bottom = -1.0
 mouse_filter = 2
-custom_constants/separation = 1
+theme_override_constants/separation = 1
 alignment = 2
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Health" type="ProgressBar" parent="Scales"]
-margin_right = 62.0
-margin_bottom = 10.0
+offset_right = 62.0
+offset_bottom = 10.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/fg = SubResource( 2 )
-custom_styles/bg = SubResource( 3 )
+theme_override_styles/fg = SubResource( 2 )
+theme_override_styles/bg = SubResource( 3 )
 value = 77.0
 percent_visible = false
 __meta__ = {
@@ -143,10 +143,10 @@ __meta__ = {
 }
 
 [node name="Quantity" type="Label" parent="Scales"]
-margin_left = 63.0
-margin_right = 68.0
-margin_bottom = 10.0
-custom_fonts/font = SubResource( 4 )
+offset_left = 63.0
+offset_right = 68.0
+offset_bottom = 10.0
+theme_override_fonts/font = SubResource( 4 )
 text = "1"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -171,7 +171,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 focus_mode = 0
 mouse_filter = 1
-enabled_focus_mode = 0
+focus_mode = 0
 script = SubResource( 7 )
 
 [node name="EventPress" type="Timer" parent="ButtonMobile"]

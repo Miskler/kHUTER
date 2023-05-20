@@ -7,9 +7,9 @@ script/source = "extends TileMap
 
 signal use_tile(data)
 
-onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
+@onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
 
-export var tiles = {
+@export var tiles = {
 	0: {
 		0: {
 			\"tile_name\": \"\",
@@ -25,7 +25,7 @@ func _ready():
 	$Timer.start()
 
 
-remote func registration(node): #Сохраняет карту сделанную через редактор в формат 2д массива
+@rpc("any_peer") func registration(node): #Сохраняет карту сделанную через редактор в формат 2д массива
 	var map = {}
 	node.fix_invalid_tiles()
 	
@@ -46,7 +46,7 @@ remote func registration(node): #Сохраняет карту сделанну�
 	return map
 
 
-remote func clear_tile(pos:Vector2):
+@rpc("any_peer") func clear_tile(pos:Vector2):
 	if tiles.has(int(pos.x)) and tiles[int(pos.x)].has(int(pos.y)):
 		use_tile({\"pos\": pos, \"method\": \"clear_tile\"})
 		
@@ -63,7 +63,7 @@ remote func clear_tile(pos:Vector2):
 	else: return false
 	return true
 
-remote func edit_tile(pos:Vector2, dat:Dictionary = {}): #{\"dat\": {\"operation\": (0-4), \"value\": ...}} -- 0-установка,1-прибавление,2-отнимание,3-умножение,4-деление
+@rpc("any_peer") func edit_tile(pos:Vector2, dat:Dictionary = {}): #{\"dat\": {\"operation\": (0-4), \"value\": ...}} -- 0-установка,1-прибавление,2-отнимание,3-умножение,4-деление
 	#Получает словарь того что нужно поменять и как
 	#Может добавлять, отнимать, заменять
 	if not tiles.has(int(pos.x)):
@@ -115,7 +115,7 @@ remote func edit_tile(pos:Vector2, dat:Dictionary = {}): #{\"dat\": {\"operation
 			4:
 				tile[key] /= dt[\"value\"]
 
-remote func use_tile(data:Dictionary = {}): #Принимает любые входные параметры и испускает сигнал использования тайла, значение \"pos\" - координата тайла (обязательно)
+@rpc("any_peer") func use_tile(data:Dictionary = {}): #Принимает любые входные параметры и испускает сигнал использования тайла, значение \"pos\" - координата тайла (обязательно)
 	if not data.has(\"method\"): data[\"method\"] = \"use_tile\"
 	if data.has(\"pos\") and tiles.has(int(data[\"pos\"].x)) and tiles[int(data[\"pos\"].x)].has(int(data[\"pos\"].y)) and get_node_or_null(\"TileLogical/\"+str(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"])) != null and get_node(\"TileLogical/\"+str(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"])).has_method(data[\"method\"]):
 		get_node(\"TileLogical/\"+str(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"])).call(data[\"method\"], data)
@@ -133,7 +133,7 @@ remote func use_tile(data:Dictionary = {}): #Принимает любые вх�
 	return false
 
 
-remote func render(camera = null, reserve = null): #camera - принимает путь до отрисовываймой камеры, если пуст то отрисовывается все отновительно камеры игрока
+@rpc("any_peer") func render(camera = null, reserve = null): #camera - принимает путь до отрисовываймой камеры, если пуст то отрисовывается все отновительно камеры игрока
 	if reserve == null:
 		reserve = G.game_settings[\"render_bonus\"]
 	
@@ -148,8 +148,8 @@ remote func render(camera = null, reserve = null): #camera - принимает 
 		
 		var corners = [camera.global_position - Vector2(1024 * camera.zoom.x / 2, 600 * camera.zoom.y / 2), camera.global_position + Vector2(1024 * camera.zoom.x / 2, 600 * camera.zoom.y / 2)]
 		
-		corners[0] = world_to_map(corners[0]) - Vector2(reserve, reserve)
-		corners[1] = world_to_map(corners[1]) + Vector2(reserve, reserve)
+		corners[0] = local_to_map(corners[0]) - Vector2(reserve, reserve)
+		corners[1] = local_to_map(corners[1]) + Vector2(reserve, reserve)
 		
 		#print(corners)
 		#print(corners[1] - corners[0])
@@ -175,16 +175,16 @@ remote func render(camera = null, reserve = null): #camera - принимает 
 func generate(width:int = 100, height:int = 100, settings:Dictionary = {}, seed_map = null): #Генерирует только образ карты, возращает итог
 	var til = {}
 	
-	var noise = OpenSimplexNoise.new()
+	var noise = FastNoiseLite.new()
 	if seed_map == null:
 		noise.seed = randi()
 	else:
 		noise.seed = seed_map
 	
-	if settings.has(\"octaves\"):
-		noise.octaves = settings[\"octaves\"]
+	if settings.has(\"fractal_octaves\"):
+		noise.fractal_octaves = settings[\"fractal_octaves\"]
 	else:
-		noise.octaves = 4
+		noise.fractal_octaves = 4
 	
 	if settings.has(\"period\"):
 		noise.period = settings[\"period\"]
@@ -220,7 +220,7 @@ func generate(width:int = 100, height:int = 100, settings:Dictionary = {}, seed_
 	return til
 
 func pruning(width:int, height:int, map):
-	var noise = OpenSimplexNoise.new()
+	var noise = FastNoiseLite.new()
 	noise.seed = randi()
 	
 	for x in map:
@@ -257,7 +257,7 @@ func unification(map_one, map_two):
 					map_one[x][y] = map_two[x][y]
 	return map_one
 
-remote func structure(map:Dictionary, manual:Array = [[{}, {}], [{}, {}]], repetitions:int = 1, distance:int = 0): #Генерирует структуру по заранее заготовленной инструкции с возможностью повторения несколько раз
+@rpc("any_peer") func structure(map:Dictionary, manual:Array = [[{}, {}], [{}, {}]], repetitions:int = 1, distance:int = 0): #Генерирует структуру по заранее заготовленной инструкции с возможностью повторения несколько раз
 	var last = null
 	for x in map.keys():
 		for y in map[x].keys():
@@ -304,7 +304,7 @@ remote func structure(map:Dictionary, manual:Array = [[{}, {}], [{}, {}]], repet
 					var key = manual[1][id].keys()[0]
 					match key:
 						\"object\": #{\"pos\": Vector2(), \"name\": \"\", \"data\": {\"key\": valoe}, \"path\": \"res://\"} #pos - относительно центра (не тайловая координата)(необ); name - имя (необ); path - путь до инстанцируемой сцены
-							var object = load(manual[1][id][key][\"path\"]).instance()
+							var object = load(manual[1][id][key][\"path\"]).instantiate()
 							
 							object.global_position = Vector2(cell_size.x*x, cell_size.y*y)
 							if manual[1][id][key].has(\"pos\"): object.global_position += manual[1][id][key][\"pos\"]
@@ -329,16 +329,16 @@ remote func structure(map:Dictionary, manual:Array = [[{}, {}], [{}, {}]], repet
 	return map
 
 func ore(_map, manual:Dictionary, width:int = 100, height:int = 100, settings:Dictionary = {}, seed_map = null): #Генерирует пласты руды по заранее заготовленной инструкции
-	var noise = OpenSimplexNoise.new()
+	var noise = FastNoiseLite.new()
 	if seed_map == null:
 		noise.seed = randi()
 	else:
 		noise.seed = seed_map
 	
-	if settings.has(\"octaves\"):
-		noise.octaves = settings[\"octaves\"]
+	if settings.has(\"fractal_octaves\"):
+		noise.fractal_octaves = settings[\"fractal_octaves\"]
 	else:
-		noise.octaves = 4
+		noise.fractal_octaves = 4
 	
 	if settings.has(\"period\"):
 		noise.period = settings[\"period\"]
@@ -367,11 +367,11 @@ func render_is(position_obg, reserve:int = 2, real_position:bool = true):
 	if cam != null and is_instance_valid(cam) and cam is Camera2D:
 		var corners = [cam.global_position - Vector2(1024 * cam.zoom.x / 2, 600 * cam.zoom.y / 2), cam.global_position + Vector2(1024 * cam.zoom.x / 2, 600 * cam.zoom.y / 2)]
 		
-		corners[0] = world_to_map(corners[0]) + Vector2(reserve, reserve) - Vector2(G.game_settings[\"render_bonus\"], G.game_settings[\"render_bonus\"])
-		corners[1] = world_to_map(corners[1]) - Vector2(reserve, reserve) + Vector2(G.game_settings[\"render_bonus\"], G.game_settings[\"render_bonus\"])
+		corners[0] = local_to_map(corners[0]) + Vector2(reserve, reserve) - Vector2(G.game_settings[\"render_bonus\"], G.game_settings[\"render_bonus\"])
+		corners[1] = local_to_map(corners[1]) - Vector2(reserve, reserve) + Vector2(G.game_settings[\"render_bonus\"], G.game_settings[\"render_bonus\"])
 		
 		if real_position:
-			position_obg = world_to_map(position_obg)
+			position_obg = local_to_map(position_obg)
 		
 		if position_obg.x < corners[1].x and position_obg.x > corners[0].x and position_obg.y < corners[1].y and position_obg.y > corners[0].y:
 			return true
@@ -387,7 +387,7 @@ func _ready():
 	tile_set = get_parent().tile_set
 	clear()
 	
-	printt(\"FGG\", get_collision_mask(), get_collision_mask_bit(0))
+	printt(\"FGG\", get_collision_mask(), get_collision_mask_value(0))
 
 func clear_tiles():
 	clear()
@@ -444,10 +444,10 @@ func init(pos, slot_count:int = 1):
 	for i in range(slot_count):
 		$\"../..\".tiles[int(pos.x)][int(pos.y)][\"data\"][\"instruction\"].append([{}, {}, {}])
 
-remote func event_tile_state(pos:Vector2, dat:int):
+@rpc("any_peer") func event_tile_state(pos:Vector2, dat:int):
 	$\"../..\".tiles[int(pos.x)][int(pos.y)][\"autotile_coord\"].y = dat
 
-remote func event(pos:Vector2, result):
+@rpc("any_peer") func event(pos:Vector2, result):
 	$\"../..\".tiles[int(pos.x)][int(pos.y)][\"data\"][\"instruction\"] = result
 	buffer_data = result.duplicate(true)
 
@@ -462,9 +462,9 @@ func clear_tile(data):
 	if $\"../..\".tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"data\"].has(\"instruction\"):
 		for i in $\"../..\".tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"data\"][\"instruction\"]:
 			if i[1].size() > 0:
-				var random_bloc = load(\"res://Sceni/item/ItemInWorld.scn\").instance()
+				var random_bloc = load(\"res://Sceni/item/ItemInWorld.scn\").instantiate()
 				
-				var f_name = \"SlotInWorld_\" + str(rand_range(0, 1))
+				var f_name = \"SlotInWorld_\" + str(randf_range(0, 1))
 				
 				random_bloc.get_node(\"SlotInWorld\").significant_data = i[1]
 				random_bloc.get_node(\"SlotInWorld\").insignificant_data = i[2]
@@ -478,7 +478,7 @@ func clear_tile(data):
 [sub_resource type="GDScript" id=7]
 script/source = "extends Node
 
-export var example = {
+@export var example = {
 	\"loot\": \"item_name\",
 	\"installation sound\": \"res://\",
 	\"use sound\": \"res://\",
@@ -487,14 +487,14 @@ export var example = {
 	\"destruction sound\": \"res://\",
 }
 
-export var copper = {
+@export var copper = {
 	\"loot\": \"copper\",
 	\"installation sound\": \"res://audios/tiles/stone/installation.mp3\",
 	\"repair sound\": \"res://audios/tiles/stone/repair.mp3\",
 	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
 }
 
-export var chest = {
+@export var chest = {
 	\"loot\": \"chest\",
 	\"installation sound\": \"res://audios/tiles/chest/installation.mp3\",
 	\"use sound\": \"res://audios/tiles/chest/use.mp3\",
@@ -503,7 +503,7 @@ export var chest = {
 	\"destruction sound\": \"res://audios/tiles/chest/destruction.mp3\",
 }
 
-export var reinforced_chest = {
+@export var reinforced_chest = {
 	\"loot\": \"reinforced_chest\",
 	\"installation sound\": \"res://audios/tiles/chest/installation.mp3\",
 	\"use sound\": \"res://audios/tiles/chest/use.mp3\",
@@ -512,25 +512,25 @@ export var reinforced_chest = {
 	\"destruction sound\": \"res://audios/tiles/chest/destruction.mp3\",
 }
 
-export var ice = {
+@export var ice = {
 	\"loot\": \"ice\",
 	\"repair sound\": \"res://audios/tiles/ice/repair.mp3\",
 	\"damage sound\": \"res://audios/tiles/ice/damage.mp3\",
 	\"destruction sound\": \"res://audios/tiles/ice/destruction.mp3\",
 }
 
-export var details = {
+@export var details = {
 	\"loot\": \"details\",
 	\"installation sound\": \"res://audios/tiles/stone/installation.mp3\",
 	\"repair sound\": \"res://audios/tiles/stone/repair.mp3\",
 	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
 }
 
-export var door_up = {
+@export var door_up = {
 	\"installation sound\": \"res://audios/tiles/door/installation.mp3\",
 }
 
-export var craft = {
+@export var craft = {
 	\"loot\": \"craft\",
 	\"installation sound\": \"res://audios/tiles/chest/installation.mp3\",
 	\"use sound\": \"res://audios/tiles/craft/use.mp3\",
@@ -539,7 +539,7 @@ export var craft = {
 	\"destruction sound\": \"res://audios/tiles/chest/destruction.mp3\",
 }
 
-export var glass = {
+@export var glass = {
 	\"loot\": \"glass\",
 	\"installation sound\": \"res://audios/tiles/glass/installation.mp3\",
 	\"repair sound\": \"res://audios/tiles/glass/repair.mp3\",
@@ -547,7 +547,7 @@ export var glass = {
 	\"destruction sound\": \"res://audios/tiles/glass/destruction.mp3\",
 }
 
-export var ground = {
+@export var ground = {
 	\"loot\": \"ground\",
 	\"installation sound\": \"res://audios/tiles/ground/installation.mp3\",
 	\"repair sound\": \"res://audios/tiles/ground/repair.mp3\",
@@ -555,14 +555,14 @@ export var ground = {
 	\"destruction sound\": \"res://audios/tiles/ground/destruction.mp3\",
 }
 
-export var iron = {
+@export var iron = {
 	\"loot\": \"iron\",
 	\"installation sound\": \"res://audios/tiles/stone/installation.mp3\",
 	\"repair sound\": \"res://audios/tiles/stone/repair.mp3\",
 	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
 }
 
-export var moss = {
+@export var moss = {
 	\"loot\": \"moss\",
 	\"installation sound\": \"res://audios/tiles/moss/installation.mp3\",
 	\"repair sound\": \"res://audios/tiles/moss/repair.mp3\",
@@ -570,28 +570,28 @@ export var moss = {
 	\"destruction sound\": \"res://audios/tiles/moss/destruction.mp3\",
 }
 
-export var stone = {
+@export var stone = {
 	\"loot\": \"stone\",
 	\"installation sound\": \"res://audios/tiles/stone/installation.mp3\",
 	\"repair sound\": \"res://audios/tiles/stone/repair.mp3\",
 	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
 }
 
-export var andesite = {
+@export var andesite = {
 	\"loot\": \"andesite\",
 	\"installation sound\": \"res://audios/tiles/stone/installation.mp3\",
 	\"repair sound\": \"res://audios/tiles/stone/repair.mp3\",
 	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
 }
 
-export var wall = {
+@export var wall = {
 	\"loot\": \"wall\",
 	\"installation sound\": \"res://audios/tiles/stone/installation.mp3\",
 	\"repair sound\": \"res://audios/tiles/stone/repair.mp3\",
 	\"damage sound\": \"res://audios/tiles/stone/damage.mp3\",
 }
 
-export var water = {
+@export var water = {
 	\"loot\": \"water\",
 	\"destruction sound\": \"res://audios/tiles/glass/destruction.mp3\",
 }
@@ -601,7 +601,7 @@ export var water = {
 script/source = "extends AudioStreamPlayer
 
 func _ready():
-	connect(\"finished\", self, \"finish\")
+	connect(\"finished\", Callable(self, \"finish\"))
 
 func finish():
 	queue_free()

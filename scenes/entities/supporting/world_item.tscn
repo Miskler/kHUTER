@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://resources/fonts/standart/standart.otf" type="FontFile" id=1]
 [ext_resource path="res://scenes/interface/interface_elements/slot_item.tscn" type="PackedScene" id=2]
 
 [sub_resource type="GDScript" id=1]
@@ -15,13 +15,13 @@ func _ready():
 		$SlotInWorld.significant_data = significant_data
 		$SlotInWorld._ready()
 	
-	$Timer.connect(\"timeout\", self, \"del\")
-	$AnimationPlayer.connect(\"animation_finished\", self, \"del\")
+	$Timer.connect(\"timeout\", Callable(self, \"del\"))
+	$AnimationPlayer.connect(\"animation_finished\", Callable(self, \"del\"))
 	
-	$VisibilityEnabler2D.connect(\"screen_entered\", self, \"off\")
-	$VisibilityEnabler2D.connect(\"screen_exited\", self, \"on\")
+	$VisibleOnScreenEnabler2D.connect(\"screen_entered\", Callable(self, \"off\"))
+	$VisibleOnScreenEnabler2D.connect(\"screen_exited\", Callable(self, \"on\"))
 	
-	if $VisibilityEnabler2D.is_on_screen(): sleep_off()
+	if $VisibleOnScreenEnabler2D.is_on_screen(): sleep_off()
 	else: sleep_on()
 	
 	var SD = get_node_or_null(\"/root/rootGame/Node/SettingData\")
@@ -31,7 +31,7 @@ func _ready():
 		$Timer.wait_time = float(SD.map_settings[\"time_to_destruction\"])
 		$Timer.start()
 	if get_node_or_null(\"/root/rootGame/Node/TileMap\") != null:
-		get_node(\"/root/rootGame/Node/TileMap\").connect(\"map_event\", self, \"to_on\")
+		get_node(\"/root/rootGame/Node/TileMap\").connect(\"map_event\", Callable(self, \"to_on\"))
 
 func use(user, _id):
 	if permission_use == true:
@@ -46,18 +46,18 @@ func use(user, _id):
 		if get_tree().network_peer != null:
 			rpc(\"used\", $Label.text)
 
-export var range_to_on:int = 2
+@export var range_to_on:int = 2
 func to_on(x, y):
 	var TM = get_node_or_null(\"/root/rootGame/Node/TileMap\")
 	if TM != null:
 		var local_position = TM.to_local(global_position)
-		var map_position = TM.world_to_map(local_position)
+		var map_position = TM.local_to_map(local_position)
 		var difference = Vector2(x - map_position.x, y - map_position.y)
 		if range_to_on >= difference.x and (range_to_on*-1) <= difference.x:
 			if range_to_on >= difference.y and (range_to_on*-1) <= difference.y:
 				self.sleeping = false
 
-remote func used(nam:String):
+@rpc("any_peer") func used(nam:String):
 	if permission_use == true:
 		$Label.text = nam
 		permission_use = false
@@ -76,7 +76,7 @@ func sleep_on():
 [sub_resource type="CircleShape2D" id=2]
 radius = 17.0
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="FontFile" id=3]
 font_data = ExtResource( 1 )
 
 [sub_resource type="Animation" id=4]
@@ -89,8 +89,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.5, 1, 1.5 ),
+"transitions": PackedFloat32Array( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 1.0, 1.0, 0.0 ]
 }
@@ -104,10 +104,10 @@ script = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="SlotInWorld" parent="." instance=ExtResource( 2 )]
-margin_left = -15.0
-margin_top = -16.0
-margin_right = 15.0
-margin_bottom = 14.0
+offset_left = -15.0
+offset_top = -16.0
+offset_right = 15.0
+offset_bottom = 14.0
 settings_slot = {
 "hide_background": true,
 "hide_health": false,
@@ -125,11 +125,11 @@ settings_slot = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = 16.0
-margin_top = -53.0
-margin_right = 56.0
-margin_bottom = -39.0
-custom_fonts/font = SubResource( 3 )
+offset_left = 16.0
+offset_top = -53.0
+offset_right = 56.0
+offset_bottom = -39.0
+theme_override_fonts/font = SubResource( 3 )
 text = "Неизветсный предмет +1"
 percent_visible = 0.0
 __meta__ = {
@@ -142,7 +142,7 @@ anims/del = SubResource( 4 )
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
-[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 scale = Vector2( 10, 10 )
 
 [node name="Event" type="Timer" parent="."]

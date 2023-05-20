@@ -68,9 +68,9 @@ func _ready():
 			if Engine.has_singleton("AFirebase"): 
 				firebase = Engine.get_singleton("AFirebase")
 				firebase.getInstance();
-				firebase.connect("getInstanceSignal", self, "on_getInstanceSignal")
-				firebase.connect("getAppInstanceIdSignal", self, "on_getAppInstanceIdSignal")
-				firebase.connect("getSessionIdSignal", self, "on_getSessionIdSignal")
+				firebase.connect("getInstanceSignal", Callable(self, "on_getInstanceSignal"))
+				firebase.connect("getAppInstanceIdSignal", Callable(self, "on_getAppInstanceIdSignal"))
+				firebase.connect("getSessionIdSignal", Callable(self, "on_getSessionIdSignal"))
 				print("AFirebase good")
 			else:
 				print("AFirebase !has")

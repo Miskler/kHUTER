@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/guider3.mp3-5b69a2d695ebcdcf318ee71954689e49.mp3str"
+uid="uid://b70l77ryujmp6"
+path="res://.godot/imported/guider3.mp3-5b69a2d695ebcdcf318ee71954689e49.mp3str"
 
 [deps]
 
 source_file="res://audios/guider/two/guider3.mp3"
-dest_files=[ "res://.import/guider3.mp3-5b69a2d695ebcdcf318ee71954689e49.mp3str" ]
+dest_files=["res://.godot/imported/guider3.mp3-5b69a2d695ebcdcf318ee71954689e49.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

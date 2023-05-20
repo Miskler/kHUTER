@@ -1,11 +1,11 @@
 [gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://textures/ui/android/pixel_circle.png" type="Texture" id=1]
-[ext_resource path="res://textures/ui/android/plus.png" type="Texture" id=2]
-[ext_resource path="res://textures/ui/android/minus.png" type="Texture" id=3]
-[ext_resource path="res://textures/ui/android/сhat_icon.png" type="Texture" id=4]
-[ext_resource path="res://textures/ui/android/gear_button.png" type="Texture" id=5]
-[ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://textures/ui/android/pixel_circle.png" type="Texture2D" id=1]
+[ext_resource path="res://textures/ui/android/plus.png" type="Texture2D" id=2]
+[ext_resource path="res://textures/ui/android/minus.png" type="Texture2D" id=3]
+[ext_resource path="res://textures/ui/android/сhat_icon.png" type="Texture2D" id=4]
+[ext_resource path="res://textures/ui/android/gear_button.png" type="Texture2D" id=5]
+[ext_resource path="res://resources/fonts/standart/standart.otf" type="FontFile" id=6]
 [ext_resource path="res://resources/themes/main.theme" type="Theme" id=7]
 
 [sub_resource type="StyleBoxFlat" id=154]
@@ -77,7 +77,7 @@ Button/styles/pressed = SubResource( 157 )
 [sub_resource type="GDScript" id=6]
 script/source = "extends Control
 
-remote func chat_event(line, nam = null):
+@rpc("any_peer") func chat_event(line, nam = null):
 	if nam == null: line = nam + \": \" + line
 	$ItemList.add_item(line)
 
@@ -110,7 +110,7 @@ func minus():
 		get_node(\"../..\").zoom += Vector2(0.3, 0.3)
 "
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="FontFile" id=5]
 font_data = ExtResource( 6 )
 
 [sub_resource type="GDScript" id=160]
@@ -128,17 +128,17 @@ func down():
 	press = true
 func up():
 	press = false
-	$Rot/Rect.rect_position.x = -$Rot/Rect.rect_pivot_offset.x
+	$Rot/Rect.position.x = -$Rot/Rect.pivot_offset.x
 	vec = Vector2.ZERO
 
 
 func _input(event):
-	yield(get_tree(), \"idle_frame\")
+	await get_tree().idle_frame
 	if press and (event is InputEventScreenDrag or event is InputEventScreenTouch):
-		var f = clamp(abs($Rot.global_position.distance_to(event.position)), 0, 1000) - $Rot/Rect.rect_pivot_offset.x
+		var f = clamp(abs($Rot.global_position.distance_to(event.position)), 0, 1000) - $Rot/Rect.pivot_offset.x
 		
 		if f < 300:
-			$Rot/Rect.rect_position.x = clamp(abs($Rot.global_position.distance_to(event.position)), 0, 70) - $Rot/Rect.rect_pivot_offset.x
+			$Rot/Rect.position.x = clamp(abs($Rot.global_position.distance_to(event.position)), 0, 70) - $Rot/Rect.pivot_offset.x
 			
 			$Rot.look_at(event.position)
 			$Rot/Rect.set_rotation(0 - $Rot.rotation)
@@ -150,12 +150,12 @@ func _input(event):
 "
 
 [sub_resource type="RectangleShape2D" id=159]
-extents = Vector2( 140, 140 )
+size = Vector2( 140, 140 )
 
 [sub_resource type="GDScript" id=3]
 script/source = "extends Control
 
-onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
+@onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
 
 func _input(_event):
 	if Input.is_action_just_pressed(\"esc\") and $\".\".visible == true:
@@ -181,15 +181,15 @@ func revive_player():
 	get_node(\"/root/rootGame\").rpc(\"revive_player\", G.my_id())
 "
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="FontFile" id=1]
 size = 30
 font_data = ExtResource( 6 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="FontFile" id=2]
 size = 30
 font_data = ExtResource( 6 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="FontFile" id=4]
 size = 71
 font_data = ExtResource( 6 )
 
@@ -204,60 +204,60 @@ script = SubResource( 6 )
 [node name="ItemList" type="ItemList" parent="main"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -171.0
-margin_right = 278.0
-custom_fonts/font = SubResource( 5 )
+offset_top = -171.0
+offset_right = 278.0
+theme_override_fonts/font = SubResource( 5 )
 
 [node name="Chat" type="Button" parent="main"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = -258.0
-margin_right = 90.0
-margin_bottom = -178.0
+offset_left = 10.0
+offset_top = -258.0
+offset_right = 90.0
+offset_bottom = -178.0
 focus_mode = 0
 toggle_mode = true
 pressed = true
-enabled_focus_mode = 0
+focus_mode = 0
 icon = ExtResource( 4 )
 expand_icon = true
 
 [node name="Close" type="Button" parent="main"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -100.0
-margin_top = 10.0
-margin_right = -10.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 90, 0 )
+offset_left = -100.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 100.0
+custom_minimum_size = Vector2( 90, 0 )
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 icon = ExtResource( 5 )
-icon_align = 1
+icon_alignment = 1
 expand_icon = true
 
 [node name="Plus" type="Button" parent="main"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 100.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 90, 0 )
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 100.0
+offset_bottom = 100.0
+custom_minimum_size = Vector2( 90, 0 )
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 icon = ExtResource( 2 )
-icon_align = 1
+icon_alignment = 1
 expand_icon = true
 
 [node name="Minus" type="Button" parent="main"]
-margin_left = 10.0
-margin_top = 110.0
-margin_right = 100.0
-margin_bottom = 200.0
-rect_min_size = Vector2( 90, 0 )
+offset_left = 10.0
+offset_top = 110.0
+offset_right = 100.0
+offset_bottom = 200.0
+custom_minimum_size = Vector2( 90, 0 )
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 icon = ExtResource( 3 )
-icon_align = 1
+icon_alignment = 1
 expand_icon = true
 
 [node name="Shoot" type="TextureRect" parent="main"]
@@ -266,10 +266,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -224.0
-margin_top = -187.0
-margin_right = -54.0
-margin_bottom = -20.0
+offset_left = -224.0
+offset_top = -187.0
+offset_right = -54.0
+offset_bottom = -20.0
 texture = ExtResource( 1 )
 expand = true
 script = SubResource( 160 )
@@ -283,11 +283,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = 20.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 20, 20 )
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+pivot_offset = Vector2( 20, 20 )
 texture = ExtResource( 1 )
 expand = true
 
@@ -320,10 +320,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -115.0
-margin_top = -129.0
-margin_right = 116.0
-margin_bottom = 87.0
+offset_left = -115.0
+offset_top = -129.0
+offset_right = 116.0
+offset_bottom = 87.0
 
 [node name="ColorRect" type="ColorRect" parent="menu/Control"]
 anchor_right = 1.0
@@ -334,56 +334,56 @@ __meta__ = {
 }
 
 [node name="ScrollContainer" type="ScrollContainer" parent="menu/Control"]
-margin_left = 4.0
-margin_top = 87.0
-margin_right = 229.0
-margin_bottom = 255.0
-rect_min_size = Vector2( 225, 114 )
+offset_left = 4.0
+offset_top = 87.0
+offset_right = 229.0
+offset_bottom = 255.0
+custom_minimum_size = Vector2( 225, 114 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="menu/Control/ScrollContainer"]
-margin_right = 225.0
-margin_bottom = 122.0
-rect_min_size = Vector2( 225, 114 )
+offset_right = 225.0
+offset_bottom = 122.0
+custom_minimum_size = Vector2( 225, 114 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Button3" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
-margin_right = 225.0
-margin_bottom = 38.0
+offset_right = 225.0
+offset_bottom = 38.0
 focus_mode = 0
-custom_fonts/font = SubResource( 1 )
-enabled_focus_mode = 0
+theme_override_fonts/font = SubResource( 1 )
+focus_mode = 0
 text = "Продолжить"
 
 [node name="Button" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
-margin_top = 42.0
-margin_right = 225.0
-margin_bottom = 80.0
+offset_top = 42.0
+offset_right = 225.0
+offset_bottom = 80.0
 focus_mode = 0
-custom_fonts/font = SubResource( 1 )
-enabled_focus_mode = 0
+theme_override_fonts/font = SubResource( 1 )
+focus_mode = 0
 text = "Возродиться"
 
 [node name="Button2" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
-margin_top = 84.0
-margin_right = 225.0
-margin_bottom = 122.0
+offset_top = 84.0
+offset_right = 225.0
+offset_bottom = 122.0
 focus_mode = 0
-custom_fonts/font = SubResource( 2 )
-enabled_focus_mode = 0
+theme_override_fonts/font = SubResource( 2 )
+focus_mode = 0
 text = "В меню"
 
 [node name="Label" type="Label" parent="menu/Control"]
 anchor_right = 1.0
-margin_right = 99.0
-margin_bottom = 124.0
-rect_scale = Vector2( 0.7, 0.7 )
-custom_fonts/font = SubResource( 4 )
+offset_right = 99.0
+offset_bottom = 124.0
+scale = Vector2( 0.7, 0.7 )
+theme_override_fonts/font = SubResource( 4 )
 text = "Меню"
 align = 1
 valign = 1

@@ -5,12 +5,14 @@ signal load_friends_failure
 
 func _ready() -> void:
 	if android_plugin:
-		android_plugin.connect("loadFriendsSuccess", self, "on_load_friend_success")
-		android_plugin.connect("loadFriendsFailure", self, "on_load_friend_failure")
+		android_plugin.connect("loadFriendsSuccess", Callable(self, "on_load_friend_success"))
+		android_plugin.connect("loadFriendsFailure", Callable(self, "on_load_friend_failure"))
 
 func on_load_friend_success(friends: String) -> void:
 	print(friends)
-	emit_signal("load_friends_success", JSON.parse(friends).result as Array)
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(friends).result as Array)
+	emit_signal("load_friends_success", test_json_conv.get_data()
 
 func on_load_friend_failure() -> void:
 	emit_signal("load_friends_failure")

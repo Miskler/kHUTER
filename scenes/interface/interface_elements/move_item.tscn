@@ -1,19 +1,19 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://textures/ui/available_item.png" type="Texture" id=1]
+[ext_resource path="res://textures/ui/available_item.png" type="Texture2D" id=1]
 [ext_resource path="res://scenes/interface/interface_elements/slot_item.tscn" type="PackedScene" id=2]
-[ext_resource path="res://textures/ui/bubble.png" type="Texture" id=3]
+[ext_resource path="res://textures/ui/bubble.png" type="Texture2D" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
-onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
+@onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
 
-export var significant_data = {}
-export var insignificant_data = {}
+@export var significant_data = {}
+@export var insignificant_data = {}
 
 func _ready():
-	$\"../main\".connect(\"frame_close\", self, \"reset\")
+	$\"../main\".connect(\"frame_close\", Callable(self, \"reset\"))
 
 func _process(_delta):
 	self.set_global_position(get_global_mouse_position())
@@ -22,7 +22,7 @@ func _process(_delta):
 		var tile_map = get_node(\"/root/rootGame/Node/TileMap\")
 		var names = []
 		var local_position = tile_map.to_local(get_node(\"../../../global_mouse_position\").global_position)
-		var map_position = tile_map.world_to_map(local_position)
+		var map_position = tile_map.local_to_map(local_position)
 		for i in tile_map.tile_set.get_tiles_ids():
 			names.append(tile_map.tile_set.tile_get_name(i))
 		
@@ -44,21 +44,21 @@ func _input(event):
 		if !$\"../main\".visible or not event is InputEventScreenTouch or event.get(\"pressed\") == true: 
 			return
 	
-	yield(get_tree(), \"idle_frame\")
+	await get_tree().idle_frame
 	if !not_use_ui:
 		not_use_ui = true
 		return
 	
 	if ((G.game_settings[\"mobile\"]) or (Input.is_action_just_pressed(\"LBM\") and not G.game_settings[\"mobile\"])) and get_node(\"../main\").visible == true and $HandSlot.significant_data.hash() != $HandSlot.default_significant_data.hash() and significant_data.hash() != {}.hash() and significant_data.get(\"item\") != null and SD.get_node(\"ItemData\").get(str(significant_data.get(\"item\"))) != null:
-		yield(get_tree(), \"idle_frame\")
-		yield(get_tree(), \"idle_frame\")
-		yield(get_tree(), \"idle_frame\")
+		await get_tree().idle_frame
+		await get_tree().idle_frame
+		await get_tree().idle_frame
 		if $HandSlot.significant_data.hash() == $HandSlot.default_significant_data.hash() or not get_node(\"../main\").visible: return
 		
 		var tile_map = get_node(\"/root/rootGame/Node/TileMap\")
 		var names = []
 		var local_position = tile_map.to_local(get_node(\"../../../global_mouse_position\").global_position)
-		var map_position = tile_map.world_to_map(local_position)
+		var map_position = tile_map.local_to_map(local_position)
 		for i in tile_map.tile_set.get_tiles_ids():
 			names.append(tile_map.tile_set.tile_get_name(i))
 		
@@ -87,7 +87,7 @@ func _input(event):
 	elif Input.is_action_just_pressed(\"RBM\") and get_node(\"../main\").visible == true and significant_data.hash() != $HandSlot.default_significant_data.hash() and significant_data.hash() != {}.hash():
 		var tile_map = get_node(\"/root/rootGame/Node/TileMap\")
 		var local_position = tile_map.to_local(get_node(\"../../../global_mouse_position\").global_position)
-		var map_position = tile_map.world_to_map(local_position)
+		var map_position = tile_map.local_to_map(local_position)
 		if not tile_map.tiles.has(int(map_position.x)) or not tile_map.tiles[int(map_position.x)].has(int(map_position.y)):
 			var f_name = G.name_generate(\"SlotInWorld\", \"/root/rootGame/Node\")
 			
@@ -109,8 +109,8 @@ func data_updated():
 	$HandSlot.installation_item()
 	$HandSlot.item_connecting()
 
-remote func put_item(significant_, insignificant_, pos, nam):
-	var random_bloc = load(\"res://scenes/entities/supporting/world_item.tscn\").instance()
+@rpc("any_peer") func put_item(significant_, insignificant_, pos, nam):
+	var random_bloc = load(\"res://scenes/entities/supporting/world_item.tscn\").instantiate()
 	
 	random_bloc.get_node(\"SlotInWorld\").significant_data = significant_
 	random_bloc.get_node(\"SlotInWorld\").insignificant_data = insignificant_
@@ -125,10 +125,10 @@ remote func put_item(significant_, insignificant_, pos, nam):
 script = SubResource( 1 )
 
 [node name="HandSlot" parent="." instance=ExtResource( 2 )]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 65.0
-margin_bottom = 65.0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 65.0
+offset_bottom = 65.0
 settings_slot = {
 "hide_background": true,
 "hide_health": false,
@@ -147,18 +147,18 @@ settings_slot = {
 
 [node name="TextureRect" type="TextureRect" parent="."]
 visible = false
-margin_left = -21.0
-margin_top = -41.53
-margin_right = 19.0
-margin_bottom = -1.53
+offset_left = -21.0
+offset_top = -41.53
+offset_right = 19.0
+offset_bottom = -1.53
 texture = ExtResource( 3 )
 expand = true
 
 [node name="Available Item" type="TextureRect" parent="."]
 visible = false
-margin_left = -21.0
-margin_top = -41.53
-margin_right = 19.0
-margin_bottom = -1.53
+offset_left = -21.0
+offset_top = -41.53
+offset_right = 19.0
+offset_bottom = -1.53
 texture = ExtResource( 1 )
 expand = true

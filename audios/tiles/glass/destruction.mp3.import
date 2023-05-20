@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/destruction.mp3-f2648e8fd7c63fe0e9f182cbc2b17d9a.mp3str"
+uid="uid://ej20cqbxjjdk"
+path="res://.godot/imported/destruction.mp3-f2648e8fd7c63fe0e9f182cbc2b17d9a.mp3str"
 
 [deps]
 
 source_file="res://audios/tiles/glass/destruction.mp3"
-dest_files=[ "res://.import/destruction.mp3-f2648e8fd7c63fe0e9f182cbc2b17d9a.mp3str" ]
+dest_files=["res://.godot/imported/destruction.mp3-f2648e8fd7c63fe0e9f182cbc2b17d9a.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

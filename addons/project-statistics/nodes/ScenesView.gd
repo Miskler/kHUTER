@@ -1,4 +1,4 @@
-tool
+@tool
 extends "./TreeView.gd"
 
 enum {
@@ -28,8 +28,8 @@ func _ready() -> void:
 	tree.set_column_titles_visible(true)
 	tree.hide_root = true
 	
-	tree.connect("item_activated", self, "_on_item_activated")
-	tree.connect("column_title_pressed", self, "_on_column_title_pressed")
+	tree.connect("item_activated", Callable(self, "_on_item_activated"))
+	tree.connect("column_title_pressed", Callable(self, "_on_column_title_pressed"))
 	
 	var root: TreeItem = summary_tree.create_item()
 	total_scenes = summary_tree.create_item(root)
@@ -44,7 +44,7 @@ func _ready() -> void:
 	summary_tree.hide_root = true
 
 func display(stats: ProjectStatistics) -> void:
-	.display(stats)
+	super.display(stats)
 	
 	total_scenes.set_text(1, str(stats.scenes.size()))
 	total_nodes.set_text(1, str(stats.get_total_nodes()))
@@ -86,14 +86,14 @@ func update_icons() -> void:
 func _sort_by_column(column: int) -> void:
 	match column:
 		NAME_COLUMN:
-			stats.scenes.sort_custom(self, "sort_name")
+			stats.scenes.sort_custom(Callable(self, "sort_name"))
 		BASE_NODE_TYPE_COLUMN:
-			stats.scenes.sort_custom(self, "sort_node_type")
+			stats.scenes.sort_custom(Callable(self, "sort_node_type"))
 		NODE_COUNT_COLUMN:
-			stats.scenes.sort_custom(self, "sort_node_count")
+			stats.scenes.sort_custom(Callable(self, "sort_node_count"))
 		NODE_CONNECTIONS_COLUMN:
-			stats.scenes.sort_custom(self, "sort_connection_count")
+			stats.scenes.sort_custom(Callable(self, "sort_connection_count"))
 		LOCAL_TO_SCENE_COLUMN:
-			stats.scenes.sort_custom(self, "sort_local_to_scene")
+			stats.scenes.sort_custom(Callable(self, "sort_local_to_scene"))
 		SIZE_COLUMN:
-			stats.scenes.sort_custom(self, "sort_size")
+			stats.scenes.sort_custom(Callable(self, "sort_size"))

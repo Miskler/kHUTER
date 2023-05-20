@@ -5,7 +5,7 @@ script/source = "extends Node
 
 var cur = 0
 
-onready var manager_signals = get_node_or_null(\"/root/rootGame/Node/SignalCenter\")
+@onready var manager_signals = get_node_or_null(\"/root/rootGame/Node/SignalCenter\")
 
 func _ready():
 	if get_tree().network_peer != null:
@@ -26,16 +26,16 @@ func _process(_delta):
 		if get_tree().network_peer != null:
 			rpc(\"charhe\", cur)
 
-remote func new_charge(id):
+@rpc("any_peer") func new_charge(id):
 	if cur in [null, 0]:
 		cur = id
 		manager_signals.signal_event(\"npc_entered\", get_parent())
 		if get_tree().network_peer != null:
 			rpc(\"charhe\", cur)
 
-remote func whos_in_charge(id:int = 1):
+@rpc("any_peer") func whos_in_charge(id:int = 1):
 	rpc_id(id, \"charhe\", cur)
-remote func charhe(curr): cur = curr
+@rpc("any_peer") func charhe(curr): cur = curr
 "
 
 [node name="Sing" type="Node"]

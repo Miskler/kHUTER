@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/guider1.wav-0d01091fd75cf322741ecd772dc09923.sample"
+type="AudioStreamWAV"
+uid="uid://cu1607s24cuo4"
+path="res://.godot/imported/guider1.wav-0d01091fd75cf322741ecd772dc09923.sample"
 
 [deps]
 
 source_file="res://audios/guider/two/guider1.wav"
-dest_files=[ "res://.import/guider1.wav-0d01091fd75cf322741ecd772dc09923.sample" ]
+dest_files=["res://.godot/imported/guider1.wav-0d01091fd75cf322741ecd772dc09923.sample"]
 
 [params]
 

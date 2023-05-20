@@ -4,8 +4,8 @@
 [ext_resource path="res://addons/project-statistics/nodes/charts/PieGraph.gd" type="Script" id=2]
 
 [node name="PieGraph" type="HSplitContainer"]
-margin_right = 502.0
-margin_bottom = 245.0
+offset_right = 502.0
+offset_bottom = 245.0
 size_flags_vertical = 3
 script = ExtResource( 2 )
 __meta__ = {
@@ -13,19 +13,19 @@ __meta__ = {
 }
 
 [node name="PieChart" type="Control" parent="."]
-margin_right = 245.0
-margin_bottom = 245.0
-rect_min_size = Vector2( 220.5, 220.5 )
-rect_clip_content = true
+offset_right = 245.0
+offset_bottom = 245.0
+custom_minimum_size = Vector2( 220.5, 220.5 )
+clip_contents = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 1 )
 radius = 110.25
 
 [node name="KeyTree" type="Tree" parent="."]
-margin_left = 257.0
-margin_right = 502.0
-margin_bottom = 245.0
+offset_left = 257.0
+offset_right = 502.0
+offset_bottom = 245.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 2

@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/bleb3.mp3-5ea753cf6518aeb0f3cf6394713f74f3.mp3str"
+uid="uid://gaox74qcn2p1"
+path="res://.godot/imported/bleb3.mp3-5ea753cf6518aeb0f3cf6394713f74f3.mp3str"
 
 [deps]
 
 source_file="res://audios/guider/events/bleb3.mp3"
-dest_files=[ "res://.import/bleb3.mp3-5ea753cf6518aeb0f3cf6394713f74f3.mp3str" ]
+dest_files=["res://.godot/imported/bleb3.mp3-5ea753cf6518aeb0f3cf6394713f74f3.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

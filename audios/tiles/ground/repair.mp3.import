@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/repair.mp3-babb5ddac6c177b157a0332340f6f19e.mp3str"
+uid="uid://qxrsekwo428r"
+path="res://.godot/imported/repair.mp3-babb5ddac6c177b157a0332340f6f19e.mp3str"
 
 [deps]
 
 source_file="res://audios/tiles/ground/repair.mp3"
-dest_files=[ "res://.import/repair.mp3-babb5ddac6c177b157a0332340f6f19e.mp3str" ]
+dest_files=["res://.godot/imported/repair.mp3-babb5ddac6c177b157a0332340f6f19e.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

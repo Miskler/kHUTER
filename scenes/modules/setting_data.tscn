@@ -5,7 +5,7 @@
 [sub_resource type="GDScript" id=3]
 script/source = "extends Node
 
-export var new_sample_item = {
+@export var new_sample_item = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -40,7 +40,7 @@ export var new_sample_item = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var plate = {
+@export var plate = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -74,7 +74,7 @@ export var plate = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var sint = {
+@export var sint = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -108,7 +108,7 @@ export var sint = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var craft = {
+@export var craft = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -142,7 +142,7 @@ export var craft = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var glass = {
+@export var glass = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -176,7 +176,7 @@ export var glass = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var explosive_crystal = {
+@export var explosive_crystal = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -210,7 +210,7 @@ export var explosive_crystal = {
 		\"bullets_needed\": [], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var arm = {
+@export var arm = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -245,7 +245,7 @@ export var arm = {
 		\"bullets_needed\": [], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var breaker = {
+@export var breaker = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -280,7 +280,7 @@ export var breaker = {
 		\"bullets_needed\": [], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var diskette = {
+@export var diskette = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -314,7 +314,7 @@ export var diskette = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var details = {
+@export var details = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -348,7 +348,7 @@ export var details = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var stone = {
+@export var stone = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -382,7 +382,7 @@ export var stone = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var andesite = {
+@export var andesite = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -416,7 +416,7 @@ export var andesite = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var chest = {
+@export var chest = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -450,7 +450,7 @@ export var chest = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var reinforced_chest = {
+@export var reinforced_chest = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -484,7 +484,7 @@ export var reinforced_chest = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var wall = {
+@export var wall = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -518,7 +518,7 @@ export var wall = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var ground = {
+@export var ground = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -552,7 +552,7 @@ export var ground = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var bread = {
+@export var bread = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -586,7 +586,7 @@ export var bread = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var ice = {
+@export var ice = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -620,7 +620,7 @@ export var ice = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var moss = {
+@export var moss = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -654,7 +654,7 @@ export var moss = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var water = {
+@export var water = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -688,7 +688,7 @@ export var water = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var flask = {
+@export var flask = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -722,7 +722,7 @@ export var flask = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var iron = {
+@export var iron = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -756,7 +756,7 @@ export var iron = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var copper = {
+@export var copper = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -790,7 +790,7 @@ export var copper = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var remotedrill = {
+@export var remotedrill = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -824,7 +824,7 @@ export var remotedrill = {
 		\"bullets_needed\": [\"standart_bullet\", \"power_flask\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var standart_bullet = {
+@export var standart_bullet = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -853,14 +853,14 @@ export var standart_bullet = {
 		\"type\": \"thing\", #thing/weapon/sword/protection - предмет/пушка/меч/защита
 		\"number\": 20, #Оно будет использовано как уровень защиты
 		#Если пуст будет использована обычная анимация
-		\"special_animation\": \"res://Texture/Other/Items/flying_bullet.png\", #Будет использоваться при активации (текстура пули, оружие в руках)
+		\"special_animation\": \"res://Texture2D/Other/Items/flying_bullet.png\", #Будет использоваться при активации (текстура пули, оружие в руках)
 		\"permission_to_install\": \"\", #Если не пуст и блок найден, можно установить связанный с предметом блок на карту
 		
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
 
-export var power_flask = {
+@export var power_flask = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]
@@ -894,7 +894,7 @@ export var power_flask = {
 		\"bullets_needed\": [\"standart_bullet\"], #Требуемая пуля (если пуст, стреляет чем попало)
 }
 
-export var firefly_power_flask = {
+@export var firefly_power_flask = {
 	#Рецепт
 	#Пример
 	#[[{\"del_item\": false}, {\"item\": \"govno\", \"name_in_game\": \"говно\", \"health\": {\"current\": 1, \"maximum\": 100}, {\"uni_qunityti\": 1}]]

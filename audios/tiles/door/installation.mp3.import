@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/installation.mp3-cf6ec9a11877587931699ebc03325d5d.mp3str"
+uid="uid://tqyhrgctr3gl"
+path="res://.godot/imported/installation.mp3-cf6ec9a11877587931699ebc03325d5d.mp3str"
 
 [deps]
 
 source_file="res://audios/tiles/door/installation.mp3"
-dest_files=[ "res://.import/installation.mp3-cf6ec9a11877587931699ebc03325d5d.mp3str" ]
+dest_files=["res://.godot/imported/installation.mp3-cf6ec9a11877587931699ebc03325d5d.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

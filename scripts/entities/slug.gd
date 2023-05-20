@@ -1,6 +1,6 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-onready var SD = get_node("/root/rootGame/Node/SettingData")
+@onready var SD = get_node("/root/rootGame/Node/SettingData")
 
 var vec = Vector2()
 var speed = Vector3(40, 560, 90)
@@ -55,20 +55,23 @@ func _process(_delta):
 		$Crawling.stream_paused = !is_on_floor() or int(vec.x) == 0 or stop
 		
 		
-		vec = move_and_slide(vec, Vector2(0, -1))
+		set_velocity(vec)
+		set_up_direction(Vector2(0, -1))
+		move_and_slide()
+		vec = velocity
 		if get_tree().network_peer != null:
 			get_node("/root/rootGame").rpc_unreliable("event_state", [$Anim.flip_h, global_position])
 
-remote func event_state(dat):
+@rpc("any_peer") func event_state(dat):
 	global_position = dat[1]
 	$Anim.flip_h = dat[0]
 
-remote func damage(_setting_bullet):
+@rpc("any_peer") func damage(_setting_bullet):
 	if dead_mode == false:
 		dead_mode = true
 		$Sing.manager_signals.signal_event("damage", self)
 		$BeforeExplosion.play()
-		$Timer.connect("timeout", self, "bum")
+		$Timer.connect("timeout", Callable(self, "bum"))
 		$Timer.start()
 
 func bum():
@@ -76,30 +79,30 @@ func bum():
 	$BeforeExplosion.stop()
 	$Explosion.play()
 	$TextureRect.hide()
-	$AnimatedSprite.show()
+	$AnimatedSprite2D.show()
 	
-	$AnimatedSprite.play("bum")
+	$AnimatedSprite2D.play("bum")
 	
 	$Node2D.rotation = 0
 	
 	for i in range(18):
-		get_node("/root/rootGame").create_bullet([{"item": "mob"}, {}], [{"item": "mob"}, {}], $Node2D/Position2D.global_position, $Node2D.rotation, "res://Texture/Other/Items/blebreskinproj.png", 90, 0, 1000, false)
+		get_node("/root/rootGame").create_bullet([{"item": "mob"}, {}], [{"item": "mob"}, {}], $Node2D/Marker2D.global_position, $Node2D.rotation, "res://Texture2D/Other/Items/blebreskinproj.png", 90, 0, 1000, false)
 		$Node2D.rotation_degrees += 20
 	
-	var name_ = "SlotInWorld_" + str(rand_range(0, 20))
-	var count = int(rand_range(0, 5))
-	if get_tree().network_peer == null or get_tree().is_network_server():
+	var name_ = "SlotInWorld_" + str(randf_range(0, 20))
+	var count = int(randf_range(0, 5))
+	if get_tree().network_peer == null or get_tree().is_server():
 		spavn_lyt(count, name_)
 		if get_tree().network_peer != null:
 			rpc("spavn_lyt", count, name_)
 	
-	$Explosion.connect("finished", self, "del")
-	yield($Anim, "animation_finished")
+	$Explosion.connect("finished", Callable(self, "del"))
+	await $Anim.animation_finished
 	$Anim.hide()
 
-remote func spavn_lyt(count, name_):
+@rpc("any_peer") func spavn_lyt(count, name_):
 	if count > 0:
-		var random_item = load("res://scenes/entities/supporting/world_item.tscn").instance()
+		var random_item = load("res://scenes/entities/supporting/world_item.tscn").instantiate()
 		
 		random_item.name = name_
 		

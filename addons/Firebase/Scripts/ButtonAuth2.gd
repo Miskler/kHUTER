@@ -1,35 +1,35 @@
-tool
+@tool
 extends Button
 #class_name ButtonAuth, "res://addons/Firebase/Resources/sign-in4.png"
 #class_name ButtonAuth, "res://addons/Firebase/Resources/Firebase.png"
 
-export(Texture) var texture = load("res://addons/Firebase/Resources/Google.png") setget setTexture
-export(Color) var colorButton = Color("ecebf0") setget setColorButton
-export(Color) var colorText = Color("000000") setget setColorText
-export(String) var textButton = "Sign In" setget setTextButton
+@export var texture: Texture2D = load("res://addons/Firebase/Resources/Google.png"): set = setTexture
+@export var colorButton: Color = Color("ecebf0"): set = setColorButton
+@export var colorText: Color = Color("000000"): set = setColorText
+@export var textButton: String = "Sign In": set = setTextButton
 
 func _enter_tree():
 #	disabled = true
-	rect_min_size[1] = 50
+	custom_minimum_size[1] = 50
 	mouse_default_cursor_shape = CURSOR_POINTING_HAND
 	
 	var styleNormal = StyleBoxFlat.new()
-	set("custom_styles/normal", styleNormal) 
-	set("custom_styles/focus", StyleBoxEmpty.new())
-	set("custom_styles/pressed", styleNormal)
-	set("custom_styles/hover", styleNormal)
+	set("theme_override_styles/normal", styleNormal) 
+	set("theme_override_styles/focus", StyleBoxEmpty.new())
+	set("theme_override_styles/pressed", styleNormal)
+	set("theme_override_styles/hover", styleNormal)
 	
 	
 	var borderRadius = 8
-	get("custom_styles/normal").set("corner_radius_top_left", borderRadius)
-	get("custom_styles/normal").set("corner_radius_top_right", borderRadius)
-	get("custom_styles/normal").set("corner_radius_bottom_right", borderRadius)
-	get("custom_styles/normal").set("corner_radius_bottom_left", borderRadius)
+	get("theme_override_styles/normal").set("corner_radius_top_left", borderRadius)
+	get("theme_override_styles/normal").set("corner_radius_top_right", borderRadius)
+	get("theme_override_styles/normal").set("corner_radius_bottom_right", borderRadius)
+	get("theme_override_styles/normal").set("corner_radius_bottom_left", borderRadius)
 	
 	if !has_node("ButtonAuthContent"):
-		add_child(load("res://addons/Firebase/UI/ButtonAuthContent.tscn").instance())
-		connect("pressed", self, "_on_ButtonAuth_pressed")
-		Firebase.connect("getCurrentUserSignal", self, "on_getCurrentUserSignal")
+		add_child(load("res://addons/Firebase/UI/ButtonAuthContent.tscn").instantiate())
+		connect("pressed", Callable(self, "_on_ButtonAuth_pressed"))
+		Firebase.connect("getCurrentUserSignal", Callable(self, "on_getCurrentUserSignal"))
 	
 	update()
 	checkDisable()
@@ -69,12 +69,12 @@ func setTextButton(new):
 func setColorText(new):
 	colorText = new
 	if !has_node("ButtonAuthContent/HBoxContainer/Label"):return
-	$ButtonAuthContent/HBoxContainer/Label.set("custom_colors/font_color", new)
+	$ButtonAuthContent/HBoxContainer/Label.set("theme_override_colors/font_color", new)
 
 func setColorButton(new):
 	colorButton = new
-	if get("custom_styles/normal") == null: return
-	get("custom_styles/normal").bg_color = colorButton
+	if get("theme_override_styles/normal") == null: return
+	get("theme_override_styles/normal").bg_color = colorButton
 
 func setTexture(new):
 	texture = new

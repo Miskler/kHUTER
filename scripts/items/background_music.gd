@@ -21,6 +21,6 @@ func rand_aydio():
 	
 	#last = mus[int(round(rand_range(-0.4, float(mus.size())-0.6)))]
 	
-	stream = load("res://audios/music//"+music[int(round(rand_range(-0.4, float(music.size())-0.6)))])
+	stream = load("res://audios/music//"+music[int(round(randf_range(-0.4, float(music.size())-0.6)))])
 	play()
 

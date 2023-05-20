@@ -17,7 +17,7 @@ var game_settings = {
 	"auto_on": true,
 }
 
-export var ways = {
+@export var ways = {
 	"main": "C:/Users/ПК/AppData/Roaming/Godot/app_userdata/kHUTER/SaveGame",
 	"settings": "user://SaveGame/setting_data.json",
 	"data_servers": "user://SaveGame/servers_data.json",
@@ -39,15 +39,15 @@ var loadSCN
 
 func _input(_event):
 	if Input.is_action_just_pressed("FullScrin"):
-		OS.window_fullscreen = not OS.window_fullscreen
+		get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (not ((get_window().mode == Window.MODE_EXCLUSIVE_FULLSCREEN) or (get_window().mode == Window.MODE_FULLSCREEN))) else Window.MODE_WINDOWED
 	elif Input.is_action_just_pressed("F5"):
 		SaveLoader.save_map("Быстрое-сохранение")
 
 func remove_recursive(path):
-	var directory = Directory.new()
+	var directory = DirAccess.new()
 	
 	directory.open(path)
-	directory.list_dir_begin(true)
+	directory.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	var file_name = directory.get_next()
 	while file_name != "":
 		if directory.current_is_dir():
@@ -64,7 +64,7 @@ func typeto(variable, type:int = 0):
 			return bool(variable)
 		TYPE_INT:
 			return int(variable)
-		TYPE_REAL:
+		TYPE_FLOAT:
 			return float(variable)
 		TYPE_STRING:
 			return str(variable)
@@ -104,7 +104,7 @@ func comparison(one, two, mode = 0):
 
 func my_id():
 	if get_tree().network_peer != null:
-		G.player_roster[G.game_settings["player_name"]] = get_tree().get_network_unique_id()
+		G.player_roster[G.game_settings["player_name"]] = get_tree().get_unique_id()
 	else:
 		G.player_roster[G.game_settings["player_name"]] = 1
 	return G.player_roster.get(G.game_settings["player_name"])

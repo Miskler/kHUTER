@@ -3,7 +3,7 @@ extends Control
 #Предмет не объединится если важные данные не совпадают
 #Проверяются только ключи имеющиеся у данного предмета и добавляймого
 #Новые ключи будут добавлены
-export var significant_data = {}
+@export var significant_data = {}
 #Предмет не проверяет данный массив на совпадение 
 #Новые ключи будут добавлены
 #Если префикс re_ то данные будут заменины добовляймым предметом
@@ -11,18 +11,18 @@ export var significant_data = {}
 #Если префикс uni_ данные будут объединены, если это невозможно то будет
 #Действовать как not_
 #Если префикса нет, то будет действовать как not_
-export var insignificant_data = {}
+@export var insignificant_data = {}
 
 #Устанавливается в случае отцуцтвия нормальных данных
 #Созданный через эту переменную предмет невозможно взять
 #Но он так же работает с логикой
-export var default_significant_data = {}
-export var default_insignificant_data = {}
+@export var default_significant_data = {}
+@export var default_insignificant_data = {}
 
-onready var SD = get_node_or_null("/root/rootGame/Node/SettingData")
+@onready var SD = get_node_or_null("/root/rootGame/Node/SettingData")
 
 #False - запрещает, True - разрешает
-export var settings_slot = {
+@export var settings_slot = {
 	"multiplayer_synchronization": false,
 	"permission_to_use": true,
 	"hide_scope": false,
@@ -67,14 +67,14 @@ signal item_not_deleted(slot, recipes)
 func _ready():
 	SD = get_node_or_null("/root/rootGame/Node/SettingData")
 	
-	$Scales/Health.set("custom_styles/fg", $Scales/Health.get("custom_styles/fg").duplicate())
+	$Scales/Health.set("theme_override_styles/fg", $Scales/Health.get("theme_override_styles/fg").duplicate())
 	$Scales/Health.visible = not settings_slot["hide_health"]
 	$Scales/Quantity.visible = not settings_slot["hide_quantity"]
 	$Scope.visible = not settings_slot["hide_scope"]
 	$Background.visible = not settings_slot["hide_background"]
 	
-	$Texture.flip_h = settings_slot["texture_flip_h"]
-	$Texture.flip_v = settings_slot["texture_flip_v"]
+	$Texture2D.flip_h = settings_slot["texture_flip_h"]
+	$Texture2D.flip_v = settings_slot["texture_flip_v"]
 	
 	settings_slot = settings_slot.duplicate(true)
 	
@@ -92,12 +92,12 @@ func _ready():
 	
 	$AnimEvent.start()
 # warning-ignore:return_value_discarded
-	$AnimEvent.connect("timeout", self, "anim_event")
+	$AnimEvent.connect("timeout", Callable(self, "anim_event"))
 	
 	installation_item()
 	item_connecting()
 
-onready var hand_node = get_node_or_null("/root/rootGame/Node/Player/Camera2D/interface/MoveItem")
+@onready var hand_node = get_node_or_null("/root/rootGame/Node/Player/Camera2D/interface/MoveItem")
 func _input(event):
 	SD = get_node_or_null("/root/rootGame/Node/SettingData")
 	hand_node = get_node_or_null("/root/rootGame/Node/Player/Camera2D/interface/MoveItem")
@@ -339,7 +339,7 @@ func item_connecting():
 	for i in get_signal_list():
 		for j in get_signal_connection_list(i["name"]):
 			if str(j["target"].get_path()).begins_with("/root/rootGame/Node/SettingData/ItemLogical/") and(significant_data.get("item") == null or j["target"].name != significant_data["item"]):
-				disconnect(j["signal"], j["target"], j["method"])
+				disconnect(j["signal"], Callable(j["target"], j["method"]))
 	
 	if significant_data.get("item") == null: return
 	
@@ -351,7 +351,7 @@ func item_connecting():
 			for j in item_node.get_script().get_script_method_list():
 				if i["name"] == j["name"]:
 # warning-ignore:return_value_discarded
-					connect(i["name"], item_node, j["name"])
+					connect(i["name"], Callable(item_node, j["name"]))
 					break
 
 #Добавляет предмет при условии что это возможно
@@ -448,24 +448,24 @@ func get_item(mode:bool = true):
 	return data
 
 #Применяет к нодам имеющиеся данные
-remote func installation_item():
+@rpc("any_peer") func installation_item():
 	$Scales/Health.visible = not settings_slot["hide_health"]
 	$Scales/Quantity.visible = not settings_slot["hide_quantity"]
 	$Scope.visible = not settings_slot["hide_scope"]
 	$Background.visible = not settings_slot["hide_background"]
 	if significant_data.size() > 0:
 		$AnimEvent.wait_time = significant_data["animation"]["event"]
-		$Texture.texture = load(significant_data["animation"]["frames"][0])
+		$Texture2D.texture = load(significant_data["animation"]["frames"][0])
 		if significant_data["animation"].has("texture_flip_h"):
-			$Texture.flip_h = significant_data["animation"]["texture_flip_h"]
+			$Texture2D.flip_h = significant_data["animation"]["texture_flip_h"]
 		else:
-			$Texture.flip_h = settings_slot["texture_flip_h"]
+			$Texture2D.flip_h = settings_slot["texture_flip_h"]
 		if significant_data["animation"].has("texture_flip_v"):
-			$Texture.flip_v = significant_data["animation"]["texture_flip_v"]
+			$Texture2D.flip_v = significant_data["animation"]["texture_flip_v"]
 		else:
-			$Texture.flip_v = settings_slot["texture_flip_v"]
+			$Texture2D.flip_v = settings_slot["texture_flip_v"]
 		if insignificant_data["uni_quantity"] <= 999999999:
-			$Scales/Quantity.text = var2str(insignificant_data["uni_quantity"])
+			$Scales/Quantity.text = var_to_str(insignificant_data["uni_quantity"])
 		else:
 			$Scales/Quantity.text = ">999млн"
 		if insignificant_data["uni_quantity"] <= 1:
@@ -480,18 +480,18 @@ remote func installation_item():
 		else:
 			$Scales/Health.show()
 		var color_code = significant_data["health"]["current"]*(255/significant_data["health"]["maximum"])
-		$Scales/Health.get("custom_styles/fg").bg_color = Color8(255-color_code, color_code, 0, 255)
+		$Scales/Health.get("theme_override_styles/fg").bg_color = Color8(255-color_code, color_code, 0, 255)
 	else:
 		$Scales/Health.hide()
 		$Scales/Health.value = 0
 		$Scales/Health.max_value = 100
 		$Scales/Quantity.hide()
 		$Scales/Quantity.text = "0"
-		$Texture.texture = null
+		$Texture2D.texture = null
 		$AnimEvent.wait_time = 1
 		
-		$Texture.flip_h = settings_slot["texture_flip_h"]
-		$Texture.flip_v = settings_slot["texture_flip_v"]
+		$Texture2D.flip_h = settings_slot["texture_flip_h"]
+		$Texture2D.flip_v = settings_slot["texture_flip_v"]
 
 #Восстанавливает пробелы, такие как отцуцтвие текстуры или количества
 #Пробелы в данных попытается восполнить информацией из SD, если такая там присуцтвует
@@ -558,17 +558,17 @@ func data_repair(significant:Dictionary, insignificant:Dictionary):
 
 #Обновляет спрайт текстуры
 func anim_event():
-	$Texture.flip_h = settings_slot["texture_flip_h"]
-	$Texture.flip_v = settings_slot["texture_flip_v"]
+	$Texture2D.flip_h = settings_slot["texture_flip_h"]
+	$Texture2D.flip_v = settings_slot["texture_flip_v"]
 	if insignificant_data.has("not_anim_id") and insignificant_data["not_anim_id"] is int and significant_data.has("animation") and significant_data["animation"]["frames"].size() - 1 >= insignificant_data["not_anim_id"]:
-		$Texture.texture = load(significant_data["animation"]["frames"][insignificant_data["not_anim_id"]])
+		$Texture2D.texture = load(significant_data["animation"]["frames"][insignificant_data["not_anim_id"]])
 		insignificant_data["not_anim_id"] += 1
 	else:
 		if significant_data.has("item"):
 			if significant_data.has("animation") and significant_data["animation"].has("frames"):
-				$Texture.texture = load(significant_data["animation"]["frames"][0])
+				$Texture2D.texture = load(significant_data["animation"]["frames"][0])
 			else:
-				$Texture.texture = load("res://textures/black.png")
+				$Texture2D.texture = load("res://textures/black.png")
 			insignificant_data["not_anim_id"] = 0
 
 
@@ -603,7 +603,7 @@ func change_anim(anim: Dictionary, key = 0.0): #anim - устанавливай�
 	if anim.has("event") and(anim["event"] is int or anim["event"] is float) and anim.has("frames") and anim["frames"] is Array and anim["frames"].size() > 0:
 		key = clamp(float(key), 0.0, float(anim["frames"].size()-1))
 		insignificant_data["not_anim_id"] = key+1
-		$Texture.texture = load(significant_data["animation"]["frames"][key])
+		$Texture2D.texture = load(significant_data["animation"]["frames"][key])
 		return true
 	return false
 
@@ -620,7 +620,7 @@ func change_description(title:String = "", text:String = ""):
 			des += "\n\n"
 		des += text
 	significant_data["description"] = des
-	self.hint_tooltip = significant_data["description"]
+	self.tooltip_text = significant_data["description"]
 
 #Изменяет русской название предмета, адресата изменить невозможно!!!
 #Если name_item пуст, то изменения не вступят в силу
@@ -645,7 +645,7 @@ func change_quantity(quantity:int = 1, mode:bool = true):
 		installation_item()
 	else:
 		if insignificant_data["uni_quantity"] <= 999999999:
-			$Scales/Quantity.text = var2str(insignificant_data["uni_quantity"])
+			$Scales/Quantity.text = var_to_str(insignificant_data["uni_quantity"])
 		else:
 			$Scales/Quantity.text = ">999млн"
 		if insignificant_data["uni_quantity"] <= 1:
@@ -675,7 +675,7 @@ func change_stack(stack = 1.0):
 		installation_item()
 	else:
 		if insignificant_data["uni_quantity"] <= 999999999:
-			$Scales/Quantity.text = var2str(insignificant_data["uni_quantity"])
+			$Scales/Quantity.text = var_to_str(insignificant_data["uni_quantity"])
 		else:
 			$Scales/Quantity.text = ">999млн"
 		if insignificant_data["uni_quantity"] <= 1:

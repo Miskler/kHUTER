@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/damage.mp3-2484ba8d76f695255ba579fb414c119a.mp3str"
+uid="uid://cb7vrkmafso64"
+path="res://.godot/imported/damage.mp3-2484ba8d76f695255ba579fb414c119a.mp3str"
 
 [deps]
 
 source_file="res://audios/tiles/stone/damage.mp3"
-dest_files=[ "res://.import/damage.mp3-2484ba8d76f695255ba579fb414c119a.mp3str" ]
+dest_files=["res://.godot/imported/damage.mp3-2484ba8d76f695255ba579fb414c119a.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

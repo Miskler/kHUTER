@@ -1,12 +1,12 @@
 extends "../FileStatistics.gd"
 
-const ICON: Texture = preload("../../icons/yaml.svg")
+const ICON: Texture2D = preload("../../icons/yaml.svg")
 
 func get_extension() -> String:
 	return "YAMl"
 	
 func get_color() -> Color:
-	return Color.mediumpurple
+	return Color.MEDIUM_PURPLE
 
 func get_icon() -> String:
 	return ICON.resource_path

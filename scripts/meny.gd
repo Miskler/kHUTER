@@ -3,7 +3,7 @@ extends Node2D
 var full_scin = false
 var mysic_meny = true
 
-var dirSAV = Directory.new()
+var dirSAV = DirAccess.new()
 var file = File.new()
 
 func _ready():
@@ -16,11 +16,11 @@ func _ready():
 		$ColorRect2.show()
 	
 	load_game()
-	$Setting/ScrollContainer/VBoxContainer/CheckBox.pressed = full_scin
-	$Setting/ScrollContainer/VBoxContainer/CheckBox2.pressed = mysic_meny
-	$Setting/ScrollContainer/VBoxContainer/CheckBox3.pressed = G.game_settings["boot_menu"]
-	$Setting/ScrollContainer/VBoxContainer/CheckBox4.pressed = G.game_settings["bad_graphics"]
-	OS.window_fullscreen = full_scin
+	$Setting/ScrollContainer/VBoxContainer/CheckBox.button_pressed = full_scin
+	$Setting/ScrollContainer/VBoxContainer/CheckBox2.button_pressed = mysic_meny
+	$Setting/ScrollContainer/VBoxContainer/CheckBox3.button_pressed = G.game_settings["boot_menu"]
+	$Setting/ScrollContainer/VBoxContainer/CheckBox4.button_pressed = G.game_settings["bad_graphics"]
+	get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (full_scin) else Window.MODE_WINDOWED
 	
 	if G.game_settings["bad_graphics"] == true:
 		$ColorRect.hide()
@@ -35,8 +35,8 @@ func _ready():
 
 func _process(_delta):
 	if Input.is_action_just_pressed("FullScrin"):
-		full_scin = OS.window_fullscreen
-		$Setting/ScrollContainer/VBoxContainer/CheckBox.pressed = full_scin
+		full_scin = ((get_window().mode == Window.MODE_EXCLUSIVE_FULLSCREEN) or (get_window().mode == Window.MODE_FULLSCREEN))
+		$Setting/ScrollContainer/VBoxContainer/CheckBox.button_pressed = full_scin
 
 func save_game_set():
 	if not file.file_exists(G.ways["main"]): 
@@ -51,7 +51,7 @@ func save_game_set():
 	save_dict.append(G.game_settings["port"])
 	save_dict.append(G.game_settings["player_name"])
 	file.open(G.ways["main"], File.WRITE)
-	file.store_line(to_json(save_dict))
+	file.store_line(JSON.new().stringify(save_dict))
 	file.close()
 
 func load_game():
@@ -60,7 +60,9 @@ func load_game():
 		return #Error! We don't have a save to load
 	file.open(G.ways["main"], File.READ)
 	var data = []
-	data = parse_json(file.get_as_text())
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(file.get_as_text())
+	data = test_json_conv.get_data()
 	print(data)
 	if data != null:
 		full_scin = data[0]
@@ -80,12 +82,12 @@ func load_game():
 	file.close()
 	if G.game_settings["bad_graphics"] == true:
 		$ColorRect.hide()
-		$Position2D/AnimatedSprite.show()
-		$Position2D/ColorRect.hide()
+		$Marker2D/AnimatedSprite2D.show()
+		$Marker2D/ColorRect.hide()
 	else:
 		$ColorRect.show()
-		$Position2D/AnimatedSprite.hide()
-		$Position2D/ColorRect.show()
+		$Marker2D/AnimatedSprite2D.hide()
+		$Marker2D/ColorRect.show()
 
 func _exit_tree():
 	#G.operation = true
@@ -118,7 +120,7 @@ func nastoici_show_pressed():
 func CheckBox_pressed_full_sren():
 	$AudioStreamPlayer2D2.play()
 	full_scin = $Setting/ScrollContainer/VBoxContainer/CheckBox.pressed
-	OS.window_fullscreen = full_scin
+	get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (full_scin) else Window.MODE_WINDOWED
 
 func CheckBox2_pressed_aydio():
 	$AudioStreamPlayer2D2.play()
@@ -133,19 +135,19 @@ func CheckBox3_pressed_prop_ecran():
 	G.prop_meny_priv = $Setting/ScrollContainer/VBoxContainer/CheckBox3.pressed
 
 func _on_AnimationPlayer_animation_finished(_anim_name):
-	get_tree().change_scene("res://Sceni/rootGame.tscn")
+	get_tree().change_scene_to_file("res://Sceni/rootGame.tscn")
 
 func pressed_grafic_loy():
 	$AudioStreamPlayer2D2.play()
 	G.game_settings["bad_graphics"] = not G.game_settings["bad_graphics"]
 	if G.game_settings["bad_graphics"] == true:
 		$ColorRect.hide()
-		$Position2D/AnimatedSprite.show()
-		$Position2D/ColorRect.hide()
+		$Marker2D/AnimatedSprite2D.show()
+		$Marker2D/ColorRect.hide()
 	else:
 		$ColorRect.show()
-		$Position2D/AnimatedSprite.hide()
-		$Position2D/ColorRect.show()
+		$Marker2D/AnimatedSprite2D.hide()
+		$Marker2D/ColorRect.show()
 
 func otladca_hide():
 	$AudioStreamPlayer2D2.play()
@@ -153,7 +155,7 @@ func otladca_hide():
 
 func map_editor_pressed():
 	$AudioStreamPlayer2D2.play()
-	get_tree().change_scene("res://Sceni/LVL/editmap.tscn")
+	get_tree().change_scene_to_file("res://Sceni/LVL/editmap.tscn")
 
 func server_main_off():
 	$Control2/server.hide()

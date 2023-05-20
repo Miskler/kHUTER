@@ -1,4 +1,4 @@
-tool
+@tool
 extends "./TreeView.gd"
 
 enum {
@@ -11,7 +11,7 @@ enum {
 var total_resources: TreeItem
 var total_size: TreeItem
 
-onready var graph: Control = $VSplitContainer/HSplitContainer/MarginContainer/PieGraph
+@onready var graph: Control = $VSplitContainer/HSplitContainer/MarginContainer/PieGraph
 
 func _ready() -> void:
 	tree = $VSplitContainer/Tree
@@ -24,8 +24,8 @@ func _ready() -> void:
 	tree.set_column_titles_visible(true)
 	tree.hide_root = true
 	
-	tree.connect("item_activated", self, "_on_item_activated")
-	tree.connect("column_title_pressed", self, "_on_column_title_pressed")
+	tree.connect("item_activated", Callable(self, "_on_item_activated"))
+	tree.connect("column_title_pressed", Callable(self, "_on_column_title_pressed"))
 	
 	var root: TreeItem = summary_tree.create_item()
 	total_resources = summary_tree.create_item(root)
@@ -36,7 +36,7 @@ func _ready() -> void:
 	summary_tree.hide_root = true
 
 func display(stats: ProjectStatistics) -> void:
-	.display(stats)
+	super.display(stats)
 	total_resources.set_text(1, str(stats.resources.size()))
 	total_size.set_text(1, String.humanize_size(stats.get_total_scripts_size()))
 	
@@ -87,10 +87,10 @@ func update_icons() -> void:
 func _sort_by_column(column: int) -> void:
 	match column:
 		NAME_COLUMN:
-			stats.resources.sort_custom(self, "sort_name")
+			stats.resources.sort_custom(Callable(self, "sort_name"))
 		RESOURCE_TYPE_COLUMN:
-			stats.resources.sort_custom(self, "sort_resource_type")
+			stats.resources.sort_custom(Callable(self, "sort_resource_type"))
 		LOCAL_TO_SCENE_COLUMN:
-			stats.resources.sort_custom(self, "sort_local_to_scene")
+			stats.resources.sort_custom(Callable(self, "sort_local_to_scene"))
 		SIZE_COLUMN:
-			stats.resources.sort_custom(self, "sort_size")
+			stats.resources.sort_custom(Callable(self, "sort_size"))

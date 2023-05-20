@@ -1,16 +1,16 @@
 [gd_scene load_steps=60 format=2]
 
-[ext_resource path="res://textures/people/droid/shield_puulse.png" type="Texture" id=1]
-[ext_resource path="res://textures/people/droid/shield_prep.png" type="Texture" id=2]
-[ext_resource path="res://textures/people/droid/walk.png" type="Texture" id=3]
-[ext_resource path="res://textures/people/droid/shock_attack.png" type="Texture" id=4]
-[ext_resource path="res://textures/people/droid/hit_and_death.png" type="Texture" id=5]
-[ext_resource path="res://textures/people/droid/static_idle.png" type="Texture" id=6]
-[ext_resource path="res://textures/people/droid/shield_finished.png" type="Texture" id=7]
+[ext_resource path="res://textures/people/droid/shield_puulse.png" type="Texture2D" id=1]
+[ext_resource path="res://textures/people/droid/shield_prep.png" type="Texture2D" id=2]
+[ext_resource path="res://textures/people/droid/walk.png" type="Texture2D" id=3]
+[ext_resource path="res://textures/people/droid/shock_attack.png" type="Texture2D" id=4]
+[ext_resource path="res://textures/people/droid/hit_and_death.png" type="Texture2D" id=5]
+[ext_resource path="res://textures/people/droid/static_idle.png" type="Texture2D" id=6]
+[ext_resource path="res://textures/people/droid/shield_finished.png" type="Texture2D" id=7]
 [ext_resource path="res://scenes/modules/syncing_render.tscn" type="PackedScene" id=8]
 
 [sub_resource type="GDScript" id=51]
-script/source = "extends KinematicBody2D
+script/source = "extends CharacterBody2D
 
 
 var speed = Vector2(2500, 400)
@@ -52,7 +52,7 @@ func _process(delta):
 			$anim.animation = \"idle\"
 		
 		if (way_left and $LeftAttack.is_colliding()) or (not way_left and $RightAttack.is_colliding()):
-			if rand_range(0, 10) >= 7:
+			if randf_range(0, 10) >= 7:
 				attack = true
 			else:
 				way_left = not way_left
@@ -65,7 +65,10 @@ func _process(delta):
 		vec.x = 0
 		_attack()
 	
-	vec = move_and_slide(vec, Floor)
+	set_velocity(vec)
+	set_up_direction(Floor)
+	move_and_slide()
+	vec = velocity
 	if get_tree().network_peer != null:
 		rpc(\"pos_sing\", global_position, $anim.animation)
 var f = false
@@ -78,29 +81,29 @@ func _attack():
 	attack = true
 	
 	$anim.play(\"attack\")
-	yield($anim, \"frame_changed\")
-	yield($anim, \"frame_changed\")
-	yield($anim, \"frame_changed\")
-	yield($anim, \"frame_changed\")
-	yield($anim, \"frame_changed\")
+	await $anim.frame_changed
+	await $anim.frame_changed
+	await $anim.frame_changed
+	await $anim.frame_changed
+	await $anim.frame_changed
 	
 	print($area.get_overlapping_bodies())
 	for i in $area.get_overlapping_bodies():
 		if not i.is_in_group(\"droid\"):
 			if i is TileMap:
 				for g in [Vector2(0, 0), Vector2(50, 0), Vector2(-50, 0), Vector2(0, -30), Vector2(50, -30), Vector2(-50, -30), Vector2(100, 0), Vector2(-100, 0), Vector2(100, -30), Vector2(-100, -30)]:
-					$Position2D.global_position = i.global_position
+					$Marker2D.global_position = i.global_position
 					
-					get_node(\"/root/rootGame\").create_bullet([{}, {}], [{}, {}], global_position+g, $Position2D.rotation_degrees, \"res://Texture/Other/Items/blebreskinproj.png\", 30, 0, 0, true, 90000000, self)
+					get_node(\"/root/rootGame\").create_bullet([{}, {}], [{}, {}], global_position+g, $Marker2D.rotation_degrees, \"res://Texture2D/Other/Items/blebreskinproj.png\", 30, 0, 0, true, 90000000, self)
 					if get_tree().network_peer != null:
-						get_node(\"/root/rootGame\").rpc(\"create_bullet\", [{}, {}], [{}, {}], global_position+g, $Position2D.rotation_degrees, \"res://Texture/Other/Items/blebreskinproj.png\", 30, 0, 0, true, 90000000, self)
+						get_node(\"/root/rootGame\").rpc(\"create_bullet\", [{}, {}], [{}, {}], global_position+g, $Marker2D.rotation_degrees, \"res://Texture2D/Other/Items/blebreskinproj.png\", 30, 0, 0, true, 90000000, self)
 			else:
-				$Position2D.global_position = i.global_position
-				var rot = $Position2D.look_at(i.global_position)
+				$Marker2D.global_position = i.global_position
+				var rot = $Marker2D.look_at(i.global_position)
 				
-				get_node(\"/root/rootGame\").create_bullet([{}, {}], [{}, {}], i.global_position, $Position2D.rotation_degrees, \"res://Texture/Other/Items/blebreskinproj.png\", 30, 0, 0, true, 90000000, self)
+				get_node(\"/root/rootGame\").create_bullet([{}, {}], [{}, {}], i.global_position, $Marker2D.rotation_degrees, \"res://Texture2D/Other/Items/blebreskinproj.png\", 30, 0, 0, true, 90000000, self)
 				if get_tree().network_peer != null:
-					get_node(\"/root/rootGame\").rpc(\"create_bullet\", [{}, {}], [{}, {}], i.global_position, $Position2D.rotation_degrees, \"res://Texture/Other/Items/blebreskinproj.png\", 30, 0, 0, true, 90000000, self)
+					get_node(\"/root/rootGame\").rpc(\"create_bullet\", [{}, {}], [{}, {}], i.global_position, $Marker2D.rotation_degrees, \"res://Texture2D/Other/Items/blebreskinproj.png\", 30, 0, 0, true, 90000000, self)
 	d = true
 
 func fin():
@@ -112,11 +115,11 @@ func fin():
 		Firebase.logEvent(\"npc_died\", {\"npc\": {\"value\": \"droid\", \"type\": \"string\"}})
 		queue_free()
 
-remote func pos_sing(pos:Vector2, anim:String):
+@rpc("any_peer") func pos_sing(pos:Vector2, anim:String):
 	global_position = pos
 	$anim.animation = anim
 
-remote func damage(setting_bullet):
+@rpc("any_peer") func damage(setting_bullet):
 	if not dead:
 		dead = true
 		$Sing.manager_signals.signal_event(\"damage\", self)
@@ -357,13 +360,13 @@ radius = 12.0012
 radius = 12.6667
 height = 66.6667
 
-[node name="droid" type="KinematicBody2D"]
+[node name="droid" type="CharacterBody2D"]
 scale = Vector2( 3, 3 )
 collision_layer = 5
 collision_mask = 6
 script = SubResource( 51 )
 
-[node name="anim" type="AnimatedSprite" parent="."]
+[node name="anim" type="AnimatedSprite2D" parent="."]
 frames = SubResource( 77 )
 animation = "stop"
 frame = 10
@@ -384,30 +387,30 @@ shape = SubResource( 79 )
 position = Vector2( -12, 0 )
 rotation = 1.5708
 enabled = true
-cast_to = Vector2( 0, 20 )
+target_position = Vector2( 0, 20 )
 collision_mask = 256
 
 [node name="RightAttack" type="RayCast2D" parent="."]
 position = Vector2( 12, 0 )
 rotation = -1.5708
 enabled = true
-cast_to = Vector2( 0, 20 )
+target_position = Vector2( 0, 20 )
 collision_mask = 256
 
 [node name="RigthBottom" type="RayCast2D" parent="."]
 position = Vector2( 12, 10 )
 enabled = true
-cast_to = Vector2( 0, 20 )
+target_position = Vector2( 0, 20 )
 collision_mask = 256
 
 [node name="LeftBottom" type="RayCast2D" parent="."]
 position = Vector2( -12, 10 )
 enabled = true
-cast_to = Vector2( 0, 20 )
+target_position = Vector2( 0, 20 )
 collision_mask = 256
 
 [node name="Sing" parent="." instance=ExtResource( 8 )]
 
-[node name="Position2D" type="Position2D" parent="."]
+[node name="Marker2D" type="Marker2D" parent="."]
 
 [connection signal="animation_finished" from="anim" to="." method="fin"]

@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/use.mp3-392fe456c07814b443b1c1260895b4d6.mp3str"
+uid="uid://d3o14v23o656x"
+path="res://.godot/imported/use.mp3-392fe456c07814b443b1c1260895b4d6.mp3str"
 
 [deps]
 
 source_file="res://audios/tiles/chest/use.mp3"
-dest_files=[ "res://.import/use.mp3-392fe456c07814b443b1c1260895b4d6.mp3str" ]
+dest_files=["res://.godot/imported/use.mp3-392fe456c07814b443b1c1260895b4d6.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

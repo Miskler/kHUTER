@@ -3,7 +3,7 @@
 [ext_resource path="res://scenes/interface/specter_interface.tscn" type="PackedScene" id=1]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends KinematicBody2D
+script/source = "extends CharacterBody2D
 
 var vec = Vector2()
 var speed = 600
@@ -40,10 +40,11 @@ func _process(_delta):
 	$Camera2D_specter.zoom.x = ro
 	$Camera2D_specter.zoom.y = ro
 	
-	move_and_slide(vec)
+	set_velocity(vec)
+	move_and_slide()
 "
 
-[node name="Specter" type="KinematicBody2D"]
+[node name="Specter" type="CharacterBody2D"]
 script = SubResource( 1 )
 
 [node name="Camera2D_specter" type="Camera2D" parent="."]

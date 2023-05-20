@@ -10,7 +10,7 @@ signal save_complete(complete)
 signal load_complete(complete, add_data)
 
 
-remote func load_map(path_start_node:NodePath, path_file, add_data:Array = []) -> bool:
+@rpc("any_peer") func load_map(path_start_node:NodePath, path_file, add_data:Array = []) -> bool:
 	if get_node_or_null(\"/root/rootGame\") != null and get_node_or_null(path_start_node) != null:
 		$loader.set_scene(get_node(path_start_node), path_file)
 		emit_signal(\"load_complete\", true, add_data)
@@ -18,7 +18,7 @@ remote func load_map(path_start_node:NodePath, path_file, add_data:Array = []) -
 	emit_signal(\"load_complete\", false, add_data)
 	return false
 
-remote func send_map(user_id:int, send_data:Array = []) -> bool:
+@rpc("any_peer") func send_map(user_id:int, send_data:Array = []) -> bool:
 	if get_node_or_null(\"/root/rootGame/Node\") != null and get_tree().network_peer != null:
 		var map_settings = get_node(\"/root/rootGame/Node/SettingData\").map_settings.duplicate(true)
 		map_settings[\"is_save\"] = true
@@ -36,7 +36,7 @@ func save_map(name_save:String = \"Быстрое сохранение\") -> boo
 		var saver = $save.save_game([\"/root/rootGame/Timer\", \"/root/rootGame/Timer2\"], {\"/root/rootGame/Node/SettingData\": {\"map_settings\": map_settings}})
 		
 		if saver is Array:
-			var dirSAV = Directory.new()
+			var dirSAV = DirAccess.new()
 			var path = \"user://SaveGame/Worlds/\" + str(name_save)
 			if !dirSAV.dir_exists(path):
 				dirSAV.make_dir_recursive(path)
@@ -44,13 +44,13 @@ func save_map(name_save:String = \"Быстрое сохранение\") -> boo
 			#Сохраняем мир
 			var file_t = File.new()
 			file_t.open(path + \"/map.khuter\", File.WRITE)
-			file_t.store_line(var2str(saver[0]))
+			file_t.store_line(var_to_str(saver[0]))
 			file_t.close()
 			
 			#Делаем .json файл с данными о времени, версии и т.д..
 			var file = File.new()
 			file.open(path + \"/data.json\", File.WRITE)
-			file.store_line(to_json(saver[1]))
+			file.store_line(JSON.new().stringify(saver[1]))
 			file.close()
 			
 			emit_signal(\"save_complete\", true)
@@ -60,7 +60,7 @@ func save_map(name_save:String = \"Быстрое сохранение\") -> boo
 	return false
 
 func save_screenshot_map(name_save) -> bool:
-	var dirSAV = Directory.new()
+	var dirSAV = DirAccess.new()
 	var path = \"user://SaveGame/Worlds/\" + str(name_save)
 	if !dirSAV.dir_exists(path):
 		return false
@@ -118,14 +118,14 @@ func set_scene(node_start:Node, path):# <- ТОЧКА ВХОДА
 		G.loadSCN = path
 		var p = load(path)
 		
-		p = p.instance()
+		p = p.instantiate()
 		p.name = \"Node\"
 		node_start.add_child(p, false)
 	else:
 		print(\"Распаковка полученной карты...\")
 		print(\"Создание дерева нод...\")
 		for i in path:
-			var node_spavn = ClassDB.instance(i[\"node\"])
+			var node_spavn = ClassDB.instantiate(i[\"node\"])
 			var no_use = [\"node\", \"script\", \"path\", \"tile_data\", \"filename\", \"frames\", \"collision_layer\", \"collision_mask\", \"animation\"]
 			
 			node_spavn.name = i[\"name\"]
@@ -140,7 +140,7 @@ func set_scene(node_start:Node, path):# <- ТОЧКА ВХОДА
 					var SF = SpriteFrames.new()
 					printt(\"ROOT_FRAMES\", SF)
 					for j in i[\"frames\"].keys():
-						SF.add_animation(j)
+						SF.add_animation_library(j)
 						SF.set_animation_loop(j, i[\"frames\"][j][\"animation_loop\"])
 						SF.set_animation_speed(j, i[\"frames\"][j][\"animation_speed\"])
 						for d in range(i[\"frames\"][j][\"animation_frames\"].size()):
@@ -180,7 +180,9 @@ func set_scene(node_start:Node, path):# <- ТОЧКА ВХОДА
 				
 				if i.has(\"script\"):
 					var script = GDScript.new()
-					var parse_res = JSON.parse(i[\"script\"][\"code\"]).result
+					var test_json_conv = JSON.new()
+					test_json_conv.parse(i[\"script\"][\"code\"]).result
+					var parse_res = test_json_conv.get_data()
 					script.source_code = parse_res
 					script.reload()
 					node_spavn.set_script(script)
@@ -188,11 +190,11 @@ func set_scene(node_start:Node, path):# <- ТОЧКА ВХОДА
 				if i.has(\"global_position\"):
 					node_spavn.set_global_position(i[\"global_position\"])
 					node_spavn.rotation = i[\"rotation\"]
-				elif i.has(\"rect_position\"):
-					node_spavn.rect_position = i[\"rect_position\"]
-					node_spavn.rect_size = i[\"rect_size\"]
+				elif i.has(\"position\"):
+					node_spavn.position = i[\"position\"]
+					node_spavn.size = i[\"size\"]
 		
-		yield(get_tree(), \"idle_frame\")
+		await get_tree().idle_frame
 		G.get_node(\"Load Screen\").event_p(20)
 		print(\"Установка переменных...\")
 		for i in path:
@@ -218,13 +220,13 @@ func set_scene(node_start:Node, path):# <- ТОЧКА ВХОДА
 						for key in track[\"keys\"]:
 							A.track_insert_key(track_id, key[\"position\"], key[\"value\"])
 					
-					node.add_animation(anim[\"name\"], A)
+					node.add_animation_library(anim[\"name\"], A)
 			if i.has(\"script\") and node != null:
 				var vars_keys = i[\"script\"][\"vars\"].keys()
 				for k in range(i[\"script\"][\"vars\"].size()):
 					node.set(vars_keys[k], i[\"script\"][\"vars\"][vars_keys[k]])
 		
-		yield(get_tree(), \"idle_frame\")
+		await get_tree().idle_frame
 		G.get_node(\"Load Screen\").event_p(40)
 		print(\"Установка сигналов...\")
 		for i in path:
@@ -232,9 +234,9 @@ func set_scene(node_start:Node, path):# <- ТОЧКА ВХОДА
 				var node = node_start.get_node_or_null(str(i[\"path\"]) + \"/\" + i[\"name\"])
 				if node != null:
 					for signal_data in i[\"signals\"][signal_name]:
-						node.connect(signal_name, node_start.get_node(signal_data[1]), signal_data[0])
+						node.connect(signal_name, Callable(node_start.get_node(signal_data[1]), signal_data[0]))
 		
-		yield(get_tree(), \"idle_frame\")
+		await get_tree().idle_frame
 		G.get_node(\"Load Screen\").event_p(60)
 		print(\"Запуск виртуальных функций...\")
 		connect_virtual_signals(node_start, [\"/root/rootGame/Timer\", \"/root/rootGame/Timer2\"])
@@ -242,7 +244,7 @@ func set_scene(node_start:Node, path):# <- ТОЧКА ВХОДА
 		G.get_node(\"Load Screen\").event_p(80)
 		print(\"Запуск скриптов...\")
 		ready_script_started($\"/root/rootGame\", [\"/root/rootGame/Timer\", \"/root/rootGame/Timer2\"])
-	yield(get_tree(), \"idle_frame\")
+	await get_tree().idle_frame
 	G.get_node(\"Load Screen\").event_p(100)
 	print(\"Готово!\")
 	G.get_node(\"Load Screen\").not_select()
@@ -264,7 +266,7 @@ func setter_param(node_spavn, path, no_use):
 					
 					node_spavn.set(j, atlas_texture)
 			elif path[j] is Dictionary and path[j].size() >= 1 and path[j].has(\"use_setter_param\"):
-				var param = ClassDB.instance(path[j][\"node\"])
+				var param = ClassDB.instantiate(path[j][\"node\"])
 				node_spavn.set(j, setter_param(param, path[j], no_use))
 			elif j != \"use_setter_param\":
 				node_spavn.set(j, path[j])
@@ -275,13 +277,13 @@ func setter_param(node_spavn, path, no_use):
 script/source = "extends Node
 
 var SCREENfile
-export var file_prefix = \"\"
+@export var file_prefix = \"\"
 
 var _tag = \"\"
 var _index = 0
 
 func _ready():
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	print(OS.get_system_dir(OS.SYSTEM_DIR_PICTURES))
 	
 	SCREENfile = str(OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)) + \"/kHUTER\"
@@ -293,7 +295,7 @@ func _ready():
 	
 	if not SCREENfile[-1] == \"/\":
 		SCREENfile += \"/\"
-	if not file_prefix.empty():
+	if not file_prefix.is_empty():
 		file_prefix += \"_\"
 	set_process_input(true)
 
@@ -311,7 +313,7 @@ func make_screenshot():
 func _update_tags():
 	var time
 	
-	time = OS.get_datetime()
+	time = Time.get_datetime_dict_from_system()
 	time = \"%s-%02d-%02d-%02d\" % [time['year'], time['month'], time['day'], time['hour']]
 	if (_tag == time): _index += 1
 	else:
@@ -357,7 +359,7 @@ func save() -> bool:
 		return false
 	
 	SaveLoader.save_map(\"Авто сохранение\")
-	yield(SaveLoader, \"save_complete\")
+	await SaveLoader.save_complete
 	if SaveLoader.save_screenshot_map(\"Авто сохранение\"):
 		G.get_node(\"Global Interface\").new_notification(\"Успешно!\", \"Попытка автосохранения...\\nСохранение прошло успешно!\")
 	else:

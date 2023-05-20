@@ -15,7 +15,7 @@ func _load_file_info(at_path: String, skip_line_count: bool = false) -> int:
 		return error
 	
 	path = at_path
-	size = file.get_len()
+	size = file.get_length()
 	
 	total_lines = 0
 	source_code_lines = 0
@@ -49,13 +49,13 @@ func get_icon() -> String:
 	return ""
 
 func get_color() -> Color:
-	return Color.transparent
+	return Color.TRANSPARENT
 
 func is_comment(line: String) -> bool:
 	return false
 
 func is_blank(line: String) -> bool:
-	return line.strip_edges().empty()
+	return line.strip_edges().is_empty()
 
 func is_script() -> bool:
 	return false
