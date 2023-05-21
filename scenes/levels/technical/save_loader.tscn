@@ -36,39 +36,39 @@ func save_map(name_save:String = \"Быстрое сохранение\") -> boo
 		var saver = $save.save_game([\"/root/rootGame/Timer\", \"/root/rootGame/Timer2\"], {\"/root/rootGame/Node/SettingData\": {\"map_settings\": map_settings}})
 		
 		if saver is Array:
-			var dirSAV = DirAccess.new()
-			var path = \"user://SaveGame/Worlds/\" + str(name_save)
-			if !dirSAV.dir_exists(path):
-				dirSAV.make_dir_recursive(path)
+			#var dirSAV = DirAccess.new()
+			#var path = \"user://SaveGame/Worlds/\" + str(name_save)
+			#if !dirSAV.dir_exists(path):
+			#	dirSAV.make_dir_recursive(path)
 			
 			#Сохраняем мир
-			var file_t = File.new()
-			file_t.open(path + \"/map.khuter\", File.WRITE)
-			file_t.store_line(var_to_str(saver[0]))
+			#var file_t = File.new()
+			#file_t.open(path + \"/map.khuter\", File.WRITE)
+			#file_t.store_line(var_to_str(saver[0]))
 			file_t.close()
 			
 			#Делаем .json файл с данными о времени, версии и т.д..
-			var file = File.new()
-			file.open(path + \"/data.json\", File.WRITE)
-			file.store_line(JSON.new().stringify(saver[1]))
-			file.close()
+			#var file = File.new()
+			#file.open(path + \"/data.json\", File.WRITE)
+			#file.store_line(JSON.new().stringify(saver[1]))
+			#file.close()
 			
-			emit_signal(\"save_complete\", true)
+			#emit_signal(\"save_complete\", true)
 			return true
 	emit_signal(\"save_complete\", false)
 	
 	return false
 
 func save_screenshot_map(name_save) -> bool:
-	var dirSAV = DirAccess.new()
-	var path = \"user://SaveGame/Worlds/\" + str(name_save)
-	if !dirSAV.dir_exists(path):
-		return false
+	#var dirSAV = DirAccess.new()
+	#var path = \"user://SaveGame/Worlds/\" + str(name_save)
+	#if !dirSAV.dir_exists(path):
+	#	return false
 	
 	#Делаем скриншот
-	var image = get_viewport().get_texture().get_data()
-	image.flip_y()
-	image.save_png(path + \"/screenshot.png\")
+	#var image = get_viewport().get_texture().get_data()
+	#image.flip_y()
+	#image.save_png(path + \"/screenshot.png\")
 	
 	return true
 
@@ -283,21 +283,22 @@ var _tag = \"\"
 var _index = 0
 
 func _ready():
-	var dir = DirAccess.new()
-	print(OS.get_system_dir(OS.SYSTEM_DIR_PICTURES))
+	#var dir = DirAccess.new()
+	#print(OS.get_system_dir(OS.SYSTEM_DIR_PICTURES))
 	
-	SCREENfile = str(OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)) + \"/kHUTER\"
+	#SCREENfile = str(OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)) + \"/kHUTER\"
 	
-	if not dir.dir_exists(SCREENfile):
-		dir.make_dir_recursive(SCREENfile)
+	#if not dir.dir_exists(SCREENfile):
+	#	dir.make_dir_recursive(SCREENfile)
 	
-	dir.open(SCREENfile)
+	#dir.open(SCREENfile)
 	
-	if not SCREENfile[-1] == \"/\":
-		SCREENfile += \"/\"
-	if not file_prefix.is_empty():
-		file_prefix += \"_\"
-	set_process_input(true)
+	#if not SCREENfile[-1] == \"/\":
+	#	SCREENfile += \"/\"
+	#if not file_prefix.is_empty():
+	#	file_prefix += \"_\"
+	#set_process_input(true)
+	return
 
 func _input(_event):
 	if Input.is_action_just_pressed(\"F12\"):

@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://veo3jocvp3ta"]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id="1"]
 script/source = "extends Node
 
 var npcs = {}
@@ -18,7 +18,7 @@ func signal_event(type_signal:String, npc:Node):
 	return false
 "
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id="2"]
 script/source = "extends Node
 
 @onready var par = get_parent()
@@ -36,7 +36,7 @@ func npc_exited(npc):
 "
 
 [node name="SignalCenter" type="Node"]
-script = SubResource( 1 )
+script = SubResource("1")
 
 [node name="Funcs" type="Node" parent="."]
-script = SubResource( 2 )
+script = SubResource("2")

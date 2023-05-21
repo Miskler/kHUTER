@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=9 format=3 uid="uid://clgobk3ieacmq"]
 
-[ext_resource path="res://tile_set.res" type="TileSet" id=1]
+[ext_resource type="TileSet" path="res://tile_set.res" id="1"]
 
-[sub_resource type="GDScript" id=6]
+[sub_resource type="GDScript" id="6"]
 script/source = "extends TileMap
 
 signal use_tile(data)
@@ -25,7 +25,7 @@ func _ready():
 	$Timer.start()
 
 
-@rpc("any_peer") func registration(node): #Сохраняет карту сделанную через редактор в формат 2д массива
+@rpc(\"any_peer\") func registration(node): #Сохраняет карту сделанную через редактор в формат 2д массива
 	var map = {}
 	node.fix_invalid_tiles()
 	
@@ -46,7 +46,7 @@ func _ready():
 	return map
 
 
-@rpc("any_peer") func clear_tile(pos:Vector2):
+@rpc(\"any_peer\") func clear_tile(pos:Vector2):
 	if tiles.has(int(pos.x)) and tiles[int(pos.x)].has(int(pos.y)):
 		use_tile({\"pos\": pos, \"method\": \"clear_tile\"})
 		
@@ -63,7 +63,7 @@ func _ready():
 	else: return false
 	return true
 
-@rpc("any_peer") func edit_tile(pos:Vector2, dat:Dictionary = {}): #{\"dat\": {\"operation\": (0-4), \"value\": ...}} -- 0-установка,1-прибавление,2-отнимание,3-умножение,4-деление
+@rpc(\"any_peer\") func edit_tile(pos:Vector2, dat:Dictionary = {}): #{\"dat\": {\"operation\": (0-4), \"value\": ...}} -- 0-установка,1-прибавление,2-отнимание,3-умножение,4-деление
 	#Получает словарь того что нужно поменять и как
 	#Может добавлять, отнимать, заменять
 	if not tiles.has(int(pos.x)):
@@ -115,7 +115,7 @@ func _ready():
 			4:
 				tile[key] /= dt[\"value\"]
 
-@rpc("any_peer") func use_tile(data:Dictionary = {}): #Принимает любые входные параметры и испускает сигнал использования тайла, значение \"pos\" - координата тайла (обязательно)
+@rpc(\"any_peer\") func use_tile(data:Dictionary = {}): #Принимает любые входные параметры и испускает сигнал использования тайла, значение \"pos\" - координата тайла (обязательно)
 	if not data.has(\"method\"): data[\"method\"] = \"use_tile\"
 	if data.has(\"pos\") and tiles.has(int(data[\"pos\"].x)) and tiles[int(data[\"pos\"].x)].has(int(data[\"pos\"].y)) and get_node_or_null(\"TileLogical/\"+str(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"])) != null and get_node(\"TileLogical/\"+str(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"])).has_method(data[\"method\"]):
 		get_node(\"TileLogical/\"+str(tiles[int(data[\"pos\"].x)][int(data[\"pos\"].y)][\"tile_name\"])).call(data[\"method\"], data)
@@ -133,7 +133,7 @@ func _ready():
 	return false
 
 
-@rpc("any_peer") func render(camera = null, reserve = null): #camera - принимает путь до отрисовываймой камеры, если пуст то отрисовывается все отновительно камеры игрока
+@rpc(\"any_peer\") func render(camera = null, reserve = null): #camera - принимает путь до отрисовываймой камеры, если пуст то отрисовывается все отновительно камеры игрока
 	if reserve == null:
 		reserve = G.game_settings[\"render_bonus\"]
 	
@@ -257,7 +257,7 @@ func unification(map_one, map_two):
 					map_one[x][y] = map_two[x][y]
 	return map_one
 
-@rpc("any_peer") func structure(map:Dictionary, manual:Array = [[{}, {}], [{}, {}]], repetitions:int = 1, distance:int = 0): #Генерирует структуру по заранее заготовленной инструкции с возможностью повторения несколько раз
+@rpc(\"any_peer\") func structure(map:Dictionary, manual:Array = [[{}, {}], [{}, {}]], repetitions:int = 1, distance:int = 0): #Генерирует структуру по заранее заготовленной инструкции с возможностью повторения несколько раз
 	var last = null
 	for x in map.keys():
 		for y in map[x].keys():
@@ -380,7 +380,7 @@ func render_is(position_obg, reserve:int = 2, real_position:bool = true):
 	return null
 "
 
-[sub_resource type="GDScript" id=11]
+[sub_resource type="GDScript" id="11"]
 script/source = "extends TileMap
 
 func _ready():
@@ -393,21 +393,21 @@ func clear_tiles():
 	clear()
 "
 
-[sub_resource type="GDScript" id=8]
+[sub_resource type="GDScript" id="8"]
 script/source = "extends Node
 
 func use_tile(_dat):
 	get_node(\"/root/rootGame/Node/Player\").edit_items(\"water\", 1)
 "
 
-[sub_resource type="GDScript" id=9]
+[sub_resource type="GDScript" id="9"]
 script/source = "extends Node
 
 func use_tile(_dat):
 	get_node(\"/root/rootGame/Node/Player\").show_craft_menu()
 "
 
-[sub_resource type="GDScript" id=10]
+[sub_resource type="GDScript" id="10"]
 script/source = "extends Node
 
 var us
@@ -444,10 +444,10 @@ func init(pos, slot_count:int = 1):
 	for i in range(slot_count):
 		$\"../..\".tiles[int(pos.x)][int(pos.y)][\"data\"][\"instruction\"].append([{}, {}, {}])
 
-@rpc("any_peer") func event_tile_state(pos:Vector2, dat:int):
+@rpc(\"any_peer\") func event_tile_state(pos:Vector2, dat:int):
 	$\"../..\".tiles[int(pos.x)][int(pos.y)][\"autotile_coord\"].y = dat
 
-@rpc("any_peer") func event(pos:Vector2, result):
+@rpc(\"any_peer\") func event(pos:Vector2, result):
 	$\"../..\".tiles[int(pos.x)][int(pos.y)][\"data\"][\"instruction\"] = result
 	buffer_data = result.duplicate(true)
 
@@ -475,7 +475,7 @@ func clear_tile(data):
 				get_node(\"/root/rootGame/Node\").add_child(random_bloc)
 "
 
-[sub_resource type="GDScript" id=7]
+[sub_resource type="GDScript" id="7"]
 script/source = "extends Node
 
 @export var example = {
@@ -597,7 +597,7 @@ script/source = "extends Node
 }
 "
 
-[sub_resource type="GDScript" id=12]
+[sub_resource type="GDScript" id="12"]
 script/source = "extends AudioStreamPlayer
 
 func _ready():
@@ -608,21 +608,19 @@ func finish():
 "
 
 [node name="TileMap" type="TileMap"]
-tile_set = ExtResource( 1 )
+tile_set = ExtResource("1")
 cell_quadrant_size = 64
-format = 1
-script = SubResource( 6 )
+format = 2
+script = SubResource("6")
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Preview" type="TileMap" parent="."]
-modulate = Color( 1, 1, 1, 0.498039 )
-tile_set = ExtResource( 1 )
-collision_layer = 0
-collision_mask = 0
-format = 1
-script = SubResource( 11 )
+modulate = Color(1, 1, 1, 0.498039)
+tile_set = ExtResource("1")
+format = 2
+script = SubResource("11")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.05
@@ -631,22 +629,22 @@ autostart = true
 [node name="TileLogical" type="Node" parent="."]
 
 [node name="water" type="Node" parent="TileLogical"]
-script = SubResource( 8 )
+script = SubResource("8")
 
 [node name="craft" type="Node" parent="TileLogical"]
-script = SubResource( 9 )
+script = SubResource("9")
 
 [node name="chest" type="Node" parent="TileLogical"]
-script = SubResource( 10 )
+script = SubResource("10")
 
 [node name="reinforced_chest" type="Node" parent="TileLogical"]
-script = SubResource( 10 )
+script = SubResource("10")
 
 [node name="TileData" type="Node" parent="."]
-script = SubResource( 7 )
+script = SubResource("7")
 
 [node name="Player" type="AudioStreamPlayer" parent="."]
-script = SubResource( 12 )
+script = SubResource("12")
 
 [connection signal="timeout" from="Timer" to="." method="render"]
 [connection signal="timeout" from="Timer" to="Preview" method="clear_tiles"]

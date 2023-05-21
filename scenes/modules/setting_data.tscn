@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://bpyoxkwlxofy4"]
 
-[ext_resource path="res://scripts/items/setting_data.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://scripts/items/setting_data.gd" id="1"]
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id="3"]
 script/source = "extends Node
 
 @export var new_sample_item = {
@@ -929,7 +929,7 @@ script/source = "extends Node
 }
 "
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id="4"]
 script/source = "extends Node
 
 func use_item(slot, significant, insignificant):
@@ -954,7 +954,7 @@ func use_item(slot, significant, insignificant):
 		get_node(\"/root/rootGame/Node/Player\").effect_thirst(-10)
 "
 
-[sub_resource type="GDScript" id=5]
+[sub_resource type="GDScript" id="5"]
 script/source = "extends Node
 
 func use_item(slot, significant, insignificant):
@@ -965,14 +965,14 @@ func use_item(slot, significant, insignificant):
 	get_node(\"/root/rootGame/Node/Player\").effect_hunger(10)
 "
 
-[sub_resource type="GDScript" id=6]
+[sub_resource type="GDScript" id="6"]
 script/source = "extends Node
 
 func use_item(slot, significant, insignificant):
 	$\"../bread\".use_item(slot, significant, insignificant)
 "
 
-[sub_resource type="GDScript" id=7]
+[sub_resource type="GDScript" id="7"]
 script/source = "extends Node
 
 func use_item(slot, significant, insignificant):
@@ -984,12 +984,12 @@ func use_item(slot, significant, insignificant):
 "
 
 [node name="SettingData" type="Node"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 map_settings = {
 "adding_to_statistics": true,
 "can_be_saved": true,
-"crafting": [ "remotedrill", "standart_bullet", "flask", "water", "breaker", "chest", "craft", "glass", "reinforced_chest", "wall", "sint" ],
-"creation_position": Vector2( 0, 0 ),
+"crafting": ["remotedrill", "standart_bullet", "flask", "water", "breaker", "chest", "craft", "glass", "reinforced_chest", "wall", "sint"],
+"creation_position": Vector2(0, 0),
 "dehumidification_frequency": 12,
 "edit_save": false,
 "is_save": false,
@@ -1001,18 +1001,18 @@ map_settings = {
 }
 
 [node name="ItemData" type="Node" parent="."]
-script = SubResource( 3 )
+script = SubResource("3")
 
 [node name="ItemLogical" type="Node" parent="."]
 
 [node name="water" type="Node" parent="ItemLogical"]
-script = SubResource( 4 )
+script = SubResource("4")
 
 [node name="bread" type="Node" parent="ItemLogical"]
-script = SubResource( 5 )
+script = SubResource("5")
 
 [node name="moss" type="Node" parent="ItemLogical"]
-script = SubResource( 6 )
+script = SubResource("6")
 
 [node name="plate" type="Node" parent="ItemLogical"]
-script = SubResource( 7 )
+script = SubResource("7")
