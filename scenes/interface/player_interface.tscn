@@ -1,32 +1,29 @@
-[gd_scene load_steps=157 format=2]
+[gd_scene load_steps=140 format=3 uid="uid://82p1qiovao7q"]
 
-[ext_resource path="res://textures/ui/android/sword.png" type="Texture2D" id=1]
-[ext_resource path="res://textures/ui/statuses/battery.png" type="Texture2D" id=2]
-[ext_resource path="res://textures/ui/android/pixel_circle.png" type="Texture2D" id=3]
-[ext_resource path="res://textures/ui/android/inventory.png" type="Texture2D" id=4]
-[ext_resource path="res://textures/ui/android/сhat_icon.png" type="Texture2D" id=5]
-[ext_resource path="res://textures/ui/android/move_x.png" type="Texture2D" id=6]
-[ext_resource path="res://textures/ui/statuses/heart.png" type="Texture2D" id=7]
-[ext_resource path="res://textures/ui/icons/book/book_open.png" type="Texture2D" id=8]
-[ext_resource path="res://textures/ui/bubble.png" type="Texture2D" id=9]
-[ext_resource path="res://textures/ui/android/move_jump.png" type="Texture2D" id=10]
-[ext_resource path="res://textures/ui/android/move_down.png" type="Texture2D" id=11]
-[ext_resource path="res://textures/ui/warnings/low_bat.png" type="Texture2D" id=12]
-[ext_resource path="res://textures/ui/icons/arrow.png" type="Texture2D" id=13]
-[ext_resource path="res://textures/ui/statuses/heating.png" type="Texture2D" id=14]
-[ext_resource path="res://textures/ui/warnings/low_hp.png" type="Texture2D" id=15]
-[ext_resource path="res://textures/ui/android/drop.png" type="Texture2D" id=16]
-[ext_resource path="res://textures/ui/android/gear_button.png" type="Texture2D" id=17]
-[ext_resource path="res://textures/ui/clothes.png" type="Texture2D" id=18]
-[ext_resource path="res://textures/ui/warnings/high_temp.png" type="Texture2D" id=19]
-[ext_resource path="res://textures/ui/logos/godotta.jpg" type="Texture2D" id=20]
-[ext_resource path="res://resources/themes/main.theme" type="Theme" id=21]
-[ext_resource path="res://scenes/interface/interface_elements/slot_item.tscn" type="PackedScene" id=22]
-[ext_resource path="res://scenes/interface/interface_elements/move_item.tscn" type="PackedScene" id=23]
-[ext_resource path="res://resources/fonts/standart/small.otf" type="FontFile" id=24]
-[ext_resource path="res://resources/fonts/standart/standart.otf" type="FontFile" id=25]
+[ext_resource type="Texture2D" uid="uid://ujgj5jxjnukw" path="res://textures/ui/android/sword.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://cpn4htvjpuq5c" path="res://textures/ui/statuses/battery.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://nobc0g1gff3e" path="res://textures/ui/android/pixel_circle.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://d4bpvvaoa60qw" path="res://textures/ui/android/inventory.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://d2yqf48s33hsb" path="res://textures/ui/android/сhat_icon.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://djl7niwcxsos6" path="res://textures/ui/statuses/heart.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://bbdbr81u3jk6m" path="res://textures/ui/icons/book/book_open.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://cb0pu7i6km64k" path="res://textures/ui/bubble.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://djhfy30ri0uon" path="res://textures/ui/warnings/low_bat.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://ja562cw6ul5g" path="res://textures/ui/icons/arrow.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://bg3np2be8ep5" path="res://textures/ui/statuses/heating.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://d22r7j878jn3q" path="res://textures/ui/warnings/low_hp.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://bn3bn3hb8flww" path="res://textures/ui/android/drop.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://b2vhg2lqn06js" path="res://textures/ui/android/gear_button.png" id="17"]
+[ext_resource type="Texture2D" uid="uid://dbpuoagn12vas" path="res://textures/ui/clothes.png" id="18"]
+[ext_resource type="Texture2D" uid="uid://c81m3dgp8wrv1" path="res://textures/ui/warnings/high_temp.png" id="19"]
+[ext_resource type="Texture2D" uid="uid://bh51hu7sr8phs" path="res://textures/ui/logos/godotta.jpg" id="20"]
+[ext_resource type="Theme" path="res://resources/themes/main.theme" id="21"]
+[ext_resource type="PackedScene" path="res://scenes/interface/interface_elements/slot_item.tscn" id="22"]
+[ext_resource type="PackedScene" path="res://scenes/interface/interface_elements/move_item.tscn" id="23"]
+[ext_resource type="FontFile" uid="uid://c132nfobtc76y" path="res://resources/fonts/standart/small.otf" id="24"]
+[ext_resource type="FontFile" uid="uid://2g5uiqqsk3i3" path="res://resources/fonts/standart/standart.otf" id="25"]
 
-[sub_resource type="GDScript" id=76]
+[sub_resource type="GDScript" id="76"]
 script/source = "extends CanvasLayer
 
 
@@ -65,7 +62,7 @@ func slots_off_and_on(block:int = 0, mode:bool = false):
 			i.settings_slot[\"slot_off\"] = mode
 "
 
-[sub_resource type="Shader" id=134]
+[sub_resource type="Shader" id="134"]
 code = "shader_type canvas_item;
 
 uniform sampler2D noise;
@@ -74,6 +71,7 @@ uniform float blur : hint_range(0, 10) = 0.0;
 uniform float size : hint_range(0, 10) = 0.0;
 
 uniform vec2 resolution = vec2(80, 100);
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
 
 // fragment() runs on every pixel
@@ -101,23 +99,23 @@ void fragment (){
 	COLOR = vec4(texture(SCREEN_TEXTURE, uv, blur * vignette).rgb, 1.0);
 }"
 
-[sub_resource type="FastNoiseLite" id=135]
+[sub_resource type="FastNoiseLite" id="135"]
 
-[sub_resource type="NoiseTexture" id=136]
+[sub_resource type="NoiseTexture2D" id="136"]
 width = 100
 height = 100
 seamless = true
-noise = SubResource( 135 )
+noise = SubResource("135")
 
-[sub_resource type="ShaderMaterial" id=137]
-shader = SubResource( 134 )
-shader_param/intensity = 0.098
-shader_param/blur = 9.604
-shader_param/size = 1.5
-shader_param/resolution = Vector2( 1, 1 )
-shader_param/noise = SubResource( 136 )
+[sub_resource type="ShaderMaterial" id="137"]
+shader = SubResource("134")
+shader_parameter/intensity = 0.098
+shader_parameter/blur = 9.604
+shader_parameter/size = 1.5
+shader_parameter/resolution = Vector2(1, 1)
+shader_parameter/noise = SubResource("136")
 
-[sub_resource type="GDScript" id=151]
+[sub_resource type="GDScript" id="151"]
 script/source = "extends ColorRect
 
 
@@ -141,13 +139,22 @@ func _process(_delta):
 		dos = true
 "
 
-[sub_resource type="FontFile" id=93]
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="93"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=94]
-default_font = SubResource( 93 )
+[sub_resource type="Theme" id="94"]
+default_font = SubResource("93")
 
-[sub_resource type="GDScript" id=57]
+[sub_resource type="GDScript" id="57"]
 script/source = "extends Control
 
 @onready var PL = get_node(\"/root/rootGame/Node/Player\")
@@ -222,212 +229,329 @@ func on_frame():
 	emit_signal(\"frame_close\")
 "
 
-[sub_resource type="AtlasTexture" id=117]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 0, 70, 70 )
+[sub_resource type="AtlasTexture" id="117"]
+atlas = ExtResource("14")
+region = Rect2(0, 0, 70, 70)
 
-[sub_resource type="AtlasTexture" id=118]
-atlas = ExtResource( 14 )
-region = Rect2( 70, 0, 70, 70 )
+[sub_resource type="AtlasTexture" id="118"]
+atlas = ExtResource("14")
+region = Rect2(70, 0, 70, 70)
 
-[sub_resource type="AtlasTexture" id=119]
-atlas = ExtResource( 14 )
-region = Rect2( 140, 0, 70, 70 )
+[sub_resource type="AtlasTexture" id="119"]
+atlas = ExtResource("14")
+region = Rect2(140, 0, 70, 70)
 
-[sub_resource type="AtlasTexture" id=120]
-atlas = ExtResource( 14 )
-region = Rect2( 210, 0, 70, 70 )
+[sub_resource type="AtlasTexture" id="120"]
+atlas = ExtResource("14")
+region = Rect2(210, 0, 70, 70)
 
-[sub_resource type="AtlasTexture" id=121]
-atlas = ExtResource( 14 )
-region = Rect2( 280, 0, 70, 70 )
+[sub_resource type="AtlasTexture" id="121"]
+atlas = ExtResource("14")
+region = Rect2(280, 0, 70, 70)
 
-[sub_resource type="AtlasTexture" id=122]
-atlas = ExtResource( 14 )
-region = Rect2( 350, 0, 70, 70 )
+[sub_resource type="AtlasTexture" id="122"]
+atlas = ExtResource("14")
+region = Rect2(350, 0, 70, 70)
 
-[sub_resource type="SpriteFrames" id=123]
-animations = [ {
-"frames": [ SubResource( 117 ), SubResource( 118 ), SubResource( 119 ), SubResource( 120 ), SubResource( 121 ), SubResource( 122 ) ],
+[sub_resource type="SpriteFrames" id="123"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("117")
+}, {
+"duration": 1.0,
+"texture": SubResource("118")
+}, {
+"duration": 1.0,
+"texture": SubResource("119")
+}, {
+"duration": 1.0,
+"texture": SubResource("120")
+}, {
+"duration": 1.0,
+"texture": SubResource("121")
+}, {
+"duration": 1.0,
+"texture": SubResource("122")
+}],
 "loop": true,
-"name": "def",
+"name": &"def",
 "speed": 5.0
-} ]
+}]
 
-[sub_resource type="AtlasTexture" id=100]
-atlas = ExtResource( 7 )
-region = Rect2( 0, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="100"]
+atlas = ExtResource("7")
+region = Rect2(0, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=101]
-atlas = ExtResource( 7 )
-region = Rect2( 40, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="101"]
+atlas = ExtResource("7")
+region = Rect2(40, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=102]
-atlas = ExtResource( 7 )
-region = Rect2( 80, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="102"]
+atlas = ExtResource("7")
+region = Rect2(80, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=103]
-atlas = ExtResource( 7 )
-region = Rect2( 120, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="103"]
+atlas = ExtResource("7")
+region = Rect2(120, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=104]
-atlas = ExtResource( 7 )
-region = Rect2( 160, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="104"]
+atlas = ExtResource("7")
+region = Rect2(160, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=105]
-atlas = ExtResource( 7 )
-region = Rect2( 200, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="105"]
+atlas = ExtResource("7")
+region = Rect2(200, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=106]
-atlas = ExtResource( 7 )
-region = Rect2( 240, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="106"]
+atlas = ExtResource("7")
+region = Rect2(240, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=107]
-atlas = ExtResource( 7 )
-region = Rect2( 280, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="107"]
+atlas = ExtResource("7")
+region = Rect2(280, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=108]
-atlas = ExtResource( 7 )
-region = Rect2( 320, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="108"]
+atlas = ExtResource("7")
+region = Rect2(320, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=109]
-atlas = ExtResource( 7 )
-region = Rect2( 360, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="109"]
+atlas = ExtResource("7")
+region = Rect2(360, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=110]
-atlas = ExtResource( 7 )
-region = Rect2( 400, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="110"]
+atlas = ExtResource("7")
+region = Rect2(400, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=111]
-atlas = ExtResource( 7 )
-region = Rect2( 440, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="111"]
+atlas = ExtResource("7")
+region = Rect2(440, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=112]
-atlas = ExtResource( 7 )
-region = Rect2( 480, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="112"]
+atlas = ExtResource("7")
+region = Rect2(480, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=113]
-atlas = ExtResource( 7 )
-region = Rect2( 520, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="113"]
+atlas = ExtResource("7")
+region = Rect2(520, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=114]
-atlas = ExtResource( 7 )
-region = Rect2( 560, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="114"]
+atlas = ExtResource("7")
+region = Rect2(560, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=115]
-atlas = ExtResource( 7 )
-region = Rect2( 600, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="115"]
+atlas = ExtResource("7")
+region = Rect2(600, 0, 40, 40)
 
-[sub_resource type="SpriteFrames" id=116]
-animations = [ {
-"frames": [ SubResource( 100 ), SubResource( 101 ), SubResource( 102 ), SubResource( 103 ), SubResource( 104 ), SubResource( 105 ), SubResource( 106 ), SubResource( 107 ), SubResource( 108 ), SubResource( 109 ), SubResource( 110 ), SubResource( 111 ), SubResource( 112 ), SubResource( 113 ), SubResource( 114 ), SubResource( 115 ) ],
+[sub_resource type="SpriteFrames" id="116"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("100")
+}, {
+"duration": 1.0,
+"texture": SubResource("101")
+}, {
+"duration": 1.0,
+"texture": SubResource("102")
+}, {
+"duration": 1.0,
+"texture": SubResource("103")
+}, {
+"duration": 1.0,
+"texture": SubResource("104")
+}, {
+"duration": 1.0,
+"texture": SubResource("105")
+}, {
+"duration": 1.0,
+"texture": SubResource("106")
+}, {
+"duration": 1.0,
+"texture": SubResource("107")
+}, {
+"duration": 1.0,
+"texture": SubResource("108")
+}, {
+"duration": 1.0,
+"texture": SubResource("109")
+}, {
+"duration": 1.0,
+"texture": SubResource("110")
+}, {
+"duration": 1.0,
+"texture": SubResource("111")
+}, {
+"duration": 1.0,
+"texture": SubResource("112")
+}, {
+"duration": 1.0,
+"texture": SubResource("113")
+}, {
+"duration": 1.0,
+"texture": SubResource("114")
+}, {
+"duration": 1.0,
+"texture": SubResource("115")
+}],
 "loop": true,
-"name": "def",
+"name": &"def",
 "speed": 5.0
-} ]
+}]
 
-[sub_resource type="AtlasTexture" id=124]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="124"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=125]
-atlas = ExtResource( 2 )
-region = Rect2( 40, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="125"]
+atlas = ExtResource("2")
+region = Rect2(40, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=126]
-atlas = ExtResource( 2 )
-region = Rect2( 80, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="126"]
+atlas = ExtResource("2")
+region = Rect2(80, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=127]
-atlas = ExtResource( 2 )
-region = Rect2( 120, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="127"]
+atlas = ExtResource("2")
+region = Rect2(120, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=128]
-atlas = ExtResource( 2 )
-region = Rect2( 160, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="128"]
+atlas = ExtResource("2")
+region = Rect2(160, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=129]
-atlas = ExtResource( 2 )
-region = Rect2( 200, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="129"]
+atlas = ExtResource("2")
+region = Rect2(200, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=130]
-atlas = ExtResource( 2 )
-region = Rect2( 240, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="130"]
+atlas = ExtResource("2")
+region = Rect2(240, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id=131]
-atlas = ExtResource( 2 )
-region = Rect2( 280, 0, 40, 40 )
+[sub_resource type="AtlasTexture" id="131"]
+atlas = ExtResource("2")
+region = Rect2(280, 0, 40, 40)
 
-[sub_resource type="SpriteFrames" id=132]
-animations = [ {
-"frames": [ SubResource( 124 ), SubResource( 125 ), SubResource( 126 ), SubResource( 127 ), SubResource( 128 ), SubResource( 129 ), SubResource( 130 ), SubResource( 131 ) ],
+[sub_resource type="SpriteFrames" id="132"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("124")
+}, {
+"duration": 1.0,
+"texture": SubResource("125")
+}, {
+"duration": 1.0,
+"texture": SubResource("126")
+}, {
+"duration": 1.0,
+"texture": SubResource("127")
+}, {
+"duration": 1.0,
+"texture": SubResource("128")
+}, {
+"duration": 1.0,
+"texture": SubResource("129")
+}, {
+"duration": 1.0,
+"texture": SubResource("130")
+}, {
+"duration": 1.0,
+"texture": SubResource("131")
+}],
 "loop": true,
-"name": "def",
+"name": &"def",
 "speed": 5.0
-} ]
+}]
 
-[sub_resource type="RectangleShape2D" id=171]
-size = Vector2( 220, 60 )
+[sub_resource type="AtlasTexture" id="140"]
+atlas = ExtResource("12")
+region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id=140]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 0, 32, 32 )
+[sub_resource type="AtlasTexture" id="141"]
+atlas = ExtResource("12")
+region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id=141]
-atlas = ExtResource( 12 )
-region = Rect2( 32, 0, 32, 32 )
+[sub_resource type="AtlasTexture" id="142"]
+atlas = ExtResource("15")
+region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id=142]
-atlas = ExtResource( 15 )
-region = Rect2( 0, 0, 32, 32 )
+[sub_resource type="AtlasTexture" id="143"]
+atlas = ExtResource("15")
+region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id=143]
-atlas = ExtResource( 15 )
-region = Rect2( 32, 0, 32, 32 )
+[sub_resource type="AtlasTexture" id="144"]
+atlas = ExtResource("15")
+region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id=144]
-atlas = ExtResource( 15 )
-region = Rect2( 64, 0, 32, 32 )
+[sub_resource type="AtlasTexture" id="145"]
+atlas = ExtResource("15")
+region = Rect2(96, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id=145]
-atlas = ExtResource( 15 )
-region = Rect2( 96, 0, 32, 32 )
+[sub_resource type="AtlasTexture" id="146"]
+atlas = ExtResource("19")
+region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id=146]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 0, 32, 32 )
+[sub_resource type="AtlasTexture" id="147"]
+atlas = ExtResource("19")
+region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id=147]
-atlas = ExtResource( 19 )
-region = Rect2( 32, 0, 32, 32 )
+[sub_resource type="AtlasTexture" id="148"]
+atlas = ExtResource("19")
+region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id=148]
-atlas = ExtResource( 19 )
-region = Rect2( 64, 0, 32, 32 )
+[sub_resource type="AtlasTexture" id="149"]
+atlas = ExtResource("19")
+region = Rect2(96, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id=149]
-atlas = ExtResource( 19 )
-region = Rect2( 96, 0, 32, 32 )
-
-[sub_resource type="SpriteFrames" id=150]
-animations = [ {
-"frames": [ SubResource( 140 ), SubResource( 141 ) ],
+[sub_resource type="SpriteFrames" id="150"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("140")
+}, {
+"duration": 1.0,
+"texture": SubResource("141")
+}],
 "loop": true,
-"name": "bat",
+"name": &"bat",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 142 ), SubResource( 143 ), SubResource( 144 ), SubResource( 145 ) ],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("142")
+}, {
+"duration": 1.0,
+"texture": SubResource("143")
+}, {
+"duration": 1.0,
+"texture": SubResource("144")
+}, {
+"duration": 1.0,
+"texture": SubResource("145")
+}],
 "loop": true,
-"name": "gear",
+"name": &"gear",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 146 ), SubResource( 147 ), SubResource( 148 ), SubResource( 149 ) ],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("146")
+}, {
+"duration": 1.0,
+"texture": SubResource("147")
+}, {
+"duration": 1.0,
+"texture": SubResource("148")
+}, {
+"duration": 1.0,
+"texture": SubResource("149")
+}],
 "loop": true,
-"name": "temp",
+"name": &"temp",
 "speed": 5.0
-} ]
+}]
 
-[sub_resource type="GDScript" id=153]
+[sub_resource type="GDScript" id="153"]
 script/source = "extends Control
 
 var press = false
@@ -486,16 +610,13 @@ func recolor(count, maximum):
 	$Back.modulate = Color(col[1][count >= maximum])
 "
 
-[sub_resource type="RectangleShape2D" id=168]
-size = Vector2( 100, 100 )
-
-[sub_resource type="StyleBoxFlat" id=154]
-bg_color = Color( 0, 0.615686, 0.0392157, 1 )
+[sub_resource type="StyleBoxFlat" id="154"]
+bg_color = Color(0, 0.615686, 0.0392157, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color( 0.0392157, 0.368627, 0, 1 )
+border_color = Color(0.0392157, 0.368627, 0, 1)
 border_blend = true
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -504,13 +625,13 @@ corner_radius_bottom_left = 10
 shadow_size = 2
 anti_aliasing_size = 0.549
 
-[sub_resource type="StyleBoxFlat" id=155]
-bg_color = Color( 0, 0.717647, 0.0117647, 1 )
+[sub_resource type="StyleBoxFlat" id="155"]
+bg_color = Color(0, 0.717647, 0.0117647, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color( 0.0392157, 0.368627, 0, 1 )
+border_color = Color(0.0392157, 0.368627, 0, 1)
 border_blend = true
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -519,13 +640,13 @@ corner_radius_bottom_left = 10
 shadow_size = 2
 anti_aliasing_size = 0.549
 
-[sub_resource type="StyleBoxFlat" id=156]
-bg_color = Color( 0, 0.772549, 0.0117647, 1 )
+[sub_resource type="StyleBoxFlat" id="156"]
+bg_color = Color(0, 0.772549, 0.0117647, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color( 0.0392157, 0.368627, 0, 1 )
+border_color = Color(0.0392157, 0.368627, 0, 1)
 border_blend = true
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -534,13 +655,13 @@ corner_radius_bottom_left = 10
 shadow_size = 2
 anti_aliasing_size = 0.549
 
-[sub_resource type="StyleBoxFlat" id=157]
-bg_color = Color( 0, 0.501961, 0.0352941, 1 )
+[sub_resource type="StyleBoxFlat" id="157"]
+bg_color = Color(0, 0.501961, 0.0352941, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color( 0.0392157, 0.368627, 0, 1 )
+border_color = Color(0.0392157, 0.368627, 0, 1)
 border_blend = true
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -549,23 +670,25 @@ corner_radius_bottom_left = 10
 shadow_size = 2
 anti_aliasing_size = 0.549
 
-[sub_resource type="Theme" id=158]
-Button/styles/disabled = SubResource( 154 )
-Button/styles/hover = SubResource( 155 )
-Button/styles/normal = SubResource( 156 )
-Button/styles/pressed = SubResource( 157 )
+[sub_resource type="Theme" id="158"]
+Button/styles/disabled = SubResource("154")
+Button/styles/hover = SubResource("155")
+Button/styles/normal = SubResource("156")
+Button/styles/pressed = SubResource("157")
 
-[sub_resource type="RectangleShape2D" id=173]
-size = Vector2( 100, 22 )
+[sub_resource type="FontFile" id="184"]
+fallbacks = Array[Font]([ExtResource("24")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="FontFile" id=184]
-size = 46
-outline_size = 3
-outline_color = Color( 0, 0, 0, 1 )
-extra_spacing_char = -1
-font_data = ExtResource( 24 )
-
-[sub_resource type="GDScript" id=185]
+[sub_resource type="GDScript" id="185"]
 script/source = "extends Button
 
 func _ready():
@@ -573,11 +696,11 @@ func _ready():
 	#visible = G.game_settings[\"mobile_use_all\"]
 "
 
-[sub_resource type="AtlasTexture" id=183]
-atlas = ExtResource( 16 )
-region = Rect2( 0, 0, 50, 50 )
+[sub_resource type="AtlasTexture" id="183"]
+atlas = ExtResource("16")
+region = Rect2(0, 0, 50, 50)
 
-[sub_resource type="GDScript" id=164]
+[sub_resource type="GDScript" id="164"]
 script/source = "extends Button
 
 @onready var player = $\"../../../../../\"
@@ -611,7 +734,7 @@ func up():
 	icon.region.position.y = {false: 0.0, true: 50.0}[false]
 "
 
-[sub_resource type="GDScript" id=165]
+[sub_resource type="GDScript" id="165"]
 script/source = "extends Button
 
 func _pressed():
@@ -621,7 +744,7 @@ func _pressed():
 	}[pressed])
 "
 
-[sub_resource type="GDScript" id=159]
+[sub_resource type="GDScript" id="159"]
 script/source = "extends Button
 
 @onready var player = $\"../../../../../\"
@@ -630,7 +753,7 @@ func _pressed():
 	player.show_inventory()
 "
 
-[sub_resource type="GDScript" id=162]
+[sub_resource type="GDScript" id="162"]
 script/source = "extends Button
 
 @onready var player = $\"../../../../../\"
@@ -639,7 +762,7 @@ func _pressed():
 	player.show_chat()
 "
 
-[sub_resource type="GDScript" id=160]
+[sub_resource type="GDScript" id="160"]
 script/source = "extends Button
 
 @onready var player = $\"../../../../../\"
@@ -648,7 +771,7 @@ func _pressed():
 	player.show_menu()
 "
 
-[sub_resource type="GDScript" id=166]
+[sub_resource type="GDScript" id="166"]
 script/source = "extends HBoxContainer
 
 var left = false
@@ -665,40 +788,7 @@ func left_up():
 	left = false
 "
 
-[sub_resource type="AtlasTexture" id=177]
-atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 20.081, 20 )
-
-[sub_resource type="AtlasTexture" id=178]
-atlas = ExtResource( 6 )
-region = Rect2( 20, 0, 20.081, 20 )
-
-#[sub_resource type="RectangleShape2D" id=169]
-
-[sub_resource type="RectangleShape2D" id=174]
-size = Vector2( 70, 40 )
-
-[sub_resource type="AtlasTexture" id=179]
-atlas = ExtResource( 10 )
-region = Rect2( 0, 0, 20, 20 )
-
-[sub_resource type="AtlasTexture" id=180]
-atlas = ExtResource( 10 )
-region = Rect2( 0, 20, 20, 20 )
-
-[sub_resource type="RectangleShape2D" id=172]
-
-[sub_resource type="AtlasTexture" id=181]
-atlas = ExtResource( 11 )
-region = Rect2( 0, 0, 20, 20 )
-
-[sub_resource type="AtlasTexture" id=182]
-atlas = ExtResource( 11 )
-region = Rect2( 0, 20, 20, 20 )
-
-[sub_resource type="RectangleShape2D" id=170]
-
-[sub_resource type="GDScript" id=167]
+[sub_resource type="GDScript" id="167"]
 script/source = "extends VBoxContainer
 
 var down = false
@@ -718,10 +808,7 @@ func down_down():
 	down = true
 "
 
-[sub_resource type="RectangleShape2D" id=175]
-size = Vector2( 40, 150 )
-
-[sub_resource type="GDScript" id=186]
+[sub_resource type="GDScript" id="186"]
 script/source = "extends ColorRect
 
 
@@ -744,7 +831,7 @@ func _process(_delta):
 		dos = true
 "
 
-[sub_resource type="GDScript" id=85]
+[sub_resource type="GDScript" id="85"]
 script/source = "extends Control
 
 @onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
@@ -1064,7 +1151,7 @@ func method_lifted_item(slot, number_delete, recipes, slot_number, data = []):
 	return data[1]
 "
 
-[sub_resource type="GDScript" id=86]
+[sub_resource type="GDScript" id="86"]
 script/source = "extends Control
 
 func _ready():
@@ -1078,16 +1165,22 @@ func pressed(mode):
 		$book_button/book/Sprite2D.texture = load(\"res://textures/ui/icons/book/book_close.png\")
 "
 
-[sub_resource type="FontFile" id=9]
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="9"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=10]
-default_font = SubResource( 9 )
+[sub_resource type="Theme" id="10"]
+default_font = SubResource("9")
 
-[sub_resource type="StyleBoxFlat" id=12]
-bg_color = Color( 0.105882, 0.227451, 0.141176, 1 )
-
-[sub_resource type="GDScript" id=44]
+[sub_resource type="GDScript" id="44"]
 script/source = "extends Control
 
 @onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
@@ -1170,13 +1263,22 @@ func check_bullet_and_gan():
 	data_clothes[\"bullet\"] = [check, get_node(\"Control/AdditionalArmSlot\").significant_data, get_node(\"Control/AdditionalArmSlot\").insignificant_data]
 "
 
-[sub_resource type="FontFile" id=46]
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="46"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=47]
-default_font = SubResource( 46 )
+[sub_resource type="Theme" id="47"]
+default_font = SubResource("46")
 
-[sub_resource type="GDScript" id=62]
+[sub_resource type="GDScript" id="62"]
 script/source = "extends Control
 
 #Пример данных:
@@ -1253,7 +1355,7 @@ func set_slot_data(data):
 		slot.connect(\"RMB_item\", Callable(self, \"event_chest\"))
 "
 
-[sub_resource type="GDScript" id=58]
+[sub_resource type="GDScript" id="58"]
 script/source = "extends Control
 
 @onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
@@ -1332,7 +1434,7 @@ func get_items(inventory:bool = true, fast_slots:bool = true) -> Array:
 	return items
 "
 
-[sub_resource type="GDScript" id=161]
+[sub_resource type="GDScript" id="161"]
 script/source = "extends Button
 
 
@@ -1342,7 +1444,7 @@ func _pressed():
 	player.show_main()
 "
 
-[sub_resource type="GDScript" id=59]
+[sub_resource type="GDScript" id="59"]
 script/source = "extends Control
 
 @onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
@@ -1399,20 +1501,37 @@ func show_save():
 	$Saves.show()
 "
 
-[sub_resource type="FontFile" id=51]
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="51"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=52]
-default_font = SubResource( 51 )
+[sub_resource type="Theme" id="52"]
+default_font = SubResource("51")
 
-[sub_resource type="FontFile" id=35]
-size = 32
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="35"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=36]
-default_font = SubResource( 35 )
+[sub_resource type="Theme" id="36"]
+default_font = SubResource("35")
 
-[sub_resource type="GDScript" id=89]
+[sub_resource type="GDScript" id="89"]
 script/source = "extends Control
 
 #Основные
@@ -1433,8 +1552,8 @@ func list():
 		#while file_name != \"\":
 			#var file = File.new()
 			#if file_name != \".\" and dir.current_is_dir() and file.file_exists(\"user://SaveGame/Worlds/\" + file_name + \"/map.khuter\"):
-				$ItemList.add_item(file_name)
-				var id = $ItemList.get_item_count() - 1
+				#$ItemList.add_item(file_name)
+				#var id = $ItemList.get_item_count() - 1
 				
 				#var image = Image.new()
 				#var err = image.load(\"user://SaveGame/Worlds/\" + file_name + \"/screenshot.png\")
@@ -1497,31 +1616,72 @@ func hide_saves():
 	$\"../Control\".show()
 "
 
-[sub_resource type="FontFile" id=91]
-size = 20
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="91"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=92]
-default_font = SubResource( 91 )
+[sub_resource type="Theme" id="92"]
+default_font = SubResource("91")
 
-[sub_resource type="FontFile" id=88]
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="88"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="CompressedTexture2D" id=133]
-flags = 4
+[sub_resource type="CompressedTexture2D" id="133"]
 
-[sub_resource type="FontFile" id=87]
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="87"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="FontFile" id=90]
-size = 13
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="90"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="FontFile" id=176]
-size = 40
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="176"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="GDScript" id=79]
+[sub_resource type="GDScript" id="79"]
 script/source = "extends Control
 
 @onready var PL = get_node(\"/root/rootGame/Node/Player\")
@@ -1634,19 +1794,37 @@ func set_var(data): #[name_var, path, data]
 		get_node(data[1]).set(data[0], data[2])
 "
 
-[sub_resource type="FontFile" id=83]
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="83"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=84]
-default_font = SubResource( 83 )
+[sub_resource type="Theme" id="84"]
+default_font = SubResource("83")
 
-[sub_resource type="FontFile" id=81]
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="81"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=82]
-default_font = SubResource( 81 )
+[sub_resource type="Theme" id="82"]
+default_font = SubResource("81")
 
-[sub_resource type="GDScript" id=61]
+[sub_resource type="GDScript" id="61"]
 script/source = "extends Control
 
 @onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
@@ -1693,31 +1871,61 @@ func ok_specter():
 	get_node(\"/root/rootGame\").rpc(\"sms\", died_text)
 "
 
-[sub_resource type="FontFile" id=33]
-size = 34
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="33"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=37]
-default_font = SubResource( 33 )
+[sub_resource type="Theme" id="37"]
+default_font = SubResource("33")
 
-[sub_resource type="FontFile" id=78]
-size = 28
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="78"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="FontFile" id=39]
-size = 30
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = SubResource( 78 )
+[sub_resource type="FontFile" id="39"]
+fallbacks = Array[Font]([SubResource("78")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=38]
-default_font = SubResource( 39 )
+[sub_resource type="Theme" id="38"]
+default_font = SubResource("39")
 
-[sub_resource type="FontFile" id=60]
-size = 28
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="60"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="GDScript" id=13]
+[sub_resource type="GDScript" id="13"]
 script/source = "extends Control
 
 func _ready():
@@ -1746,25 +1954,52 @@ func _pressed():
 	G.get_node(\"Global Interface\").new_notification(\"Система\", str(sms))
 "
 
-[sub_resource type="FontFile" id=63]
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="63"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=64]
-default_font = SubResource( 63 )
+[sub_resource type="Theme" id="64"]
+default_font = SubResource("63")
 
-[sub_resource type="FontFile" id=53]
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="53"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=54]
-default_font = SubResource( 53 )
+[sub_resource type="Theme" id="54"]
+default_font = SubResource("53")
 
-[sub_resource type="FontFile" id=55]
-font_data = ExtResource( 25 )
+[sub_resource type="FontFile" id="55"]
+fallbacks = Array[Font]([ExtResource("25")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=56]
-default_font = SubResource( 55 )
+[sub_resource type="Theme" id="56"]
+default_font = SubResource("55")
 
-[sub_resource type="GDScript" id=163]
+[sub_resource type="GDScript" id="163"]
 script/source = "extends Button
 
 
@@ -1774,14 +2009,20 @@ func _pressed():
 	player.hide_chat()
 "
 
-[sub_resource type="Animation" id=97]
+[sub_resource type="Animation" id="97"]
 length = 0.001
 
-[sub_resource type="Animation" id=98]
+[sub_resource type="Animation" id="98"]
 resource_name = "Transition"
 length = 2.0
 
-[sub_resource type="GDScript" id=99]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wnbnr"]
+_data = {
+"RESET": SubResource("97"),
+"Transition": SubResource("98")
+}
+
+[sub_resource type="GDScript" id="99"]
 script/source = "extends AnimationPlayer
 
 var function = [\"\", \"\"] #путь, функция
@@ -1792,54 +2033,56 @@ func finished(_anim_name):
 "
 
 [node name="interface" type="CanvasLayer"]
-script = SubResource( 76 )
+script = SubResource("76")
 
 [node name="Bottom" type="TextureRect" parent="."]
 visible = false
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource( 20 )
-expand = true
+texture = ExtResource("20")
+expand_mode = 1
 
 [node name="blur" type="ColorRect" parent="."]
 process_mode = 1
-material = SubResource( 137 )
+material = SubResource("137")
 use_parent_material = true
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color( 0, 0, 0, 1 )
-script = SubResource( 151 )
-__meta__ = {
-"_edit_lock_": true
-}
+color = Color(0, 0, 0, 1)
+script = SubResource("151")
 
 [node name="main" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme = SubResource( 94 )
-script = SubResource( 57 )
+theme = SubResource("94")
+script = SubResource("57")
 
 [node name="heating" type="AnimatedSprite2D" parent="main"]
-position = Vector2( 44.75, 47.875 )
-scale = Vector2( 1.27857, 1.28214 )
-frames = SubResource( 123 )
-animation = "def"
+position = Vector2(44.75, 47.875)
+scale = Vector2(1.27857, 1.28214)
+sprite_frames = SubResource("123")
+animation = &"def"
 
 [node name="health" type="AnimatedSprite2D" parent="main"]
-position = Vector2( 46, 26 )
-scale = Vector2( 1.3, 1.25 )
-frames = SubResource( 116 )
-animation = "def"
+position = Vector2(46, 26)
+scale = Vector2(1.3, 1.25)
+sprite_frames = SubResource("116")
+animation = &"def"
 
 [node name="battery" type="AnimatedSprite2D" parent="main"]
-position = Vector2( 26, 71 )
-scale = Vector2( 1.3, 1.25 )
-frames = SubResource( 132 )
-animation = "def"
+position = Vector2(26, 71)
+scale = Vector2(1.3, 1.25)
+sprite_frames = SubResource("132")
+animation = &"def"
 
 [node name="Control" type="Control" parent="main"]
+anchors_preset = 0
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -1847,115 +2090,85 @@ anchor_bottom = 1.0
 offset_top = -64.0
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="main/Control"]
-position = Vector2( -220, -10 )
-shape = SubResource( 171 )
+position = Vector2(-220, -10)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="main"]
+layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -64.0
 alignment = 1
 
-[node name="MainSlot" parent="main/HBoxContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 310.0
-offset_right = 374.0
-offset_bottom = 64.0
-custom_minimum_size = Vector2( 64, 0 )
+[node name="MainSlot" parent="main/HBoxContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
 
-[node name="MainSlot2" parent="main/HBoxContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 378.0
-offset_right = 442.0
-offset_bottom = 64.0
-custom_minimum_size = Vector2( 64, 0 )
+[node name="MainSlot2" parent="main/HBoxContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
 
-[node name="MainSlot3" parent="main/HBoxContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 446.0
-offset_right = 510.0
-offset_bottom = 64.0
-custom_minimum_size = Vector2( 64, 0 )
+[node name="MainSlot3" parent="main/HBoxContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
 
-[node name="MainSlot4" parent="main/HBoxContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 514.0
-offset_right = 578.0
-offset_bottom = 64.0
-custom_minimum_size = Vector2( 64, 0 )
+[node name="MainSlot4" parent="main/HBoxContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
 
-[node name="MainSlot5" parent="main/HBoxContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 582.0
-offset_right = 646.0
-offset_bottom = 64.0
-custom_minimum_size = Vector2( 64, 0 )
+[node name="MainSlot5" parent="main/HBoxContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
 
-[node name="MainSlot6" parent="main/HBoxContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 650.0
-offset_right = 714.0
-offset_bottom = 64.0
-custom_minimum_size = Vector2( 64, 0 )
+[node name="MainSlot6" parent="main/HBoxContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
 
 [node name="Box" type="HBoxContainer" parent="main"]
+layout_mode = 0
 offset_left = 95.0
 offset_top = 3.0
 offset_right = 325.0
 offset_bottom = 83.0
 
 [node name="LowHealth" type="Control" parent="main/Box"]
-offset_right = 80.0
-offset_bottom = 80.0
-custom_minimum_size = Vector2( 80, 0 )
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
 tooltip_text = "Восстановите здоровье!"
 
 [node name="Icon" type="AnimatedSprite2D" parent="main/Box/LowHealth"]
-position = Vector2( 37, 36 )
-scale = Vector2( 2, 2 )
-frames = SubResource( 150 )
-animation = "gear"
+position = Vector2(37, 36)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("150")
+animation = &"gear"
 frame = 2
-playing = true
 
 [node name="LowBat" type="Control" parent="main/Box"]
-offset_left = 84.0
-offset_right = 164.0
-offset_bottom = 80.0
-custom_minimum_size = Vector2( 80, 0 )
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
 tooltip_text = "Восстановите батарею!"
 
 [node name="Icon" type="AnimatedSprite2D" parent="main/Box/LowBat"]
-position = Vector2( 37, 36 )
-scale = Vector2( 2, 2 )
-frames = SubResource( 150 )
-animation = "bat"
-playing = true
+position = Vector2(37, 36)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("150")
+animation = &"bat"
 
 [node name="HighTemp" type="Control" parent="main/Box"]
-offset_left = 168.0
-offset_right = 248.0
-offset_bottom = 80.0
-custom_minimum_size = Vector2( 80, 0 )
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
 tooltip_text = "Снизьте температуру!"
 
 [node name="Icon" type="AnimatedSprite2D" parent="main/Box/HighTemp"]
-position = Vector2( 37, 36 )
-scale = Vector2( 2, 2 )
-frames = SubResource( 150 )
-animation = "temp"
+position = Vector2(37, 36)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("150")
+animation = &"temp"
 frame = 3
-playing = true
 
 [node name="Shoot" type="TextureRect" parent="main"]
-self_modulate = Color( 0.101961, 0.682353, 0, 0.635294 )
+self_modulate = Color(0.101961, 0.682353, 0, 0.635294)
+layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -1964,12 +2177,13 @@ offset_left = -224.0
 offset_top = -187.0
 offset_right = -54.0
 offset_bottom = -20.0
-texture = ExtResource( 3 )
-expand = true
-script = SubResource( 153 )
+texture = ExtResource("3")
+expand_mode = 1
+script = SubResource("153")
 
 [node name="Back" type="TextureRect" parent="main/Shoot"]
-modulate = Color( 0.101961, 0.682353, 0, 0.635294 )
+modulate = Color(0.101961, 0.682353, 0, 0.635294)
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1978,28 +2192,29 @@ offset_left = -55.0
 offset_top = -55.0
 offset_right = 55.0
 offset_bottom = 55.0
-pivot_offset = Vector2( 20, 20 )
-texture = ExtResource( 3 )
-expand = true
+pivot_offset = Vector2(20, 20)
+texture = ExtResource("3")
+expand_mode = 1
 
 [node name="Sword01" type="Sprite2D" parent="main/Shoot"]
-modulate = Color( 0.411765, 1, 0.32549, 1 )
-position = Vector2( 80, 86 )
-scale = Vector2( 2.5, 2.5 )
-texture = ExtResource( 1 )
+modulate = Color(0.411765, 1, 0.32549, 1)
+position = Vector2(80, 86)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("1")
 
 [node name="Sword02" type="Sprite2D" parent="main/Shoot"]
-modulate = Color( 0.411765, 1, 0.32549, 1 )
-position = Vector2( 92, 86 )
-scale = Vector2( 2.5, 2.5 )
-texture = ExtResource( 1 )
+modulate = Color(0.411765, 1, 0.32549, 1)
+position = Vector2(92, 86)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("1")
 flip_h = true
 
 [node name="Rot" type="Node2D" parent="main/Shoot"]
-position = Vector2( 85, 83.5 )
+position = Vector2(85, 83.5)
 
 [node name="Rect" type="TextureRect" parent="main/Shoot/Rot"]
-modulate = Color( 0.219608, 1, 0, 0.901961 )
+modulate = Color(0.219608, 1, 0, 0.901961)
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2008,325 +2223,257 @@ offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
-pivot_offset = Vector2( 20, 20 )
-texture = ExtResource( 3 )
-expand = true
+pivot_offset = Vector2(20, 20)
+texture = ExtResource("3")
+expand_mode = 1
 
 [node name="Touch" type="TouchScreenButton" parent="main/Shoot"]
-position = Vector2( -15, -18 )
-shape = SubResource( 168 )
+position = Vector2(-15, -18)
 
 [node name="AndroidButtons" type="HBoxContainer" parent="main"]
+layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -1024.0
 offset_top = 10.0
 offset_right = -10.0
 offset_bottom = 100.0
-theme = SubResource( 158 )
+theme = SubResource("158")
 alignment = 2
 
 [node name="Frame2" type="TouchScreenButton" parent="main/AndroidButtons"]
-position = Vector2( 531, -11 )
-scale = Vector2( 2.5, 2.5 )
-shape = SubResource( 173 )
+position = Vector2(531, -11)
+scale = Vector2(2.5, 2.5)
 
 [node name="UseAll" type="Button" parent="main/AndroidButtons"]
-offset_left = 349.0
-offset_right = 544.0
-offset_bottom = 90.0
-custom_minimum_size = Vector2( 195, 0 )
+custom_minimum_size = Vector2(195, 0)
+layout_mode = 2
 focus_mode = 0
-theme_override_fonts/font = SubResource( 184 )
-focus_mode = 0
+theme_override_fonts/font = SubResource("184")
 text = "Использовать"
 icon_alignment = 1
 expand_icon = true
-script = SubResource( 185 )
+script = SubResource("185")
 
 [node name="Drop" type="Button" parent="main/AndroidButtons"]
-offset_left = 548.0
-offset_right = 638.0
-offset_bottom = 90.0
-custom_minimum_size = Vector2( 90, 0 )
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
 focus_mode = 0
-focus_mode = 0
-icon = SubResource( 183 )
+icon = SubResource("183")
 icon_alignment = 1
 expand_icon = true
-script = SubResource( 164 )
+script = SubResource("164")
 
 [node name="Use" type="Button" parent="main/AndroidButtons"]
-offset_left = 642.0
-offset_right = 732.0
-offset_bottom = 90.0
-custom_minimum_size = Vector2( 90, 0 )
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
 focus_mode = 0
 toggle_mode = true
-focus_mode = 0
-icon = ExtResource( 9 )
+icon = ExtResource("9")
 icon_alignment = 1
 expand_icon = true
-script = SubResource( 165 )
+script = SubResource("165")
 
 [node name="InventoryOpen" type="Button" parent="main/AndroidButtons"]
-offset_left = 736.0
-offset_right = 826.0
-offset_bottom = 90.0
-custom_minimum_size = Vector2( 90, 0 )
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
 focus_mode = 0
-focus_mode = 0
-icon = ExtResource( 4 )
+icon = ExtResource("4")
 icon_alignment = 1
 expand_icon = true
-script = SubResource( 159 )
+script = SubResource("159")
 
 [node name="Chat" type="Button" parent="main/AndroidButtons"]
-offset_left = 830.0
-offset_right = 920.0
-offset_bottom = 90.0
-custom_minimum_size = Vector2( 90, 0 )
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
 focus_mode = 0
-focus_mode = 0
-icon = ExtResource( 5 )
+icon = ExtResource("5")
 icon_alignment = 1
 expand_icon = true
-script = SubResource( 162 )
+script = SubResource("162")
 
 [node name="Close" type="Button" parent="main/AndroidButtons"]
-offset_left = 924.0
-offset_right = 1014.0
-offset_bottom = 90.0
-custom_minimum_size = Vector2( 90, 0 )
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
 focus_mode = 0
-focus_mode = 0
-icon = ExtResource( 17 )
+icon = ExtResource("17")
 icon_alignment = 1
 expand_icon = true
-script = SubResource( 160 )
+script = SubResource("160")
 
 [node name="RunButtons" type="HBoxContainer" parent="main"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 0
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 35.0
 offset_top = -135.0
 offset_right = 284.0
 offset_bottom = -35.0
-custom_minimum_size = Vector2( 0, 100 )
 alignment = 1
-script = SubResource( 166 )
+script = SubResource("166")
 
 [node name="Left" type="Button" parent="main/RunButtons"]
 visible = false
-offset_left = 74.0
-offset_right = 174.0
-offset_bottom = 100.0
-custom_minimum_size = Vector2( 100, 0 )
-focus_mode = 0
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 focus_mode = 0
 text = "<-"
 
 [node name="Right" type="Button" parent="main/RunButtons"]
 visible = false
-offset_left = 126.0
-offset_right = 226.0
-offset_bottom = 100.0
-custom_minimum_size = Vector2( 100, 0 )
-focus_mode = 0
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 focus_mode = 0
 text = "->"
 
 [node name="TouchLeft" type="TouchScreenButton" parent="main/RunButtons"]
-position = Vector2( 0, -20 )
-scale = Vector2( 6, 6 )
-normal = SubResource( 177 )
-pressed = SubResource( 178 )
-shape = SubResource( 169 )
+position = Vector2(0, -20)
+scale = Vector2(6, 6)
 
 [node name="None" type="TouchScreenButton" parent="main/RunButtons"]
-position = Vector2( -83, -30 )
-scale = Vector2( 2.5, 2.5 )
-shape = SubResource( 174 )
+position = Vector2(-83, -30)
+scale = Vector2(2.5, 2.5)
 
 [node name="TouchRight" type="TouchScreenButton" parent="main/RunButtons"]
-position = Vector2( 246, 100 )
+position = Vector2(246, 100)
 rotation = 3.14159
-scale = Vector2( 6, 6 )
-normal = SubResource( 177 )
-pressed = SubResource( 178 )
-shape = SubResource( 169 )
+scale = Vector2(6, 6)
 
 [node name="TouchUp" type="TouchScreenButton" parent="main/RunButtons"]
-position = Vector2( 10, -292 )
-scale = Vector2( 5, 5 )
-normal = SubResource( 179 )
-pressed = SubResource( 180 )
-shape = SubResource( 172 )
+position = Vector2(10, -292)
+scale = Vector2(5, 5)
 
 [node name="TouchDown2" type="TouchScreenButton" parent="main/RunButtons"]
-position = Vector2( 10, -188 )
-scale = Vector2( 5, 5 )
-normal = SubResource( 181 )
-pressed = SubResource( 182 )
-shape = SubResource( 170 )
+position = Vector2(10, -188)
+scale = Vector2(5, 5)
 
 [node name="JumpButtons" type="VBoxContainer" parent="main"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -100.0
 offset_top = 173.0
 offset_bottom = -223.0
-custom_minimum_size = Vector2( 100, 0 )
 alignment = 1
-script = SubResource( 167 )
+script = SubResource("167")
 
 [node name="Up" type="Button" parent="main/JumpButtons"]
 visible = false
-offset_top = 52.0
-offset_right = 100.0
-offset_bottom = 152.0
-custom_minimum_size = Vector2( 0, 100 )
-focus_mode = 0
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
 focus_mode = 0
 text = "UP"
 
 [node name="Down" type="Button" parent="main/JumpButtons"]
 visible = false
-offset_top = 104.0
-offset_right = 100.0
-offset_bottom = 204.0
-custom_minimum_size = Vector2( 100, 100 )
-focus_mode = 0
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
 focus_mode = 0
 text = "DOWN"
 
 [node name="TouchUp" type="TouchScreenButton" parent="main/JumpButtons"]
-position = Vector2( -10, 0 )
-scale = Vector2( 5, 5 )
-normal = SubResource( 179 )
-pressed = SubResource( 180 )
-shape = SubResource( 172 )
+position = Vector2(-10, 0)
+scale = Vector2(5, 5)
 
 [node name="TouchDown" type="TouchScreenButton" parent="main/JumpButtons"]
-position = Vector2( -10, 104 )
-scale = Vector2( 5, 5 )
-normal = SubResource( 181 )
-pressed = SubResource( 182 )
-shape = SubResource( 170 )
+position = Vector2(-10, 104)
+scale = Vector2(5, 5)
 
 [node name="Frame" type="TouchScreenButton" parent="main/JumpButtons"]
-position = Vector2( 50, 104 )
-scale = Vector2( 2.5, 2.5 )
-shape = SubResource( 175 )
+position = Vector2(50, 104)
+scale = Vector2(2.5, 2.5)
 shape_centered = false
 
 [node name="health" type="ColorRect" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color( 0.227451, 0, 0, 0 )
-script = SubResource( 186 )
-__meta__ = {
-"_edit_lock_": true
-}
+color = Color(0.227451, 0, 0, 0)
+script = SubResource("186")
 
 [node name="craft_menu" type="Control" parent="."]
 visible = false
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-script = SubResource( 85 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+script = SubResource("85")
 
 [node name="Control" type="Control" parent="craft_menu"]
+anchors_preset = 0
 offset_left = 584.0
 offset_top = 12.0
 offset_right = 970.0
 offset_bottom = 421.0
-script = SubResource( 86 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+script = SubResource("86")
 
 [node name="book_menu" type="Control" parent="craft_menu/Control"]
+anchors_preset = 0
 offset_left = 247.0
 offset_top = 64.0
 offset_right = 431.0
 offset_bottom = 396.0
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect2" type="ColorRect" parent="craft_menu/Control/book_menu"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.105882, 0.227451, 0.141176, 1 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+color = Color(0.105882, 0.227451, 0.141176, 1)
 
 [node name="ReferenceRect" type="ReferenceRect" parent="craft_menu/Control/book_menu"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-border_color = Color( 0.109804, 0.196078, 0.113725, 1 )
+border_color = Color(0.109804, 0.196078, 0.113725, 1)
 editor_only = false
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
 
 [node name="ItemList" type="ItemList" parent="craft_menu/Control/book_menu"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = SubResource( 10 )
-theme_override_styles/bg = SubResource( 12 )
-items = [ "Элемент 0", null, false, "Элемент 1", null, false, "Элемент 2", null, false, "Элемент 3", null, false, "Элемент 4", null, false, "Элемент 5", null, false ]
+theme = SubResource("10")
+item_count = 6
+item_0/text = "Элемент 0"
+item_1/text = "Элемент 1"
+item_2/text = "Элемент 2"
+item_3/text = "Элемент 3"
+item_4/text = "Элемент 4"
+item_5/text = "Элемент 5"
 
 [node name="ColorRect" type="ColorRect" parent="craft_menu/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -139.0
-color = Color( 0.105882, 0.227451, 0.141176, 1 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+color = Color(0.105882, 0.227451, 0.141176, 1)
 
 [node name="book_button" type="Control" parent="craft_menu/Control"]
+anchors_preset = 0
 offset_left = 247.0
 offset_top = 14.1926
 offset_right = 294.0
 offset_bottom = 62.1926
-__meta__ = {
-"_edit_group_": true,
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect3" type="ColorRect" parent="craft_menu/Control/book_button"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.105882, 0.227451, 0.141176, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color(0.105882, 0.227451, 0.141176, 1)
 
 [node name="ReferenceRect3" type="ReferenceRect" parent="craft_menu/Control/book_button"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-border_color = Color( 0.109804, 0.196078, 0.113725, 1 )
+border_color = Color(0.109804, 0.196078, 0.113725, 1)
 editor_only = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="book" type="Control" parent="craft_menu/Control/book_button"]
+anchors_preset = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2335,42 +2482,32 @@ offset_left = -25.0
 offset_top = -22.0
 offset_right = 25.0
 offset_bottom = 22.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Sprite2D" type="TextureRect" parent="craft_menu/Control/book_button/book"]
+layout_mode = 0
 offset_left = 2.0
 offset_right = 48.0
 offset_bottom = 43.0
-texture = ExtResource( 8 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture = ExtResource("8")
+expand_mode = 1
 
 [node name="TextureButton" type="TextureButton" parent="craft_menu/Control/book_button/book"]
+layout_mode = 0
 offset_left = 3.0
 offset_right = 47.0
 offset_bottom = 44.0
 toggle_mode = true
-pressed = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ReferenceRect2" type="ReferenceRect" parent="craft_menu/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -139.0
-border_color = Color( 0.109804, 0.196078, 0.113725, 1 )
+border_color = Color(0.109804, 0.196078, 0.113725, 1)
 editor_only = false
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
 
-[node name="CraftSlot0" parent="craft_menu/Control" instance=ExtResource( 22 )]
+[node name="CraftSlot0" parent="craft_menu/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 8.0
 offset_top = 11.0
 offset_right = 56.752
@@ -2388,10 +2525,11 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [  ]
+"valid_types": []
 }
 
-[node name="CraftSlot1" parent="craft_menu/Control" instance=ExtResource( 22 )]
+[node name="CraftSlot1" parent="craft_menu/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 86.0
 offset_top = 11.0
 offset_right = 134.752
@@ -2409,10 +2547,11 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [  ]
+"valid_types": []
 }
 
-[node name="CraftSlot2" parent="craft_menu/Control" instance=ExtResource( 22 )]
+[node name="CraftSlot2" parent="craft_menu/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 164.0
 offset_top = 11.0
 offset_right = 212.752
@@ -2430,10 +2569,11 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [  ]
+"valid_types": []
 }
 
-[node name="CraftSlot3" parent="craft_menu/Control" instance=ExtResource( 22 )]
+[node name="CraftSlot3" parent="craft_menu/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 8.0
 offset_top = 88.0
 offset_right = 56.752
@@ -2451,10 +2591,11 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [  ]
+"valid_types": []
 }
 
-[node name="CraftSlot4" parent="craft_menu/Control" instance=ExtResource( 22 )]
+[node name="CraftSlot4" parent="craft_menu/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 86.0
 offset_top = 88.0
 offset_right = 134.752
@@ -2472,10 +2613,11 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [  ]
+"valid_types": []
 }
 
-[node name="CraftSlot5" parent="craft_menu/Control" instance=ExtResource( 22 )]
+[node name="CraftSlot5" parent="craft_menu/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 164.0
 offset_top = 88.0
 offset_right = 212.752
@@ -2493,10 +2635,11 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [  ]
+"valid_types": []
 }
 
-[node name="CraftSlot6" parent="craft_menu/Control" instance=ExtResource( 22 )]
+[node name="CraftSlot6" parent="craft_menu/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 8.0
 offset_top = 164.0
 offset_right = 56.752
@@ -2514,15 +2657,16 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [  ]
+"valid_types": []
 }
 
-[node name="CraftSlot7" parent="craft_menu/Control" instance=ExtResource( 22 )]
+[node name="CraftSlot7" parent="craft_menu/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 86.0
 offset_top = 164.0
 offset_right = 134.752
 offset_bottom = 191.147
-pivot_offset = Vector2( 102, -84 )
+pivot_offset = Vector2(102, -84)
 settings_slot = {
 "hide_background": true,
 "hide_health": false,
@@ -2536,10 +2680,11 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [  ]
+"valid_types": []
 }
 
-[node name="CraftSlot8" parent="craft_menu/Control" instance=ExtResource( 22 )]
+[node name="CraftSlot8" parent="craft_menu/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 164.0
 offset_top = 163.0
 offset_right = 212.752
@@ -2557,21 +2702,20 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [  ]
+"valid_types": []
 }
 
 [node name="arrow" type="TextureRect" parent="craft_menu/Control"]
+layout_mode = 0
 offset_left = 88.0
 offset_top = 245.0
 offset_right = 164.0
 offset_bottom = 321.0
-texture = ExtResource( 13 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture = ExtResource("13")
+expand_mode = 1
 
-[node name="OutputCraftSlot9" parent="craft_menu/Control" instance=ExtResource( 22 )]
+[node name="OutputCraftSlot9" parent="craft_menu/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 89.0
 offset_top = 324.0
 offset_right = 137.752
@@ -2589,74 +2733,61 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [  ]
+"valid_types": []
 }
 
 [node name="clothes" type="Control" parent="."]
 visible = false
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-pivot_offset = Vector2( -258.041, 161.425 )
+pivot_offset = Vector2(-258.041, 161.425)
 mouse_filter = 2
-script = SubResource( 44 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+script = SubResource("44")
 
 [node name="Control" type="Control" parent="clothes"]
+anchors_preset = 0
 offset_left = 305.0
 offset_top = 288.0
 offset_right = 542.0
 offset_bottom = 585.0
-theme = SubResource( 47 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = SubResource("47")
 
 [node name="ColorRect" type="ColorRect" parent="clothes/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.105882, 0.227451, 0.141176, 1 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+color = Color(0.105882, 0.227451, 0.141176, 1)
 
 [node name="ReferenceRect" type="ReferenceRect" parent="clothes/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-border_color = Color( 0.109804, 0.196078, 0.113725, 1 )
+border_color = Color(0.109804, 0.196078, 0.113725, 1)
 editor_only = false
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect2" type="ColorRect" parent="clothes/Control"]
 visible = false
+layout_mode = 0
 offset_left = 86.4705
 offset_top = 20.2097
 offset_right = 225.47
 offset_bottom = 270.21
-color = Color( 0.760784, 0.760784, 0.760784, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color(0.760784, 0.760784, 0.760784, 1)
 
 [node name="TextureRect" type="TextureRect" parent="clothes/Control"]
+layout_mode = 0
 offset_left = 49.0
 offset_top = 20.0
 offset_right = 203.0
 offset_bottom = 270.0
-texture = ExtResource( 18 )
-expand = true
+texture = ExtResource("18")
+expand_mode = 1
 flip_h = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="HeadSlot" parent="clothes/Control" instance=ExtResource( 22 )]
+[node name="HeadSlot" parent="clothes/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 89.0
 offset_top = 51.0
 offset_right = 152.884
@@ -2674,10 +2805,11 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [ "protection" ]
+"valid_types": ["protection"]
 }
 
-[node name="TorsoSlot" parent="clothes/Control" instance=ExtResource( 22 )]
+[node name="TorsoSlot" parent="clothes/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 98.0
 offset_top = 149.0
 offset_right = 141.884
@@ -2695,10 +2827,11 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [ "protection" ]
+"valid_types": ["protection"]
 }
 
-[node name="LegsSlot" parent="clothes/Control" instance=ExtResource( 22 )]
+[node name="LegsSlot" parent="clothes/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 100.0
 offset_top = 223.0
 offset_right = 143.884
@@ -2716,10 +2849,11 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [ "protection" ]
+"valid_types": ["protection"]
 }
 
-[node name="MainArmSlot" parent="clothes/Control" instance=ExtResource( 22 )]
+[node name="MainArmSlot" parent="clothes/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 35.0
 offset_top = 176.0
 offset_right = 78.884
@@ -2743,10 +2877,11 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [ "weapon", "sword" ]
+"valid_types": ["weapon", "sword"]
 }
 
-[node name="AdditionalArmSlot" parent="clothes/Control" instance=ExtResource( 22 )]
+[node name="AdditionalArmSlot" parent="clothes/Control" instance=ExtResource("22")]
+anchors_preset = 0
 offset_left = 164.0
 offset_top = 192.0
 offset_right = 207.884
@@ -2754,7 +2889,7 @@ offset_bottom = 217.251
 default_significant_data = {
 "animation": {
 "event": 1,
-"frames": [ "res://textures/ui/items/bullet_here.png" ]
+"frames": ["res://textures/ui/items/bullet_here.png"]
 },
 "description": "Вставте сюда нужную пулю если слот красный.",
 "item": "sampel_bullet"
@@ -2775,311 +2910,201 @@ settings_slot = {
 "take_items": true,
 "texture_flip_h": false,
 "texture_flip_v": false,
-"valid_types": [  ]
+"valid_types": []
 }
 
 [node name="chest" type="Control" parent="."]
 visible = false
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-script = SubResource( 62 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+script = SubResource("62")
 
 [node name="Control" type="Control" parent="chest"]
+anchors_preset = 0
 offset_left = 554.0
 offset_top = 433.0
 offset_right = 924.0
 offset_bottom = 595.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="chest/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.309804, 0.309804, 0.309804, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color(0.309804, 0.309804, 0.309804, 1)
 
 [node name="ReferenceRect" type="ReferenceRect" parent="chest/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-border_color = Color( 0.137255, 0.137255, 0.137255, 1 )
+border_color = Color(0.137255, 0.137255, 0.137255, 1)
 editor_only = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ScrollContainer" type="ScrollContainer" parent="chest/Control"]
+layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 384.0
 offset_bottom = 160.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="GridContainer" type="GridContainer" parent="chest/Control/ScrollContainer"]
+layout_mode = 2
 columns = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="EventCheck" type="Timer" parent="chest"]
 wait_time = 0.1
 
 [node name="inventory" type="Control" parent="."]
 visible = false
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-script = SubResource( 58 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+script = SubResource("58")
 
 [node name="Control" type="Control" parent="inventory"]
+anchors_preset = 0
 offset_left = 30.0
 offset_top = 33.0
 offset_right = 252.0
 offset_bottom = 442.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="inventory/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.105882, 0.227451, 0.141176, 1 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+color = Color(0.105882, 0.227451, 0.141176, 1)
 
 [node name="ReferenceRect" type="ReferenceRect" parent="inventory/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-border_color = Color( 0.109804, 0.196078, 0.113725, 1 )
+border_color = Color(0.109804, 0.196078, 0.113725, 1)
 editor_only = false
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
 
 [node name="ScrollContainer" type="ScrollContainer" parent="inventory/Control"]
+layout_mode = 0
 offset_left = 2.0
 offset_top = 1.0
 offset_right = 236.0
 offset_bottom = 407.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="GridContainer" type="GridContainer" parent="inventory/Control/ScrollContainer"]
-offset_right = 219.0
-offset_bottom = 440.0
-custom_minimum_size = Vector2( 219, 405 )
+custom_minimum_size = Vector2(219, 405)
+layout_mode = 2
 columns = 3
 
-[node name="InventorySlot0" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 70.0
-offset_bottom = 70.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot0" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot1" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 74.0
-offset_right = 144.0
-offset_bottom = 70.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot1" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot2" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 148.0
-offset_right = 218.0
-offset_bottom = 70.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot2" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot3" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 74.0
-offset_right = 70.0
-offset_bottom = 144.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot3" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot4" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 74.0
-offset_top = 74.0
-offset_right = 144.0
-offset_bottom = 144.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot4" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot5" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 148.0
-offset_top = 74.0
-offset_right = 218.0
-offset_bottom = 144.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot5" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot6" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 148.0
-offset_right = 70.0
-offset_bottom = 218.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot6" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot7" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 74.0
-offset_top = 148.0
-offset_right = 144.0
-offset_bottom = 218.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot7" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot8" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 148.0
-offset_top = 148.0
-offset_right = 218.0
-offset_bottom = 218.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot8" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot9" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 222.0
-offset_right = 70.0
-offset_bottom = 292.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot9" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot10" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 74.0
-offset_top = 222.0
-offset_right = 144.0
-offset_bottom = 292.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot10" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot11" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 148.0
-offset_top = 222.0
-offset_right = 218.0
-offset_bottom = 292.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot11" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot12" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 296.0
-offset_right = 70.0
-offset_bottom = 366.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot12" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot13" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 74.0
-offset_top = 296.0
-offset_right = 144.0
-offset_bottom = 366.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot13" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot14" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 148.0
-offset_top = 296.0
-offset_right = 218.0
-offset_bottom = 366.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot14" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot15" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 370.0
-offset_right = 70.0
-offset_bottom = 440.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot15" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot16" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 74.0
-offset_top = 370.0
-offset_right = 144.0
-offset_bottom = 440.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot16" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
-[node name="InventorySlot17" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource( 22 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 148.0
-offset_top = 370.0
-offset_right = 218.0
-offset_bottom = 440.0
-custom_minimum_size = Vector2( 70, 70 )
+[node name="InventorySlot17" parent="inventory/Control/ScrollContainer/GridContainer" instance=ExtResource("22")]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 
 [node name="InventoryOpen" type="Button" parent="inventory"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 0
 offset_left = 305.0
 offset_top = 33.0
 offset_right = 395.0
 offset_bottom = 123.0
-custom_minimum_size = Vector2( 90, 0 )
 focus_mode = 0
-theme = SubResource( 158 )
-focus_mode = 0
-icon = ExtResource( 4 )
+theme = SubResource("158")
+icon = ExtResource("4")
 icon_alignment = 1
 expand_icon = true
-script = SubResource( 161 )
+script = SubResource("161")
 
-[node name="MoveItem" parent="." instance=ExtResource( 23 )]
+[node name="MoveItem" parent="." instance=ExtResource("23")]
 
 [node name="menu" type="Control" parent="."]
 visible = false
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 0.23597
 offset_right = 0.235962
 mouse_filter = 2
-theme = ExtResource( 21 )
-script = SubResource( 59 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+theme = ExtResource("21")
+script = SubResource("59")
 
 [node name="ColorRect" type="ColorRect" parent="menu"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.462745 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+color = Color(0, 0, 0, 0.462745)
 
 [node name="Control" type="Control" parent="menu"]
+anchors_preset = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3088,20 +3113,17 @@ offset_left = -103.5
 offset_top = -125.5
 offset_right = 103.5
 offset_bottom = 125.5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="menu/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = -59.0
-color = Color( 0.105882, 0.227451, 0.141176, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color(0.105882, 0.227451, 0.141176, 1)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="menu/Control"]
+custom_minimum_size = Vector2(197, 140)
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3110,67 +3132,52 @@ offset_left = -100.5
 offset_top = -78.5
 offset_right = 100.5
 offset_bottom = 58.5
-custom_minimum_size = Vector2( 197, 140 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="menu/Control/ScrollContainer"]
-offset_right = 197.0
-offset_bottom = 166.0
-custom_minimum_size = Vector2( 197, 140 )
-pivot_offset = Vector2( 536.869, 82.9661 )
+custom_minimum_size = Vector2(197, 140)
+layout_mode = 2
 
 [node name="Button" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
-offset_right = 197.0
-offset_bottom = 30.0
-custom_minimum_size = Vector2( 197, 30 )
-theme = SubResource( 52 )
+custom_minimum_size = Vector2(197, 30)
+layout_mode = 2
+theme = SubResource("52")
 text = "Продолжить"
 
 [node name="Button2" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
-offset_top = 34.0
-offset_right = 197.0
-offset_bottom = 64.0
-custom_minimum_size = Vector2( 197, 30 )
-theme = SubResource( 52 )
+custom_minimum_size = Vector2(197, 30)
+layout_mode = 2
+theme = SubResource("52")
 text = "Закрыть мультиплеер"
 
 [node name="Button3" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
-offset_top = 68.0
-offset_right = 197.0
-offset_bottom = 98.0
-custom_minimum_size = Vector2( 197, 30 )
-theme = SubResource( 52 )
+custom_minimum_size = Vector2(197, 30)
+layout_mode = 2
+theme = SubResource("52")
 text = "Открыть мультиплеер"
 
 [node name="Button5" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
-offset_top = 102.0
-offset_right = 197.0
-offset_bottom = 132.0
-custom_minimum_size = Vector2( 197, 30 )
+custom_minimum_size = Vector2(197, 30)
+layout_mode = 2
 tooltip_text = "Чтобы сделать быстрое сохранение - нажмите F5"
-theme = SubResource( 52 )
+theme = SubResource("52")
 text = "Сохранения"
 
 [node name="Button4" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
-offset_top = 136.0
-offset_right = 197.0
-offset_bottom = 166.0
-custom_minimum_size = Vector2( 197, 30 )
-theme = SubResource( 52 )
+custom_minimum_size = Vector2(197, 30)
+layout_mode = 2
+theme = SubResource("52")
 text = "Выйти в меню"
 
 [node name="Label" type="Label" parent="menu/Control"]
+layout_mode = 0
 offset_right = 206.0
 offset_bottom = 43.0
-theme = SubResource( 36 )
+theme = SubResource("36")
 text = "Меню:"
-align = 1
-valign = 1
 
 [node name="Saves" type="Control" parent="menu"]
 visible = false
+anchors_preset = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3179,21 +3186,17 @@ offset_left = -103.5
 offset_top = -125.5
 offset_right = 103.5
 offset_bottom = 125.5
-script = SubResource( 89 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = SubResource("89")
 
 [node name="ColorRect" type="ColorRect" parent="menu/Saves"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = -59.0
-color = Color( 0.105882, 0.227451, 0.141176, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color(0.105882, 0.227451, 0.141176, 1)
 
 [node name="ColorRect2" type="ColorRect" parent="menu/Saves"]
+layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -3201,101 +3204,88 @@ offset_left = -24.0
 offset_top = -49.0
 offset_right = 38.0
 offset_bottom = -14.0
-color = Color( 0.105882, 0.227451, 0.141176, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color(0.105882, 0.227451, 0.141176, 1)
 
 [node name="Label" type="Label" parent="menu/Saves"]
+layout_mode = 0
 offset_right = 206.0
 offset_bottom = 43.0
-theme = SubResource( 36 )
+theme = SubResource("36")
 text = "Сохранения"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ItemList" type="ItemList" parent="menu/Saves"]
+layout_mode = 0
 offset_left = 2.0
 offset_top = 42.0
 offset_right = 205.0
 offset_bottom = 191.0
-theme = SubResource( 92 )
-theme_override_fonts/font = SubResource( 88 )
-items = [ "Быстрое сохранение", SubResource( 133 ), false ]
+theme = SubResource("92")
+theme_override_fonts/font = SubResource("88")
+item_count = 1
 icon_mode = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+item_0/text = "Быстрое сохранение"
+item_0/icon = SubResource("133")
 
 [node name="Button" type="Button" parent="menu/Saves"]
+layout_mode = 0
 offset_left = -20.736
 offset_top = 206.5
 offset_right = 81.264
 offset_bottom = 232.5
-theme_override_fonts/font = SubResource( 87 )
+theme_override_fonts/font = SubResource("87")
 text = "Сохранить"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Button2" type="Button" parent="menu/Saves"]
+layout_mode = 0
 offset_left = 158.264
 offset_top = 206.5
 offset_right = 241.264
 offset_bottom = 232.5
-theme_override_fonts/font = SubResource( 87 )
+theme_override_fonts/font = SubResource("87")
 text = "Назад"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LineEdit" type="LineEdit" parent="menu/Saves"]
+layout_mode = 0
 offset_left = 86.264
 offset_top = 206.5
 offset_right = 154.264
 offset_bottom = 233.5
-theme_override_fonts/font = SubResource( 90 )
+theme_override_fonts/font = SubResource("90")
 placeholder_text = "Имя..."
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Wait" type="Control" parent="menu"]
 visible = false
+anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="ColorRect" type="ColorRect" parent="menu/Wait"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 1 )
+color = Color(0, 0, 0, 1)
 
 [node name="Label" type="Label" parent="menu/Wait"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_fonts/font = SubResource( 176 )
+theme_override_fonts/font = SubResource("176")
 text = "Сохранение может занять некоторое время.
 Если игра не отвечает - это еще не значит
 что она не работает!"
-align = 1
-valign = 1
 
 [node name="dialogue" type="Control" parent="."]
 visible = false
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme = ExtResource( 21 )
-script = SubResource( 79 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+theme = ExtResource("21")
+script = SubResource("79")
 
 [node name="Control" type="Control" parent="dialogue"]
+anchors_preset = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3304,136 +3294,107 @@ offset_left = -478.0
 offset_top = -268.5
 offset_right = 478.0
 offset_bottom = 268.5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="dialogue/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.105882, 0.227451, 0.141176, 0.796078 )
-__meta__ = {
-"_edit_lock_": true
-}
+color = Color(0.105882, 0.227451, 0.141176, 0.796078)
 
 [node name="ReferenceRect" type="ReferenceRect" parent="dialogue/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -0.177567
 offset_bottom = -0.177551
-border_color = Color( 0.109804, 0.196078, 0.113725, 1 )
+border_color = Color(0.109804, 0.196078, 0.113725, 1)
 editor_only = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Control" type="Control" parent="dialogue/Control"]
+anchors_preset = 0
 offset_left = 648.0
 offset_top = 199.0
 offset_right = 944.0
 offset_bottom = 526.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="dialogue/Control/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.105882, 0.227451, 0.141176, 0.541176 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color(0.105882, 0.227451, 0.141176, 0.541176)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="dialogue/Control/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -1.0
-scroll_horizontal_enabled = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="dialogue/Control/Control/ScrollContainer"]
-offset_right = 295.0
-offset_bottom = 327.0
-custom_minimum_size = Vector2( 295, 327 )
-theme = SubResource( 84 )
+custom_minimum_size = Vector2(295, 327)
+layout_mode = 2
+theme = SubResource("84")
 
 [node name="Button" type="Button" parent="dialogue/Control/Control/ScrollContainer/VBoxContainer"]
-offset_right = 295.0
-offset_bottom = 30.0
-custom_minimum_size = Vector2( 0, 30 )
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
 text = "Привет! Как дела?"
 
 [node name="Button2" type="Button" parent="dialogue/Control/Control/ScrollContainer/VBoxContainer"]
-offset_top = 34.0
-offset_right = 295.0
-offset_bottom = 54.0
+layout_mode = 2
 text = "Здравствуйте!"
 
 [node name="ReferenceRect2" type="ReferenceRect" parent="dialogue/Control/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-border_color = Color( 0.109804, 0.196078, 0.113725, 1 )
+border_color = Color(0.109804, 0.196078, 0.113725, 1)
 editor_only = false
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
 
 [node name="ReferenceRect2" type="ReferenceRect" parent="dialogue/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 12.0
 offset_top = 7.0
 offset_right = -315.0
 offset_bottom = -11.0
-border_color = Color( 0.109804, 0.196078, 0.113725, 1 )
+border_color = Color(0.109804, 0.196078, 0.113725, 1)
 editor_only = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="dialogue/Control/ReferenceRect2"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.105882, 0.227451, 0.141176, 0.482353 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+color = Color(0.105882, 0.227451, 0.141176, 0.482353)
 
 [node name="Label" type="RichTextLabel" parent="dialogue/Control/ReferenceRect2"]
+custom_minimum_size = Vector2(213, 133)
+layout_mode = 0
 offset_left = 2.0
 offset_right = 622.0
 offset_bottom = 514.0
-custom_minimum_size = Vector2( 213, 133 )
-theme = SubResource( 82 )
+theme = SubResource("82")
 text = "Pandaren: аывпаывпа ывпаыпав вач икыуммс ии 5мрч  4 5р ы4кы ч ер екр орпрпр прпрпр прпрп рпрпрпрпрпр прп рпрпрпрпр прпрп рпр прпрпрп рпрпр пр прпрпрп рпрпрпрпрпр прпрпрпрпрпр прп рпрпрпрп прр рррррр рррррр ррррррр ррррррррр рррррр рррр"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="died" type="Control" parent="."]
 visible = false
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme = ExtResource( 21 )
-script = SubResource( 61 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+theme = ExtResource("21")
+script = SubResource("61")
 
 [node name="ColorRect" type="ColorRect" parent="died"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.662745 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+color = Color(0, 0, 0, 0.662745)
 
 [node name="Control" type="Control" parent="died"]
+anchors_preset = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3442,157 +3403,136 @@ offset_left = -121.5
 offset_top = -143.0
 offset_right = 121.5
 offset_bottom = 143.0
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
 
 [node name="png-clipart-russian-orthodox-church-russian-orthodox-cross-eastern-orthodox-church-christian-cross-eastern-christianity-christian-cross-christianity-cross-removebg-preview (1)" type="Sprite2D" parent="died/Control"]
 visible = false
-position = Vector2( 224.958, -57.4143 )
+position = Vector2(224.958, -57.4143)
 rotation = 0.303862
-scale = Vector2( 0.389289, 0.365297 )
+scale = Vector2(0.389289, 0.365297)
 
 [node name="Label" type="Label" parent="died/Control"]
+layout_mode = 0
 offset_left = 2.5
 offset_top = -33.0
 offset_right = 233.5
 offset_bottom = 9.0
-theme = SubResource( 37 )
+theme = SubResource("37")
 text = "Уничтожен..."
-align = 1
-valign = 1
 
 [node name="ColorRect" type="ColorRect" parent="died/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.105882, 0.227451, 0.141176, 1 )
-__meta__ = {
-"_edit_lock_": true
-}
+color = Color(0.105882, 0.227451, 0.141176, 1)
 
 [node name="Label5" type="Label" parent="died/Control"]
+layout_mode = 0
 offset_left = 18.5
 offset_top = 46.0
 offset_right = 187.5
 offset_bottom = 88.0
-theme = SubResource( 37 )
+theme = SubResource("37")
 text = "Убийство"
-align = 1
-valign = 1
 
 [node name="Label4" type="Label" parent="died/Control"]
+layout_mode = 0
 offset_left = 13.5
 offset_top = 16.0
 offset_right = 152.5
 offset_bottom = 46.0
-theme = SubResource( 38 )
+theme = SubResource("38")
 text = "Причина:"
-align = 1
-valign = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="died/Control"]
+custom_minimum_size = Vector2(229, 116)
+layout_mode = 0
 offset_left = 7.0
 offset_top = 140.0
 offset_right = 236.0
 offset_bottom = 277.0
-custom_minimum_size = Vector2( 229, 116 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="died/Control/ScrollContainer"]
-offset_right = 229.0
-offset_bottom = 128.0
-custom_minimum_size = Vector2( 229, 116 )
+custom_minimum_size = Vector2(229, 116)
+layout_mode = 2
 alignment = 2
 
 [node name="Button" type="Button" parent="died/Control/ScrollContainer/VBoxContainer"]
-offset_right = 229.0
-offset_bottom = 40.0
-custom_minimum_size = Vector2( 0, 40 )
-theme_override_fonts/font = SubResource( 60 )
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_fonts/font = SubResource("60")
 text = "Возродится"
 
 [node name="Button3" type="Button" parent="died/Control/ScrollContainer/VBoxContainer"]
-offset_top = 44.0
-offset_right = 229.0
-offset_bottom = 84.0
-custom_minimum_size = Vector2( 0, 40 )
-theme_override_fonts/font = SubResource( 60 )
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_fonts/font = SubResource("60")
 text = "Наблюдать"
 
 [node name="Button2" type="Button" parent="died/Control/ScrollContainer/VBoxContainer"]
-offset_top = 88.0
-offset_right = 229.0
-offset_bottom = 128.0
-custom_minimum_size = Vector2( 0, 40 )
-theme_override_fonts/font = SubResource( 60 )
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_fonts/font = SubResource("60")
 text = "В меню"
 
 [node name="chat" type="Control" parent="."]
 visible = false
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme = ExtResource( 21 )
-script = SubResource( 13 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+theme = ExtResource("21")
+script = SubResource("13")
 
 [node name="ColorRect" type="ColorRect" parent="chat"]
+layout_mode = 0
 offset_right = 350.0
 offset_bottom = 370.0
-color = Color( 0, 0, 0, 0.317647 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+color = Color(0, 0, 0, 0.317647)
 
 [node name="ItemList" type="ItemList" parent="chat"]
+layout_mode = 0
 offset_right = 350.0
 offset_bottom = 324.0
-theme = SubResource( 64 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = SubResource("64")
 
 [node name="LineEdit" type="LineEdit" parent="chat"]
+layout_mode = 0
 offset_top = 329.0
 offset_right = 301.0
 offset_bottom = 359.0
-theme = SubResource( 54 )
+theme = SubResource("54")
 placeholder_text = "Введите своё сообщение..."
 
 [node name="Button" type="Button" parent="chat"]
+layout_mode = 0
 offset_left = 305.0
 offset_top = 332.0
 offset_right = 342.0
 offset_bottom = 358.0
-theme = SubResource( 56 )
+theme = SubResource("56")
 text = "ОК"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Chat" type="Button" parent="chat"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 0
 offset_left = 358.0
 offset_top = 7.0
 offset_right = 448.0
 offset_bottom = 97.0
-custom_minimum_size = Vector2( 90, 0 )
 focus_mode = 0
-theme = SubResource( 158 )
-focus_mode = 0
-icon = ExtResource( 5 )
+theme = SubResource("158")
+icon = ExtResource("5")
 icon_alignment = 1
 expand_icon = true
-script = SubResource( 163 )
+script = SubResource("163")
 
 [node name="Animation" type="AnimationPlayer" parent="."]
 autoplay = "Transition"
-anims/RESET = SubResource( 97 )
-anims/Transition = SubResource( 98 )
-script = SubResource( 99 )
+libraries = {
+"": SubResource("AnimationLibrary_wnbnr")
+}
+script = SubResource("99")
 
 [connection signal="pressed" from="main/Control/TouchScreenButton" to="main" method="on_frame"]
 [connection signal="released" from="main/Control/TouchScreenButton" to="main" method="on_frame"]
