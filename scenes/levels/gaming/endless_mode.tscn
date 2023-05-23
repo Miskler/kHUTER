@@ -243,7 +243,7 @@ func timeout():
 	
 	if get_tree().network_peer != null:
 		rpc(\"data_sing\", coin, wave, dead_droids, time)
-@rpc("any_peer") func data_sing(dcoin:float, dwave:float, ddead_droids:int, dtime:float):
+@rpc(\"any_peer\") func data_sing(dcoin:float, dwave:float, ddead_droids:int, dtime:float):
 	coin = dcoin
 	wave = dwave
 	dead_droids = ddead_droids
