@@ -57,7 +57,7 @@ func to_on(x, y):
 			if range_to_on >= difference.y and (range_to_on*-1) <= difference.y:
 				self.sleeping = false
 
-@rpc("any_peer") func used(nam:String):
+@rpc(\"any_peer\") func used(nam:String):
 	if permission_use == true:
 		$Label.text = nam
 		permission_use = false

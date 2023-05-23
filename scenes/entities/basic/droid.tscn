@@ -115,11 +115,11 @@ func fin():
 		Firebase.logEvent(\"npc_died\", {\"npc\": {\"value\": \"droid\", \"type\": \"string\"}})
 		queue_free()
 
-@rpc("any_peer") func pos_sing(pos:Vector2, anim:String):
+@rpc(\"any_peer\") func pos_sing(pos:Vector2, anim:String):
 	global_position = pos
 	$anim.animation = anim
 
-@rpc("any_peer") func damage(setting_bullet):
+@rpc(\"any_peer\") func damage(setting_bullet):
 	if not dead:
 		dead = true
 		$Sing.manager_signals.signal_event(\"damage\", self)

@@ -40,7 +40,7 @@ func event_state(dat):
 	get_node(\"Anim\").animation = dat[5]
 	get_node(\"Anim\").flip_h = dat[6]
 
-@rpc("any_peer") func damage(setting_bullet):
+@rpc(\"any_peer\") func damage(setting_bullet):
 	get_node(\"/root/rootGame\").rpc_id(int(name), \"damage\", \"/root/rootGame/Node/Player\", setting_bullet)
 "
 

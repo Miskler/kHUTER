@@ -10,7 +10,7 @@ signal save_complete(complete)
 signal load_complete(complete, add_data)
 
 
-@rpc("any_peer") func load_map(path_start_node:NodePath, path_file, add_data:Array = []) -> bool:
+@rpc(\"any_peer\") func load_map(path_start_node:NodePath, path_file, add_data:Array = []) -> bool:
 	if get_node_or_null(\"/root/rootGame\") != null and get_node_or_null(path_start_node) != null:
 		$loader.set_scene(get_node(path_start_node), path_file)
 		emit_signal(\"load_complete\", true, add_data)
@@ -18,7 +18,7 @@ signal load_complete(complete, add_data)
 	emit_signal(\"load_complete\", false, add_data)
 	return false
 
-@rpc("any_peer") func send_map(user_id:int, send_data:Array = []) -> bool:
+@rpc(\"any_peer\") func send_map(user_id:int, send_data:Array = []) -> bool:
 	if get_node_or_null(\"/root/rootGame/Node\") != null and get_tree().network_peer != null:
 		var map_settings = get_node(\"/root/rootGame/Node/SettingData\").map_settings.duplicate(true)
 		map_settings[\"is_save\"] = true

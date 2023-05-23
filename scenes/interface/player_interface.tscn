@@ -673,7 +673,7 @@ region = Rect2( 0, 0, 20.081, 20 )
 atlas = ExtResource( 6 )
 region = Rect2( 20, 0, 20.081, 20 )
 
-[sub_resource type="RectangleShape2D" id=169]
+#[sub_resource type="RectangleShape2D" id=169]
 
 [sub_resource type="RectangleShape2D" id=174]
 size = Vector2( 70, 40 )
@@ -1424,32 +1424,33 @@ func _ready():
 	list()
 
 func list():
-	$ItemList.clear()
-	var dir = DirAccess.new()
-	if dir.open(\"user://SaveGame/Worlds\") == OK:
-		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
-		var file_name = dir.get_next()
-		while file_name != \"\":
-			var file = File.new()
-			if file_name != \".\" and dir.current_is_dir() and file.file_exists(\"user://SaveGame/Worlds/\" + file_name + \"/map.khuter\"):
+	#$ItemList.clear()
+	#var dir = DirAccess.new()
+	#if dir.open(\"user://SaveGame/Worlds\") == OK:
+	pass
+		#dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
+		#var file_name = dir.get_next()
+		#while file_name != \"\":
+			#var file = File.new()
+			#if file_name != \".\" and dir.current_is_dir() and file.file_exists(\"user://SaveGame/Worlds/\" + file_name + \"/map.khuter\"):
 				$ItemList.add_item(file_name)
 				var id = $ItemList.get_item_count() - 1
 				
-				var image = Image.new()
-				var err = image.load(\"user://SaveGame/Worlds/\" + file_name + \"/screenshot.png\")
-				if err == OK:
-					$ItemList.set_item_icon(id, ImageTexture.new().create_from_image(image) #,0)
-				else:
-					$ItemList.set_item_icon(id, load(\"res://textures/black.png\"))
+				#var image = Image.new()
+				#var err = image.load(\"user://SaveGame/Worlds/\" + file_name + \"/screenshot.png\")
+				#if err == OK:
+				#	$ItemList.set_item_icon(id, ImageTexture.new().create_from_image(image) #,0)
+				#else:
+				#	$ItemList.set_item_icon(id, load(\"res://textures/black.png\"))
 				
-				if file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ) == OK:
-					file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ)
-					var data = str_to_var(file.get_as_text())
-					file.close()
-					$ItemList.set_item_tooltip(id, \"Версия игры: \" + data[0] + \"\\nДата создания: \" + str(data[2][\"day\"])+\".\"+str(data[2][\"month\"])+\".\"+str(data[2][\"year\"]) + \"\\nАвтор: \" + data[1])
-				else:
-					$ItemList.set_item_tooltip(id, \"Данные отцуцтвуют!\")
-			file_name = dir.get_next()
+				#if file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ) == OK:
+				#	file.open(\"user://SaveGame/Worlds/\" + file_name + \"/data.json\", File.READ)
+				#	var data = str_to_var(file.get_as_text())
+				#	file.close()
+				#	$ItemList.set_item_tooltip(id, \"Версия игры: \" + data[0] + \"\\nДата создания: \" + str(data[2][\"day\"])+\".\"+str(data[2][\"month\"])+\".\"+str(data[2][\"year\"]) + \"\\nАвтор: \" + data[1])
+				#else:
+				#	$ItemList.set_item_tooltip(id, \"Данные отцуцтвуют!\")
+			#file_name = dir.get_next()
 
 
 #Вспомогательные
@@ -1700,7 +1701,8 @@ font_data = ExtResource( 25 )
 default_font = SubResource( 33 )
 
 [sub_resource type="FontFile" id=78]
-font_path = "res://19104.ttf"
+size = 28
+font_data = ExtResource( 25 )
 
 [sub_resource type="FontFile" id=39]
 size = 30
@@ -1729,7 +1731,7 @@ func _pressed():
 		$\"/root/rootGame\".rpc(\"sms\", $LineEdit.text, G.game_settings[\"player_name\"], false)
 	$LineEdit.text = \"\"
 
-@rpc("any_peer") func sing(name_p, text):
+@rpc(\"any_peer\") func sing(name_p, text):
 	if $\".\".visible == false and $\"../Control\".position.y != 0:
 		$\"../Control/AnimationPlayer\".play_backwards(\"def\")
 	var s = str(name_p) + \": \" + str(text)
@@ -1737,7 +1739,7 @@ func _pressed():
 	
 	G.get_node(\"Global Interface\").new_notification(\"Чат\", str(name_p) + \": \" + str(text))
 
-@rpc("any_peer") func chat_event(sms):
+@rpc(\"any_peer\") func chat_event(sms):
 	var s = sms
 	$ItemList.add_item(s)
 	

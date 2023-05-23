@@ -51,7 +51,7 @@ func _process(_delta):
 		if get_tree().network_peer != null:
 			rpc(\"sing\", [rotation, global_position])
 
-@rpc("any_peer") func sing(dat):
+@rpc(\"any_peer\") func sing(dat):
 	rotation = dat[0]
 	global_position = dat[1]
 
@@ -144,7 +144,7 @@ func go_damage(body:Node = null):
 							get_node(\"/root/rootGame\").rpc(\"drop_item\", {\"global_position\": setting_bullet[\"tile\"]*Vector2(64, 64)+Vector2(32, 32), \"significant_data\": {\"item\": b}}, drop.name)
 							collision.rpc(\"clear_tile\", setting_bullet[\"tile\"])
 
-@rpc("any_peer") func dis():
+@rpc(\"any_peer\") func dis():
 	if $AnimatedSprite2D.visible == false:
 		$AnimatedSprite2D.visible = true
 		$Sprite2D.visible = false

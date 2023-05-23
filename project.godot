@@ -228,6 +228,7 @@ file_logging/max_log_files=20
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.12549, 0.12549, 0.12549, 1)
 vram_compression/import_etc=true

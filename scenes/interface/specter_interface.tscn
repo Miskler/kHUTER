@@ -77,7 +77,7 @@ Button/styles/pressed = SubResource( 157 )
 [sub_resource type="GDScript" id=6]
 script/source = "extends Control
 
-@rpc("any_peer") func chat_event(line, nam = null):
+@rpc(\"any_peer\") func chat_event(line, nam = null):
 	if nam == null: line = nam + \": \" + line
 	$ItemList.add_item(line)
 

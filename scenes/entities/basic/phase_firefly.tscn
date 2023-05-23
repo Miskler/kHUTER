@@ -42,7 +42,7 @@ func _process(_delta):
 		if get_tree().network_peer != null:
 			get_node(\"/root/rootGame\").rpc_unreliable(\"event_state\", [$Animated.flip_h, global_position])
 
-@rpc("any_peer") func event_state(dat):
+@rpc(\"any_peer\") func event_state(dat):
 	global_position = dat[1]
 	$Anim.flip_h = dat[0]
 
