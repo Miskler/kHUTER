@@ -30,7 +30,7 @@ func _ready():
 
 
 func npc_entered(npc):
-	par.npcs[npc] = OS.get_time()
+	par.npcs[npc] = Time.get_datetime_dict_from_system(true)
 func npc_exited(npc):
 	par.npcs.erase(npc)
 "
