@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://clgobk3ieacmq"]
 
-[ext_resource type="TileSet" path="res://tile_set.res" id="1"]
+[ext_resource type="TileSet" uid="uid://fgl1kp0ql14i" path="res://tile_set.res" id="1"]
 
 [sub_resource type="GDScript" id="6"]
 script/source = "extends TileMap
 
-signal use_tile(data)
+signal use_is_tile(data)
 
 @onready var SD = get_node(\"/root/rootGame/Node/SettingData\")
 
@@ -386,8 +386,6 @@ script/source = "extends TileMap
 func _ready():
 	tile_set = get_parent().tile_set
 	clear()
-	
-	printt(\"FGG\", get_collision_mask(), get_collision_mask_value(0))
 
 func clear_tiles():
 	clear()
