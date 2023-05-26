@@ -28,8 +28,8 @@ func on_increment_failure() -> void:
 
 func on_load_success(achievements: String) -> void:
 	var test_json_conv = JSON.new()
-	test_json_conv.parse(achievements).result as Array)
-	emit_signal("load_success", test_json_conv.get_data()
+	test_json_conv.parse(achievements)
+	emit_signal("load_success", test_json_conv.get_data())
 
 func on_load_failure() -> void:
 	emit_signal("load_failure")

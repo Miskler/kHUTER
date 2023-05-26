@@ -13,7 +13,7 @@ enum FirebaseEvent {
 # NOT USE FOR EVENT NAME
 enum FirebaseEventNotUse {
 	ad_activeview = 0, ad_click, ad_exposure, ad_impression, ad_query, ad_reward, adunit_exposure, app_background, app_clear_data, 
-	app_exception, app_exception, app_store_refund, app_store_subscription_cancel, app_store_subscription_convert, 
+	app_exception, app_store_refund, app_store_subscription_cancel, app_store_subscription_convert, 
 	app_store_subscription_renew, app_update, app_upgrade, dynamic_link_app_open, dynamic_link_app_update, dynamic_link_first_open, 
 	error, first_open, first_visit, in_app_purchase, notification_dismiss, notification_foreground, notification_open, notification_receive, 
 	os_update, session_start, session_start_with_rollout, user_engagement
@@ -38,9 +38,9 @@ class FirebaseUser:
 	func make(data:Dictionary):
 		isNull = data.isNull
 
-signal returnAppInstanceId(appId)
-signal getInstance
-signal getSessionId(sessionId)
+signal return_app_instance_id(appId)
+signal get_instance
+signal get_session_id(sessionId)
 
 # AUTHENTICATION
 

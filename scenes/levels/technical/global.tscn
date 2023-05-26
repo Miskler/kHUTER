@@ -492,6 +492,7 @@ visible = false
 script = SubResource("4")
 
 [node name="Control" type="Control" parent="Load Screen"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

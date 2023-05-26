@@ -44,7 +44,7 @@ func load_game():
 		file.store_var(JSON.new().stringify(G.game_settings))
 		file.close()
 		return false
-	file.open(G.ways[\"settings\"], FileAccess.READ)
+	file = file.open(G.ways[\"settings\"], FileAccess.READ)
 	var test_json_conv = JSON.new()
 	test_json_conv.parse(file.get_as_text())
 	var data = test_json_conv.get_data()

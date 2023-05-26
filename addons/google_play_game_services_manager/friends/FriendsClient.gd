@@ -11,8 +11,8 @@ func _ready() -> void:
 func on_load_friend_success(friends: String) -> void:
 	print(friends)
 	var test_json_conv = JSON.new()
-	test_json_conv.parse(friends).result as Array)
-	emit_signal("load_friends_success", test_json_conv.get_data()
+	test_json_conv.parse(friends)
+	emit_signal("load_friends_success", test_json_conv.get_data())
 
 func on_load_friend_failure() -> void:
 	emit_signal("load_friends_failure")

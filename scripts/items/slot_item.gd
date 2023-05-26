@@ -338,8 +338,8 @@ func item_connecting():
 	#var connecting_nodes = [] #записываем все подключенные к нашим сигналам ноды
 	for i in get_signal_list():
 		for j in get_signal_connection_list(i["name"]):
-			if str(j["target"].get_path()).begins_with("/root/rootGame/Node/SettingData/ItemLogical/") and(significant_data.get("item") == null or j["target"].name != significant_data["item"]):
-				disconnect(j["signal"], Callable(j["target"], j["method"]))
+			if str(j["callable"].get_object().get_path()).begins_with("/root/rootGame/Node/SettingData/ItemLogical/") and(significant_data.get("item") == null or j["callable"].get_object().name != significant_data["item"]):
+				disconnect(j["signal"], Callable(j["callable"], j["method"]))
 	
 	if significant_data.get("item") == null: return
 	
