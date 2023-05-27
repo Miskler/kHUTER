@@ -3,7 +3,7 @@ extends Node
 #НОВЫЕ
 
 var game_settings = {
-	"version": "0.2.8 - Refactoring",
+	"version": "0.3.0 - Optimization",
 	"prolog": false,
 	"boot_menu": false,
 	"bad_graphics": false,

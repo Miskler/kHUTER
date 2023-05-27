@@ -402,7 +402,6 @@ editor_only = false
 position = Vector2( 50, 50 )
 scale = Vector2( 2.5, 2.5 )
 frames = SubResource( 91 )
-frame = 2
 playing = true
 
 [node name="Control2" type="Control" parent="Guider/CanvasLayer/Control2"]

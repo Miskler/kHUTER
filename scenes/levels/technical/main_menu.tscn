@@ -297,7 +297,7 @@ var translation_dictionary = {
 		\"bad_graphics\": \"Использовать плохую графику\",
 		\"FPS\": \"ККС (ФПС/FPS)\",
 		\"render_bonus\": \"Дальность отрисовки\",
-		\"alternative_rendering\": \"Альтернативная отрисовка\"
+		\"alternative_rendering\": \"Альтернативная отрисовка\",
 	},
 	\"Сеть\": {
 		\"port\": \"Порт сервера\",
@@ -323,6 +323,7 @@ var descriptions_dictionary = {
 	\"mobile_use_all\": \"Если этот параметр включен, то в мобильном интерфейсе будет показана кнопка \\\"Использовать\\\" которая (как не трудно догадаться) использует все объекты рядом с которыми вы находитесь.\\n\\nНе работает с блоками!\",
 	\"auto_save\": \"Период автосохранений (в минутах).\",
 	\"auto_on\": \"Влючает и выключает функцию автосохранения.\",
+	\"alternative_rendering\": \"При включении этой функции отрисовка тайловой карты начинает происходить силами движка игры, что может повысить производительность.\",
 }
 
 func _ready():
@@ -1314,7 +1315,7 @@ margin_bottom = 513.0
 
 [node name="Buttons" type="VBoxContainer" parent="Interfaces/Settings/List"]
 margin_right = 288.0
-margin_bottom = 51.0
+margin_bottom = 24.0
 
 [node name="*SampleBool" type="CheckBox" parent="Interfaces/Settings/List/Buttons"]
 visible = false
@@ -1342,10 +1343,10 @@ value = 5.0
 script = ExtResource( 21 )
 
 [node name="*SampleTitle" type="Label" parent="Interfaces/Settings/List/Buttons"]
+modulate = Color( 0.905882, 0.905882, 0.905882, 1 )
 margin_right = 288.0
-margin_bottom = 51.0
-text = "                        Настройки                     
-						          "
+margin_bottom = 24.0
+text = "                        Настройки                     "
 
 [node name="Title" type="Label" parent="Interfaces/Settings"]
 margin_left = 347.0
