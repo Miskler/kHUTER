@@ -10,6 +10,7 @@ var game_settings = {
 	"FPS": 60,
 	"port": 7732,
 	"render_bonus": 4,
+	"alternative_rendering": false,
 	"player_name": "Player1234",
 	"mobile": false,
 	"mobile_use_all": true,

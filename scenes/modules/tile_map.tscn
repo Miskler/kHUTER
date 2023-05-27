@@ -22,7 +22,11 @@ export var tiles = {
 var cam = null
 
 func _ready():
-	$Timer.start()
+	cell_quadrant_size = G.game_settings[\"render_bonus\"]
+	if G.game_settings[\"alternative_rendering\"]:
+		$Timer.stop()
+	else:
+		$Timer.start()
 
 
 remote func registration(node): #Сохраняет карту сделанную через редактор в формат 2д массива
@@ -42,7 +46,8 @@ remote func registration(node): #Сохраняет карту сделанну�
 		map[int(pos.x)][int(pos.y)][\"tile_name\"] = node.tile_set.tile_get_name(node.get_cellv(pos))
 		map[int(pos.x)][int(pos.y)][\"autotile_coord\"] = node.get_cell_autotile_coord(pos.x, pos.y)
 	
-	node.clear()
+	if not G.game_settings[\"alternative_rendering\"]:
+		node.clear()
 	return map
 
 
@@ -59,6 +64,8 @@ remote func clear_tile(pos:Vector2):
 			
 			add_child(node)
 		
+		if G.game_settings[\"alternative_rendering\"]:
+			set_cell(int(pos.x), int(pos.y), -1)
 		tiles[int(pos.x)].erase(int(pos.y))
 	else: return false
 	return true
@@ -114,6 +121,12 @@ remote func edit_tile(pos:Vector2, dat:Dictionary = {}): #{\"dat\": {\"operation
 				tile[key] *= dt[\"value\"]
 			4:
 				tile[key] /= dt[\"value\"]
+	
+	if G.game_settings[\"alternative_rendering\"]:
+		set_cell(pos.x, pos.y, tile_set.find_tile_by_name(tiles[int(pos.x)][int(pos.y)][\"tile_name\"]), false, false, false, tiles[int(pos.x)][int(pos.y)][\"autotile_coord\"])
+		
+		if get_node_or_null(\"TileLogical/\" + str(tiles[int(pos.x)][int(pos.y)][\"tile_name\"])) != null and get_node(\"TileLogical/\" + str(tiles[int(pos.x)][int(pos.y)][\"tile_name\"])).has_method(\"event_tile\"):
+			use_tile({\"method\": \"event_tile\", \"pos\": pos})
 
 remote func use_tile(data:Dictionary = {}): #Принимает любые входные параметры и испускает сигнал использования тайла, значение \"pos\" - координата тайла (обязательно)
 	if not data.has(\"method\"): data[\"method\"] = \"use_tile\"
@@ -134,6 +147,8 @@ remote func use_tile(data:Dictionary = {}): #Принимает любые вх�
 
 
 remote func render(camera = null, reserve = null): #camera - принимает путь до отрисовываймой камеры, если пуст то отрисовывается все отновительно камеры игрока
+	if G.game_settings[\"alternative_rendering\"]: return
+	
 	if reserve == null:
 		reserve = G.game_settings[\"render_bonus\"]
 	
@@ -153,7 +168,6 @@ remote func render(camera = null, reserve = null): #camera - принимает 
 		
 		#print(corners)
 		#print(corners[1] - corners[0])
-		
 		for data_node in [[self, tiles]]:#, [self, background]]:
 			for i in data_node[0].get_used_cells():
 				if (int(i.x) < corners[0].x or int(i.y) < corners[0].y or int(i.x) > corners[1].x or int(i.y) > corners[1].y) or not data_node[1].has(int(i.x)) or not data_node[1][int(i.x)].has(int(i.y)):
@@ -208,14 +222,14 @@ func generate(width:int = 100, height:int = 100, settings:Dictionary = {}, seed_
 			
 			if settings.has(\"back\") and settings[\"back\"]:
 				if dar > -0.07:
-					til[x][y] = {\"tile_name\": \"stone\", \"autotile_coord\": Vector2(2, 0)}
+					edit_tile(Vector2(x, y), {\"tile_name\": {\"operation\": 0, \"value\": \"stone\"}, \"autotile_coord\": {\"operation\": 0, \"value\": Vector2(2, 0)}})
 				elif dar > 0:
-					til[x][y] = {\"tile_name\": \"ground\", \"autotile_coord\": Vector2(2, 0)}
+					edit_tile(Vector2(x, y), {\"tile_name\": {\"operation\": 0, \"value\": \"ground\"}, \"autotile_coord\": {\"operation\": 0, \"value\": Vector2(2, 0)}})
 			else:
 				if dar > 0.06:
-					til[x][y] = {\"tile_name\": \"stone\", \"autotile_coord\": Vector2(2, 0)}
+					edit_tile(Vector2(x, y), {\"tile_name\": {\"operation\": 0, \"value\": \"stone\"}, \"autotile_coord\": {\"operation\": 0, \"value\": Vector2(2, 0)}})
 				elif dar > 0:
-					til[x][y] = {\"tile_name\": \"ground\", \"autotile_coord\": Vector2(2, 0)}
+					edit_tile(Vector2(x, y), {\"tile_name\": {\"operation\": 0, \"value\": \"ground\"}, \"autotile_coord\": {\"operation\": 0, \"value\": Vector2(2, 0)}})
 	
 	return til
 
@@ -276,7 +290,7 @@ remote func structure(map:Dictionary, manual:Array = [[{}, {}], [{}, {}]], repet
 								position_tile += manual[0][id][key][\"shift\"]
 							
 							if manual[0][id][key][\"value\"] is bool: #если передать true/false - проверка существует ли тайл
-								if (manual[0][id][key][\"value\"] == true and tiles.has(int(position_tile.x)) == false) or (tiles[int(position_tile.x)].has(int(position_tile.y)) != manual[0][id][key][\"value\"]):
+								if (manual[0][id][key][\"value\"] == true and tiles.has(int(position_tile.x)) == false) or (tiles.has(int(position_tile.x)) and tiles[int(position_tile.x)].has(int(position_tile.y)) != manual[0][id][key][\"value\"]):
 									break
 							else:
 								if tiles.has(int(position_tile.x)) and tiles[int(position_tile.x)].has(int(position_tile.y)):
@@ -363,21 +377,24 @@ func ore(_map, manual:Dictionary, width:int = 100, height:int = 100, settings:Di
 						edit_tile(Vector2(int(x), int(y)), {\"tile_name\": {\"operation\": 0, \"value\": i}, \"autotile_coord\": {\"operation\": 0, \"value\": Vector2(2, 0)}})
 
 
-func render_is(position_obg, reserve:int = 2, real_position:bool = true):
-	if cam != null and is_instance_valid(cam) and cam is Camera2D:
-		var corners = [cam.global_position - Vector2(1024 * cam.zoom.x / 2, 600 * cam.zoom.y / 2), cam.global_position + Vector2(1024 * cam.zoom.x / 2, 600 * cam.zoom.y / 2)]
-		
-		corners[0] = world_to_map(corners[0]) + Vector2(reserve, reserve) - Vector2(G.game_settings[\"render_bonus\"], G.game_settings[\"render_bonus\"])
-		corners[1] = world_to_map(corners[1]) - Vector2(reserve, reserve) + Vector2(G.game_settings[\"render_bonus\"], G.game_settings[\"render_bonus\"])
-		
-		if real_position:
-			position_obg = world_to_map(position_obg)
-		
-		if position_obg.x < corners[1].x and position_obg.x > corners[0].x and position_obg.y < corners[1].y and position_obg.y > corners[0].y:
-			return true
-		else:
-			return false
-	return null
+func render_is(position_obg, reserve:int = 2, real_position:bool = true) -> bool:
+	if cam == null or not is_instance_valid(cam) or not cam is Camera2D:
+		if cam is String and get_node_or_null(cam) != null and get_node_or_null(cam) is Camera2D: cam = get_node(cam)
+		elif get_node_or_null(\"/root/rootGame/Node/Player/Camera2D\") != null: cam = get_node(\"/root/rootGame/Node/Player/Camera2D\")
+		elif get_node_or_null(\"/root/rootGame/Node/Player/Camera2D_specter\") != null: cam = get_node(\"/root/rootGame/Node/Player/Camera2D_specter\")
+		else: return false
+	
+	var corners = [cam.global_position - Vector2(1024 * cam.zoom.x / 2, 600 * cam.zoom.y / 2), cam.global_position + Vector2(1024 * cam.zoom.x / 2, 600 * cam.zoom.y / 2)]
+	
+	corners[0] = world_to_map(corners[0]) + Vector2(reserve, reserve) - Vector2(G.game_settings[\"render_bonus\"], G.game_settings[\"render_bonus\"])
+	corners[1] = world_to_map(corners[1]) - Vector2(reserve, reserve) + Vector2(G.game_settings[\"render_bonus\"], G.game_settings[\"render_bonus\"])
+	
+	if real_position:
+		position_obg = world_to_map(position_obg)
+	
+	if position_obg.x < corners[1].x and position_obg.x > corners[0].x and position_obg.y < corners[1].y and position_obg.y > corners[0].y:
+		return true
+	return false
 "
 
 [sub_resource type="GDScript" id=11]
@@ -609,7 +626,7 @@ func finish():
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
-cell_quadrant_size = 64
+cell_quadrant_size = 2
 format = 1
 script = SubResource( 6 )
 __meta__ = {
@@ -619,6 +636,7 @@ __meta__ = {
 [node name="Preview" type="TileMap" parent="."]
 modulate = Color( 1, 1, 1, 0.498039 )
 tile_set = ExtResource( 1 )
+cell_quadrant_size = 1
 collision_layer = 0
 collision_mask = 0
 format = 1

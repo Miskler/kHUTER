@@ -296,6 +296,7 @@ color_ramp = SubResource( 2 )
 modulate = Color( 0.552941, 0.552941, 0.611765, 1 )
 light_mask = 1048575
 tile_set = ExtResource( 5 )
+cell_quadrant_size = 2
 format = 1
 script = SubResource( 3 )
 
@@ -401,6 +402,7 @@ editor_only = false
 position = Vector2( 50, 50 )
 scale = Vector2( 2.5, 2.5 )
 frames = SubResource( 91 )
+frame = 2
 playing = true
 
 [node name="Control2" type="Control" parent="Guider/CanvasLayer/Control2"]

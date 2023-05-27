@@ -297,6 +297,7 @@ var translation_dictionary = {
 		\"bad_graphics\": \"Использовать плохую графику\",
 		\"FPS\": \"ККС (ФПС/FPS)\",
 		\"render_bonus\": \"Дальность отрисовки\",
+		\"alternative_rendering\": \"Альтернативная отрисовка\"
 	},
 	\"Сеть\": {
 		\"port\": \"Порт сервера\",
@@ -1372,7 +1373,6 @@ text = "X"
 script = ExtResource( 18 )
 
 [node name="Saves" type="Control" parent="Interfaces"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1517,7 +1517,6 @@ text = "Удалить"
 script = ExtResource( 17 )
 
 [node name="Multiplayer" type="Control" parent="Interfaces"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
