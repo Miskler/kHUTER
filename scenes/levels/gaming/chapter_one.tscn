@@ -1,0 +1,136 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://tile_b.tres" type="TileSet" id=1]
+[ext_resource path="res://textures/other/asteroids/five.png" type="Texture" id=2]
+[ext_resource path="res://resources/shaders/background_sphere.material" type="Material" id=3]
+[ext_resource path="res://scenes/modules/background_music.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/modules/signal_center.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/modules/tile_map.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/modules/setting_data.tscn" type="PackedScene" id=7]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends ColorRect
+
+var textures = [
+	\"res://textures/other/asteroids/one.png\",
+	\"res://textures/other/asteroids/two.png\",
+	\"res://textures/other/asteroids/three.png\",
+	\"res://textures/other/asteroids/four.png\",
+	\"res://textures/other/asteroids/five.png\",
+	\"res://textures/other/asteroids/six.png\",
+	\"res://textures/other/asteroids/seven.png\"
+]
+
+
+func _ready():
+	for i in $Node2D.get_children():
+		if i.name != \"*Sample\":
+			i.queue_free()
+	
+	visible = not G.game_settings[\"bad_graphics\"]
+	
+	if not G.game_settings[\"bad_graphics\"]:
+		$\"*Sample\".amount = int(round(30 / textures.size()))
+		for ship in textures:
+			var node = $\"*Sample\".duplicate()
+			
+			node.texture = load(ship)
+			node.visible = true
+			
+			$Node2D.add_child(node)
+
+
+func _process(_delta):
+	if get_node_or_null(\"../Player\") != null and visible:
+		self.material.set(\"shader_param/pos\", get_node(\"../Player\").global_position/2000.0)
+		rect_global_position = get_node(\"../Player\").global_position - rect_size/2
+"
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.2, 0.8, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends TileMap
+
+onready var root = get_node_or_null(\"../\")
+onready var tilemap = get_node_or_null(\"../TileMap\")
+
+export var work = true
+func _ready():
+	if not work: return
+	
+	var map = tilemap.unification(tilemap.pruning(root.size_world.x, root.size_world.y, tilemap.generate(root.size_world.x, root.size_world.y, {\"back\": true})), {})
+	
+	print(map)
+	
+	for x in map.keys():
+		for y in map[x].keys():
+			set_cell(x, y, tile_set.find_tile_by_name(map[x][y][\"tile_name\"]), false, false, false)
+	#data_node[0].set_cell(tile_pos.x, tile_pos.y, data_node[0].tile_set.find_tile_by_name(data_node[1][int(tile_pos.x)][int(tile_pos.y)][\"tile_name\"]), false, false, false, data_node[1][int(tile_pos.x)][int(tile_pos.y)][\"autotile_coord\"])
+"
+
+[node name="chapter_one" type="Node2D"]
+
+[node name="Cloud" type="ColorRect" parent="."]
+material = ExtResource( 3 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1766.0
+margin_top = -2107.0
+margin_right = -17.0
+margin_bottom = -959.0
+color = Color( 0.0745098, 0, 0.956863, 1 )
+script = SubResource( 1 )
+
+[node name="*Sample" type="CPUParticles2D" parent="Cloud"]
+visible = false
+position = Vector2( 929, 575 )
+lifetime = 20.0
+randomness = 1.0
+fixed_fps = 23
+local_coords = false
+draw_order = 1
+texture = ExtResource( 2 )
+emission_shape = 2
+emission_rect_extents = Vector2( 900, -450 )
+direction = Vector2( 0, 0 )
+gravity = Vector2( 0, 0 )
+angular_velocity = 4.0
+angular_velocity_random = 1.0
+tangential_accel = 10.0
+tangential_accel_random = 1.0
+angle = 720.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 1.0
+color_ramp = SubResource( 2 )
+
+[node name="Node2D" type="Node2D" parent="Cloud"]
+
+[node name="M" type="TileMap" parent="."]
+modulate = Color( 0.552941, 0.552941, 0.611765, 1 )
+light_mask = 1048575
+tile_set = ExtResource( 1 )
+cell_quadrant_size = 2
+format = 1
+script = SubResource( 3 )
+
+[node name="AudioStreamPlayer" parent="." instance=ExtResource( 4 )]
+
+[node name="SettingData" parent="." instance=ExtResource( 7 )]
+
+[node name="SignalCenter" parent="." instance=ExtResource( 5 )]
+
+[node name="TileMap" parent="." instance=ExtResource( 6 )]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )

@@ -22,7 +22,7 @@ export var tiles = {
 var cam = null
 
 func _ready():
-	cell_quadrant_size = G.game_settings[\"render_bonus\"]
+	cell_quadrant_size = 2
 	if G.game_settings[\"alternative_rendering\"]:
 		$Timer.stop()
 	else:
