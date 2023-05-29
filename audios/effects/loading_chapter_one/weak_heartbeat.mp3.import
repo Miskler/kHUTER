@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/weak_heartbeat.mp3-e3994cb6c5ce4a52cce9b7d9b55d3e20.mp3str"
+
+[deps]
+
+source_file="res://audios/effects/loading_chapter_one/weak_heartbeat.mp3"
+dest_files=[ "res://.import/weak_heartbeat.mp3-e3994cb6c5ce4a52cce9b7d9b55d3e20.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

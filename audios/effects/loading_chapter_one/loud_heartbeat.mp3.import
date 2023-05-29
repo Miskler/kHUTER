@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/loud_heartbeat.mp3-403ca2cf27ed7618ac54daa6e0b8e84c.mp3str"
+
+[deps]
+
+source_file="res://audios/effects/loading_chapter_one/loud_heartbeat.mp3"
+dest_files=[ "res://.import/loud_heartbeat.mp3-403ca2cf27ed7618ac54daa6e0b8e84c.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
