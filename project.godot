@@ -253,7 +253,10 @@ pointing/emulate_touch_from_mouse=true
 [locale]
 
 fallback="ru_RU"
-locale_filter=[ 0, [ "en", "ru" ] ]
+locale_filter=[ 1, [ "en", "ru" ] ]
+translations=PoolStringArray(  )
+translation_remaps={
+}
 
 [logging]
 

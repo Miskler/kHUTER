@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=2]
+[gd_scene load_steps=97 format=2]
 
 [ext_resource path="res://resources/fonts/standart/small.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://textures/ui/logos/youtube.png" type="Texture" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://scripts/interface/main_menu/play_save_button.gd" type="Script" id=20]
 [ext_resource path="res://scripts/interface/int_setting_menu.gd" type="Script" id=21]
 [ext_resource path="res://textures/ui/icons/book/book_open.png" type="Texture" id=22]
+[ext_resource path="res://textures/other/asteroids/five.png" type="Texture" id=23]
 
 [sub_resource type="GDScript" id=26]
 script/source = "extends Control
@@ -256,8 +257,13 @@ func _pressed():
 [sub_resource type="GDScript" id=80]
 script/source = "extends Button
 
+var f = true
+
 func _pressed():
 	$\"../../../../AnimationsMenedger\".visible_p = \"Multiplayer\"
+	if f:
+		f = false
+		G.get_node(\"Global Interface\").new_notification(\"Создание сервера\", \"Чтобы создать сервер, откройте любую карту и в меню выберите пункт \\\"Открыть сервер\\\".\", Color(\"007d08\"), Color(\"a000ff00\"), 0.05)
 "
 
 [sub_resource type="GDScript" id=81]
@@ -298,7 +304,7 @@ var translation_dictionary = {
 		\"bad_graphics\": \"Использовать плохую графику\",
 		\"FPS\": \"ККС (ФПС/FPS)\",
 		\"render_bonus\": \"Дальность отрисовки\",
-		\"alternative_rendering\": \"Альтернативная отрисовка\",
+		#\"alternative_rendering\": \"Альтернативная отрисовка\",
 	},
 	\"Сеть\": {
 		\"port\": \"Порт сервера\",
@@ -330,6 +336,7 @@ var descriptions_dictionary = {
 func _ready():
 	add_buttons()
 	dat()
+	G.game_settings[\"alternative_rendering\"] = true
 
 func add_buttons():
 	del_buttons()
@@ -986,17 +993,18 @@ func _pressed():
 script/source = "extends Control
 
 func _ready():
-	$Label.visible = not G.game_settings[\"prolog\"]
+	$Control/Label.visible = not G.game_settings[\"prolog\"]
 	
-	$Sur.disabled = not G.game_settings[\"prolog\"]
-	$Dev_room.disabled = not G.game_settings[\"prolog\"]
+	$Control/Sur.disabled = not G.game_settings[\"prolog\"]
+	$Control/Dev_room.disabled = not G.game_settings[\"prolog\"]
 "
 
-[sub_resource type="GDScript" id=74]
+[sub_resource type="GDScript" id=93]
 script/source = "extends Button
 
 func _pressed():
-	G.get_node(\"Load Screen\").select(\"res://scenes/levels/gaming/prologue.tscn\", true)
+	$\"..\".hide()
+	$\"../../chapters\".show()
 "
 
 [sub_resource type="GDScript" id=76]
@@ -1016,6 +1024,21 @@ func _pressed():
 [sub_resource type="DynamicFont" id=73]
 size = 40
 font_data = ExtResource( 11 )
+
+[sub_resource type="GDScript" id=92]
+script/source = "extends Button
+
+func _pressed():
+	$\"..\".hide()
+	$\"../../Control\".show()
+"
+
+[sub_resource type="GDScript" id=74]
+script/source = "extends Button
+
+func _pressed():
+	G.get_node(\"Load Screen\").select(\"res://scenes/levels/gaming/prologue.tscn\", true)
+"
 
 [sub_resource type="GDScript" id=64]
 script/source = "tool
@@ -2297,53 +2320,6 @@ anchor_right = 0.995
 anchor_bottom = 0.995
 color = Color( 0.101961, 0.101961, 0.101961, 1 )
 
-[node name="Prolog" type="Button" parent="Interfaces/Game"]
-margin_left = 29.0
-margin_top = 16.0
-margin_right = 310.0
-margin_bottom = 105.0
-custom_fonts/font = SubResource( 67 )
-text = "Пролог"
-icon = ExtResource( 5 )
-expand_icon = true
-script = SubResource( 74 )
-
-[node name="Chapters" type="Button" parent="Interfaces/Game"]
-margin_left = 31.0
-margin_top = 365.0
-margin_right = 326.0
-margin_bottom = 454.0
-custom_fonts/font = SubResource( 67 )
-disabled = true
-text = "Главы"
-icon = ExtResource( 22 )
-expand_icon = true
-
-[node name="Sur" type="Button" parent="Interfaces/Game"]
-margin_left = 31.0
-margin_top = 165.0
-margin_right = 326.0
-margin_bottom = 261.0
-custom_fonts/font = SubResource( 67 )
-disabled = true
-text = "Выживание"
-icon = ExtResource( 7 )
-expand_icon = true
-script = SubResource( 76 )
-
-[node name="Dev_room" type="Button" parent="Interfaces/Game"]
-margin_left = 31.0
-margin_top = 268.0
-margin_right = 424.0
-margin_bottom = 355.0
-custom_fonts/font = SubResource( 67 )
-disabled = true
-text = "Комната разработчкика"
-clip_text = true
-icon_align = 2
-expand_icon = true
-script = SubResource( 75 )
-
 [node name="Close" type="Button" parent="Interfaces/Game"]
 margin_left = 375.0
 margin_top = 23.0
@@ -2353,13 +2329,106 @@ custom_fonts/font = SubResource( 67 )
 text = "X"
 script = ExtResource( 18 )
 
-[node name="Label" type="Label" parent="Interfaces/Game"]
+[node name="Control" type="Control" parent="Interfaces/Game"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Chapters" type="Button" parent="Interfaces/Game/Control"]
 margin_left = 31.0
-margin_top = 116.0
+margin_top = 62.0
+margin_right = 326.0
+margin_bottom = 151.0
+custom_fonts/font = SubResource( 67 )
+text = "Главы"
+icon = ExtResource( 22 )
+expand_icon = true
+script = SubResource( 93 )
+
+[node name="Sur" type="Button" parent="Interfaces/Game/Control"]
+margin_left = 31.0
+margin_top = 249.0
+margin_right = 326.0
+margin_bottom = 345.0
+custom_fonts/font = SubResource( 67 )
+disabled = true
+text = "Выживание"
+icon = ExtResource( 7 )
+expand_icon = true
+script = SubResource( 76 )
+
+[node name="Dev_room" type="Button" parent="Interfaces/Game/Control"]
+margin_left = 31.0
+margin_top = 357.0
+margin_right = 424.0
+margin_bottom = 444.0
+custom_fonts/font = SubResource( 67 )
+disabled = true
+text = "Комната разработчкика"
+clip_text = true
+icon_align = 2
+expand_icon = true
+script = SubResource( 75 )
+
+[node name="Label" type="Label" parent="Interfaces/Game/Control"]
+margin_left = 31.0
+margin_top = 183.0
 margin_right = 417.0
-margin_bottom = 165.0
+margin_bottom = 232.0
 custom_fonts/font = SubResource( 73 )
 text = "После пролога..."
+
+[node name="chapters" type="Control" parent="Interfaces/Game"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="back" type="Button" parent="Interfaces/Game/chapters"]
+margin_left = 28.0
+margin_top = 23.0
+margin_right = 167.0
+margin_bottom = 78.0
+custom_fonts/font = SubResource( 67 )
+text = "Назад"
+expand_icon = true
+script = SubResource( 92 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Interfaces/Game/chapters"]
+margin_left = 16.0
+margin_top = 98.0
+margin_right = 447.0
+margin_bottom = 475.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Interfaces/Game/chapters/ScrollContainer"]
+margin_right = 400.0
+margin_bottom = 377.0
+rect_min_size = Vector2( 400, 377 )
+
+[node name="Prolog" type="Button" parent="Interfaces/Game/chapters/ScrollContainer/VBoxContainer"]
+margin_right = 400.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 0, 100 )
+custom_fonts/font = SubResource( 67 )
+text = "Пролог - Крушение"
+icon = ExtResource( 5 )
+expand_icon = true
+script = SubResource( 74 )
+
+[node name="chart 1" type="Button" parent="Interfaces/Game/chapters/ScrollContainer/VBoxContainer"]
+margin_top = 104.0
+margin_right = 400.0
+margin_bottom = 204.0
+rect_min_size = Vector2( 0, 100 )
+custom_fonts/font = SubResource( 67 )
+disabled = true
+text = "Глава 1"
+icon = ExtResource( 23 )
+align = 0
+expand_icon = true
+script = SubResource( 74 )
 
 [node name="Conductor" type="FileDialog" parent="Interfaces"]
 margin_left = 12.0

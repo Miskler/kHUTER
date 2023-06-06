@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=129 format=2]
 
 [ext_resource path="res://tile_b.tres" type="TileSet" id=1]
 [ext_resource path="res://textures/other/asteroids/five.png" type="Texture" id=2]
@@ -11,6 +11,56 @@
 [ext_resource path="res://resources/fonts/standart/standart.otf" type="DynamicFontData" id=9]
 [ext_resource path="res://audios/effects/loading_chapter_one/weak_heartbeat.mp3" type="AudioStream" id=10]
 [ext_resource path="res://audios/effects/loading_chapter_one/loud_heartbeat.mp3" type="AudioStream" id=11]
+[ext_resource path="res://textures/other/repair_bot/station/wait/wait2.png" type="Texture" id=12]
+[ext_resource path="res://textures/other/repair_bot/station/work/work3.png" type="Texture" id=13]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_screen/sphere_screen3.png" type="Texture" id=14]
+[ext_resource path="res://textures/other/repair_bot/station/work/work4.png" type="Texture" id=15]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_ok/ok7.png" type="Texture" id=16]
+[ext_resource path="res://textures/other/repair_bot/station/work/work1.png" type="Texture" id=17]
+[ext_resource path="res://textures/other/repair_bot/station/wait/wait4.png" type="Texture" id=18]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_os/sphere_os2.png" type="Texture" id=19]
+[ext_resource path="res://textures/other/ladder/ladder_center.png" type="Texture" id=20]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_ok/ok1.png" type="Texture" id=21]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_ok/ok5.png" type="Texture" id=22]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_screen/sphere_screen2.png" type="Texture" id=23]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_ok/ok4.png" type="Texture" id=24]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_error/error2.png" type="Texture" id=25]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_screen/sphere_screen1.png" type="Texture" id=26]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_screen/sphere_screen4.png" type="Texture" id=27]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_os/sphere_os1.png" type="Texture" id=28]
+[ext_resource path="res://textures/other/ladder/ladder_up.png" type="Texture" id=29]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_ok/ok2.png" type="Texture" id=30]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_error/error1.png" type="Texture" id=31]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_ok/ok6.png" type="Texture" id=32]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_ok/ok3.png" type="Texture" id=33]
+[ext_resource path="res://textures/other/ladder/ladder_bottom.png" type="Texture" id=34]
+[ext_resource path="res://textures/other/sphere_monitors/sphere_error/error3.png" type="Texture" id=35]
+[ext_resource path="res://textures/other/repair_bot/station/work/work2.png" type="Texture" id=36]
+[ext_resource path="res://textures/other/repair_bot/station/wait/wait1.png" type="Texture" id=37]
+[ext_resource path="res://textures/other/repair_bot/passage/passage4.png" type="Texture" id=38]
+[ext_resource path="res://textures/other/repair_bot/bot/up/up3.png" type="Texture" id=39]
+[ext_resource path="res://textures/other/repair_bot/bot/down/down2.png" type="Texture" id=40]
+[ext_resource path="res://textures/other/repair_bot/bot/straight/straight1.png" type="Texture" id=41]
+[ext_resource path="res://textures/other/repair_bot/bot/down/down1.png" type="Texture" id=42]
+[ext_resource path="res://textures/other/repair_bot/passage/passage1.png" type="Texture" id=43]
+[ext_resource path="res://textures/other/repair_bot/bot/down/down3.png" type="Texture" id=44]
+[ext_resource path="res://textures/other/repair_bot/bot/up/up2.png" type="Texture" id=45]
+[ext_resource path="res://textures/other/repair_bot/bot/straight/straight2.png" type="Texture" id=46]
+[ext_resource path="res://textures/other/repair_bot/station/wait/wait3.png" type="Texture" id=47]
+[ext_resource path="res://textures/other/repair_bot/bot/up/up1.png" type="Texture" id=48]
+[ext_resource path="res://textures/other/repair_bot/bot/straight/straight3.png" type="Texture" id=49]
+[ext_resource path="res://textures/other/repair_bot/station/ok/ok3.png" type="Texture" id=50]
+[ext_resource path="res://textures/other/repair_bot/passage/passage7.png" type="Texture" id=51]
+[ext_resource path="res://textures/other/repair_bot/station/ok/ok2.png" type="Texture" id=52]
+[ext_resource path="res://textures/other/repair_bot/passage/passage2.png" type="Texture" id=53]
+[ext_resource path="res://textures/other/repair_bot/passage/passage5.png" type="Texture" id=54]
+[ext_resource path="res://textures/other/repair_bot/station/ok/ok1.png" type="Texture" id=55]
+[ext_resource path="res://textures/other/spawn/atlas_spawn.png" type="Texture" id=56]
+[ext_resource path="res://textures/other/repair_bot/passage/passage8.png" type="Texture" id=57]
+[ext_resource path="res://textures/other/repair_bot/passage/passage3.png" type="Texture" id=58]
+[ext_resource path="res://textures/other/repair_bot/passage/passage6.png" type="Texture" id=59]
+[ext_resource path="res://textures/other/ship background/cols.png" type="Texture" id=60]
+[ext_resource path="res://textures/other/ship background/bulkhead-walls-pipes.png" type="Texture" id=61]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends ColorRect
@@ -215,6 +265,1577 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="GDScript" id=107]
+script/source = "extends Area2D
+
+var wait = false
+var set = false
+func _process(delta):
+	for i in get_overlapping_bodies():
+		if i.name == \"Player\" and i.get_node_or_null(\"sat_down\") != null and i.is_on_floor() and not wait:
+			if not i.get_node(\"sat_down\").disabled and not set:
+				set = true
+				wait = true
+				use(i, 1)
+				
+				yield(get_tree().create_timer(0.5), \"timeout\")
+				wait = false
+			elif i.get_node(\"sat_down\").disabled:
+				set = false
+
+func use(player, _net_id):
+	if player.global_position.y > -400:
+		player.global_position = Vector2(-1450, -500)
+	else:
+		player.global_position = Vector2(-1440, -50)
+"
+
+[sub_resource type="CapsuleShape2D" id=108]
+radius = 21.4957
+height = 199.467
+
+[sub_resource type="CapsuleShape2D" id=109]
+radius = 31.9873
+height = 0.0
+
+[sub_resource type="GDScript" id=110]
+script/source = "extends Area2D
+
+var wait = false
+var set = false
+func _process(delta):
+	for i in get_overlapping_bodies():
+		if i.name == \"Player\" and i.get_node_or_null(\"sat_down\") != null and i.is_on_floor() and not wait:
+			if not i.get_node(\"sat_down\").disabled and not set:
+				set = true
+				wait = true
+				use(i, 1)
+				
+				yield(get_tree().create_timer(0.5), \"timeout\")
+				wait = false
+			elif i.get_node(\"sat_down\").disabled:
+				set = false
+
+func use(player, _net_id):
+	if player.global_position.y > 40:
+		player.global_position = Vector2(-1600, -50)
+	else:
+		player.global_position = Vector2(-1600, 260)
+"
+
+[sub_resource type="CapsuleShape2D" id=111]
+radius = 23.7415
+height = 183.069
+
+[sub_resource type="CapsuleShape2D" id=112]
+radius = 23.7415
+height = 15.8065
+
+[sub_resource type="GDScript" id=113]
+script/source = "extends Area2D
+
+var wait = false
+var set = false
+func _process(delta):
+	for i in get_overlapping_bodies():
+		if i.name == \"Player\" and i.get_node_or_null(\"sat_down\") != null and i.is_on_floor() and not wait:
+			if not i.get_node(\"sat_down\").disabled and not set:
+				set = true
+				wait = true
+				use(i, 1)
+				
+				yield(get_tree().create_timer(0.5), \"timeout\")
+				wait = false
+			elif i.get_node(\"sat_down\").disabled:
+				set = false
+
+func use(player, _net_id):
+	if player.global_position.y > 350:
+		player.global_position = Vector2(-1090, 250)
+	else:
+		player.global_position = Vector2(-1090, 540)
+"
+
+[sub_resource type="CapsuleShape2D" id=114]
+radius = 23.7415
+height = 124.438
+
+[sub_resource type="GDScript" id=115]
+script/source = "extends Area2D
+
+var wait = false
+var set = false
+func _process(delta):
+	for i in get_overlapping_bodies():
+		if i.name == \"Player\" and i.get_node_or_null(\"sat_down\") != null and i.is_on_floor() and not wait:
+			if not i.get_node(\"sat_down\").disabled and not set:
+				set = true
+				wait = true
+				use(i, 1)
+				
+				yield(get_tree().create_timer(0.5), \"timeout\")
+				wait = false
+			elif i.get_node(\"sat_down\").disabled:
+				set = false
+
+func use(player, _net_id):
+	if player.global_position.y > 600:
+		player.global_position = Vector2(-1217, 540)
+	else:
+		player.global_position = Vector2(-1217, 790)
+"
+
+[sub_resource type="GDScript" id=116]
+script/source = "extends Area2D
+
+var wait = false
+var set = false
+func _process(delta):
+	for i in get_overlapping_bodies():
+		if i.name == \"Player\" and i.get_node_or_null(\"sat_down\") != null and i.is_on_floor() and not wait:
+			if not i.get_node(\"sat_down\").disabled and not set:
+				set = true
+				wait = true
+				use(i, 1)
+				
+				yield(get_tree().create_timer(0.5), \"timeout\")
+				wait = false
+			elif i.get_node(\"sat_down\").disabled:
+				set = false
+
+func use(player, _net_id):
+	if player.global_position.y > 600:
+		player.global_position = Vector2(-1860, 540)
+	else:
+		player.global_position = Vector2(-1860, 790)
+"
+
+[sub_resource type="GDScript" id=117]
+script/source = "extends Area2D
+
+var wait = false
+var set = false
+func _process(delta):
+	for i in get_overlapping_bodies():
+		if i.name == \"Player\" and i.get_node_or_null(\"sat_down\") != null and i.is_on_floor() and not wait:
+			if not i.get_node(\"sat_down\").disabled and not set:
+				set = true
+				wait = true
+				use(i, 1)
+				
+				yield(get_tree().create_timer(0.5), \"timeout\")
+				wait = false
+			elif i.get_node(\"sat_down\").disabled:
+				set = false
+
+func use(player, _net_id):
+	if player.global_position.y > 600:
+		player.global_position = Vector2(-2350, 540)
+	else:
+		player.global_position = Vector2(-2350, 790)
+"
+
+[sub_resource type="GDScript" id=118]
+script/source = "extends Area2D
+
+var wait = false
+var set = false
+func _process(delta):
+	for i in get_overlapping_bodies():
+		if i.name == \"Player\" and i.get_node_or_null(\"sat_down\") != null and i.is_on_floor() and not wait:
+			if not i.get_node(\"sat_down\").disabled and not set:
+				set = true
+				wait = true
+				use(i, 1)
+				
+				yield(get_tree().create_timer(0.5), \"timeout\")
+				wait = false
+			elif i.get_node(\"sat_down\").disabled:
+				set = false
+
+func use(player, _net_id):
+	if player.global_position.y > 350:
+		player.global_position = Vector2(-2500, 250)
+	else:
+		player.global_position = Vector2(-2500, 540)
+"
+
+[sub_resource type="GDScript" id=119]
+script/source = "extends Area2D
+
+var wait = false
+var set = false
+func _process(delta):
+	for i in get_overlapping_bodies():
+		if i.name == \"Player\" and i.get_node_or_null(\"sat_down\") != null and i.is_on_floor() and not wait:
+			if not i.get_node(\"sat_down\").disabled and not set:
+				set = true
+				wait = true
+				use(i, 1)
+				
+				yield(get_tree().create_timer(0.5), \"timeout\")
+				wait = false
+			elif i.get_node(\"sat_down\").disabled:
+				set = false
+
+func use(player, _net_id):
+	if player.global_position.y > 100:
+		player.global_position = Vector2(-2350, 0)
+	else:
+		player.global_position = Vector2(-2350, 260)
+"
+
+[sub_resource type="GDScript" id=120]
+script/source = "extends Area2D
+
+var wait = false
+var set = false
+func _process(delta):
+	for i in get_overlapping_bodies():
+		if i.name == \"Player\" and i.get_node_or_null(\"sat_down\") != null and i.is_on_floor() and not wait:
+			if not i.get_node(\"sat_down\").disabled and not set:
+				set = true
+				wait = true
+				use(i, 1)
+				
+				yield(get_tree().create_timer(0.5), \"timeout\")
+				wait = false
+			elif i.get_node(\"sat_down\").disabled:
+				set = false
+
+func use(player, _net_id):
+	if player.global_position.y > -150:
+		player.global_position = Vector2(-2500, -250)
+	else:
+		player.global_position = Vector2(-2500, 0)
+"
+
+[sub_resource type="GDScript" id=121]
+script/source = "extends Area2D
+
+var wait = false
+var set = false
+func _process(delta):
+	for i in get_overlapping_bodies():
+		if i.name == \"Player\" and i.get_node_or_null(\"sat_down\") != null and i.is_on_floor() and not wait:
+			if not i.get_node(\"sat_down\").disabled and not set:
+				set = true
+				wait = true
+				use(i, 1)
+				
+				yield(get_tree().create_timer(0.5), \"timeout\")
+				wait = false
+			elif i.get_node(\"sat_down\").disabled:
+				set = false
+
+func use(player, _net_id):
+	if player.global_position.y > -400:
+		player.global_position = Vector2(-2365, -500)
+	else:
+		player.global_position = Vector2(-2365, -250)
+"
+
+[sub_resource type="GDScript" id=122]
+script/source = "extends Area2D
+
+var standart = {
+	\" \":
+	[
+		\"\",
+		\"АПЖ\",
+		\"Я просмотрел все дискеты в вашем инвентаре. Выберите дискету которую хотите просмотреть.\",
+		[], #Тут будут плюшки от ответа
+		{}
+	]
+}
+
+var disket_one = [
+	\"*клик*\",
+	\"Pr0lt\",
+	\"Валь. Какого черта ты перезаписал все документации?\",
+	[], #Тут будут плюшки от ответа
+	{
+		\"Далее\": [
+			\"\",
+			\"Val3r\",
+			\"Ой да ладно тебе. Там все равно ничего важного. А у меня память в коммуньке кончалась.\",
+			[],
+			{
+				\"Далее\": [
+					\"\",
+					\"Pr0lt\",
+					\"А вдруг кто-нибудь захочет что-то починить, а увидит эти бесполезные записи разговорчиков?\",
+					[],
+					{
+						\"Далее\": [
+							\"\",
+							\"Val3r\",
+							\"Если б этот кто-то захотел бы что-нибудь починить с помошью документаций, то и так бы пролетел. Настолько они \\\"полезны\\\". Один \\\"Свет\\\" чего стоит... На крайняк Дурика запустим\",
+							[],
+							{
+								\"Далее\": [
+									\"\",
+									\"Pr0lt\",
+									\"Дурика?\",
+									[],
+									{
+										\"Далее\": [
+											\"\",
+											\"Val3r\",
+											\"Дурика. Ну... Дрон Ремонтный. ДР. Дурик. Он же ж древний. Покумекает он там с машинами, пофлиртует... Авось заново заработают\",
+											[],
+											{
+												\"Далее\": [
+													\"\",
+													\"Pr0lt\",
+													\"Ты же в курсе, что он АЭР. Аппарат Экстренного Ремонта, мать вашу! С хрена ли одна из ценнейших древних машин в нашем распоряжении, от которой зависят наши жизни, зовется Дуриком!? Это оскорбление и наших предков, и чести техников, и меня в частности.\",
+													[],
+													{
+														\"Далее\": [
+															\"\",
+															\"Val3r\",
+															\"Ладно, успокойся. Да и не АЭР он больше, учитывая его способности \\\"летуна\\\". Не Дурика, так Мордашек запустим\",
+															[],
+															{
+																\"Далее\": [
+																	\"\",
+																	\"Pr0lt\",
+																	\"Какие еще Мордашки?\",
+																	[],
+																	{
+																		\"Далее\": [
+																			\"\",
+																			\"Val3r\",
+																			\"Ну... Малые ремонтные дроны. МоРДашки\",
+																			[],
+																			{
+																				\"Далее\": [
+																					\"\",
+																					\"Pr0lt\",
+																					\"Так... Ты случаем не про тех бесполезных Буляк, которые сделать то ничего не могут без кучи команд и указаний?\",
+																					[],
+																					{
+																						\"Далее\": [
+																							\"\",
+																							\"Val3r\",
+																							\"Буляк? И это человек, который задвигает мне за неуважение к машинам и предкам...\",
+																							[],
+																							{
+																								\"Далее\": [
+																									\"\",
+																									\"Pr0lt\",
+																									\"Проехали\",
+																									[],
+																									{
+																										\"Закрыть\": [[]]
+																									}
+																								]
+																							}
+																						]
+																					}
+																				]
+																			}
+																		]
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]
+
+var disket_two = [
+	\"*клик*\",
+	\"Pr0lt\",
+	\"Поздравляем вас, счастливых обладателей системы освещения SaintLum от OrbCorp!\\nНаша компания гордится качеством своих товаров и их доступностью. Наша компания существует уже не одну сотню лет, начиная с основания в 2050 в виде небольшого магазинчика по продаже бытовой техники и до сегодняшних дней, когда мы способны предоставить вам любой товар и услугу! От кофеварки, до космической станции!\\nСистема освещения, находящаяся перед вами, является одним из наших произведений искусства! Надежная, многофункциональная и легкая в ремонте!\\nНаша система не только хорошо осветит ваш дом, но и, благодаря системе \\\"умного света\\\":\\n-Разбудит вас по утру\\n-Создаст подходящую обстановку для любой атмосферы\\n-Предупредит, если к вам влезет злоумышленник или будет угрожать любая другая опасность.\\nИ всё это за малую цену!\\nЕсли ваша система будет неисправной, во что мы почти не верим, то нажмите красную кнопку на задней панели и с ближайшего к вам дронодрома вылетит наш высококлассный ремонтник!(стоимость ремонта зависит от степени повреждений. наша компания не гарантирует успешность ремонта. мы не возвращаем деньги ни под какими предлогами)\",
+	[], #Тут будут плюшки от ответа
+	{
+		\"Далее\": [
+			\"\",
+			\"Val3r\",
+			\"...\",
+			[],
+			{
+				\"Далее\": [
+					\"\",
+					\"Val3r\",
+					\"Это... Даже слов нет.\",
+					[],
+					{
+						\"Далее\": [
+							\"\",
+							\"Val3r\",
+							\"Шедевр! Это ШЕДЕВР! Я даже тереть это не буду. Это... Это нужно сохранить! Из поколения в поколение передавать! Чтобы каждый, открывший вот... это вот, мог как поржать, так и ужаснуться.\",
+							[],
+							{
+								\"Далее\": [
+									\"\",
+									\"Val3r\",
+									\"Казалось бы. OrbCorp. Когда-то крупнейшая компания, а ныне являющиеся объектом чего-то поклонения, чья техника до сих пор живет и работает на нашей Сфере. Компания, в чью честь улицы называют. Да блин! Я вырос в поселке с названием Орбин! И тут такое...\",
+									[],
+									{
+										\"Далее\": [
+											\"\",
+											\"Val3r\",
+											\"Да даже совет из разряда:\\n1)Выключи\\n2)Помолись\\n3)Включи и надейся на лучшее\\nПолезнее будет, чем весь этот рекламный бред, выданный за документацию!\",
+											[],
+											{
+												\"Далее\": [
+													\"\",
+													\"Val3r\",
+													\"Эх...\",
+													[],
+													{
+														\"Далее\": [
+															\"\",
+															\"Val3r\",
+															\"К счастью, у нас есть Дурик и Мордашки. Ну и я с Пролтом и Меной. Отличная команда...\",
+															[],
+															{
+																\"Далее\": [
+																	\"\",
+																	\"Val3r\",
+																	\"Надеюсь, меня не повяжут за критику и порчу \\\"священных текстов\\\"...\",
+																	[],
+																	{
+																		\"Закрыть\": [[]]
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]
+
+var disket_three = [
+	\"*клик*\",
+	\"Pr0lt\",
+	\"Мена, в каком состоянии наша птичка?\",
+	[], #Тут будут плюшки от ответа
+	{
+		\"Далее\": [
+			\"\",
+			\"M3na\",
+			\"Полетать сможет. Диагностика ничего смертельного не вывела. Так... Всего лишь пара желтеньких предупреждений... Однако, все ключевые части были освящены Орбовым словом. Так что все в порядке. Осталось только закончить переоборудование и можно будет взлетать. Но пара вопросов возникло\",
+			[],
+			{
+				\"Далее\": [
+					\"\",
+					\"Pr0lt\",
+					\"Они случаем не связаны со вторым техником?\",
+					[],
+					{
+						\"Далее\": [
+							\"\",
+							\"M3na\",
+							\"По нему тоже есть пара вопросов. К примеру, почему он нарядил несколько МРД шапочками и начал пытаться научить их танцевать? Но сейчас не об этом. АЭРа знаете ведь?\",
+							[],
+							{
+								\"Далее\": [
+									\"\",
+									\"Pr0lt\",
+									\"Ну и? Что с ним? Опять включился без видимых причин?\",
+									[],
+									{
+										\"Далее\": [
+											\"\",
+											\"M3na\",
+											\"Нет. Не в этом дело. Знаете ведь, что  большая часть функций у него было утеряно? Ну так вот. Я нашла способ вернуть ему способность к полету. Если заинтересованы, могу продолжить\",
+											[],
+											{
+												\"Далее\": [
+													\"\",
+													\"Pr0lt\",
+													\"Дай ка угадаю... Твоим решением будет: увеличить энергопроводность системы питания прыжковой системы? Гиблое дело.\",
+													[],
+													{
+														\"Далее\": [
+															\"\",
+															\"M3na\",
+															\"Но... Почему? Это ж решит всю проблему! И, раз вы уже знали, то почему не исправили?\",
+															[],
+															{
+																\"Далее\": [
+																	\"\",
+																	\"Pr0lt\",
+																	\"А подумать? Напоминаю. У него очень в хреновом состоянии и батарея, и система охлаждения. На кой ему еще одна дополнительная нагрузка? И так немалую часть функций и систем было демонтировано, чтобы он хоть как-то работал больше пары минут и не сгорал при этом\",
+																	[],
+																	{
+																		\"Далее\": [
+																			\"\",
+																			\"M3na\",
+																			\"Но... Если снять с него плащ, разве проблема с охлаждением не уменьшиться? Он же тепло удерживает\",
+																			[],
+																			{
+																				\"Далее\": [
+																					\"\",
+																					\"Pr0lt\",
+																					\"Во-первых, это придурь Вали. А с ним бороться бесполезно. Пробовал. Во-вторых, плащ немного помогает с проблемой батарей, ибо разряжаться стали они медленней. Так что смысла убирать не вижу. Лучше машина, \\\"пьющая\\\" легкодоступную воду, чем машина, постоянно \\\"жрущая\\\" не такую уж и легкодоступную органику\",
+																					[],
+																					{
+																						\"Далее\": [
+																							\"\",
+																							\"Pr0lt\",
+																							\"Да и, если честно, по некоторым вещам я не скучаю. По голосовому модулю, к примеру. Никто не оценил нарциссические наклонности Аэра\",
+																							[],
+																							{
+																								\"Далее\": [
+																									\"\",
+																									\"Pr0lt\",
+																									\"Кстати... А откуда у тебя эта дискета?\",
+																									[],
+																									{
+																										\"Далее\": [
+																											\"\",
+																											\"M3na\",
+																											\"... То-о-очно-о не одна из дискет, изъятых у Вали во имя святого Орба и искупления греха, совершенного этим невеждой...\",
+																											[],
+																											{
+																												\"Далее\": [
+																													\"\",
+																													\"Pr0lt\",
+																													\"Ещё одна...\",
+																													[],
+																													{
+																														\"Закрыть\": [[]]
+																													}
+																												]
+																											}
+																										]
+																									}
+																								]
+																							}
+																						]
+																					}
+																				]
+																			}
+																		]
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]
+
+var disket_four = [
+	\"*клик*\",
+	\"АПЖ\",
+	\"Братья и сестры,\\nМы находимся на пороге увядания и погибели.\\nС каждым годом ресурсов становится все меньше и меньше. Святому Орбу нужна новая плоть. Плоть другой сферы. Сферы, впавшей в ересь. Мертвой сферы.\\nТолько поглотив мертвого, мы можем очистить его и дать ему покой. Из сферы мы пришли, в сферу мы уйдем.\\nДа найдем же мы мертвую сферу и принесем ее в жертву! Ведь нет ничего более благородного, чем продлить чью-то жизнь, когда твоя жизнь будет окончена.\\nБравые капитаны священных энергосборщиков готовы взять на борт всех тех, кто согласен принять участие в этом освободительном походе. Всех, чьи имена будут передаваться из поколения в поколения, как имена героев, спасших и нас, и Святого Орба от неминуемой гибели!\\nДа прибудет с вами Орбово слово!\",
+	[], #Тут будут плюшки от ответа
+	{
+		\"Далее\": [
+			\"\",
+			\"Pr0lt\",
+			\"Валь...\",
+			[],
+			{
+				\"Далее\": [
+					\"\",
+					\"Val3r\",
+					\"Че Валь то сразу? Вот эта стремная хрень не моя\",
+					[],
+					{
+						\"Далее\": [
+							\"\",
+							\"Pr0lt\",
+							\"То есть, вся остальная, твоя?\",
+							[],
+							{
+								\"Далее\": [
+									\"\",
+									\"Val3r\",
+									\"Это... Ложь, поклеп и провокация! Вот...\",
+									[],
+									{
+										\"Далее\": [
+											\"\",
+											\"Val3r\",
+											\"И вообще. Меня подставили! Не моя эта дискета! \",
+											[],
+											{
+												\"Далее\": [
+													\"\",
+													\"M3na\",
+													\"Это мое. Пожалуйста, верните\",
+													[],
+													{
+														\"Далее\": [
+															\"\",
+															\"Val3r\",
+															\"... Чаво? Зачем?\",
+															[],
+															{
+																\"Далее\": [
+																	\"\",
+																	\"Pr0lt\",
+																	\"Эх... Кому я доверил свой сборщик!?\",
+																	[],
+																	{
+																		\"Далее\": [
+																			\"\",
+																			\"Pr0lt\",
+																			\"Один раздолбай, у которого шило все никак не вылазит. Вторая излишне религиозна. Почти до фанатизма доходит! До сих пор помню тот случай с Орбовым алтарем. Сутки нельзя было складом воспользоваться!\",
+																			[],
+																			{
+																				\"Далее\": [
+																					\"\",
+																					\"Val3r\",
+																					\"И один древний старик\",
+																					[],
+																					{
+																						\"Далее\": [
+																							\"\",
+																							\"Pr0lt\",
+																							\"Валь, что ты только что произнес?! Давно корпус не драил?\",
+																							[],
+																							{
+																								\"Далее\": [
+																									\"\",
+																									\"M3na\",
+																									\"Да ладно вам. Успокойтесь, капитан Пролт. Да и с алтарем не все так было однозначно... Кто ж знал, что у вас отсутствует нормальная вентиляция. Как и нет хороших мест для сжигания. Пришлось импровизировать.\",
+																									[],
+																									{
+																										\"Далее\": [
+																											\"\",
+																											\"Pr0lt\",
+																											\"Цирк. Цирк да и только.\",
+																											[],
+																											{
+																												\"Зыкрыть\": [[]]
+																											}
+																										]
+																									}
+																								]
+																							}
+																						]
+																					}
+																				]
+																			}
+																		]
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]
+
+var disket_five = [
+	\"*клик*\",
+	\"АПЖ\",
+	\"Вы пичинили все системы! Теперь двери в норме! Теперь ваша задача - найти терминал криосна и разбудить выживших.\",
+	[], #Тут будут плюшки от ответа
+	{\"Ок\": [[]]}
+]
+
+var stori = [
+	\"*клик*\",
+	\"Кто-то\",
+	\"Дорогой... дневник? Дискета? Касета?\",
+	[], #Тут будут плюшки от ответа
+	{
+		\"Далее\": [
+			\"\",
+			\"Кто-то\",
+			\"Сколько ни пишу, так и не могу определиться, как тебя называть...\",
+			[],
+			{
+				\"Далее\": [
+					\"\",
+					\"Кто-то\",
+					\"Ладно. Пусть будет дневник.\",
+					[],
+					{
+						\"Далее\": [
+							\"\",
+							\"Кто-то\",
+							\"Итак. Дорогой дневник. Сегодня...какой-то день недели месяца. Я не знаю, текущую дату.\",
+							[],
+							{
+								\"Далее\": [
+									\"\",
+									\"Кто-то\",
+									\"Слишком трудно вести счет времени без часов. Пусть будет среда.\",
+									[],
+									{
+										\"Далее\": [
+											\"\",
+											\"Кто-то\",
+											\"Всегда любил среды...\",
+											[],
+											{
+												\"Далее\": [
+													\"\",
+													\"Кто-то\",
+													\"Итак. Сейчас...день. Да. День. Раз я не сплю, значит день.\",
+													[],
+													{
+														\"Далее\": [
+															\"\",
+															\"Кто-то\",
+															\"А точнее, вечер, так как скоро пойду спать...\",
+															[],
+															{
+																\"Далее\": [
+																	\"\",
+																	\"Кто-то\",
+																	\"Итак. Хехе. Снова итак... Итак, да этак...\",
+																	[],
+																	{
+																		\"Далее\": [
+																			\"\",
+																			\"Кто-то\",
+																			\"Короче. Сегодня был насыщенный день. На завтрак у меня был мох.\",
+																			[],
+																			{
+																				\"Далее\": [
+																					\"\",
+																					\"Кто-то\",
+																					\"Запивал я его льдом. На обед - Лед со мхом. А на ужин, мое самое любимое, лед во мхе! Мдам... Звучит удручающе, но сдругой стороны, чем ЕЩЕ ПИТАТЬСЯ В ЭТОМ ПРОКЛЯТОМ ПОДЗЕМЕЛЬЕ! Фух... Такс. Я вроде успокоился. Да... Спокоен...\",
+																					[],
+																					{
+																						\"Далее\": [
+																							\"\",
+																							\"Кто-то\",
+																							\"Что еще сегодня произошло? Ну... Я ходил в потемках...\",
+																							[],
+																							{
+																								\"Далее\": [
+																									\"\",
+																									\"Кто-то\",
+																									\"Ходил во тьме... Искал... А что я ищу? Так... Ищу... Ищу...\",
+																									[],
+																									{
+																										\"Далее\": [
+																											\"\",
+																											\"Кто-то\",
+																											\"Во! Вспомнил! Я ищу! Что-то ищу! А раз ищу, значит это что-то важное.\",
+																											[],
+																											{
+																												\"Далее\": [
+																													\"\",
+																													\"Кто-то\",
+																													\"И когда найду! Тогда найду! Хехехехе...\",
+																													[],
+																													{
+																														\"Далее\": [
+																															\"\",
+																															\"Кто-то\",
+																															\"Такс... Что еще сегодня было? Я встретил странных существ, которых раньше здесь не было...\",
+																															[],
+																															{
+																																\"Далее\": [
+																																	\"\",
+																																	\"Кто-то\",
+																																	\"Как они выглядят, спрашиваешь? Что ж... Представь себе мягкий камень, из которого растут оранжевые чуть-чуть светящиеся наросты. И этот камешек...\",
+																																	[],
+																																	{
+																																		\"Далее\": [
+																																			\"\",
+																																			\"Кто-то\",
+																																			\"Ползает. Да. Просто ползает. Иногда прыгает. И таких камешков много...\",
+																																			[],
+																																			{
+																																				\"Далее\": [
+																																					\"\",
+																																					\"Кто-то\",
+																																					\"Хмм... Интересно. А их можно кушать? Да... Надо будет попробовать...\",
+																																					[],
+																																					{
+																																						\"Далее\": [
+																																							\"\",
+																																							\"Кто-то\",
+																																							\"Подожди меня чутка! Тут как раз один ползает...\",
+																																							[],
+																																							{
+																																								\"Зыкрыть\": [[]]
+																																							}
+																																						]
+																																					}
+																																				]
+																																			}
+																																		]
+																																	}
+																																]
+																															}
+																														]
+																													}
+																												]
+																											}
+																										]
+																									}
+																								]
+																							}
+																						]
+																					}
+																				]
+																			}
+																		]
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]
+
+
+func use(user, _id):
+	var f = standart.duplicate(true)
+	var data = user.get_items()
+	for i in range(data.size()):
+		if data[i].size() > 2 and data[i][1].has(\"id_disket\"):
+			if data[i][1][\"id_disket\"] == 0:
+				f[\" \"][4][\"Дискета 1 из 5\"] = disket_one
+			elif data[i][1][\"id_disket\"] == 1:
+				f[\" \"][4][\"Дискета 2 из 5\"] = disket_two
+			elif data[i][1][\"id_disket\"] == 2:
+				f[\" \"][4][\"Дискета 3 из 5\"] = disket_three
+			elif data[i][1][\"id_disket\"] == 3:
+				f[\" \"][4][\"Дискета 4 из 5\"] = disket_four
+			elif data[i][1][\"id_disket\"] == 4:
+				f[\" \"][4][\"Дискета 5 из 5\"] = disket_five
+			elif data[i][1][\"id_disket\"] == 5:
+				f[\" \"][4][\"История\"] = stori
+	f[\" \"][4][\"Отмена\"] = [[]]
+	
+	user.show_dialogue(f)
+
+func _process(_delta):
+	for i in range($\"..\".sistem.size()):
+		if $\"..\".sistem[i] == true and get_node(\"AnimatedSprite\" + str(i)).animation != \"ok\":
+			get_node(\"AnimatedSprite\" + str(i)).play(\"ok\")
+		elif $\"..\".sistem[i] == null and get_node(\"AnimatedSprite\" + str(i)).animation != \"pass\":
+			get_node(\"AnimatedSprite\" + str(i)).play(\"pass\")
+"
+
+[sub_resource type="SpriteFrames" id=123]
+animations = [ {
+"frames": [ ExtResource( 28 ), ExtResource( 19 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 31 ), ExtResource( 25 ), ExtResource( 35 ), ExtResource( 25 ) ],
+"loop": true,
+"name": "error",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 21 ), ExtResource( 30 ), ExtResource( 33 ), ExtResource( 24 ), ExtResource( 22 ), ExtResource( 32 ), ExtResource( 16 ) ],
+"loop": true,
+"name": "ok",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 26 ), ExtResource( 23 ), ExtResource( 14 ), ExtResource( 27 ) ],
+"loop": true,
+"name": "pass",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=124]
+radius = 85.097
+height = 0.0
+
+[sub_resource type="GDScript" id=125]
+script/source = "extends Area2D
+
+var dialog = {
+	\"Я говорю\":
+	[
+		\"\",
+		\"Странный компьютер\",
+		\"Я - Автомат Поддержания Жизни, версия 3. Чем я могу помочь тебе, СР?\",
+		[], #Тут будут плюшки от ответа
+		{
+			\"Кто я?\": [
+				\"Кто я?\",
+				\"АПЖ\",
+				\"Вы система ремонта этого коробля. Желаете продолжить полёт?\",
+				[],
+				{\"Нет\": [[]],
+				\"Да\": [[\"use_func\", [\"go\", \"/root/rootGame/Node/Area2D\"]]]}
+			],
+			\"Где я?\": [
+				\"Где я?\",
+				\"АПЖ\",
+				\"Вы находитесь на эвакуационном корабле. Желаете продолжить полёт?\",
+				[],
+				{\"Нет\": [[]],
+				\"Да\": [[\"use_func\", [\"go\", \"/root/rootGame/Node/Area2D\"]]]}
+			],
+			\"Я плохо себя чувстую.\": [
+				\"Я плохо себя чувстую.\",
+				\"АПЖ\",
+				\"После столкновения с гелем ваша система охлаждения начала протикать, а батарея больше не функционирует. Пейте воду чтобы восполнить недостаток хладогента и ешьте биосырьё чтобы не отключится. Желаете продолжить полёт?\",
+				[],
+				{\"Нет\": [[]],
+				\"Да\": [[\"use_func\", [\"go\", \"/root/rootGame/Node/Area2D\"]]]}
+			],
+		}
+	]
+}
+
+var dialog_two = {
+	\"Я говорю\":
+	[
+		\"\",
+		\"АПЖ\",
+		\"Желаете продолжить полёт?\",
+		[], #Тут будут плюшки от ответа
+		{
+			\"Нет\": [[]],
+			\"Да\": [[\"use_func\", [\"go\", \"/root/rootGame/Node/Area2D\"]]]
+		}
+	]
+}
+
+var dat = true
+
+
+func use(player, _net_id):
+	if dat == true:
+		dat = false
+		player.show_dialogue(dialog)
+	else:
+		player.show_dialogue(dialog_two)
+
+func go():
+	$Timer.start()
+	$\"../Guider/CanvasLayer/Control/AnimationPlayer\".play(\"def\")
+
+func timeout():
+	$\"../SettingData\".map_settings[\"creation_position\"] = Vector2(-500, -50)
+	
+	$\"../Player\".global_position = Vector2(-500, -50)
+	
+	$\"../SettingData\".map_settings[\"dehumidification_frequency\"] = 30
+	$\"../SettingData\".map_settings[\"taking_away_hunger\"] = 20
+"
+
+[sub_resource type="GDScript" id=126]
+script/source = "extends Area2D
+
+var standart = {
+	\" \":
+	[
+		\"\",
+		\"АР\",
+		\"Вот список систем требующих ремонта. Пожалуйста выберите одну из систем и запустите ремонт.\",
+		[], #Тут будут плюшки от ответа
+		{}
+	]
+}
+
+var dialogue_one = [
+	\"*клик*\",
+	\"АР\",
+	\"Для начала ремонта вам потребуются следующие ресурсы:\\nЖелезо - 6 штук\\nМедь - 3 штуки\\nКомпоненты - 6 штук\",
+	[], #Тут будут плюшки от ответа
+	{\"Ок\": [[]]}
+]
+
+var dialogue_two = [
+	\"*клик*\",
+	\"АР\",
+	\"Для начала ремонта вам потребуются следующие ресурсы:\\nЖелезо - 3 штуки\\nМедь - 6 штук\\nКомпоненты - 5 штук\",
+	[], #Тут будут плюшки от ответа
+	{\"Ок\": [[]]}
+]
+
+var dialogue_three = [
+	\"*клик*\",
+	\"АР\",
+	\"Для начала ремонта вам потребуются следующие ресурсы:\\nЖелезо - 2 штуки\\nМедь - 1 штука\\nКомпоненты - 1 штука\",
+	[], #Тут будут плюшки от ответа
+	{\"Ок\": [[]]}
+]
+
+var dialogue_four = [
+	\"*клик*\",
+	\"АР\",
+	\"Для начала ремонта вам потребуются следующие ресурсы:\\nЖелезо - 4 штуки\\nМедь - 2 штуки\\nКомпоненты - 3 штуки\",
+	[], #Тут будут плюшки от ответа
+	{\"Ок\": [[]]}
+]
+
+var dialogue_five = [
+	\"*клик*\",
+	\"АР\",
+	\"Для начала ремонта вам потребуются следующие ресурсы:\\nЖелезо - 3 штуки\\nМедь - 2 штуки\\nКомпоненты - 2 штуки\",
+	[], #Тут будут плюшки от ответа
+	{\"Ок\": [[]]}
+]
+
+
+var dialogue_ok = [
+	\"*клик*\",
+	\"АР\",
+	\"Ремонтный дрон запущен, пожалуйства подождите несколько минут...\",
+	[[\"use_func\", [\"pla\", \"/root/rootGame/Node/Area2D4\", []]]], #Тут будут плюшки от ответа
+	{\"Ок\": [[]]}
+]
+
+var dialogue_error = {
+	\" \":
+	[
+		\"\",
+		\"АР\",
+		\"Ремонтный дрон уже запущен, пожалуйста подождите когда он закончит работу.\",
+		[], #Тут будут плюшки от ответа
+		{
+			\"Ок\": [[]]
+		}
+	]
+}
+
+func _ready():
+	$AnimationPlayer.connect(\"animation_finished\", self, \"finish\")
+
+var dron_work = false
+
+var permission = [
+	{\"iron\": 6, \"copper\": 3, \"details\": 6},
+	{\"iron\": 3, \"copper\": 6, \"details\": 5},
+	{\"iron\": 2, \"copper\": 1, \"details\": 1},
+	{\"iron\": 4, \"copper\": 2, \"details\": 3},
+	{\"iron\": 3, \"copper\": 2, \"details\": 2}
+]
+
+func use(user, _id):
+	if not $\"..\".sistem.has(false): return
+	
+	var f = standart.duplicate(true)
+	var data = user.get_items()
+	
+	if dron_work is bool:
+		if $\"..\".sistem[0] == false:
+			if checking(user, permission[0]):
+				var d = dialogue_ok.duplicate(true)
+				d[3][0][1][2] = 0
+				f[\" \"][4][\"Управление дверьми\"] = d
+			else:
+				f[\" \"][4][\"Управление дверьми (отказ)\"] = dialogue_one
+		if $\"..\".sistem[1] == false:
+			if checking(user, permission[1]):
+				var d = dialogue_ok.duplicate(true)
+				d[3][0][1][2] = 1
+				f[\" \"][4][\"Управление освещением\"] = d
+			else:
+				f[\" \"][4][\"Управление освещением (отказ)\"] = dialogue_two
+		if $\"..\".sistem[2] == false:
+			if checking(user, permission[2]):
+				var d = dialogue_ok.duplicate(true)
+				d[3][0][1][2] = 2
+				f[\" \"][4][\"Управление навигацией\"] = d
+			else:
+				f[\" \"][4][\"Управление навигацией (отказ)\"] = dialogue_three
+		if $\"..\".sistem[3] == false:
+			if checking(user, permission[3]):
+				var d = dialogue_ok.duplicate(true)
+				d[3][0][1][2] = 3
+				f[\" \"][4][\"Управление климатом\"] = d
+			else:
+				f[\" \"][4][\"Управление климатом (отказ)\"] = dialogue_four
+		if $\"..\".sistem[4] == false:
+			if checking(user, permission[4]):
+				var d = dialogue_ok.duplicate(true)
+				d[3][0][1][2] = 4
+				f[\" \"][4][\"Управление атмосферой\"] = d
+			else:
+				f[\" \"][4][\"Управление атмосферой (отказ)\"] = dialogue_five
+		f[\" \"][4][\"Отмена\"] = [[]]
+	else:
+		f = dialogue_error.duplicate(true)
+	
+	user.show_dialogue(f)
+
+func pla(id):
+	local_pla(id, false)
+	if get_tree().network_peer != null:
+		rpc(\"local_pla\", id, true)
+remote func local_pla(id, rem:bool = false):
+	$station.play(\"work\")
+	$AnimationPlayer.play(str(id))
+	dron_work = id
+	if not rem:
+		delet(permission[dron_work])
+
+func finish(_anim):
+	$\"..\".sistem[dron_work] = true
+	
+	if $\"..\".sistem.has(false):
+		$station.play(\"wait\")
+	else:
+		$station.play(\"ok\")
+		$CollisionShape2D.disabled = true
+		#$\"../Guider/CanvasLayer/Control2/AnimationPlayer\".play(\"def\")
+	
+	if dron_work == 0: open_doors()
+	
+	var f = [
+		\"res://textures/ui/items/diskettes/diskette_blue.png\",
+		\"res://textures/ui/items/diskettes/diskette_yellow.png\",
+		\"res://textures/ui/items/diskettes/diskette_green.png\",
+		\"res://textures/ui/items/diskettes/diskette_red.png\",
+		\"res://textures/ui/items/diskettes/diskette_white.png\",
+	]
+	
+	var drop = get_node(\"/root/rootGame\").rpc(\"drop_item\", {\"global_position\": Vector2(-925, -100), \"significant_data\": {\"item\": \"diskette\", \"animation\": {\"event\": 1, \"frames\": [f[dron_work]]}, \"id_disket\": dron_work}}, \"diskette\" + str(dron_work))
+	#if get_tree().network_peer != null:
+	#	get_node(\"/root/rootGame\").rpc(\"drop_item\", {\"global_position\": Vector2(-925, -100), \"significant_data\": {\"item\": \"diskette\", \"animation\": {\"event\": 1, \"frames\": [f[dron_work]]}, \"id_disket\": dron_work}}, \"diskette\" + str(dron_work))
+	
+	dron_work = false
+
+
+func open_doors():
+	var tiles = get_node(\"/root/rootGame/Node/TileMap\")
+	var datas = [\"door_up\", \"door_center\", \"door_bottom\"]
+	
+	tiles.edit_tile(Vector2(-35, -7), {\"tile_name\": {\"operation\": 0, \"value\": datas[0]}})
+	tiles.edit_tile(Vector2(-35, -6), {\"tile_name\": {\"operation\": 0, \"value\": datas[2]}})
+	tiles.clear_tile(Vector2(-35, -9))
+	tiles.clear_tile(Vector2(-35, -8))
+	
+	tiles.edit_tile(Vector2(-28, -7), {\"tile_name\": {\"operation\": 0, \"value\": datas[0]}})
+	tiles.edit_tile(Vector2(-28, -6), {\"tile_name\": {\"operation\": 0, \"value\": datas[2]}})
+	tiles.clear_tile(Vector2(-28, -8))
+	
+	tiles.edit_tile(Vector2(-28, -1), {\"tile_name\": {\"operation\": 0, \"value\": datas[0]}})
+	tiles.edit_tile(Vector2(-28, 0), {\"tile_name\": {\"operation\": 0, \"value\": datas[1]}})
+	tiles.edit_tile(Vector2(-28, 1), {\"tile_name\": {\"operation\": 0, \"value\": datas[2]}})
+	tiles.clear_tile(Vector2(-28, 2))
+	tiles.clear_tile(Vector2(-28, 3))
+	tiles.clear_tile(Vector2(-28, 4))
+	
+	tiles.edit_tile(Vector2(-22, 5), {\"tile_name\": {\"operation\": 0, \"value\": datas[0]}})
+	tiles.edit_tile(Vector2(-22, 6), {\"tile_name\": {\"operation\": 0, \"value\": datas[1]}})
+	tiles.edit_tile(Vector2(-22, 7), {\"tile_name\": {\"operation\": 0, \"value\": datas[2]}})
+	tiles.clear_tile(Vector2(-22, 4))
+	
+	tiles.edit_tile(Vector2(-24, 9), {\"tile_name\": {\"operation\": 0, \"value\": datas[0]}})
+	tiles.edit_tile(Vector2(-24, 10), {\"tile_name\": {\"operation\": 0, \"value\": datas[2]}})
+	tiles.clear_tile(Vector2(-24, 11))
+	tiles.clear_tile(Vector2(-24, 12))
+	
+	tiles.edit_tile(Vector2(-2, -1), {\"tile_name\": {\"operation\": 0, \"value\": datas[0]}})
+	tiles.edit_tile(Vector2(-2, 0), {\"tile_name\": {\"operation\": 0, \"value\": datas[1]}})
+	tiles.edit_tile(Vector2(-2, 1), {\"tile_name\": {\"operation\": 0, \"value\": datas[1]}})
+	tiles.edit_tile(Vector2(-2, 2), {\"tile_name\": {\"operation\": 0, \"value\": datas[1]}})
+	tiles.edit_tile(Vector2(-2, 3), {\"tile_name\": {\"operation\": 0, \"value\": datas[2]}})
+	tiles.clear_tile(Vector2(-2, 4))
+	tiles.clear_tile(Vector2(-2, 5))
+	tiles.clear_tile(Vector2(-2, 6))
+
+
+func checking(player, dat: Dictionary): #{\"iron\": 7}
+	#push_error(str(dat))
+	dat = dat.duplicate(true)
+	var data = player.get_items()
+	for i in data:
+		#push_warning(str(dat)+\"    \"+str(i[2].get(\"uni_quantity\")))
+		if i[1].has(\"item\") and i[1][\"item\"] in dat.keys():
+			dat[i[1][\"item\"]] -= i[2][\"uni_quantity\"]
+			
+			if dat[i[1][\"item\"]] <= 0:
+				dat.erase(i[1][\"item\"])
+	#push_error(str(dat.size()))
+	return dat.size() <= 0
+
+func delet(dat: Dictionary): #{\"iron\": 7}
+	print(\"\")
+	var player = get_node(\"/root/rootGame/Node/Player\")
+	for i in dat.keys():
+		print(dat[i])
+		print(str(player.edit_items(i, abs(dat[i]) * -1)))
+"
+
+[sub_resource type="SpriteFrames" id=127]
+animations = [ {
+"frames": [ ExtResource( 44 ), ExtResource( 42 ), ExtResource( 40 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 55 ), ExtResource( 52 ), ExtResource( 50 ) ],
+"loop": true,
+"name": "ok",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 43 ), ExtResource( 53 ), ExtResource( 58 ), ExtResource( 38 ), ExtResource( 54 ), ExtResource( 59 ), ExtResource( 51 ), ExtResource( 57 ) ],
+"loop": true,
+"name": "passage",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 49 ), ExtResource( 41 ), ExtResource( 46 ), ExtResource( 41 ) ],
+"loop": true,
+"name": "straight",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 48 ), ExtResource( 45 ), ExtResource( 48 ), ExtResource( 39 ) ],
+"loop": true,
+"name": "up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 37 ), ExtResource( 12 ), ExtResource( 47 ), ExtResource( 18 ) ],
+"loop": true,
+"name": "wait",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 17 ), ExtResource( 36 ), ExtResource( 13 ), ExtResource( 15 ) ],
+"loop": true,
+"name": "work",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=128]
+extents = Vector2( 78.2239, 62.6534 )
+
+[sub_resource type="Animation" id=129]
+
+[sub_resource type="Animation" id=130]
+
+[sub_resource type="SpriteFrames" id=131]
+animations = [ {
+"frames": [ ExtResource( 44 ), ExtResource( 42 ), ExtResource( 40 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 55 ), ExtResource( 52 ), ExtResource( 50 ) ],
+"loop": true,
+"name": "ok",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 43 ), ExtResource( 53 ), ExtResource( 58 ), ExtResource( 38 ), ExtResource( 54 ), ExtResource( 59 ), ExtResource( 51 ), ExtResource( 57 ) ],
+"loop": true,
+"name": "passage",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 49 ), ExtResource( 41 ), ExtResource( 46 ), ExtResource( 41 ) ],
+"loop": true,
+"name": "straight",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 48 ), ExtResource( 45 ), ExtResource( 48 ), ExtResource( 39 ) ],
+"loop": true,
+"name": "up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 37 ), ExtResource( 12 ), ExtResource( 47 ), ExtResource( 18 ) ],
+"loop": true,
+"name": "wait",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 17 ), ExtResource( 36 ), ExtResource( 13 ), ExtResource( 15 ) ],
+"loop": true,
+"name": "work",
+"speed": 5.0
+} ]
+
+[sub_resource type="Animation" id=132]
+tracks/0/type = "value"
+tracks/0/path = NodePath("passage:frames")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1.24771e-10, 30.91 ),
+"update": 1,
+"values": [ SubResource( 131 ), SubResource( 131 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("passage:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=133]
+
+[sub_resource type="Animation" id=134]
+
+[sub_resource type="GDScript" id=135]
+script/source = "extends Area2D
+
+func use(user, _id):
+	user.effect_health(10)
+"
+
+[sub_resource type="AtlasTexture" id=69]
+atlas = ExtResource( 56 )
+region = Rect2( 0, 0, 112, 90 )
+
+[sub_resource type="AtlasTexture" id=70]
+atlas = ExtResource( 56 )
+region = Rect2( 112, 0, 112, 90 )
+
+[sub_resource type="AtlasTexture" id=71]
+atlas = ExtResource( 56 )
+region = Rect2( 224, 0, 112, 90 )
+
+[sub_resource type="AtlasTexture" id=72]
+atlas = ExtResource( 56 )
+region = Rect2( 336, 0, 112, 90 )
+
+[sub_resource type="AtlasTexture" id=73]
+atlas = ExtResource( 56 )
+region = Rect2( 448, 0, 112, 90 )
+
+[sub_resource type="AtlasTexture" id=74]
+atlas = ExtResource( 56 )
+region = Rect2( 560, 0, 112, 90 )
+
+[sub_resource type="SpriteFrames" id=136]
+animations = [ {
+"frames": [ SubResource( 69 ), SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ) ],
+"loop": true,
+"name": "def",
+"speed": 3.0
+} ]
+
+[sub_resource type="Shader" id=100]
+code = "shader_type canvas_item;
+
+uniform sampler2D color_gradient;
+uniform sampler2D noiseTexture;
+uniform float speed: hint_range (0.0,5.0);
+uniform float variation: hint_range (0.0,1.0);
+uniform float width: hint_range (0.0,1.0);
+
+void fragment(){
+	
+	vec2 noise_uv = vec2(UV.x+TIME*speed, UV.y-TIME*speed);
+	float noise_sample = texture(noiseTexture, noise_uv).r;
+	float x_offset = noise_sample*variation - variation/2.0;
+	COLOR = texture(color_gradient, vec2((UV.x-0.5)/width + 0.5 + x_offset/width, UV.y));
+}"
+
+[sub_resource type="Gradient" id=137]
+offsets = PoolRealArray( 0, 0.538732, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 0, 1, 0.898039, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=102]
+gradient = SubResource( 137 )
+
+[sub_resource type="OpenSimplexNoise" id=138]
+
+[sub_resource type="NoiseTexture" id=104]
+noise = SubResource( 138 )
+
+[sub_resource type="ShaderMaterial" id=139]
+shader = SubResource( 100 )
+shader_param/speed = 0.818
+shader_param/variation = 0.164
+shader_param/width = 0.382
+shader_param/color_gradient = SubResource( 102 )
+shader_param/noiseTexture = SubResource( 104 )
+
+[sub_resource type="Shader" id=106]
+code = "shader_type canvas_item;
+
+// Gonkee's fire shader for Godot 3 - full tutorial https://youtu.be/CI3JZ-3cabg
+// If you use this shader, I would prefer it if you gave credit to me and my channel
+
+uniform vec4 transparent : hint_color;
+uniform vec4 inner : hint_color;
+uniform vec4 outer : hint_color;
+
+uniform float inner_threshold = 0.4;
+uniform float outer_threshold = 0.15;
+uniform float soft_edge = 0.04;
+
+uniform vec2 center = vec2(0.5, 0.8);
+
+uniform int OCTAVES = 6;
+
+float rand(vec2 coord){
+	return fract(sin(dot(coord, vec2(12.9898, 78.233)))* 43758.5453123);
+}
+
+float noise(vec2 coord){
+	vec2 i = floor(coord);
+	vec2 f = fract(coord);
+
+	// 4 corners of a rectangle surrounding our point
+	float a = rand(i);
+	float b = rand(i + vec2(1.0, 0.0));
+	float c = rand(i + vec2(0.0, 1.0));
+	float d = rand(i + vec2(1.0, 1.0));
+
+	vec2 cubic = f * f * (3.0 - 2.0 * f);
+
+	return mix(a, b, cubic.x) + (c - a) * cubic.y * (1.0 - cubic.x) + (d - b) * cubic.x * cubic.y;
+}
+
+float fbm(vec2 coord){
+	float value = 0.0;
+	float scale = 0.5;
+
+	for(int i = 0; i < OCTAVES; i++){
+		value += noise(coord) * scale;
+		coord *= 2.0;
+		scale *= 0.5;
+	}
+	return value;
+}
+
+float overlay(float base, float top) {
+	if (base < 0.5) {
+		return 2.0 * base * top;
+	} else {
+		return 1.0 - 2.0 * (1.0 - base) * (1.0 - top);
+	}
+}
+
+float egg_shape(vec2 coord, float radius){
+	vec2 diff = abs(coord - center);
+
+	if (coord.y < center.y){
+		diff.y /= 2.0;
+	} else {
+		diff.y *= 2.0;
+	}
+
+	float dist = sqrt(diff.x * diff.x + diff.y * diff.y) / radius;
+	float value = sqrt(1.0 - dist * dist);
+	return clamp(value, 0.0, 1.0);
+}
+
+void fragment() {
+	vec2 coord = UV * 8.0;
+	vec2 fbmcoord = coord / 6.0;
+
+	float egg_s = egg_shape(UV, 0.4);
+	egg_s += egg_shape(UV, 0.2) / 2.0;
+
+	float noise1 = noise(coord + vec2(TIME * 0.25, TIME * 4.0));
+	float noise2 = noise(coord + vec2(TIME * 0.5, TIME * 7.0));
+	float combined_noise = (noise1 + noise2) / 2.0;
+
+	float fbm_noise = fbm(fbmcoord + vec2(0.0, TIME * 3.0));
+	fbm_noise = overlay(fbm_noise, UV.y);
+
+	float everything_combined = combined_noise * fbm_noise * egg_s;
+
+	if (everything_combined < outer_threshold){
+		COLOR = transparent;
+	} else if (everything_combined < outer_threshold + soft_edge){
+		COLOR = mix(transparent, outer, (everything_combined - outer_threshold) / soft_edge);
+	} else if (everything_combined < inner_threshold){
+		COLOR = outer;
+	} else if (everything_combined < inner_threshold + soft_edge){
+		COLOR = mix(outer, inner, (everything_combined - inner_threshold) / soft_edge);
+	} else {
+		COLOR = inner;
+	}
+
+	//COLOR = vec4(vec3(everything_combined), 1.0);
+}"
+
+[sub_resource type="ShaderMaterial" id=140]
+shader = SubResource( 106 )
+shader_param/transparent = Color( 1, 1, 1, 0 )
+shader_param/inner = Color( 0, 1, 0.835294, 1 )
+shader_param/outer = Color( 0, 0.976471, 1, 0.482353 )
+shader_param/inner_threshold = 0.4
+shader_param/outer_threshold = 0.15
+shader_param/soft_edge = 0.1
+shader_param/center = Vector2( 0.5, 0.8 )
+shader_param/OCTAVES = 1
+
+[sub_resource type="Animation" id=141]
+resource_name = "def"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -316, -100 ), Vector2( -316, -96.0005 ), Vector2( -316, -101 ), Vector2( -316, -103 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../passage2:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
 [node name="chapter_one" type="Node2D"]
 
 [node name="Cloud" type="ColorRect" parent="."]
@@ -268,8 +1889,21 @@ script = SubResource( 3 )
 
 [node name="SignalCenter" parent="." instance=ExtResource( 5 )]
 
-[node name="TileMap" parent="." instance=ExtResource( 6 )]
-tile_data = PoolIntArray( -655405, 10, 2, -655404, 10, 2, -655403, 10, 2, -655402, 10, 2, -655401, 10, 2, -655400, 10, 2, -655399, 10, 2, -655398, 10, 2, -655397, 10, 2, -655396, 10, 2, -655395, 10, 2, -655394, 10, 2, -655393, 10, 2, -655392, 14, 2, -655391, 14, 2, -655390, 10, 2, -655389, 10, 2, -655388, 10, 2, -655387, 10, 2, -655386, 10, 2, -655385, 14, 2, -655384, 14, 2, -655383, 10, 2, -655382, 10, 2, -655381, 10, 2, -655380, 10, 2, -589871, 10, 2, -589870, 10, 2, -589869, 10, 2, -589868, 0, 0, -589867, 0, 0, -589866, 0, 0, -589865, 0, 0, -589864, 0, 0, -589863, 0, 0, -589862, 0, 0, -589861, 0, 0, -589860, 10, 2, -589859, 10, 2, -589858, 10, 2, -589856, 0, 0, -589855, 0, 0, -589854, 0, 0, -589853, 10, 2, -589852, 10, 2, -589851, 10, 2, -589850, 0, 0, -589849, 0, 0, -589848, 0, 0, -589847, 0, 0, -589846, 10, 2, -589845, 10, 2, -589844, 10, 2, -589843, 10, 2, -589842, 10, 2, -589841, 10, 2, -589840, 10, 2, -589839, 2, 2, -589838, 2, 2, -589837, 2, 2, -589836, 2, 2, -524336, 10, 2, -524335, 10, 2, -524334, 10, 2, -524333, 10, 2, -524332, 0, 0, -524331, 0, 0, -524330, 0, 0, -524329, 0, 0, -524328, 0, 0, -524327, 0, 0, -524326, 0, 0, -524325, 0, 0, -524324, 0, 0, -524322, 0, 0, -524321, 0, 0, -524320, 0, 0, -524319, 0, 0, -524318, 0, 0, -524317, 0, 0, -524315, 0, 0, -524314, 0, 0, -524313, 0, 0, -524312, 0, 0, -524311, 0, 0, -524310, 10, 2, -524309, 10, 2, -524308, 10, 2, -524307, 10, 2, -524306, 10, 2, -524305, 10, 2, -524304, 10, 2, -524303, 10, 2, -524302, 10, 2, -524301, 10, 2, -524300, 10, 2, -524299, 10, 2, -524298, 2, 2, -524297, 2, 2, -524296, 2, 2, -524295, 2, 2, -458801, 10, 2, -458800, 10, 2, -458799, 10, 2, -458798, 10, 2, -458797, 10, 2, -458796, 0, 0, -458795, 0, 0, -458794, 0, 0, -458793, 0, 0, -458792, 0, 0, -458791, 0, 0, -458790, 0, 0, -458789, 0, 0, -458788, 0, 0, -458786, 0, 0, -458785, 0, 0, -458784, 0, 0, -458782, 0, 0, -458781, 0, 0, -458779, 0, 0, -458778, 0, 0, -458777, 0, 0, -458776, 0, 0, -458775, 0, 0, -458774, 10, 2, -458773, 18, 0, -458772, 10, 2, -458771, 10, 2, -458770, 10, 2, -458769, 10, 2, -458768, 10, 2, -458767, 10, 2, -458766, 10, 2, -458765, 10, 2, -458764, 10, 2, -458763, 10, 2, -458762, 10, 2, -458761, 10, 2, -458760, 10, 2, -458759, 8, 1, -458758, 2, 0, -393266, 10, 2, -393265, 10, 2, -393264, 10, 2, -393263, 10, 2, -393262, 10, 2, -393261, 10, 2, -393260, 10, 2, -393259, 10, 2, -393258, 10, 2, -393257, 10, 2, -393256, 10, 2, -393255, 10, 2, -393254, 10, 2, -393253, 10, 2, -393252, 10, 2, -393251, 18, 0, -393250, 10, 2, -393249, 10, 2, -393248, 10, 2, -393247, 10, 2, -393246, 10, 2, -393245, 10, 2, -393244, 18, 0, -393243, 10, 2, -393242, 10, 2, -393241, 10, 2, -393240, 10, 2, -393239, 10, 2, -393238, 10, 2, -393237, 19, 0, -393236, 10, 2, -393235, 10, 2, -393234, 10, 2, -393233, 10, 2, -393232, 10, 2, -393231, 10, 2, -393230, 10, 2, -393229, 10, 2, -393228, 10, 2, -393227, 10, 2, -393226, 10, 2, -393225, 10, 2, -393224, 10, 2, -393223, 10, 2, -393222, 10, 2, -393221, 10, 2, -393220, 10, 2, -327730, 10, 2, -327729, 10, 2, -327728, 10, 2, -327727, 0, 0, -327726, 0, 0, -327725, 0, 0, -327724, 0, 0, -327723, 0, 0, -327722, 0, 0, -327721, 0, 0, -327720, 0, 0, -327719, 0, 0, -327718, 0, 0, -327717, 0, 0, -327716, 10, 2, -327715, 20, 0, -327714, 10, 2, -327713, 10, 2, -327712, 10, 2, -327711, 10, 2, -327710, 10, 2, -327709, 10, 2, -327708, 20, 0, -327707, 10, 2, -327706, 10, 2, -327705, 10, 2, -327704, 10, 2, -327703, 10, 2, -327702, 10, 2, -327701, 19, 0, -327700, 10, 2, -327699, 10, 2, -327698, 10, 2, -327697, 10, 2, -327696, 10, 2, -327695, 10, 2, -327694, 10, 2, -327693, 10, 2, -327692, 10, 2, -327691, 10, 2, -327690, 10, 2, -327689, 10, 2, -327688, 10, 2, -327687, 10, 2, -327686, 10, 2, -327685, 10, 2, -327684, 10, 2, -327683, 14, 2, -327682, 14, 2, -262194, 10, 2, -262193, 10, 2, -262192, 10, 2, -262191, 0, 0, -262190, 0, 0, -262189, 0, 0, -262188, 0, 0, -262187, 0, 0, -262186, 0, 0, -262185, 0, 0, -262184, 0, 0, -262183, 0, 0, -262182, 0, 0, -262181, 0, 0, -262180, 10, 2, -262179, 10, 2, -262178, 10, 2, -262177, 10, 2, -262176, 10, 2, -262175, 10, 2, -262174, 10, 2, -262173, 10, 2, -262172, 10, 2, -262171, 10, 2, -262170, 10, 2, -262169, 10, 2, -262168, 10, 2, -262167, 10, 2, -262166, 10, 2, -262165, 20, 0, -262164, 10, 2, -262163, 0, 0, -262162, 0, 0, -262161, 0, 0, -262160, 0, 0, -262159, 0, 0, -262158, 0, 0, -262157, 0, 0, -262156, 0, 0, -262155, 0, 0, -262154, 0, 0, -262153, 0, 0, -262152, 0, 0, -262151, 0, 0, -262150, 0, 0, -262149, 0, 0, -262148, 0, 0, -262147, 0, 0, -262146, 14, 2, -262145, 14, 2, -196659, 10, 2, -196658, 10, 2, -196657, 10, 2, -196656, 10, 2, -196655, 0, 0, -196654, 0, 0, -196653, 0, 0, -196652, 0, 0, -196651, 0, 0, -196650, 0, 0, -196649, 0, 0, -196648, 0, 0, -196647, 0, 0, -196646, 0, 0, -196645, 0, 0, -196644, 10, 2, -196643, 10, 2, -196642, 10, 2, -196641, 10, 2, -196640, 10, 2, -196639, 10, 2, -196638, 10, 2, -196637, 10, 2, -196636, 10, 2, -196635, 10, 2, -196634, 0, 0, -196633, 0, 0, -196632, 0, 0, -196631, 0, 0, -196630, 0, 0, -196628, 0, 0, -196627, 0, 0, -196626, 0, 0, -196625, 0, 0, -196624, 0, 0, -196623, 0, 0, -196622, 0, 0, -196621, 0, 0, -196620, 0, 0, -196619, 0, 0, -196618, 0, 0, -196617, 0, 0, -196616, 0, 0, -196615, 0, 0, -196614, 0, 0, -196613, 0, 0, -196612, 0, 0, -196611, 0, 0, -196610, 0, 0, -196609, 14, 2, -131123, 10, 2, -131122, 10, 2, -131121, 10, 2, -131120, 10, 2, -131119, 10, 2, -131118, 10, 2, -131117, 10, 2, -131116, 10, 2, -131115, 10, 2, -131114, 10, 2, -131113, 10, 2, -131112, 10, 2, -131111, 10, 2, -131110, 10, 2, -131109, 10, 2, -131108, 10, 2, -131107, 10, 2, -131106, 10, 2, -131105, 10, 2, -131104, 10, 2, -131103, 10, 2, -131102, 10, 2, -131101, 10, 2, -131100, 10, 2, -131099, 10, 2, -131098, 0, 0, -131097, 0, 0, -131096, 0, 0, -131095, 0, 0, -131094, 0, 0, -131092, 0, 0, -131091, 0, 0, -131090, 0, 0, -131089, 0, 0, -131088, 0, 0, -131087, 0, 0, -131086, 0, 0, -131085, 0, 0, -131084, 0, 0, -131083, 0, 0, -131082, 0, 0, -131081, 0, 0, -131080, 0, 0, -131079, 0, 0, -131078, 0, 0, -131077, 0, 0, -131076, 0, 0, -131075, 0, 0, -131074, 0, 0, -131073, 10, 2, -65587, 10, 2, -65586, 10, 2, -65585, 10, 2, -65584, 10, 2, -65583, 0, 0, -65582, 0, 0, -65581, 0, 0, -65580, 0, 0, -65579, 0, 0, -65578, 0, 0, -65577, 0, 0, -65576, 0, 0, -65575, 0, 0, -65574, 0, 0, -65573, 0, 0, -65572, 10, 2, -65571, 10, 2, -65570, 10, 2, -65569, 10, 2, -65568, 10, 2, -65567, 10, 2, -65566, 10, 2, -65565, 10, 2, -65564, 10, 2, -65563, 10, 2, -65562, 0, 0, -65561, 0, 0, -65560, 0, 0, -65559, 0, 0, -65558, 0, 0, -65556, 0, 0, -65555, 0, 0, -65554, 0, 0, -65553, 0, 0, -65552, 0, 0, -65551, 0, 0, -65550, 0, 0, -65549, 0, 0, -65548, 0, 0, -65547, 0, 0, -65546, 0, 0, -65545, 0, 0, -65544, 0, 0, -65543, 0, 0, -65542, 0, 0, -65541, 0, 0, -65540, 25, 2, -65539, 10, 2, -65538, 10, 2, -65537, 10, 2, -131072, 10, 2, -51, 10, 2, -50, 10, 2, -49, 10, 2, -48, 10, 2, -47, 0, 0, -46, 0, 0, -45, 0, 0, -44, 0, 0, -43, 0, 0, -42, 0, 0, -41, 0, 0, -40, 0, 0, -39, 0, 0, -38, 0, 0, -37, 0, 0, -36, 10, 2, -35, 10, 2, -34, 10, 2, -33, 10, 2, -32, 10, 2, -31, 10, 2, -30, 10, 2, -29, 10, 2, -28, 18, 0, -27, 10, 2, -25, 0, 0, -24, 0, 0, -23, 0, 0, -22, 0, 0, -20, 0, 0, -19, 0, 0, -18, 0, 0, -17, 0, 0, -16, 0, 0, -15, 0, 0, -14, 0, 0, -13, 0, 0, -12, 0, 0, -11, 0, 0, -10, 0, 0, -9, 0, 0, -8, 0, 0, -7, 0, 0, -6, 10, 2, -5, 10, 2, -4, 10, 2, -3, 10, 2, -1, 10, 2, -65536, 10, 2, 65484, 10, 2, 65485, 10, 2, 65486, 10, 2, 65487, 10, 2, 65488, 10, 2, 65489, 0, 0, 65490, 0, 0, 65491, 0, 0, 65492, 0, 0, 65493, 0, 0, 65494, 0, 0, 65495, 0, 0, 65496, 0, 0, 65500, 10, 2, 65501, 10, 2, 65502, 10, 2, 65503, 10, 2, 65504, 10, 2, 65505, 10, 2, 65506, 10, 2, 65507, 10, 2, 65508, 19, 0, 65509, 10, 2, 65510, 10, 2, 65511, 10, 2, 65512, 10, 2, 65513, 10, 2, 65514, 10, 2, 65515, 10, 2, 65516, 10, 2, 65517, 10, 2, 65518, 10, 2, 65519, 10, 2, 65520, 10, 2, 65521, 10, 2, 65522, 10, 2, 65523, 10, 2, 65524, 10, 2, 65525, 10, 2, 65526, 10, 2, 65527, 10, 2, 65528, 10, 2, 65529, 10, 2, 65530, 10, 2, 65531, 10, 2, 65532, 10, 2, 65533, 10, 2, 65535, 10, 2, 0, 10, 2, 131020, 10, 2, 131021, 10, 2, 131022, 10, 2, 131023, 10, 2, 131024, 10, 2, 131025, 10, 2, 131026, 10, 2, 131027, 10, 2, 131028, 10, 2, 131029, 10, 2, 131030, 10, 2, 131031, 10, 2, 131032, 10, 2, 131033, 10, 2, 131034, 10, 2, 131035, 10, 2, 131036, 10, 2, 131037, 10, 2, 131043, 10, 2, 131044, 20, 0, 131045, 10, 2, 131049, 10, 2, 131050, 10, 2, 131051, 10, 2, 131052, 10, 2, 131053, 0, 0, 131054, 0, 0, 131055, 0, 0, 131056, 0, 0, 131057, 0, 0, 131058, 0, 0, 131059, 0, 0, 131060, 0, 0, 131061, 0, 0, 131062, 0, 0, 131063, 0, 0, 131064, 0, 0, 131065, 0, 0, 131066, 0, 0, 131067, 10, 2, 131068, 10, 2, 131069, 10, 2, 131071, 10, 2, 65536, 10, 2, 196556, 10, 2, 196557, 10, 2, 196558, 10, 2, 196559, 10, 2, 196560, 0, 0, 196561, 0, 0, 196562, 0, 0, 196563, 0, 0, 196564, 0, 0, 196565, 0, 0, 196566, 0, 0, 196567, 0, 0, 196568, 0, 0, 196569, 0, 0, 196570, 0, 0, 196571, 0, 0, 196572, 10, 2, 196573, 10, 2, 196581, 2, 0, 196582, 0, 0, 196583, 0, 0, 196584, 0, 0, 196585, 0, 0, 196586, 0, 0, 196587, 0, 0, 196588, 0, 0, 196589, 0, 0, 196590, 0, 0, 196591, 0, 0, 196592, 0, 0, 196593, 0, 0, 196594, 0, 0, 196595, 0, 0, 196596, 0, 0, 196597, 0, 0, 196598, 0, 0, 196599, 0, 0, 196600, 0, 0, 196601, 0, 0, 196602, 0, 0, 196603, 0, 0, 196604, 10, 2, 196605, 10, 2, 196607, 10, 2, 131072, 10, 2, 262092, 10, 2, 262093, 10, 2, 262094, 10, 2, 262095, 10, 2, 262096, 0, 0, 262097, 0, 0, 262098, 0, 0, 262099, 0, 0, 262100, 0, 0, 262101, 0, 0, 262102, 0, 0, 262103, 0, 0, 262104, 0, 0, 262105, 0, 0, 262106, 0, 0, 262107, 0, 0, 262108, 10, 2, 262109, 10, 2, 262117, 0, 0, 262118, 0, 0, 262119, 0, 0, 262120, 0, 0, 262121, 0, 0, 262122, 0, 0, 262123, 0, 0, 262124, 0, 0, 262125, 0, 0, 262126, 0, 0, 262127, 0, 0, 262128, 0, 0, 262129, 0, 0, 262130, 0, 0, 262131, 0, 0, 262132, 0, 0, 262133, 0, 0, 262134, 0, 0, 262135, 0, 0, 262136, 0, 0, 262137, 0, 0, 262138, 0, 0, 262139, 0, 0, 262140, 0, 0, 262141, 10, 2, 262143, 10, 2, 196608, 0, 0, 327628, 10, 2, 327629, 10, 2, 327630, 10, 2, 327631, 10, 2, 327633, 0, 0, 327634, 0, 0, 327635, 0, 0, 327636, 0, 0, 327637, 0, 0, 327638, 0, 0, 327639, 0, 0, 327640, 0, 0, 327641, 0, 0, 327642, 0, 0, 327643, 0, 0, 327644, 10, 2, 327645, 10, 2, 327654, 0, 0, 327655, 0, 0, 327656, 0, 0, 327657, 0, 0, 327659, 0, 0, 327660, 0, 0, 327661, 0, 0, 327662, 0, 0, 327663, 0, 0, 327664, 0, 0, 327665, 0, 0, 327666, 0, 0, 327667, 0, 0, 327668, 0, 0, 327669, 0, 0, 327670, 0, 0, 327671, 0, 0, 327672, 0, 0, 327673, 0, 0, 327674, 0, 0, 327675, 0, 0, 327676, 0, 0, 327678, 18, 0, 393165, 10, 2, 393166, 10, 2, 393167, 10, 2, 393168, 10, 2, 393169, 10, 2, 393170, 10, 2, 393171, 10, 2, 393172, 10, 2, 393173, 10, 2, 393174, 10, 2, 393175, 10, 2, 393176, 10, 2, 393177, 10, 2, 393178, 10, 2, 393179, 10, 2, 393180, 10, 2, 393181, 10, 2, 393182, 10, 2, 393183, 10, 2, 393184, 10, 2, 393185, 10, 2, 393186, 10, 2, 393187, 10, 2, 393188, 10, 2, 393189, 10, 2, 393190, 10, 2, 393191, 10, 2, 393192, 10, 2, 393193, 10, 2, 393194, 18, 0, 393195, 10, 2, 393196, 10, 2, 393197, 10, 2, 393198, 10, 2, 393199, 10, 2, 393200, 0, 0, 393201, 0, 0, 393202, 0, 0, 393203, 0, 0, 393204, 0, 0, 393205, 0, 0, 393206, 0, 0, 393207, 0, 0, 393208, 0, 0, 393209, 0, 0, 393210, 0, 0, 393211, 0, 0, 393212, 0, 0, 393214, 19, 0, 458701, 10, 2, 458702, 10, 2, 458703, 10, 2, 458704, 10, 2, 458705, 10, 2, 458706, 0, 0, 458707, 0, 0, 458708, 0, 0, 458709, 0, 0, 458710, 0, 0, 458711, 0, 0, 458712, 0, 0, 458713, 0, 0, 458714, 0, 0, 458715, 0, 0, 458716, 10, 2, 458717, 0, 0, 458718, 0, 0, 458719, 0, 0, 458720, 0, 0, 458721, 0, 0, 458722, 0, 0, 458723, 0, 0, 458724, 0, 0, 458725, 0, 0, 458726, 10, 2, 458727, 10, 2, 458728, 10, 2, 458729, 10, 2, 458730, 19, 0, 458731, 10, 2, 458732, 0, 0, 458733, 0, 0, 458734, 0, 0, 458735, 0, 0, 458736, 0, 0, 458737, 0, 0, 458738, 0, 0, 458739, 0, 0, 458740, 0, 0, 458741, 0, 0, 458742, 0, 0, 458743, 0, 0, 458744, 0, 0, 458745, 0, 0, 458746, 0, 0, 458747, 0, 0, 458748, 0, 0, 458749, 0, 0, 458750, 19, 0, 458751, 0, 0, 524237, 10, 2, 524238, 10, 2, 524239, 10, 2, 524240, 10, 2, 524241, 10, 2, 524242, 0, 0, 524243, 0, 0, 524244, 0, 0, 524245, 0, 0, 524246, 0, 0, 524247, 0, 0, 524248, 0, 0, 524249, 0, 0, 524250, 0, 0, 524251, 0, 0, 524252, 10, 2, 524253, 0, 0, 524254, 0, 0, 524255, 0, 0, 524256, 0, 0, 524257, 0, 0, 524258, 0, 0, 524259, 0, 0, 524260, 0, 0, 524261, 0, 0, 524262, 10, 2, 524263, 10, 2, 524264, 10, 2, 524265, 10, 2, 524266, 20, 0, 524267, 10, 2, 524268, 0, 0, 524269, 0, 0, 524270, 0, 0, 524271, 0, 0, 524272, 0, 0, 524273, 0, 0, 524274, 0, 0, 524275, 0, 0, 524276, 0, 0, 524277, 0, 0, 524278, 0, 0, 524279, 0, 0, 524280, 0, 0, 524281, 0, 0, 524282, 0, 0, 524283, 0, 0, 524284, 0, 0, 524285, 0, 0, 524286, 19, 0, 524287, 0, 0, 589773, 10, 2, 589774, 10, 2, 589775, 10, 2, 589776, 10, 2, 589777, 10, 2, 589778, 0, 0, 589779, 0, 0, 589780, 0, 0, 589781, 0, 0, 589782, 0, 0, 589783, 0, 0, 589784, 0, 0, 589785, 0, 0, 589786, 0, 0, 589787, 0, 0, 589788, 10, 2, 589789, 0, 0, 589790, 0, 0, 589791, 0, 0, 589792, 0, 0, 589793, 0, 0, 589794, 0, 0, 589795, 0, 0, 589796, 0, 0, 589797, 0, 0, 589798, 10, 2, 589799, 10, 2, 589800, 10, 2, 589801, 10, 2, 589802, 10, 2, 589803, 10, 2, 589804, 0, 0, 589805, 0, 0, 589806, 0, 0, 589807, 0, 0, 589808, 0, 0, 589809, 0, 0, 589810, 0, 0, 589811, 0, 0, 589812, 0, 0, 589813, 0, 0, 589814, 0, 0, 589815, 0, 0, 589816, 0, 0, 589817, 0, 0, 589818, 0, 0, 589819, 0, 0, 589820, 0, 0, 589821, 0, 0, 589822, 20, 0, 589823, 0, 0, 524288, 0, 0, 655310, 10, 2, 655311, 10, 2, 655312, 10, 2, 655313, 10, 2, 655314, 10, 2, 655315, 10, 2, 655316, 10, 2, 655317, 10, 2, 655318, 10, 2, 655319, 10, 2, 655320, 10, 2, 655321, 10, 2, 655322, 10, 2, 655323, 10, 2, 655324, 10, 2, 655325, 25, 0, 655326, 25, 1, 655327, 25, 2, 655328, 25, 1, 655329, 25, 1, 655330, 10, 2, 655331, 10, 2, 655332, 0, 0, 655333, 0, 0, 655334, 10, 2, 655335, 10, 2, 655336, 18, 0, 655337, 10, 2, 655338, 10, 2, 655339, 10, 2, 655340, 10, 2, 655341, 10, 2, 655342, 10, 2, 655343, 10, 2, 655344, 10, 2, 655345, 10, 2, 655346, 10, 2, 655347, 10, 2, 655348, 10, 2, 655349, 10, 2, 655350, 10, 2, 655351, 10, 2, 655352, 10, 2, 655353, 10, 2, 655354, 10, 2, 655355, 10, 2, 655356, 10, 2, 655357, 10, 2, 655358, 10, 2, 655359, 8, 1, 720846, 10, 2, 720847, 10, 2, 720848, 10, 2, 720849, 10, 2, 720850, 10, 2, 720851, 10, 2, 720852, 0, 0, 720853, 0, 0, 720854, 0, 0, 720855, 0, 0, 720856, 0, 0, 720857, 0, 0, 720858, 0, 0, 720859, 0, 0, 720860, 10, 2, 720861, 0, 0, 720862, 0, 0, 720863, 0, 0, 720864, 0, 0, 720865, 0, 0, 720866, 0, 0, 720867, 0, 0, 720868, 0, 0, 720869, 0, 0, 720870, 0, 0, 720871, 10, 2, 720872, 20, 0, 720873, 10, 2, 720874, 0, 0, 720875, 0, 0, 720876, 0, 0, 720877, 0, 0, 720878, 10, 2, 720879, 10, 2, 720880, 10, 2, 720881, 10, 2, 720882, 10, 2, 720883, 10, 2, 720884, 10, 2, 720885, 10, 2, 720886, 10, 2, 720887, 10, 2, 720888, 10, 2, 720889, 10, 2, 720890, 10, 2, 720891, 10, 2, 720892, 10, 2, 720893, 10, 2, 720894, 10, 2, 786382, 10, 2, 786383, 10, 2, 786384, 10, 2, 786385, 10, 2, 786386, 10, 2, 786387, 10, 2, 786388, 0, 0, 786389, 0, 0, 786390, 0, 0, 786391, 0, 0, 786392, 0, 0, 786393, 0, 0, 786394, 0, 0, 786395, 0, 0, 786396, 10, 2, 786397, 0, 0, 786398, 0, 0, 786399, 0, 0, 786400, 0, 0, 786401, 0, 0, 786402, 0, 0, 786403, 0, 0, 786404, 0, 0, 786405, 0, 0, 786406, 0, 0, 786407, 0, 0, 786409, 0, 0, 786410, 0, 0, 786411, 0, 0, 786412, 0, 0, 786413, 0, 0, 786414, 10, 2, 786415, 10, 2, 786416, 10, 2, 786417, 10, 2, 786418, 10, 2, 786419, 10, 2, 786420, 10, 2, 786421, 10, 2, 786422, 10, 2, 786423, 10, 2, 786424, 10, 2, 786425, 10, 2, 786426, 10, 2, 786427, 10, 2, 786428, 10, 2, 851919, 10, 2, 851920, 10, 2, 851921, 10, 2, 851922, 10, 2, 851923, 10, 2, 851924, 0, 0, 851925, 0, 0, 851926, 0, 0, 851927, 0, 0, 851928, 0, 0, 851930, 0, 0, 851931, 0, 0, 851932, 10, 2, 851933, 0, 0, 851934, 0, 0, 851935, 0, 0, 851936, 0, 0, 851937, 0, 0, 851938, 0, 0, 851939, 0, 0, 851940, 0, 0, 851941, 0, 0, 851942, 0, 0, 851943, 0, 0, 851945, 0, 0, 851946, 0, 0, 851947, 0, 0, 851948, 0, 0, 851949, 0, 0, 851950, 10, 2, 851951, 10, 2, 851952, 10, 2, 851953, 10, 2, 851954, 10, 2, 851955, 10, 2, 851956, 10, 2, 851957, 10, 2, 851958, 10, 2, 851959, 10, 2, 851960, 10, 2, 917456, 10, 2, 917457, 10, 2, 917458, 10, 2, 917459, 10, 2, 917460, 10, 2, 917461, 10, 2, 917462, 10, 2, 917463, 10, 2, 917464, 10, 2, 917465, 10, 2, 917466, 10, 2, 917467, 10, 2, 917468, 10, 2, 917469, 25, 1, 917470, 25, 2, 917471, 25, 2, 917472, 25, 1, 917473, 25, 1, 917474, 10, 2, 917475, 10, 2, 917476, 10, 2, 917477, 10, 2, 917478, 10, 2, 917479, 10, 2, 917480, 10, 2, 917481, 10, 2, 917482, 10, 2, 917483, 10, 2, 917484, 10, 2, 917485, 10, 2, 917486, 10, 2, 917487, 10, 2, 917488, 10, 2, 917489, 10, 2, 917490, 10, 2, 917491, 10, 2, 917492, 10, 2, 917493, 10, 2, 982993, 10, 2, 982994, 10, 2, 982995, 10, 2, 982996, 10, 2, 982997, 10, 2, 982998, 10, 2, 982999, 10, 2, 983000, 10, 2, 983001, 10, 2, 983002, 10, 2, 983003, 10, 2, 983004, 10, 2, 983005, 10, 2, 983006, 10, 2, 983007, 10, 2, 983008, 10, 2, 983009, 10, 2, 983010, 10, 2, 983011, 10, 2, 983012, 10, 2, 983013, 10, 2, 983014, 10, 2, 983015, 10, 2, 983016, 10, 2, 983017, 10, 2, 983018, 10, 2, 983019, 10, 2, 983020, 10, 2, 983021, 10, 2, 983022, 10, 2, 983023, 10, 2, 983024, 10, 2, 1048531, 10, 2, 1048532, 10, 2, 1048533, 10, 2, 1048534, 10, 2, 1048535, 10, 2, 1048536, 10, 2, 1048537, 10, 2, 1048538, 10, 2, 1048539, 10, 2, 1048540, 10, 2, 1048541, 10, 2, 1048542, 10, 2, 1048543, 10, 2, 1048544, 10, 2, 1048545, 10, 2, 1048546, 10, 2, 1048547, 10, 2, 1048548, 10, 2, 1048549, 10, 2, 1048550, 10, 2, 1048551, 10, 2, 1048552, 10, 2, 1048553, 10, 2, 1048554, 10, 2, 1048555, 10, 2 )
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Bulkhead-walls-pipes" type="Sprite" parent="Node2D"]
+position = Vector2( -1105, 492 )
+texture = ExtResource( 61 )
+
+[node name="Bulkhead-walls-pipes3" type="Sprite" parent="Node2D"]
+position = Vector2( -1902.5, 652 )
+scale = Vector2( 1.9233, 2.375 )
+texture = ExtResource( 61 )
+
+[node name="Bulkhead-walls-pipes2" type="Sprite" parent="Node2D"]
+position = Vector2( -770, 492 )
+texture = ExtResource( 61 )
+flip_h = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
@@ -315,3 +1949,640 @@ modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 22 )
 frame = 15
+
+[node name="Cols2" type="Sprite" parent="."]
+position = Vector2( -2001, 762 )
+scale = Vector2( 0.991477, 1.10268 )
+texture = ExtResource( 60 )
+
+[node name="ladder11" type="Area2D" parent="."]
+position = Vector2( -8576, -4608 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ladder_bottom" type="Sprite" parent="ladder11"]
+position = Vector2( -1440.43, -13.4893 )
+texture = ExtResource( 34 )
+
+[node name="ladder_center" type="Sprite" parent="ladder11"]
+position = Vector2( -1440.43, -77.011 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center2" type="Sprite" parent="ladder11"]
+position = Vector2( -1440.43, -141.083 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center3" type="Sprite" parent="ladder11"]
+position = Vector2( -1440.43, -203.153 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center4" type="Sprite" parent="ladder11"]
+position = Vector2( -1440.43, -267.226 )
+texture = ExtResource( 20 )
+
+[node name="ladder_up" type="Sprite" parent="ladder11"]
+position = Vector2( -1440.43, -479.297 )
+texture = ExtResource( 29 )
+
+[node name="ladder1" type="Area2D" parent="."]
+script = SubResource( 107 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ladder_bottom" type="Sprite" parent="ladder1"]
+position = Vector2( -1440.43, -13.4893 )
+texture = ExtResource( 34 )
+
+[node name="ladder_center" type="Sprite" parent="ladder1"]
+position = Vector2( -1440.43, -77.011 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center2" type="Sprite" parent="ladder1"]
+position = Vector2( -1440.43, -141.083 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center3" type="Sprite" parent="ladder1"]
+position = Vector2( -1440.43, -203.153 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center4" type="Sprite" parent="ladder1"]
+position = Vector2( -1440.43, -267.226 )
+texture = ExtResource( 20 )
+
+[node name="ladder_up" type="Sprite" parent="ladder1"]
+position = Vector2( -1440.43, -479.297 )
+texture = ExtResource( 29 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladder1"]
+position = Vector2( -1439.51, -125.057 )
+shape = SubResource( 108 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladder1"]
+position = Vector2( -1441.56, -493.245 )
+shape = SubResource( 109 )
+
+[node name="ladder2" type="Area2D" parent="."]
+position = Vector2( -160.036, 321.083 )
+script = SubResource( 110 )
+
+[node name="ladder_bottom" type="Sprite" parent="ladder2"]
+position = Vector2( -1440.43, -13.4893 )
+texture = ExtResource( 34 )
+
+[node name="ladder_center" type="Sprite" parent="ladder2"]
+position = Vector2( -1440.43, -77.011 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center2" type="Sprite" parent="ladder2"]
+position = Vector2( -1440.43, -141.083 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center3" type="Sprite" parent="ladder2"]
+position = Vector2( -1440.43, -203.153 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center4" type="Sprite" parent="ladder2"]
+position = Vector2( -1440.43, -267.108 )
+texture = ExtResource( 20 )
+
+[node name="ladder_up" type="Sprite" parent="ladder2"]
+position = Vector2( -1440.43, -350.93 )
+texture = ExtResource( 29 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladder2"]
+position = Vector2( -1439.41, -129.301 )
+shape = SubResource( 111 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladder2"]
+position = Vector2( -1439.41, -348.28 )
+shape = SubResource( 112 )
+
+[node name="ladder3" type="Area2D" parent="."]
+position = Vector2( 346.007, 577.209 )
+script = SubResource( 113 )
+
+[node name="ladder_bottom" type="Sprite" parent="ladder3"]
+position = Vector2( -1440.43, -13.4893 )
+texture = ExtResource( 34 )
+
+[node name="ladder_center" type="Sprite" parent="ladder3"]
+position = Vector2( -1440.43, -77.011 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center2" type="Sprite" parent="ladder3"]
+position = Vector2( -1440.43, -141.083 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center3" type="Sprite" parent="ladder3"]
+position = Vector2( -1440.43, -203.153 )
+texture = ExtResource( 20 )
+
+[node name="ladder_up" type="Sprite" parent="ladder3"]
+position = Vector2( -1440.43, -284.784 )
+texture = ExtResource( 29 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladder3"]
+position = Vector2( -1440.75, -95.263 )
+shape = SubResource( 114 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladder3"]
+position = Vector2( -1441.3, -287.174 )
+shape = SubResource( 112 )
+
+[node name="ladder4" type="Area2D" parent="."]
+position = Vector2( 223.117, 832.068 )
+script = SubResource( 115 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ladder_bottom" type="Sprite" parent="ladder4"]
+position = Vector2( -1440.43, -13.4893 )
+texture = ExtResource( 34 )
+
+[node name="ladder_center" type="Sprite" parent="ladder4"]
+position = Vector2( -1440.43, -77.011 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center2" type="Sprite" parent="ladder4"]
+position = Vector2( -1440.43, -141.083 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center3" type="Sprite" parent="ladder4"]
+position = Vector2( -1440.43, -203.153 )
+texture = ExtResource( 20 )
+
+[node name="ladder_up" type="Sprite" parent="ladder4"]
+position = Vector2( -1440.43, -284.784 )
+texture = ExtResource( 29 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladder4"]
+position = Vector2( -1439.16, -95.263 )
+shape = SubResource( 114 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladder4"]
+position = Vector2( -1441.3, -287.174 )
+shape = SubResource( 112 )
+
+[node name="ladder5" type="Area2D" parent="."]
+position = Vector2( -418.983, 832.817 )
+script = SubResource( 116 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ladder_bottom" type="Sprite" parent="ladder5"]
+position = Vector2( -1440.43, -13.4893 )
+texture = ExtResource( 34 )
+
+[node name="ladder_center" type="Sprite" parent="ladder5"]
+position = Vector2( -1440.43, -77.011 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center2" type="Sprite" parent="ladder5"]
+position = Vector2( -1440.43, -141.083 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center3" type="Sprite" parent="ladder5"]
+position = Vector2( -1440.43, -203.153 )
+texture = ExtResource( 20 )
+
+[node name="ladder_up" type="Sprite" parent="ladder5"]
+position = Vector2( -1440.43, -284.784 )
+texture = ExtResource( 29 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladder5"]
+position = Vector2( -1439.16, -95.263 )
+shape = SubResource( 114 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladder5"]
+position = Vector2( -1441.3, -287.174 )
+shape = SubResource( 112 )
+
+[node name="ladder6" type="Area2D" parent="."]
+position = Vector2( -911.329, 833.458 )
+script = SubResource( 117 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ladder_bottom" type="Sprite" parent="ladder6"]
+position = Vector2( -1440.43, -13.4893 )
+texture = ExtResource( 34 )
+
+[node name="ladder_center" type="Sprite" parent="ladder6"]
+position = Vector2( -1440.43, -77.011 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center2" type="Sprite" parent="ladder6"]
+position = Vector2( -1440.43, -141.083 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center3" type="Sprite" parent="ladder6"]
+position = Vector2( -1440.43, -203.153 )
+texture = ExtResource( 20 )
+
+[node name="ladder_up" type="Sprite" parent="ladder6"]
+position = Vector2( -1440.43, -284.784 )
+texture = ExtResource( 29 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladder6"]
+position = Vector2( -1439.16, -95.263 )
+shape = SubResource( 114 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladder6"]
+position = Vector2( -1441.3, -287.174 )
+shape = SubResource( 112 )
+
+[node name="ladder7" type="Area2D" parent="."]
+position = Vector2( -1058.31, 579.34 )
+script = SubResource( 118 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ladder_bottom" type="Sprite" parent="ladder7"]
+position = Vector2( -1440.43, -13.4893 )
+texture = ExtResource( 34 )
+
+[node name="ladder_center" type="Sprite" parent="ladder7"]
+position = Vector2( -1440.43, -77.011 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center2" type="Sprite" parent="ladder7"]
+position = Vector2( -1440.43, -141.083 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center3" type="Sprite" parent="ladder7"]
+position = Vector2( -1440.43, -203.153 )
+texture = ExtResource( 20 )
+
+[node name="ladder_up" type="Sprite" parent="ladder7"]
+position = Vector2( -1440.43, -284.784 )
+texture = ExtResource( 29 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladder7"]
+position = Vector2( -1440.75, -95.263 )
+shape = SubResource( 114 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladder7"]
+position = Vector2( -1441.3, -287.174 )
+shape = SubResource( 112 )
+
+[node name="ladder8" type="Area2D" parent="."]
+position = Vector2( -912.35, 321.722 )
+script = SubResource( 119 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ladder_bottom" type="Sprite" parent="ladder8"]
+position = Vector2( -1440.43, -13.4893 )
+texture = ExtResource( 34 )
+
+[node name="ladder_center" type="Sprite" parent="ladder8"]
+position = Vector2( -1440.43, -77.011 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center2" type="Sprite" parent="ladder8"]
+position = Vector2( -1440.43, -141.083 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center3" type="Sprite" parent="ladder8"]
+position = Vector2( -1440.43, -203.153 )
+texture = ExtResource( 20 )
+
+[node name="ladder_up" type="Sprite" parent="ladder8"]
+position = Vector2( -1440.43, -284.784 )
+texture = ExtResource( 29 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladder8"]
+position = Vector2( -1440.75, -95.263 )
+shape = SubResource( 114 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladder8"]
+position = Vector2( -1441.3, -287.174 )
+shape = SubResource( 112 )
+
+[node name="ladder9" type="Area2D" parent="."]
+position = Vector2( -1059.98, 66.1505 )
+script = SubResource( 120 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ladder_bottom" type="Sprite" parent="ladder9"]
+position = Vector2( -1440.43, -13.4893 )
+texture = ExtResource( 34 )
+
+[node name="ladder_center" type="Sprite" parent="ladder9"]
+position = Vector2( -1440.43, -77.011 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center2" type="Sprite" parent="ladder9"]
+position = Vector2( -1440.43, -141.083 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center3" type="Sprite" parent="ladder9"]
+position = Vector2( -1440.43, -203.153 )
+texture = ExtResource( 20 )
+
+[node name="ladder_up" type="Sprite" parent="ladder9"]
+position = Vector2( -1440.43, -284.784 )
+texture = ExtResource( 29 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladder9"]
+position = Vector2( -1440.75, -95.263 )
+shape = SubResource( 114 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladder9"]
+position = Vector2( -1441.3, -287.174 )
+shape = SubResource( 112 )
+
+[node name="ladder10" type="Area2D" parent="."]
+position = Vector2( -923.038, -192.016 )
+script = SubResource( 121 )
+
+[node name="ladder_bottom" type="Sprite" parent="ladder10"]
+position = Vector2( -1440.43, -13.4893 )
+texture = ExtResource( 34 )
+
+[node name="ladder_center" type="Sprite" parent="ladder10"]
+position = Vector2( -1440.43, -77.011 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center2" type="Sprite" parent="ladder10"]
+position = Vector2( -1440.43, -141.083 )
+texture = ExtResource( 20 )
+
+[node name="ladder_center3" type="Sprite" parent="ladder10"]
+position = Vector2( -1440.43, -203.153 )
+texture = ExtResource( 20 )
+
+[node name="ladder_up" type="Sprite" parent="ladder10"]
+position = Vector2( -1440.43, -284.784 )
+texture = ExtResource( 29 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladder10"]
+position = Vector2( -1440.75, -95.263 )
+shape = SubResource( 114 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladder10"]
+position = Vector2( -1441.3, -287.174 )
+shape = SubResource( 112 )
+
+[node name="Area2D3" type="Area2D" parent="."]
+position = Vector2( -584.83, -154.167 )
+script = SubResource( 122 )
+
+[node name="AnimatedSprite888" type="AnimatedSprite" parent="Area2D3"]
+position = Vector2( 68.4941, 69.3271 )
+scale = Vector2( 0.241231, 0.25228 )
+frames = SubResource( 123 )
+frame = 1
+speed_scale = 0.5
+playing = true
+
+[node name="AnimatedSprite0" type="AnimatedSprite" parent="Area2D3"]
+position = Vector2( 6.29639, 76.0247 )
+rotation = 0.0036599
+scale = Vector2( 0.115135, 0.123498 )
+frames = SubResource( 123 )
+animation = "error"
+frame = 3
+speed_scale = 0.3
+playing = true
+
+[node name="AnimatedSprite1" type="AnimatedSprite" parent="Area2D3"]
+position = Vector2( 52.0742, 14.6727 )
+rotation = -0.0768155
+scale = Vector2( 0.126976, 0.135253 )
+frames = SubResource( 123 )
+animation = "error"
+frame = 1
+speed_scale = 0.3
+playing = true
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Area2D3"]
+position = Vector2( -2.33545, 35.7062 )
+rotation = 0.114526
+scale = Vector2( 0.151132, 0.161913 )
+frames = SubResource( 123 )
+animation = "error"
+frame = 3
+speed_scale = 0.4
+playing = true
+
+[node name="AnimatedSprite3" type="AnimatedSprite" parent="Area2D3"]
+position = Vector2( 139.917, 53.2611 )
+rotation = -0.00647718
+scale = Vector2( 0.158816, 0.164655 )
+frames = SubResource( 123 )
+animation = "error"
+frame = 3
+speed_scale = 0.6
+playing = true
+
+[node name="AnimatedSprite4" type="AnimatedSprite" parent="Area2D3"]
+position = Vector2( 102.542, 9.24738 )
+rotation = -0.0388994
+scale = Vector2( 0.143603, 0.152042 )
+frames = SubResource( 123 )
+animation = "error"
+speed_scale = 0.5
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+position = Vector2( 68.585, 78.7393 )
+shape = SubResource( 124 )
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2( -9126.41, -4761.75 )
+script = SubResource( 125 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Area2D"]
+position = Vector2( 68.4941, 69.3271 )
+scale = Vector2( 0.241231, 0.25228 )
+frames = SubResource( 123 )
+frame = 1
+speed_scale = 0.5
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 68.585, 78.7393 )
+shape = SubResource( 124 )
+disabled = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Timer" type="Timer" parent="Area2D"]
+wait_time = 2.0
+one_shot = true
+
+[node name="AnimatedSprite0" type="AnimatedSprite" parent="Area2D"]
+position = Vector2( 6.29639, 76.0247 )
+rotation = 0.0036599
+scale = Vector2( 0.115135, 0.123498 )
+frames = SubResource( 123 )
+animation = "pass"
+speed_scale = 0.3
+playing = true
+
+[node name="AnimatedSprite1" type="AnimatedSprite" parent="Area2D"]
+position = Vector2( 52.0742, 14.6727 )
+rotation = -0.0768155
+scale = Vector2( 0.126976, 0.135253 )
+frames = SubResource( 123 )
+animation = "pass"
+speed_scale = 0.3
+playing = true
+
+[node name="AnimatedSprite4" type="AnimatedSprite" parent="Area2D"]
+position = Vector2( -2.33545, 35.7062 )
+rotation = 0.114526
+scale = Vector2( 0.151132, 0.161913 )
+frames = SubResource( 123 )
+animation = "ok"
+frame = 5
+speed_scale = 0.4
+playing = true
+
+[node name="AnimatedSprite5" type="AnimatedSprite" parent="Area2D"]
+position = Vector2( 139.917, 53.2611 )
+rotation = -0.00647718
+scale = Vector2( 0.158816, 0.164655 )
+frames = SubResource( 123 )
+animation = "pass"
+frame = 1
+speed_scale = 0.6
+playing = true
+
+[node name="AnimatedSprite6" type="AnimatedSprite" parent="Area2D"]
+position = Vector2( 102.542, 9.24738 )
+rotation = -0.0388994
+scale = Vector2( 0.143603, 0.152042 )
+frames = SubResource( 123 )
+animation = "error"
+frame = 2
+speed_scale = 0.5
+playing = true
+
+[node name="Area2D4" type="Area2D" parent="."]
+position = Vector2( -972.892, -155.665 )
+script = SubResource( 126 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="station" type="AnimatedSprite" parent="Area2D4"]
+position = Vector2( 31.4292, 61.8021 )
+scale = Vector2( 2.81063, 2.92224 )
+frames = SubResource( 127 )
+animation = "wait"
+frame = 2
+speed_scale = 0.5
+playing = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="passage" type="AnimatedSprite" parent="Area2D4"]
+position = Vector2( 141.985, 123.557 )
+frames = SubResource( 127 )
+animation = "passage"
+speed_scale = 0.6
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D4"]
+position = Vector2( 31.1545, 97.2352 )
+shape = SubResource( 128 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Area2D4"]
+anims/0 = SubResource( 129 )
+anims/1 = SubResource( 130 )
+anims/2 = SubResource( 132 )
+anims/3 = SubResource( 133 )
+anims/4 = SubResource( 134 )
+
+[node name="Area2D5" type="Area2D" parent="."]
+position = Vector2( -1151.17, -161.335 )
+script = SubResource( 135 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AtlasSpawn2" type="AnimatedSprite" parent="Area2D5"]
+position = Vector2( 30.2206, 93.8387 )
+scale = Vector2( 1.5, 1.5 )
+frames = SubResource( 136 )
+animation = "def"
+frame = 3
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D5"]
+position = Vector2( 31.1545, 97.2352 )
+shape = SubResource( 128 )
+
+[node name="Area2D6" type="Area2D" parent="."]
+position = Vector2( -9556, -4762 )
+
+[node name="station" type="AnimatedSprite" parent="Area2D6"]
+position = Vector2( 31.4292, 61.8021 )
+scale = Vector2( 2.81063, 2.92224 )
+frames = SubResource( 127 )
+animation = "ok"
+speed_scale = 0.5
+playing = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="passage" type="AnimatedSprite" parent="Area2D6"]
+position = Vector2( 141.985, 123.557 )
+frames = SubResource( 127 )
+animation = "passage"
+speed_scale = 0.6
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="Area2D6"]
+visible = false
+material = SubResource( 139 )
+margin_left = -306.0
+margin_top = -93.0005
+margin_right = -287.0
+margin_bottom = -53.0005
+rect_rotation = -57.0345
+
+[node name="ColorRect2" type="ColorRect" parent="Area2D6"]
+material = SubResource( 140 )
+margin_left = -316.0
+margin_top = -101.0
+margin_right = -297.0
+margin_bottom = -61.0
+rect_rotation = -57.0345
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Area2D6/ColorRect2"]
+autoplay = "def"
+playback_speed = 0.5
+anims/def = SubResource( 141 )
+
+[node name="passage2" type="AnimatedSprite" parent="Area2D6"]
+position = Vector2( -266, -79.0006 )
+frames = SubResource( 127 )
+animation = "up"
+frame = 2
+speed_scale = 0.6
+flip_h = true
+
+[node name="TileMap" parent="." instance=ExtResource( 6 )]
+tile_data = PoolIntArray( -655405, 10, 2, -655404, 10, 2, -655403, 10, 2, -655402, 10, 2, -655401, 10, 2, -655400, 10, 2, -655399, 10, 2, -655398, 10, 2, -655397, 10, 2, -655396, 10, 2, -655395, 10, 2, -655394, 10, 2, -655393, 10, 2, -655392, 14, 2, -655391, 14, 2, -655390, 10, 2, -655389, 10, 2, -655388, 10, 2, -655387, 10, 2, -655386, 10, 2, -655385, 14, 2, -655384, 14, 2, -655383, 10, 2, -655382, 10, 2, -655381, 10, 2, -655380, 10, 2, -589871, 10, 2, -589870, 10, 2, -589869, 10, 2, -589868, 0, 0, -589867, 0, 0, -589866, 0, 0, -589865, 0, 0, -589864, 0, 0, -589863, 0, 0, -589862, 0, 0, -589861, 0, 0, -589860, 10, 2, -589859, 10, 2, -589858, 10, 2, -589856, 0, 0, -589855, 0, 0, -589854, 0, 0, -589853, 10, 2, -589852, 10, 2, -589851, 10, 2, -589850, 0, 0, -589849, 0, 0, -589848, 0, 0, -589847, 0, 0, -589846, 10, 2, -589845, 10, 2, -589844, 10, 2, -589843, 10, 2, -589842, 10, 2, -589841, 10, 2, -589840, 10, 2, -589839, 2, 2, -589838, 2, 2, -589837, 2, 2, -589836, 2, 2, -524336, 10, 2, -524335, 10, 2, -524334, 10, 2, -524333, 10, 2, -524332, 0, 0, -524331, 0, 0, -524330, 0, 0, -524329, 0, 0, -524328, 0, 0, -524327, 0, 0, -524326, 0, 0, -524325, 0, 0, -524324, 0, 0, -524322, 0, 0, -524321, 0, 0, -524320, 0, 0, -524319, 0, 0, -524318, 0, 0, -524317, 0, 0, -524315, 0, 0, -524314, 0, 0, -524313, 0, 0, -524312, 0, 0, -524311, 0, 0, -524310, 10, 2, -524309, 10, 2, -524308, 10, 2, -524307, 10, 2, -524306, 10, 2, -524305, 10, 2, -524304, 10, 2, -524303, 10, 2, -524302, 10, 2, -524301, 10, 2, -524300, 10, 2, -524299, 10, 2, -524298, 2, 2, -524297, 2, 2, -524296, 2, 2, -524295, 2, 2, -458801, 10, 2, -458800, 10, 2, -458799, 10, 2, -458798, 10, 2, -458797, 10, 2, -458796, 0, 0, -458795, 0, 0, -458794, 0, 0, -458793, 0, 0, -458792, 0, 0, -458791, 0, 0, -458790, 0, 0, -458789, 0, 0, -458788, 0, 0, -458786, 0, 0, -458785, 0, 0, -458784, 0, 0, -458782, 0, 0, -458781, 0, 0, -458779, 0, 0, -458778, 0, 0, -458777, 0, 0, -458776, 0, 0, -458775, 0, 0, -458774, 10, 2, -458773, 18, 0, -458772, 10, 2, -458771, 10, 2, -458770, 10, 2, -458769, 10, 2, -458768, 10, 2, -458767, 10, 2, -458766, 10, 2, -458765, 10, 2, -458764, 10, 2, -458763, 10, 2, -458762, 10, 2, -458761, 10, 2, -458760, 10, 2, -458759, 8, 1, -458758, 2, 0, -393266, 10, 2, -393265, 10, 2, -393264, 10, 2, -393263, 10, 2, -393262, 10, 2, -393261, 10, 2, -393260, 10, 2, -393259, 10, 2, -393258, 10, 2, -393257, 10, 2, -393256, 10, 2, -393255, 10, 2, -393254, 10, 2, -393253, 10, 2, -393252, 10, 2, -393251, 18, 0, -393250, 10, 2, -393249, 10, 2, -393248, 10, 2, -393247, 10, 2, -393246, 10, 2, -393245, 10, 2, -393244, 18, 0, -393243, 10, 2, -393242, 10, 2, -393241, 10, 2, -393240, 10, 2, -393239, 10, 2, -393238, 10, 2, -393237, 19, 0, -393236, 10, 2, -393235, 10, 2, -393234, 10, 2, -393233, 10, 2, -393232, 10, 2, -393231, 10, 2, -393230, 10, 2, -393229, 10, 2, -393228, 10, 2, -393227, 10, 2, -393226, 10, 2, -393225, 10, 2, -393224, 10, 2, -393223, 10, 2, -393222, 10, 2, -393221, 10, 2, -393220, 10, 2, -327730, 10, 2, -327729, 10, 2, -327728, 10, 2, -327727, 0, 0, -327726, 0, 0, -327725, 0, 0, -327724, 0, 0, -327723, 0, 0, -327722, 0, 0, -327721, 0, 0, -327720, 0, 0, -327719, 0, 0, -327718, 0, 0, -327717, 0, 0, -327716, 10, 2, -327715, 20, 0, -327714, 10, 2, -327713, 10, 2, -327712, 10, 2, -327711, 10, 2, -327710, 10, 2, -327709, 10, 2, -327708, 20, 0, -327707, 10, 2, -327706, 10, 2, -327705, 10, 2, -327704, 10, 2, -327703, 10, 2, -327702, 10, 2, -327701, 19, 0, -327700, 10, 2, -327699, 10, 2, -327698, 10, 2, -327697, 10, 2, -327696, 10, 2, -327695, 10, 2, -327694, 10, 2, -327693, 10, 2, -327692, 10, 2, -327691, 10, 2, -327690, 10, 2, -327689, 10, 2, -327688, 10, 2, -327687, 10, 2, -327686, 10, 2, -327685, 10, 2, -327684, 10, 2, -327683, 14, 2, -327682, 14, 2, -262194, 10, 2, -262193, 10, 2, -262192, 10, 2, -262191, 0, 0, -262190, 0, 0, -262189, 0, 0, -262188, 0, 0, -262187, 0, 0, -262186, 0, 0, -262185, 0, 0, -262184, 0, 0, -262183, 0, 0, -262182, 0, 0, -262181, 0, 0, -262180, 10, 2, -262179, 10, 2, -262178, 10, 2, -262177, 10, 2, -262176, 10, 2, -262175, 10, 2, -262174, 10, 2, -262173, 10, 2, -262172, 10, 2, -262171, 10, 2, -262170, 10, 2, -262169, 10, 2, -262168, 10, 2, -262167, 10, 2, -262166, 10, 2, -262165, 20, 0, -262164, 10, 2, -262163, 0, 0, -262162, 0, 0, -262161, 0, 0, -262160, 0, 0, -262159, 0, 0, -262158, 0, 0, -262157, 0, 0, -262156, 0, 0, -262155, 0, 0, -262154, 0, 0, -262153, 0, 0, -262152, 0, 0, -262151, 0, 0, -262150, 0, 0, -262149, 0, 0, -262148, 0, 0, -262147, 0, 0, -262146, 14, 2, -262145, 14, 2, -196659, 10, 2, -196658, 10, 2, -196657, 10, 2, -196656, 10, 2, -196655, 0, 0, -196654, 0, 0, -196653, 0, 0, -196652, 0, 0, -196651, 0, 0, -196650, 0, 0, -196649, 0, 0, -196648, 0, 0, -196647, 0, 0, -196646, 0, 0, -196645, 0, 0, -196644, 10, 2, -196643, 10, 2, -196642, 10, 2, -196641, 10, 2, -196640, 10, 2, -196639, 10, 2, -196638, 10, 2, -196637, 10, 2, -196636, 10, 2, -196635, 10, 2, -196634, 0, 0, -196633, 0, 0, -196632, 0, 0, -196631, 0, 0, -196630, 0, 0, -196628, 0, 0, -196627, 0, 0, -196626, 0, 0, -196625, 0, 0, -196624, 0, 0, -196623, 0, 0, -196622, 0, 0, -196621, 0, 0, -196620, 0, 0, -196619, 0, 0, -196618, 0, 0, -196617, 0, 0, -196616, 0, 0, -196615, 0, 0, -196614, 0, 0, -196613, 0, 0, -196612, 0, 0, -196611, 0, 0, -196610, 0, 0, -196609, 14, 2, -131123, 10, 2, -131122, 10, 2, -131121, 10, 2, -131120, 10, 2, -131119, 10, 2, -131118, 10, 2, -131117, 10, 2, -131116, 10, 2, -131115, 10, 2, -131114, 10, 2, -131113, 10, 2, -131112, 10, 2, -131111, 10, 2, -131110, 10, 2, -131109, 10, 2, -131108, 10, 2, -131107, 10, 2, -131106, 10, 2, -131105, 10, 2, -131104, 10, 2, -131103, 10, 2, -131102, 10, 2, -131101, 10, 2, -131100, 10, 2, -131099, 10, 2, -131098, 0, 0, -131097, 0, 0, -131096, 0, 0, -131095, 0, 0, -131094, 0, 0, -131092, 0, 0, -131091, 0, 0, -131090, 0, 0, -131089, 0, 0, -131088, 0, 0, -131087, 0, 0, -131086, 0, 0, -131085, 0, 0, -131084, 0, 0, -131083, 0, 0, -131082, 0, 0, -131081, 0, 0, -131080, 0, 0, -131079, 0, 0, -131078, 0, 0, -131077, 0, 0, -131076, 0, 0, -131075, 0, 0, -131074, 0, 0, -131073, 10, 2, -65587, 10, 2, -65586, 10, 2, -65585, 10, 2, -65584, 10, 2, -65583, 0, 0, -65582, 0, 0, -65581, 0, 0, -65580, 0, 0, -65579, 0, 0, -65578, 0, 0, -65577, 0, 0, -65576, 0, 0, -65575, 0, 0, -65574, 0, 0, -65573, 0, 0, -65572, 10, 2, -65571, 10, 2, -65570, 10, 2, -65569, 10, 2, -65568, 10, 2, -65567, 10, 2, -65566, 10, 2, -65565, 10, 2, -65564, 10, 2, -65563, 10, 2, -65562, 0, 0, -65561, 0, 0, -65560, 0, 0, -65559, 0, 0, -65558, 0, 0, -65556, 0, 0, -65555, 0, 0, -65554, 0, 0, -65553, 0, 0, -65552, 0, 0, -65551, 0, 0, -65550, 0, 0, -65549, 0, 0, -65548, 0, 0, -65547, 0, 0, -65546, 0, 0, -65545, 0, 0, -65544, 0, 0, -65543, 0, 0, -65542, 0, 0, -65541, 0, 0, -65540, 25, 2, -65539, 10, 2, -65538, 10, 2, -65537, 10, 2, -131072, 10, 2, -51, 10, 2, -50, 10, 2, -49, 10, 2, -48, 10, 2, -47, 0, 0, -46, 0, 0, -45, 0, 0, -44, 0, 0, -43, 0, 0, -42, 0, 0, -41, 0, 0, -40, 0, 0, -39, 0, 0, -38, 0, 0, -37, 0, 0, -36, 10, 2, -35, 10, 2, -34, 10, 2, -33, 10, 2, -32, 10, 2, -31, 10, 2, -30, 10, 2, -29, 10, 2, -28, 18, 0, -27, 10, 2, -25, 0, 0, -24, 0, 0, -23, 0, 0, -22, 0, 0, -20, 0, 0, -19, 0, 0, -18, 0, 0, -17, 0, 0, -16, 0, 0, -15, 0, 0, -14, 0, 0, -13, 0, 0, -12, 0, 0, -11, 0, 0, -10, 0, 0, -9, 0, 0, -8, 0, 0, -7, 0, 0, -6, 10, 2, -5, 10, 2, -4, 10, 2, -3, 10, 2, -1, 10, 2, -65536, 10, 2, 65484, 10, 2, 65485, 10, 2, 65486, 10, 2, 65487, 10, 2, 65488, 10, 2, 65489, 0, 0, 65490, 0, 0, 65491, 0, 0, 65492, 0, 0, 65493, 0, 0, 65494, 0, 0, 65495, 0, 0, 65496, 0, 0, 65500, 10, 2, 65501, 10, 2, 65502, 10, 2, 65503, 10, 2, 65504, 10, 2, 65505, 10, 2, 65506, 10, 2, 65507, 10, 2, 65508, 19, 0, 65509, 10, 2, 65510, 10, 2, 65511, 10, 2, 65512, 10, 2, 65513, 10, 2, 65514, 10, 2, 65515, 10, 2, 65516, 10, 2, 65517, 10, 2, 65518, 10, 2, 65519, 10, 2, 65520, 10, 2, 65521, 10, 2, 65522, 10, 2, 65523, 10, 2, 65524, 10, 2, 65525, 10, 2, 65526, 10, 2, 65527, 10, 2, 65528, 10, 2, 65529, 10, 2, 65530, 10, 2, 65531, 10, 2, 65532, 10, 2, 65533, 10, 2, 65535, 10, 2, 0, 10, 2, 131020, 10, 2, 131021, 10, 2, 131022, 10, 2, 131023, 10, 2, 131024, 10, 2, 131025, 10, 2, 131026, 10, 2, 131027, 10, 2, 131028, 10, 2, 131029, 10, 2, 131030, 10, 2, 131031, 10, 2, 131032, 10, 2, 131033, 10, 2, 131034, 10, 2, 131035, 10, 2, 131036, 10, 2, 131037, 10, 2, 131043, 10, 2, 131044, 20, 0, 131045, 10, 2, 131049, 10, 2, 131050, 10, 2, 131051, 10, 2, 131052, 10, 2, 131053, 0, 0, 131054, 0, 0, 131055, 0, 0, 131056, 0, 0, 131057, 0, 0, 131058, 0, 0, 131059, 0, 0, 131060, 0, 0, 131061, 0, 0, 131062, 0, 0, 131063, 0, 0, 131064, 0, 0, 131065, 0, 0, 131066, 0, 0, 131067, 10, 2, 131068, 10, 2, 131069, 10, 2, 131071, 10, 2, 65536, 10, 2, 196556, 10, 2, 196557, 10, 2, 196558, 10, 2, 196559, 10, 2, 196560, 0, 0, 196561, 0, 0, 196562, 0, 0, 196563, 0, 0, 196564, 0, 0, 196565, 0, 0, 196566, 0, 0, 196567, 0, 0, 196568, 0, 0, 196569, 0, 0, 196570, 0, 0, 196571, 0, 0, 196572, 10, 2, 196573, 10, 2, 196581, 2, 0, 196582, 0, 0, 196583, 0, 0, 196584, 0, 0, 196585, 0, 0, 196586, 0, 0, 196587, 0, 0, 196588, 0, 0, 196589, 0, 0, 196590, 0, 0, 196591, 0, 0, 196592, 0, 0, 196593, 0, 0, 196594, 0, 0, 196595, 0, 0, 196596, 0, 0, 196597, 0, 0, 196598, 0, 0, 196599, 0, 0, 196600, 0, 0, 196601, 0, 0, 196602, 0, 0, 196603, 0, 0, 196604, 10, 2, 196605, 10, 2, 196607, 10, 2, 131072, 10, 2, 262092, 10, 2, 262093, 10, 2, 262094, 10, 2, 262095, 10, 2, 262096, 0, 0, 262097, 0, 0, 262098, 0, 0, 262099, 0, 0, 262100, 0, 0, 262101, 0, 0, 262102, 0, 0, 262103, 0, 0, 262104, 0, 0, 262105, 0, 0, 262106, 0, 0, 262107, 0, 0, 262108, 10, 2, 262109, 10, 2, 262117, 0, 0, 262118, 0, 0, 262119, 0, 0, 262120, 0, 0, 262121, 0, 0, 262122, 0, 0, 262123, 0, 0, 262124, 0, 0, 262125, 0, 0, 262126, 0, 0, 262127, 0, 0, 262128, 0, 0, 262129, 0, 0, 262130, 0, 0, 262131, 0, 0, 262132, 0, 0, 262133, 0, 0, 262134, 0, 0, 262135, 0, 0, 262136, 0, 0, 262137, 0, 0, 262138, 0, 0, 262139, 0, 0, 262140, 0, 0, 262141, 10, 2, 262143, 10, 2, 196608, 0, 0, 327628, 10, 2, 327629, 10, 2, 327630, 10, 2, 327631, 10, 2, 327633, 0, 0, 327634, 0, 0, 327635, 0, 0, 327636, 0, 0, 327637, 0, 0, 327638, 0, 0, 327639, 0, 0, 327640, 0, 0, 327641, 0, 0, 327642, 0, 0, 327643, 0, 0, 327644, 10, 2, 327645, 10, 2, 327654, 0, 0, 327655, 0, 0, 327656, 0, 0, 327657, 0, 0, 327659, 0, 0, 327660, 0, 0, 327661, 0, 0, 327662, 0, 0, 327663, 0, 0, 327664, 0, 0, 327665, 0, 0, 327666, 0, 0, 327667, 0, 0, 327668, 0, 0, 327669, 0, 0, 327670, 0, 0, 327671, 0, 0, 327672, 0, 0, 327673, 0, 0, 327674, 0, 0, 327675, 0, 0, 327676, 0, 0, 327678, 18, 0, 393165, 10, 2, 393166, 10, 2, 393167, 10, 2, 393168, 10, 2, 393169, 10, 2, 393170, 10, 2, 393171, 10, 2, 393172, 10, 2, 393173, 10, 2, 393174, 10, 2, 393175, 10, 2, 393176, 10, 2, 393177, 10, 2, 393178, 10, 2, 393179, 10, 2, 393180, 10, 2, 393181, 10, 2, 393182, 10, 2, 393183, 10, 2, 393184, 10, 2, 393185, 10, 2, 393186, 10, 2, 393187, 10, 2, 393188, 10, 2, 393189, 10, 2, 393190, 10, 2, 393191, 10, 2, 393192, 10, 2, 393193, 10, 2, 393194, 18, 0, 393195, 10, 2, 393196, 10, 2, 393197, 10, 2, 393198, 10, 2, 393199, 10, 2, 393200, 0, 0, 393201, 0, 0, 393202, 0, 0, 393203, 0, 0, 393204, 0, 0, 393205, 0, 0, 393206, 0, 0, 393207, 0, 0, 393208, 0, 0, 393209, 0, 0, 393210, 0, 0, 393211, 0, 0, 393212, 0, 0, 393214, 19, 0, 458701, 10, 2, 458702, 10, 2, 458703, 10, 2, 458704, 10, 2, 458705, 10, 2, 458706, 0, 0, 458707, 0, 0, 458708, 0, 0, 458709, 0, 0, 458710, 0, 0, 458711, 0, 0, 458712, 0, 0, 458713, 0, 0, 458714, 0, 0, 458715, 0, 0, 458716, 10, 2, 458717, 0, 0, 458718, 0, 0, 458719, 0, 0, 458720, 0, 0, 458721, 0, 0, 458722, 0, 0, 458723, 0, 0, 458724, 0, 0, 458725, 0, 0, 458726, 10, 2, 458727, 10, 2, 458728, 10, 2, 458729, 10, 2, 458730, 19, 0, 458731, 10, 2, 458732, 0, 0, 458733, 0, 0, 458734, 0, 0, 458735, 0, 0, 458736, 0, 0, 458737, 0, 0, 458738, 0, 0, 458739, 0, 0, 458740, 0, 0, 458741, 0, 0, 458742, 0, 0, 458743, 0, 0, 458744, 0, 0, 458745, 0, 0, 458746, 0, 0, 458747, 0, 0, 458748, 0, 0, 458749, 0, 0, 458750, 19, 0, 458751, 0, 0, 524237, 10, 2, 524238, 10, 2, 524239, 10, 2, 524240, 10, 2, 524241, 10, 2, 524242, 0, 0, 524243, 0, 0, 524244, 0, 0, 524245, 0, 0, 524246, 0, 0, 524247, 0, 0, 524248, 0, 0, 524249, 0, 0, 524250, 0, 0, 524251, 0, 0, 524252, 10, 2, 524253, 0, 0, 524254, 0, 0, 524255, 0, 0, 524256, 0, 0, 524257, 0, 0, 524258, 0, 0, 524259, 0, 0, 524260, 0, 0, 524261, 0, 0, 524262, 10, 2, 524263, 10, 2, 524264, 10, 2, 524265, 10, 2, 524266, 20, 0, 524267, 10, 2, 524268, 0, 0, 524269, 0, 0, 524270, 0, 0, 524271, 0, 0, 524272, 0, 0, 524273, 0, 0, 524274, 0, 0, 524275, 0, 0, 524276, 0, 0, 524277, 0, 0, 524278, 0, 0, 524279, 0, 0, 524280, 0, 0, 524281, 0, 0, 524282, 0, 0, 524283, 0, 0, 524284, 0, 0, 524285, 0, 0, 524286, 19, 0, 524287, 0, 0, 589773, 10, 2, 589774, 10, 2, 589775, 10, 2, 589776, 10, 2, 589777, 10, 2, 589778, 0, 0, 589779, 0, 0, 589780, 0, 0, 589781, 0, 0, 589782, 0, 0, 589783, 0, 0, 589784, 0, 0, 589785, 0, 0, 589786, 0, 0, 589787, 0, 0, 589788, 10, 2, 589789, 0, 0, 589790, 0, 0, 589791, 0, 0, 589792, 0, 0, 589793, 0, 0, 589794, 0, 0, 589795, 0, 0, 589796, 0, 0, 589797, 0, 0, 589798, 10, 2, 589799, 10, 2, 589800, 10, 2, 589801, 10, 2, 589802, 10, 2, 589803, 10, 2, 589804, 0, 0, 589805, 0, 0, 589806, 0, 0, 589807, 0, 0, 589808, 0, 0, 589809, 0, 0, 589810, 0, 0, 589811, 0, 0, 589812, 0, 0, 589813, 0, 0, 589814, 0, 0, 589815, 0, 0, 589816, 0, 0, 589817, 0, 0, 589818, 0, 0, 589819, 0, 0, 589820, 0, 0, 589821, 0, 0, 589822, 20, 0, 589823, 0, 0, 524288, 0, 0, 655310, 10, 2, 655311, 10, 2, 655312, 10, 2, 655313, 10, 2, 655314, 10, 2, 655315, 10, 2, 655316, 10, 2, 655317, 10, 2, 655318, 10, 2, 655319, 10, 2, 655320, 10, 2, 655321, 10, 2, 655322, 10, 2, 655323, 10, 2, 655324, 10, 2, 655325, 25, 0, 655326, 25, 1, 655327, 25, 2, 655328, 25, 1, 655329, 25, 1, 655330, 10, 2, 655331, 10, 2, 655332, 0, 0, 655333, 0, 0, 655334, 10, 2, 655335, 10, 2, 655336, 18, 0, 655337, 10, 2, 655338, 10, 2, 655339, 10, 2, 655340, 10, 2, 655341, 10, 2, 655342, 10, 2, 655343, 10, 2, 655344, 10, 2, 655345, 10, 2, 655346, 10, 2, 655347, 10, 2, 655348, 10, 2, 655349, 10, 2, 655350, 10, 2, 655351, 10, 2, 655352, 10, 2, 655353, 10, 2, 655354, 10, 2, 655355, 10, 2, 655356, 10, 2, 655357, 10, 2, 655358, 10, 2, 655359, 8, 1, 720846, 10, 2, 720847, 10, 2, 720848, 10, 2, 720849, 10, 2, 720850, 10, 2, 720851, 10, 2, 720852, 0, 0, 720853, 0, 0, 720854, 0, 0, 720855, 0, 0, 720856, 0, 0, 720857, 0, 0, 720858, 0, 0, 720859, 0, 0, 720860, 10, 2, 720861, 0, 0, 720862, 0, 0, 720863, 0, 0, 720864, 0, 0, 720865, 0, 0, 720866, 0, 0, 720867, 0, 0, 720868, 0, 0, 720869, 0, 0, 720870, 0, 0, 720871, 10, 2, 720872, 20, 0, 720873, 10, 2, 720874, 0, 0, 720875, 0, 0, 720876, 0, 0, 720877, 0, 0, 720878, 10, 2, 720879, 10, 2, 720880, 10, 2, 720881, 10, 2, 720882, 10, 2, 720883, 10, 2, 720884, 10, 2, 720885, 10, 2, 720886, 10, 2, 720887, 10, 2, 720888, 10, 2, 720889, 10, 2, 720890, 10, 2, 720891, 10, 2, 720892, 10, 2, 720893, 10, 2, 720894, 10, 2, 786382, 10, 2, 786383, 10, 2, 786384, 10, 2, 786385, 10, 2, 786386, 10, 2, 786387, 10, 2, 786388, 0, 0, 786389, 0, 0, 786390, 0, 0, 786391, 0, 0, 786392, 0, 0, 786393, 0, 0, 786394, 0, 0, 786395, 0, 0, 786396, 10, 2, 786397, 0, 0, 786398, 0, 0, 786399, 0, 0, 786400, 0, 0, 786401, 0, 0, 786402, 0, 0, 786403, 0, 0, 786404, 0, 0, 786405, 0, 0, 786406, 0, 0, 786407, 0, 0, 786409, 0, 0, 786410, 0, 0, 786411, 0, 0, 786412, 0, 0, 786413, 0, 0, 786414, 10, 2, 786415, 10, 2, 786416, 10, 2, 786417, 10, 2, 786418, 10, 2, 786419, 10, 2, 786420, 10, 2, 786421, 10, 2, 786422, 10, 2, 786423, 10, 2, 786424, 10, 2, 786425, 10, 2, 786426, 10, 2, 786427, 10, 2, 786428, 10, 2, 851919, 10, 2, 851920, 10, 2, 851921, 10, 2, 851922, 10, 2, 851923, 10, 2, 851924, 0, 0, 851925, 0, 0, 851926, 0, 0, 851927, 0, 0, 851928, 0, 0, 851930, 0, 0, 851931, 0, 0, 851932, 10, 2, 851933, 0, 0, 851934, 0, 0, 851935, 0, 0, 851936, 0, 0, 851937, 0, 0, 851938, 0, 0, 851939, 0, 0, 851940, 0, 0, 851941, 0, 0, 851942, 0, 0, 851943, 0, 0, 851945, 0, 0, 851946, 0, 0, 851947, 0, 0, 851948, 0, 0, 851949, 0, 0, 851950, 10, 2, 851951, 10, 2, 851952, 10, 2, 851953, 10, 2, 851954, 10, 2, 851955, 10, 2, 851956, 10, 2, 851957, 10, 2, 851958, 10, 2, 851959, 10, 2, 851960, 10, 2, 917456, 10, 2, 917457, 10, 2, 917458, 10, 2, 917459, 10, 2, 917460, 10, 2, 917461, 10, 2, 917462, 10, 2, 917463, 10, 2, 917464, 10, 2, 917465, 10, 2, 917466, 10, 2, 917467, 10, 2, 917468, 10, 2, 917469, 25, 1, 917470, 25, 2, 917471, 25, 2, 917472, 25, 1, 917473, 25, 1, 917474, 10, 2, 917475, 10, 2, 917476, 10, 2, 917477, 10, 2, 917478, 10, 2, 917479, 10, 2, 917480, 10, 2, 917481, 10, 2, 917482, 10, 2, 917483, 10, 2, 917484, 10, 2, 917485, 10, 2, 917486, 10, 2, 917487, 10, 2, 917488, 10, 2, 917489, 10, 2, 917490, 10, 2, 917491, 10, 2, 917492, 10, 2, 917493, 10, 2, 982993, 10, 2, 982994, 10, 2, 982995, 10, 2, 982996, 10, 2, 982997, 10, 2, 982998, 10, 2, 982999, 10, 2, 983000, 10, 2, 983001, 10, 2, 983002, 10, 2, 983003, 10, 2, 983004, 10, 2, 983005, 10, 2, 983006, 10, 2, 983007, 10, 2, 983008, 10, 2, 983009, 10, 2, 983010, 10, 2, 983011, 10, 2, 983012, 10, 2, 983013, 10, 2, 983014, 10, 2, 983015, 10, 2, 983016, 10, 2, 983017, 10, 2, 983018, 10, 2, 983019, 10, 2, 983020, 10, 2, 983021, 10, 2, 983022, 10, 2, 983023, 10, 2, 983024, 10, 2, 1048531, 10, 2, 1048532, 10, 2, 1048533, 10, 2, 1048534, 10, 2, 1048535, 10, 2, 1048536, 10, 2, 1048537, 10, 2, 1048538, 10, 2, 1048539, 10, 2, 1048540, 10, 2, 1048541, 10, 2, 1048542, 10, 2, 1048543, 10, 2, 1048544, 10, 2, 1048545, 10, 2, 1048546, 10, 2, 1048547, 10, 2, 1048548, 10, 2, 1048549, 10, 2, 1048550, 10, 2, 1048551, 10, 2, 1048552, 10, 2, 1048553, 10, 2, 1048554, 10, 2, 1048555, 10, 2 )
+
+[connection signal="timeout" from="Area2D/Timer" to="Area2D" method="timeout"]

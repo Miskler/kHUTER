@@ -20,7 +20,7 @@ func _ready():
 	
 	randomize()
 	OS.center_window()
-	#OS.window_fullscreen = true
+	OS.window_fullscreen = true
 	
 	var dir = Directory.new()
 	if !dir.dir_exists(\"user://SaveGame\"):

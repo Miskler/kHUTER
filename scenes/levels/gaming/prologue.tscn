@@ -1672,7 +1672,7 @@ animations = [ {
 "speed": 3.0
 } ]
 
-[sub_resource type="Shader" id=100]
+[sub_resource type="Shader" id=127]
 code = "shader_type canvas_item;
 
 uniform sampler2D color_gradient;
@@ -1693,23 +1693,23 @@ void fragment(){
 offsets = PoolRealArray( 0, 0.538732, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 0, 1, 0.898039, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=102]
+[sub_resource type="GradientTexture" id=128]
 gradient = SubResource( 101 )
 
 [sub_resource type="OpenSimplexNoise" id=103]
 
-[sub_resource type="NoiseTexture" id=104]
+[sub_resource type="NoiseTexture" id=129]
 noise = SubResource( 103 )
 
 [sub_resource type="ShaderMaterial" id=105]
-shader = SubResource( 100 )
+shader = SubResource( 127 )
 shader_param/speed = 0.818
 shader_param/variation = 0.164
 shader_param/width = 0.382
-shader_param/color_gradient = SubResource( 102 )
-shader_param/noiseTexture = SubResource( 104 )
+shader_param/color_gradient = SubResource( 128 )
+shader_param/noiseTexture = SubResource( 129 )
 
-[sub_resource type="Shader" id=106]
+[sub_resource type="Shader" id=130]
 code = "shader_type canvas_item;
 
 // Gonkee's fire shader for Godot 3 - full tutorial https://youtu.be/CI3JZ-3cabg
@@ -1812,7 +1812,7 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id=107]
-shader = SubResource( 106 )
+shader = SubResource( 130 )
 shader_param/transparent = Color( 1, 1, 1, 0 )
 shader_param/inner = Color( 0, 1, 0.835294, 1 )
 shader_param/outer = Color( 0, 0.976471, 1, 0.482353 )
@@ -4051,7 +4051,6 @@ rotation = -0.00647718
 scale = Vector2( 0.158816, 0.164655 )
 frames = SubResource( 17 )
 animation = "error"
-frame = 2
 speed_scale = 0.6
 playing = true
 
@@ -4061,7 +4060,7 @@ rotation = -0.0388994
 scale = Vector2( 0.143603, 0.152042 )
 frames = SubResource( 17 )
 animation = "error"
-frame = 1
+frame = 3
 speed_scale = 0.5
 playing = true
 
@@ -4116,6 +4115,7 @@ rotation = 0.114526
 scale = Vector2( 0.151132, 0.161913 )
 frames = SubResource( 17 )
 animation = "ok"
+frame = 3
 speed_scale = 0.4
 playing = true
 
@@ -4125,6 +4125,7 @@ rotation = -0.00647718
 scale = Vector2( 0.158816, 0.164655 )
 frames = SubResource( 17 )
 animation = "pass"
+frame = 2
 speed_scale = 0.6
 playing = true
 
@@ -4134,7 +4135,7 @@ rotation = -0.0388994
 scale = Vector2( 0.143603, 0.152042 )
 frames = SubResource( 17 )
 animation = "error"
-frame = 3
+frame = 1
 speed_scale = 0.5
 playing = true
 
@@ -4151,7 +4152,7 @@ position = Vector2( 31.4292, 61.8021 )
 scale = Vector2( 2.81063, 2.92224 )
 frames = SubResource( 21 )
 animation = "wait"
-frame = 3
+frame = 1
 speed_scale = 0.5
 playing = true
 __meta__ = {
@@ -4190,7 +4191,7 @@ position = Vector2( 30.2206, 93.8387 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 75 )
 animation = "def"
-frame = 2
+frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D5"]
@@ -4205,7 +4206,7 @@ position = Vector2( 31.4292, 61.8021 )
 scale = Vector2( 2.81063, 2.92224 )
 frames = SubResource( 21 )
 animation = "ok"
-frame = 2
+frame = 1
 speed_scale = 0.5
 playing = true
 __meta__ = {
@@ -4395,6 +4396,7 @@ texture = ExtResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Area2D2"]
 frames = SubResource( 36 )
+frame = 2
 speed_scale = 0.6
 playing = true
 
@@ -4646,7 +4648,7 @@ position = Vector2( -9704.05, -4675.48 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 75 )
 animation = "def"
-frame = 2
+frame = 4
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -4730,6 +4732,7 @@ __meta__ = {
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Guider/Bot"]
 frames = SubResource( 52 )
 animation = "def"
+frame = 3
 playing = true
 flip_h = true
 
@@ -4761,7 +4764,6 @@ scroll_active = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Guider"]
 stream = SubResource( 122 )
-volume_db = 24.0
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="Guider"]
 position = Vector2( -8671.56, -4706.05 )
@@ -4781,7 +4783,6 @@ script = SubResource( 116 )
 script = SubResource( 123 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Guider/Node/Events"]
-volume_db = 24.0
 
 [node name="Player" parent="." instance=ExtResource( 81 )]
 position = Vector2( -9703, -4650 )

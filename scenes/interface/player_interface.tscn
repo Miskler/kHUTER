@@ -1920,7 +1920,7 @@ position = Vector2( 37, 36 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 150 )
 animation = "gear"
-frame = 2
+frame = 3
 playing = true
 
 [node name="LowBat" type="Control" parent="main/Box"]
@@ -1935,6 +1935,7 @@ position = Vector2( 37, 36 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 150 )
 animation = "bat"
+frame = 1
 playing = true
 
 [node name="HighTemp" type="Control" parent="main/Box"]
@@ -1949,7 +1950,6 @@ position = Vector2( 37, 36 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 150 )
 animation = "temp"
-frame = 3
 playing = true
 
 [node name="Shoot" type="TextureRect" parent="main"]
@@ -3055,7 +3055,6 @@ script = SubResource( 161 )
 [node name="MoveItem" parent="." instance=ExtResource( 23 )]
 
 [node name="menu" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 0.23597
@@ -3132,7 +3131,7 @@ margin_right = 197.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 197, 30 )
 theme = SubResource( 52 )
-text = "Закрыть мультиплеер"
+text = "Закрыть сервер"
 
 [node name="Button3" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
 margin_top = 68.0
@@ -3140,7 +3139,7 @@ margin_right = 197.0
 margin_bottom = 98.0
 rect_min_size = Vector2( 197, 30 )
 theme = SubResource( 52 )
-text = "Открыть мультиплеер"
+text = "Открыть сервер"
 
 [node name="Button5" type="Button" parent="menu/Control/ScrollContainer/VBoxContainer"]
 margin_top = 102.0
