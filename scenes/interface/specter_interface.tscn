@@ -174,7 +174,7 @@ func closed():
 	$\".\".hide()
 
 func exit():
-	G.get_node(\"Load Screen\").select(\"res://Scenes/Menu.scn\", false)
+	G.get_node(\"Load Screen\").select(\"res://scenes/levels/technical/main_menu.tscn\", false)
 
 func revive_player():
 	get_node(\"/root/rootGame\").revive_player(G.my_id())

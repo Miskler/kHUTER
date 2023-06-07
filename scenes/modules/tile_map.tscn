@@ -623,7 +623,7 @@ func finish():
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
-cell_quadrant_size = 2
+cell_quadrant_size = 1
 format = 1
 script = SubResource( 6 )
 __meta__ = {
